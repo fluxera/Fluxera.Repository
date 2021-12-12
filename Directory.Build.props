@@ -1,0 +1,36 @@
+<Project>
+
+	<PropertyGroup>
+		<LangVersion>latest</LangVersion>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>disable</ImplicitUsings>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<Company>Fluxera Software Development GmbH</Company>
+		<Copyright>Copyright © 2014-2021 Fluxera Software Development GmbH. All rights reserved.</Copyright>
+		<Product>Fluxera Software Foundation</Product>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<Version>6.0.0</Version>
+		<AssemblyVersion>6.0.0</AssemblyVersion>
+		<FileVersion>6.0.0</FileVersion>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<Authors>Matthias Gernand</Authors>
+		<RepositoryUrl>https://github.com/fluxera/Fluxera.Guard</RepositoryUrl>
+		<PackageProjectUrl>https://github.com/fluxera/Fluxera.Guard</PackageProjectUrl>
+		<PackageIcon>icon.png</PackageIcon>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+		<IncludeSymbols>false</IncludeSymbols>
+		<NeutralLanguage>en</NeutralLanguage>
+		<RepositoryType>git</RepositoryType>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+	</PropertyGroup>
+
+</Project>
