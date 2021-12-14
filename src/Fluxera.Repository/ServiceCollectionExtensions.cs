@@ -33,18 +33,8 @@
 			configure.Invoke(repositoryBuilder);
 
 			// Register the decorators.
-			services
-				.Decorate(typeof(IRepository<>))
-				.With(typeof(CachingRepositoryDecorator<>))
-				.With(typeof(DomainEventsRepositoryDecorator<>))
-				.With(typeof(ValidationRepositoryDecorator<>))
-				.With(typeof(GuardRepositoryDecorator<>));
-			services
-				.Decorate(typeof(IReadOnlyRepository<>))
-				.With(typeof(CachingRepositoryDecorator<>))
-				.With(typeof(DomainEventsRepositoryDecorator<>))
-				.With(typeof(ValidationRepositoryDecorator<>))
-				.With(typeof(GuardRepositoryDecorator<>));
+			services.DecorateRepository(typeof(IRepository<>));
+			services.DecorateRepository(typeof(IReadOnlyRepository<>));
 
 			// Add logging infrastructure.
 			services.AddLogging();
@@ -93,6 +83,23 @@
 
 			// Register the validation strategy factory.
 			services.AddTransient<IValidationStrategyFactory, ValidationStrategyFactory>();
+
+			return services;
+		}
+
+		private static IServiceCollection DecorateRepository(this IServiceCollection services, Type repositoryType)
+		{
+			Guard.Against.Null(services, nameof(services));
+			Guard.Against.Null(repositoryType, nameof(repositoryType));
+
+			services
+				.Decorate(repositoryType)
+				.With(typeof(CachingRepositoryDecorator<>))
+				.With(typeof(DomainEventsRepositoryDecorator<>))
+				// TODO: Add multi-tenancy decorator here.
+				.With(typeof(ValidationRepositoryDecorator<>))
+				.With(typeof(GuardRepositoryDecorator<>))
+				.With(typeof(ExceptionLoggingRepositoryDecorator<>));
 
 			return services;
 		}

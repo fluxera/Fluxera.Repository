@@ -29,6 +29,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fluxera.Repository.Storage"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fluxera.Repository.Abstractions", "src\Fluxera.Repository.Abstractions\Fluxera.Repository.Abstractions.csproj", "{F6E7830F-A3D7-4535-9B50-1F1BCD885691}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fluxera.Repository.Storage.EntityFramework", "src\Fluxera.Repository.Storage.EntityFramework\Fluxera.Repository.Storage.EntityFramework.csproj", "{0ECA752F-D86F-4AA8-8C8C-2E0219A2100D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +57,10 @@ Global
 		{F6E7830F-A3D7-4535-9B50-1F1BCD885691}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F6E7830F-A3D7-4535-9B50-1F1BCD885691}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F6E7830F-A3D7-4535-9B50-1F1BCD885691}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0ECA752F-D86F-4AA8-8C8C-2E0219A2100D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0ECA752F-D86F-4AA8-8C8C-2E0219A2100D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0ECA752F-D86F-4AA8-8C8C-2E0219A2100D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0ECA752F-D86F-4AA8-8C8C-2E0219A2100D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -65,6 +71,7 @@ Global
 		{CC148A6E-4DC0-40D2-906C-4FA483A05690} = {DF28D730-99B3-4811-AAC7-725A73B3F668}
 		{DAF0645C-54FD-4888-AD28-3CEBC20A7416} = {DF28D730-99B3-4811-AAC7-725A73B3F668}
 		{F6E7830F-A3D7-4535-9B50-1F1BCD885691} = {DF28D730-99B3-4811-AAC7-725A73B3F668}
+		{0ECA752F-D86F-4AA8-8C8C-2E0219A2100D} = {DF28D730-99B3-4811-AAC7-725A73B3F668}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D97BF2AF-6E68-4E88-BF70-773A86E26013}

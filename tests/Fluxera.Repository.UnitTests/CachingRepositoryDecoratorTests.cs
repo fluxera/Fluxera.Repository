@@ -5,6 +5,7 @@
 	using Fluxera.Repository.Storage.InMemory;
 	using Fluxera.Repository.UnitTests.PersonAggregate;
 	using Microsoft.Extensions.DependencyInjection;
+	using Microsoft.Extensions.Logging;
 	using NUnit.Framework;
 
 	[TestFixture]
@@ -33,9 +34,11 @@
 			});
 
 			this.repository = serviceProvider.GetRequiredService<IRepository<Person>>();
+			this.logger = serviceProvider.GetRequiredService<ILogger<TestBase>>();
 		}
 
 		private IRepository<Person> repository;
+		private ILogger<TestBase> logger;
 
 		[Test]
 		public void Should()

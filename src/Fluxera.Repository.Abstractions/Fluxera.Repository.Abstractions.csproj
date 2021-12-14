@@ -6,7 +6,7 @@
 
 	<PropertyGroup>
 		<PackageTags>fluxera;library;extensions;repository</PackageTags>
-		<Description>A generic repository implementation.</Description>
+		<Description>The abstractions for the generic repository implementation.</Description>
 		<RootNamespace>$(MSBuildProjectName.Replace(" ", "_").Replace(".Abstractions",""))</RootNamespace>
 	</PropertyGroup>
 

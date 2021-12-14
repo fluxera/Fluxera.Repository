@@ -25,6 +25,7 @@
 		{
 		}
 
+		/// <inheritdoc />
 		protected override string Name => "Fluxera.Repository.InMemoryRepository";
 
 		private IQueryable<TAggregateRoot> Queryable
@@ -174,6 +175,18 @@
 		}
 
 		/// <inheritdoc />
+		protected override async Task<long> OnCountAsync(CancellationToken cancellationToken)
+		{
+			return await Task.Factory.StartNew(() =>
+			{
+				lock(syncRoot)
+				{
+					return this.Queryable.LongCount();
+				}
+			}, cancellationToken).ConfigureAwait(false);
+		}
+
+		/// <inheritdoc />
 		protected override async Task<long> OnCountAsync(Expression<Func<TAggregateRoot, bool>> predicate, CancellationToken cancellationToken = default)
 		{
 			return await Task.Factory.StartNew(() =>
@@ -181,6 +194,30 @@
 				lock(syncRoot)
 				{
 					return this.Queryable.LongCount(predicate);
+				}
+			}, cancellationToken).ConfigureAwait(false);
+		}
+
+		/// <inheritdoc />
+		protected override async Task<bool> ExistsAsync(string id, CancellationToken cancellationToken)
+		{
+			return await Task.Factory.StartNew(() =>
+			{
+				lock(syncRoot)
+				{
+					return this.Queryable.LongCount(x => x.ID == id) > 0;
+				}
+			}, cancellationToken).ConfigureAwait(false);
+		}
+
+		/// <inheritdoc />
+		protected override async Task<bool> ExistsAsync(Expression<Func<TAggregateRoot, bool>> predicate, CancellationToken cancellationToken)
+		{
+			return await Task.Factory.StartNew(() =>
+			{
+				lock(syncRoot)
+				{
+					return this.Queryable.LongCount(predicate) > 0;
 				}
 			}, cancellationToken).ConfigureAwait(false);
 		}

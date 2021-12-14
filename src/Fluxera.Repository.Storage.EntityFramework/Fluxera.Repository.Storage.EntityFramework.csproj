@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>netstandard2.1</TargetFramework>
+		<TargetFramework>net6.0</TargetFramework>
 	</PropertyGroup>
 
 	<PropertyGroup>
 		<PackageTags>fluxera;library;extensions;repository;storage;in-memory</PackageTags>
-		<Description>An in-memory repository implementation.</Description>
+		<Description>An EntityFramework Core repository implementation.</Description>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -22,6 +22,10 @@
 			<Pack>true</Pack>
 			<PackagePath>\</PackagePath>
 		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>

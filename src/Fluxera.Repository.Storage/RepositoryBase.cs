@@ -91,8 +91,7 @@
 		/// <inheritdoc />
 		async Task<bool> ICanGet<TAggregateRoot>.ExistsAsync(string id, CancellationToken cancellationToken)
 		{
-			TAggregateRoot result = await this.OnGetAsync(id, cancellationToken).ConfigureAwait(false);
-			return result is not null;
+			return await this.ExistsAsync(id, cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
@@ -110,8 +109,7 @@
 		/// <inheritdoc />
 		async Task<bool> ICanFind<TAggregateRoot>.ExistsAsync(Expression<Func<TAggregateRoot, bool>> predicate, CancellationToken cancellationToken)
 		{
-			TAggregateRoot result = await this.OnFindOneAsync(predicate, null, cancellationToken).ConfigureAwait(false);
-			return result is not null;
+			return await this.ExistsAsync(predicate, cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
@@ -129,7 +127,7 @@
 		/// <inheritdoc />
 		async Task<long> ICanAggregate<TAggregateRoot>.CountAsync(CancellationToken cancellationToken)
 		{
-			return await this.OnCountAsync(x => true, cancellationToken).ConfigureAwait(false);
+			return await this.OnCountAsync(cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
@@ -181,7 +179,13 @@
 
 		protected abstract Task<TResult> OnGetAsync<TResult>(string id, Expression<Func<TAggregateRoot, TResult>> selector, CancellationToken cancellationToken = default);
 
+		protected abstract Task<long> OnCountAsync(CancellationToken cancellationToken);
+
 		protected abstract Task<long> OnCountAsync(Expression<Func<TAggregateRoot, bool>> predicate, CancellationToken cancellationToken = default);
+
+		protected abstract Task<bool> ExistsAsync(string id, CancellationToken cancellationToken);
+
+		protected abstract Task<bool> ExistsAsync(Expression<Func<TAggregateRoot, bool>> predicate, CancellationToken cancellationToken);
 
 		protected abstract Task<TAggregateRoot> OnFindOneAsync(Expression<Func<TAggregateRoot, bool>> predicate, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken = default);
 
