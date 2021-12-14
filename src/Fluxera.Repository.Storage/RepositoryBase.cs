@@ -19,8 +19,6 @@
 	public abstract class RepositoryBase<TAggregateRoot> : IRepository<TAggregateRoot>
 		where TAggregateRoot : AggregateRoot<TAggregateRoot>
 	{
-		private bool isDisposed;
-
 		protected RepositoryBase(ILoggerFactory loggerFactory)
 		{
 			this.Logger = loggerFactory.CreateLogger(this.ToString());
@@ -187,13 +185,13 @@
 				this.OnDispose();
 			}
 
-			this.isDisposed = true;
+			this.IsDisposed = true;
 		}
 
 		/// <inheritdoc />
 		void IDisposable.Dispose()
 		{
-			if(this.isDisposed)
+			if(this.IsDisposed)
 			{
 				return;
 			}
@@ -206,6 +204,6 @@
 		}
 
 		/// <inheritdoc />
-		bool IDisposableRepository.IsDisposed => this.isDisposed;
+		public bool IsDisposed { get; private set; }
 	}
 }

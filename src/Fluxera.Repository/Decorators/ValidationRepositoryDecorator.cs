@@ -6,13 +6,12 @@
 	using System.Threading;
 	using System.Threading.Tasks;
 	using Fluxera.Entity;
+	using Fluxera.Extensions.DependencyInjection;
 	using Fluxera.Extensions.Validation;
 	using Fluxera.Guards;
 	using Fluxera.Repository.Options;
 	using Fluxera.Repository.Query;
 	using Fluxera.Repository.Traits;
-	using Fluxera.Repository.Validation;
-	using Microsoft.Extensions.DependencyInjection;
 
 	public sealed class ValidationRepositoryDecorator<TAggregateRoot> : IRepository<TAggregateRoot>
 		where TAggregateRoot : AggregateRoot<TAggregateRoot>
@@ -36,12 +35,16 @@
 
 			// Initialize validators.
 			ICollection<IValidator> validatorCollection = new List<IValidator>();
-			ValidatorFactoryResolver validatorFactoryResolver = serviceProvider.GetRequiredService<ValidatorFactoryResolver>();
-			foreach (IValidatorFactory validatorFactory in validatorFactoryResolver.ResolveValidatorFactories(repositoryName))
+			if(this.repositoryOptions.ValidationOptions.IsEnabled)
 			{
-				IValidator validator = validatorFactory.CreateValidator();
-				validatorCollection.Add(validator);
+				IEnumerable<IValidatorFactory> validatorFactories = serviceProvider.GetNamedServices<IValidatorFactory>((string)repositoryName);
+				foreach(IValidatorFactory validatorFactory in validatorFactories)
+				{
+					IValidator validator = validatorFactory.CreateValidator();
+					validatorCollection.Add(validator);
+				}
 			}
+
 			this.validators = validatorCollection;
 		}
 
@@ -204,6 +207,6 @@
 		}
 
 		/// <inheritdoc />
-		bool IDisposableRepository.IsDisposed => this.innerRepository.IsDisposed;
+		bool IReadOnlyRepository<TAggregateRoot>.IsDisposed => this.innerRepository.IsDisposed;
 	}
 }

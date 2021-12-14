@@ -1,5 +1,6 @@
 ﻿namespace Fluxera.Repository
 {
+	using System;
 	using Fluxera.Entity;
 	using Fluxera.Repository.Traits;
 	using JetBrains.Annotations;
@@ -13,11 +14,12 @@
 	/// <typeparam name="TAggregateRoot">The entity type.</typeparam>
 	///// <typeparam name="TKey">The type of the ID.</typeparam>
 	[PublicAPI]
-	public interface IReadOnlyRepository<TAggregateRoot/*, TKey*/> : IDisposableRepository,
+	public interface IReadOnlyRepository<TAggregateRoot/*, TKey*/> : IDisposable,
 		ICanGet<TAggregateRoot>,
 		ICanFind<TAggregateRoot>,
 		ICanAggregate<TAggregateRoot>
 		where TAggregateRoot : AggregateRoot<TAggregateRoot>
 	{
+		bool IsDisposed { get; }
 	}
 }

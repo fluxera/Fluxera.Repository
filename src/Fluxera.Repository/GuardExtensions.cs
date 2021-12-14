@@ -54,7 +54,8 @@
 			}
 		}
 
-		public static void Disposed(this IGuard guard, IDisposableRepository? input)
+		public static void Disposed<TAggregateRoot>(this IGuard guard, IRepository<TAggregateRoot>? input)
+			where TAggregateRoot : AggregateRoot<TAggregateRoot>
 		{
 			Guard.Against.Null(input, nameof(input));
 

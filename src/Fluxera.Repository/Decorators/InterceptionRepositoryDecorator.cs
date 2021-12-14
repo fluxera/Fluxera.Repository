@@ -14,7 +14,7 @@
 //	using Microsoft.Extensions.DependencyInjection;
 //	using Microsoft.Extensions.Logging;
 
-//	public sealed class InterceptionRepositoryDecorator<TAggregateRoot> : IRepository<TAggregateRoot>
+//	public sealed class InterceptionRepositoryDecorator<TAggregateRoot> : IDisposableRepository<TAggregateRoot>
 //		where TAggregateRoot : AggregateRoot<TAggregateRoot>
 //	{
 //		private readonly IRepository<TAggregateRoot> innerRepository;

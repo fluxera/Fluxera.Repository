@@ -1,19 +1,21 @@
 ﻿namespace Fluxera.Repository.UnitTests.InMemory
 {
 	using System;
-	using Fluxera.Extensions.DependencyInjection;
-	using Fluxera.Extensions.Validation.DataAnnotations;
-	using Fluxera.Repository.Decorators;
 	using Fluxera.Repository.Storage.InMemory;
 	using Fluxera.Repository.UnitTests.PersonAggregate;
+	using JetBrains.Annotations;
 	using Microsoft.Extensions.DependencyInjection;
 	using NUnit.Framework;
 
 	[TestFixture]
 	public class AddTests : TestBase
 	{
-		[Test]
-		public void ShouldAddValidItem()
+		private IRepository<Person> repository;
+		private IPersonRepository personRepository;
+		private IReadOnlyRepository<Person> readOnlyRepository;
+
+		[SetUp]
+		public void SetUp()
 		{
 			IServiceProvider serviceProvider = BuildServiceProvider(services =>
 			{
@@ -22,19 +24,21 @@
 					rb.AddInMemoryRepository("InMemory", rob =>
 					{
 						rob.UseFor<Person>();
-
-						rob.AddValidation(vob =>
-						{
-							vob.AddValidatorFactory(vb =>
-							{
-								vb.AddDataAnnotations(vob.RepositoryName);
-							});
-						});
 					});
 				});
+
+				services.AddTransient<IPersonRepository, PersonRepository>();
 			});
 
-			IRepository<Person> repository = serviceProvider.GetRequiredService<IRepository<Person>>();
+			this.repository = serviceProvider.GetRequiredService<IRepository<Person>>();
+			this.readOnlyRepository = serviceProvider.GetRequiredService<IReadOnlyRepository<Person>>();
+			this.personRepository = serviceProvider.GetRequiredService<IPersonRepository>();
+		}
+
+		[Test]
+		public void ShouldAddItem()
+		{
+
 		}
 	}
 }

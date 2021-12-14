@@ -1,7 +1,6 @@
 ﻿namespace Fluxera.Repository
 {
 	using System;
-	using System.Collections;
 	using System.Collections.Generic;
 	using System.Reflection;
 	using Fluxera.Entity.DomainEvents;
@@ -12,7 +11,6 @@
 	using Fluxera.Repository.Caching;
 	using Fluxera.Repository.Decorators;
 	using Fluxera.Repository.Options;
-	using Fluxera.Repository.Validation;
 	using Fluxera.Utilities.Extensions;
 	using JetBrains.Annotations;
 	using Microsoft.Extensions.DependencyInjection;
@@ -37,6 +35,12 @@
 			// Register the decorators.
 			services
 				.Decorate(typeof(IRepository<>))
+				.With(typeof(CachingRepositoryDecorator<>))
+				.With(typeof(DomainEventsRepositoryDecorator<>))
+				.With(typeof(ValidationRepositoryDecorator<>))
+				.With(typeof(GuardRepositoryDecorator<>));
+			services
+				.Decorate(typeof(IReadOnlyRepository<>))
 				.With(typeof(CachingRepositoryDecorator<>))
 				.With(typeof(DomainEventsRepositoryDecorator<>))
 				.With(typeof(ValidationRepositoryDecorator<>))
@@ -86,9 +90,6 @@
 
 			// Register the jitter calculator.
 			services.AddJitterCalculator();
-
-			// Register validator factory resolver.
-			services.AddTransient<ValidatorFactoryResolver>();
 
 			// Register validation service.
 			services.AddValidation();
