@@ -25,9 +25,10 @@
 			this.loggerFactory = loggerFactory;
 		}
 
-		public ICachingStrategy<TAggregateRoot> CreateStrategy<TAggregateRoot>(RepositoryName repositoryName)
+		public ICachingStrategy<TAggregateRoot> CreateStrategy<TAggregateRoot>()
 			where TAggregateRoot : AggregateRoot<TAggregateRoot>
 		{
+			RepositoryName repositoryName = this.repositoryRegistry.GetRepositoryNameFor<TAggregateRoot>();
 			RepositoryOptions repositoryOptions = this.repositoryRegistry.GetRepositoryOptionsFor(repositoryName);
 
 			bool isEnabled = repositoryOptions.CachingOptions.Enabled;

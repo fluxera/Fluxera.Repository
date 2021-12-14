@@ -6,11 +6,11 @@
 	using Fluxera.Entity.DomainEvents;
 	using Fluxera.Extensions.Common;
 	using Fluxera.Extensions.DependencyInjection;
-	using Fluxera.Extensions.Validation;
 	using Fluxera.Guards;
 	using Fluxera.Repository.Caching;
 	using Fluxera.Repository.Decorators;
 	using Fluxera.Repository.Options;
+	using Fluxera.Repository.Validation;
 	using Fluxera.Utilities.Extensions;
 	using JetBrains.Annotations;
 	using Microsoft.Extensions.DependencyInjection;
@@ -91,11 +91,8 @@
 			// Register the jitter calculator.
 			services.AddJitterCalculator();
 
-			// Register validation service.
-			services.AddValidation();
-
-			// Register the validator provider service.
-			services.AddTransient<IValidatorProvider, ValidatorProvider>();
+			// Register the validation strategy factory.
+			services.AddTransient<IValidationStrategyFactory, ValidationStrategyFactory>();
 
 			return services;
 		}

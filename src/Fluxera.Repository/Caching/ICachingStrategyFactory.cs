@@ -10,9 +10,8 @@
 		///     Creates the cache strategy to use for the repository and <see cref="TAggregateRoot" />.
 		/// </summary>
 		/// <typeparam name="TAggregateRoot"></typeparam>
-		/// <param name="repositoryName"></param>
 		/// <returns></returns>
-		ICachingStrategy<TAggregateRoot> CreateStrategy<TAggregateRoot>(RepositoryName repositoryName)
+		ICachingStrategy<TAggregateRoot> CreateStrategy<TAggregateRoot>()
 			where TAggregateRoot : AggregateRoot<TAggregateRoot>;
 	}
 }

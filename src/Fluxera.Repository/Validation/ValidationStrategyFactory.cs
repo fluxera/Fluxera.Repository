@@ -1,4 +1,4 @@
-﻿namespace Fluxera.Repository
+﻿namespace Fluxera.Repository.Validation
 {
 	using System;
 	using System.Collections.Generic;
@@ -11,12 +11,12 @@
 	using JetBrains.Annotations;
 
 	[UsedImplicitly]
-	internal sealed class ValidatorProvider : IValidatorProvider
+	internal sealed class ValidationStrategyFactory : IValidationStrategyFactory
 	{
 		private readonly IRepositoryRegistry repositoryRegistry;
 		private readonly IServiceProvider serviceProvider;
 
-		public ValidatorProvider(IRepositoryRegistry repositoryRegistry, IServiceProvider serviceProvider)
+		public ValidationStrategyFactory(IRepositoryRegistry repositoryRegistry, IServiceProvider serviceProvider)
 		{
 			Guard.Against.Null(repositoryRegistry, nameof(repositoryRegistry));
 			Guard.Against.Null(serviceProvider, nameof(serviceProvider));
@@ -26,24 +26,29 @@
 		}
 
 		/// <inheritdoc />
-		public IEnumerable<IValidator> GetValidatorsFor<TAggregateRoot>()
+		public IValidationStrategy<TAggregateRoot> CreateStrategy<TAggregateRoot>()
 			where TAggregateRoot : AggregateRoot<TAggregateRoot>
 		{
-			// Get the repository options.
 			RepositoryName repositoryName = this.repositoryRegistry.GetRepositoryNameFor<TAggregateRoot>();
 			RepositoryOptions repositoryOptions = this.repositoryRegistry.GetRepositoryOptionsFor(repositoryName);
 
-			// Initialize validators.
-			IList<IValidator> validators = new List<IValidator>();
-
 			if(repositoryOptions.ValidationOptions.IsEnabled)
 			{
-				IEnumerable<IValidatorFactory> validatorFactories = this.serviceProvider.GetNamedServices<IValidatorFactory>((string)repositoryName);
-				foreach(IValidatorFactory validatorFactory in validatorFactories)
-				{
-					IValidator validator = validatorFactory.CreateValidator();
-					validators.Add(validator);
-				}
+				return new StandardValidationStrategy<TAggregateRoot>(this.GetValidators(repositoryName));
+			}
+
+			return new NoValidationStrategy<TAggregateRoot>();
+		}
+
+		private IReadOnlyCollection<IValidator> GetValidators(RepositoryName repositoryName)
+		{
+			IList<IValidator> validators = new List<IValidator>();
+
+			IEnumerable<IValidatorFactory> validatorFactories = this.serviceProvider.GetNamedServices<IValidatorFactory>((string)repositoryName);
+			foreach(IValidatorFactory validatorFactory in validatorFactories)
+			{
+				IValidator validator = validatorFactory.CreateValidator();
+				validators.Add(validator);
 			}
 
 			return validators.AsReadOnly();

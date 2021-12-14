@@ -25,11 +25,7 @@
 
 			this.innerRepository = innerRepository;
 
-			// Get the repository options.
-			RepositoryName repositoryName = repositoryRegistry.GetRepositoryNameFor<TAggregateRoot>();
-
-			// Initialize caching strategy.
-			this.cachingStrategy = cachingStrategyFactory.CreateStrategy<TAggregateRoot>(repositoryName);
+			this.cachingStrategy = cachingStrategyFactory.CreateStrategy<TAggregateRoot>();
 		}
 
 		/// <inheritdoc />

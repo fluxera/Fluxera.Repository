@@ -6,32 +6,32 @@
 	using System.Threading;
 	using System.Threading.Tasks;
 	using Fluxera.Entity;
-	using Fluxera.Extensions.Validation;
 	using Fluxera.Guards;
 	using Fluxera.Repository.Query;
 	using Fluxera.Repository.Traits;
+	using Fluxera.Repository.Validation;
 
 	public sealed class ValidationRepositoryDecorator<TAggregateRoot> : IRepository<TAggregateRoot>
 		where TAggregateRoot : AggregateRoot<TAggregateRoot>
 	{
 		private readonly IRepository<TAggregateRoot> innerRepository;
 
-		private readonly IEnumerable<IValidator> validators;
+		private readonly IValidationStrategy<TAggregateRoot> validationStrategy;
 
-		public ValidationRepositoryDecorator(IRepository<TAggregateRoot> innerRepository, IValidatorProvider validatorProvider)
+		public ValidationRepositoryDecorator(IRepository<TAggregateRoot> innerRepository, IValidationStrategyFactory validationStrategyFactory)
 		{
 			Guard.Against.Null(innerRepository, nameof(innerRepository));
-			Guard.Against.Null(validatorProvider, nameof(validatorProvider));
+			Guard.Against.Null(validationStrategyFactory, nameof(validationStrategyFactory));
 
 			this.innerRepository = innerRepository;
 
-			this.validators = validatorProvider.GetValidatorsFor<TAggregateRoot>();
+			this.validationStrategy = validationStrategyFactory.CreateStrategy<TAggregateRoot>();
 		}
 
 		/// <inheritdoc />
 		async Task ICanAdd<TAggregateRoot>.AddAsync(TAggregateRoot item, CancellationToken cancellationToken)
 		{
-			await this.ValidateAsync(item);
+			await this.validationStrategy.ValidateAsync(item);
 
 			await this.innerRepository.AddAsync(item, cancellationToken).ConfigureAwait(false);
 		}
@@ -39,7 +39,7 @@
 		/// <inheritdoc />
 		async Task ICanAdd<TAggregateRoot>.AddAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{
-			await this.ValidateAsync(items);
+			await this.validationStrategy.ValidateAsync(items);
 
 			await this.innerRepository.AddAsync(items, cancellationToken).ConfigureAwait(false);
 		}
@@ -47,7 +47,7 @@
 		/// <inheritdoc />
 		async Task ICanUpdate<TAggregateRoot>.UpdateAsync(TAggregateRoot item, CancellationToken cancellationToken)
 		{
-			await this.ValidateAsync(item);
+			await this.validationStrategy.ValidateAsync(item);
 
 			await this.innerRepository.UpdateAsync(item, cancellationToken).ConfigureAwait(false);
 		}
@@ -55,7 +55,7 @@
 		/// <inheritdoc />
 		async Task ICanUpdate<TAggregateRoot>.UpdateAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{
-			await this.ValidateAsync(items);
+			await this.validationStrategy.ValidateAsync(items);
 
 			await this.innerRepository.UpdateAsync(items, cancellationToken).ConfigureAwait(false);
 		}
@@ -155,27 +155,6 @@
 
 		/// <inheritdoc />
 		bool IReadOnlyRepository<TAggregateRoot>.IsDisposed => this.innerRepository.IsDisposed;
-
-		private async Task ValidateAsync(TAggregateRoot item)
-		{
-			ValidationResult validationResult = await this.validators.ValidateAsync(item);
-			if(!validationResult.IsValid)
-			{
-				throw Errors.ItemNotValid(validationResult.ValidationErrors);
-			}
-		}
-
-		private async Task ValidateAsync(IEnumerable<TAggregateRoot> items)
-		{
-			foreach(TAggregateRoot item in items)
-			{
-				ValidationResult validationResult = await this.validators.ValidateAsync(item);
-				if(!validationResult.IsValid)
-				{
-					throw Errors.ItemNotValid(validationResult.ValidationErrors);
-				}
-			}
-		}
 
 		/// <inheritdoc />
 		public override string ToString()
