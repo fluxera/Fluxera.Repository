@@ -1,32 +1,29 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <Nullable>enable</Nullable>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<Nullable>enable</Nullable>
 
-    <IsPackable>false</IsPackable>
-  </PropertyGroup>
+		<IsPackable>false</IsPackable>
+		<GenerateDocumentationFile>false</GenerateDocumentationFile>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Bogus" Version="34.0.1" />
-    <PackageReference Include="FluentAssertions" Version="6.2.0" />
-    <PackageReference Include="Fluxera.Extensions.Validation.DataAnnotations" Version="6.0.13" />
-    <PackageReference Include="Fluxera.Extensions.Validation.FluentValidation" Version="6.0.13" />
-    <PackageReference Include="Fluxera.Guards" Version="6.0.5" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="6.0.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
-    <PackageReference Include="NUnit" Version="3.13.2" />
-    <PackageReference Include="NUnit3TestAdapter" Version="4.1.0" />
-    <PackageReference Include="coverlet.collector" Version="3.1.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Bogus" Version="34.0.1" />
+		<PackageReference Include="FluentAssertions" Version="6.2.0" />
+		<PackageReference Include="Fluxera.Extensions.Validation.DataAnnotations" Version="6.0.13" />
+		<PackageReference Include="Fluxera.Extensions.Validation.FluentValidation" Version="6.0.13" />
+		<PackageReference Include="Fluxera.Guards" Version="6.0.5" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="6.0.0" />
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
+		<PackageReference Include="NUnit" Version="3.13.2" />
+		<PackageReference Include="NUnit3TestAdapter" Version="4.1.0" />
+		<PackageReference Include="coverlet.collector" Version="3.1.0" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\Fluxera.Repository.Storage.InMemory\Fluxera.Repository.InMemory.csproj" />
-    <ProjectReference Include="..\..\src\Fluxera.Repository\Fluxera.Repository.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="InMemory\" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\src\Fluxera.Repository.InMemory\Fluxera.Repository.InMemory.csproj" />
+		<ProjectReference Include="..\..\src\Fluxera.Repository\Fluxera.Repository.csproj" />
+	</ItemGroup>
 
 </Project>

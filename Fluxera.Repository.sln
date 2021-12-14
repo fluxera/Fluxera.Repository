@@ -23,11 +23,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fluxera.Repository", "src\F
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fluxera.Repository.UnitTests", "tests\Fluxera.Repository.UnitTests\Fluxera.Repository.UnitTests.csproj", "{C64DF387-7035-4C8F-AC63-B5276F8E5050}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fluxera.Repository.InMemory", "src\Fluxera.Repository.Storage.InMemory\Fluxera.Repository.InMemory.csproj", "{CC148A6E-4DC0-40D2-906C-4FA483A05690}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fluxera.Repository.InMemory", "src\Fluxera.Repository.InMemory\Fluxera.Repository.InMemory.csproj", "{CC148A6E-4DC0-40D2-906C-4FA483A05690}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fluxera.Repository.Abstractions", "src\Fluxera.Repository.Abstractions\Fluxera.Repository.Abstractions.csproj", "{F6E7830F-A3D7-4535-9B50-1F1BCD885691}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fluxera.Repository.EntityFramework", "src\Fluxera.Repository.Storage.EntityFramework\Fluxera.Repository.EntityFramework.csproj", "{0ECA752F-D86F-4AA8-8C8C-2E0219A2100D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fluxera.Repository.EntityFramework", "src\Fluxera.Repository.EntityFramework\Fluxera.Repository.EntityFramework.csproj", "{0ECA752F-D86F-4AA8-8C8C-2E0219A2100D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
