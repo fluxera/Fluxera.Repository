@@ -13,13 +13,13 @@
 			this.DomainEventsOptions = repositoryOptions.DomainEventsOptions;
 		}
 
-		DomainEventsOptions DomainEventsOptions { get; }
+		private DomainEventsOptions DomainEventsOptions { get; }
 
 		public IDomainEventsOptionsBuilder AddEventHandlers(IEnumerable<Assembly> assemblies)
 		{
 			assemblies ??= Enumerable.Empty<Assembly>();
 
-			foreach (Assembly assembly in assemblies)
+			foreach(Assembly assembly in assemblies)
 			{
 				this.AddEventHandlers(assembly);
 			}

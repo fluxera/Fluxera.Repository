@@ -16,8 +16,8 @@
 	public sealed class DomainEventsRepositoryDecorator<TAggregateRoot> : IRepository<TAggregateRoot>
 		where TAggregateRoot : AggregateRoot<TAggregateRoot>
 	{
-		private readonly IRepository<TAggregateRoot> innerRepository;
 		private readonly IDomainEventDispatcher domainEventDispatcher;
+		private readonly IRepository<TAggregateRoot> innerRepository;
 		private readonly ILogger logger;
 
 		public DomainEventsRepositoryDecorator(
@@ -57,7 +57,7 @@
 			// Add event to dispatch 'item added' event only to committed event handlers.
 			foreach(TAggregateRoot item in items)
 			{
-				item.DomainEvents.Add(new ItemAdded<TAggregateRoot>(item));	
+				item.DomainEvents.Add(new ItemAdded<TAggregateRoot>(item));
 			}
 
 			await this.DispatchCommittedAsync(items).ConfigureAwait(false);
@@ -86,7 +86,7 @@
 			// Add event to dispatch 'item updated' event only to committed event handlers.
 			foreach(TAggregateRoot item in items)
 			{
-				item.DomainEvents.Add(new ItemAdded<TAggregateRoot>(item));	
+				item.DomainEvents.Add(new ItemAdded<TAggregateRoot>(item));
 			}
 
 			await this.DispatchCommittedAsync(items).ConfigureAwait(false);
@@ -219,6 +219,18 @@
 			return await this.innerRepository.CountAsync(predicate, cancellationToken).ConfigureAwait(false);
 		}
 
+		/// <inheritdoc />
+		void IDisposable.Dispose()
+		{
+			if(!this.innerRepository.IsDisposed)
+			{
+				this.innerRepository.Dispose();
+			}
+		}
+
+		/// <inheritdoc />
+		bool IReadOnlyRepository<TAggregateRoot>.IsDisposed => this.innerRepository.IsDisposed;
+
 		private async Task DispatchAsync(TAggregateRoot item)
 		{
 			this.logger.LogTrace($"Dispatching domain events (Before commit): Type = {typeof(TAggregateRoot)}, Count = {item.DomainEvents.Count}");
@@ -256,23 +268,11 @@
 				await this.DispatchCommittedAsync(item).ConfigureAwait(false);
 			}
 		}
-		
+
 		/// <inheritdoc />
 		public override string ToString()
 		{
 			return this.innerRepository.ToString();
 		}
-
-		/// <inheritdoc />
-		void IDisposable.Dispose()
-		{
-			if(!this.innerRepository.IsDisposed)
-			{
-				this.innerRepository.Dispose();
-			}
-		}
-
-		/// <inheritdoc />
-		bool IReadOnlyRepository<TAggregateRoot>.IsDisposed => this.innerRepository.IsDisposed;
 	}
 }

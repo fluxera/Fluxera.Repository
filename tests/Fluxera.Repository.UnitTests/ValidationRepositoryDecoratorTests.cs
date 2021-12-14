@@ -13,8 +13,6 @@
 	[TestFixture]
 	public class ValidationRepositoryDecoratorTests : TestBase
 	{
-		private IRepository<Person> repository;
-
 		[SetUp]
 		public void SetUp()
 		{
@@ -36,7 +34,6 @@
 
 						rob.AddCaching(cob =>
 						{
-							
 						});
 					});
 				});
@@ -45,10 +42,15 @@
 			this.repository = serviceProvider.GetRequiredService<IRepository<Person>>();
 		}
 
-		[Test]
-		public void ShouldGuard_AddAsync_Single()
+		private IRepository<Person> repository;
+
+		private void ShouldGuardAgainstInvalid(Func<Task> innerFunc)
 		{
-			this.ShouldGuardAgainstInvalid(async () => await this.repository.AddAsync(Person.Invalid));
+			Func<Task> func = async () =>
+			{
+				await innerFunc.Invoke();
+			};
+			func.Should().ThrowAsync<ValidationException>();
 		}
 
 		[Test]
@@ -58,9 +60,9 @@
 		}
 
 		[Test]
-		public void ShouldGuard_UpdateAsync_Single()
+		public void ShouldGuard_AddAsync_Single()
 		{
-			this.ShouldGuardAgainstInvalid(async () => await this.repository.UpdateAsync(Person.Invalid));
+			this.ShouldGuardAgainstInvalid(async () => await this.repository.AddAsync(Person.Invalid));
 		}
 
 		[Test]
@@ -69,13 +71,10 @@
 			this.ShouldGuardAgainstInvalid(async () => await this.repository.UpdateAsync(Persons.Invalid));
 		}
 
-		private void ShouldGuardAgainstInvalid(Func<Task> innerFunc)
+		[Test]
+		public void ShouldGuard_UpdateAsync_Single()
 		{
-			Func<Task> func = async () =>
-			{
-				await innerFunc.Invoke();
-			};
-			func.Should().ThrowAsync<ValidationException>();
+			this.ShouldGuardAgainstInvalid(async () => await this.repository.UpdateAsync(Person.Invalid));
 		}
 	}
 }

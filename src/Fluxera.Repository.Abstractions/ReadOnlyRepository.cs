@@ -83,12 +83,6 @@
 		}
 
 		/// <inheritdoc />
-		public override string ToString()
-		{
-			return this.innerRepository.ToString();
-		}
-
-		/// <inheritdoc />
 		void IDisposable.Dispose()
 		{
 			if(!this.innerRepository.IsDisposed)
@@ -99,5 +93,11 @@
 
 		/// <inheritdoc />
 		bool IReadOnlyRepository<TAggregateRoot>.IsDisposed => this.innerRepository.IsDisposed;
+
+		/// <inheritdoc />
+		public override string ToString()
+		{
+			return this.innerRepository.ToString();
+		}
 	}
 }

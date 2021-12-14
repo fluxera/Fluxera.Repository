@@ -12,7 +12,7 @@
 	using Microsoft.Extensions.Logging;
 
 	/// <summary>
-	///		An abstract base class for storage provider repository implementations.
+	///     An abstract base class for storage provider repository implementations.
 	/// </summary>
 	/// <typeparam name="TAggregateRoot">The aggregate root type.</typeparam>
 	[PublicAPI]
@@ -23,6 +23,10 @@
 		{
 			this.Logger = loggerFactory.CreateLogger(this.ToString());
 		}
+
+		protected ILogger Logger { get; }
+
+		protected abstract string Name { get; }
 
 		/// <inheritdoc />
 		async Task ICanAdd<TAggregateRoot>.AddAsync(TAggregateRoot item, CancellationToken cancellationToken)
@@ -134,14 +138,28 @@
 			return await this.OnCountAsync(predicate, cancellationToken).ConfigureAwait(false);
 		}
 
+		/// <inheritdoc />
+		void IDisposable.Dispose()
+		{
+			if(this.IsDisposed)
+			{
+				return;
+			}
+
+			// Dispose of unmanaged resources.
+			this.Dispose(true);
+
+			// Suppress finalization.
+			GC.SuppressFinalize(this);
+		}
+
+		/// <inheritdoc />
+		public bool IsDisposed { get; private set; }
+
 		public sealed override string ToString()
 		{
 			return this.Name;
 		}
-
-		protected ILogger Logger { get; }
-
-		protected abstract string Name { get; }
 
 		protected abstract Task OnAddAsync(TAggregateRoot item, CancellationToken cancellationToken = default);
 
@@ -187,23 +205,5 @@
 
 			this.IsDisposed = true;
 		}
-
-		/// <inheritdoc />
-		void IDisposable.Dispose()
-		{
-			if(this.IsDisposed)
-			{
-				return;
-			}
-
-			// Dispose of unmanaged resources.
-			this.Dispose(true);
-
-			// Suppress finalization.
-			GC.SuppressFinalize(this);
-		}
-
-		/// <inheritdoc />
-		public bool IsDisposed { get; private set; }
 	}
 }

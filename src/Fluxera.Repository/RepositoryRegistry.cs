@@ -15,14 +15,21 @@
 
 		private readonly IDictionary<Type, RepositoryName> repositoryMappings = new ConcurrentDictionary<Type, RepositoryName>();
 
+		/// <inheritdoc />
+		void IDisposable.Dispose()
+		{
+			this.repositories.Clear();
+			this.repositoryMappings.Clear();
+		}
+
 		void IRepositoryRegistry.Register(RepositoryName repositoryName, RepositoryOptions repositoryOptions)
 		{
-			if (!this.repositories.ContainsKey(repositoryName))
+			if(!this.repositories.ContainsKey(repositoryName))
 			{
 				this.repositories.Add(repositoryName, repositoryOptions);
-				foreach (Type aggregateRootType in repositoryOptions.AggregateRootTypes)
+				foreach(Type aggregateRootType in repositoryOptions.AggregateRootTypes)
 				{
-					if (!this.repositoryMappings.ContainsKey(aggregateRootType))
+					if(!this.repositoryMappings.ContainsKey(aggregateRootType))
 					{
 						this.repositoryMappings.Add(aggregateRootType, repositoryName);
 					}
@@ -69,13 +76,6 @@
 		public IReadOnlyCollection<RepositoryOptions> GetRepositoryOptions()
 		{
 			return this.repositories.Values.AsReadOnly();
-		}
-
-		/// <inheritdoc />
-		void IDisposable.Dispose()
-		{
-			this.repositories.Clear();
-			this.repositoryMappings.Clear();
 		}
 	}
 }

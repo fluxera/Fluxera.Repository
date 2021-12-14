@@ -94,7 +94,7 @@
 			cacheKey = $"{cacheKey}/{predicate.ToExpressionString()}";
 
 			// Repositories/Books/Acme.Books.Domain.Model.Book/{Generation}/FindOne/{Predicate}/{QueryOptions}
-			if (!queryOptions.IsEmpty)
+			if(!queryOptions.IsEmpty)
 			{
 				cacheKey = $"{cacheKey}/{queryOptions}";
 			}
@@ -111,7 +111,7 @@
 			cacheKey = $"{cacheKey}/{predicate.ToExpressionString()}/{selector.ToExpressionString()}";
 
 			// Repositories/Books/Acme.Books.Domain.Model.Book/{Generation}/FindOne/{Predicate}/{Selector}/{QueryOptions}
-			if (!queryOptions.IsEmpty)
+			if(!queryOptions.IsEmpty)
 			{
 				cacheKey = $"{cacheKey}/{queryOptions}";
 			}
@@ -128,7 +128,7 @@
 			cacheKey = $"{cacheKey}/{predicate.ToExpressionString()}";
 
 			// Repositories/Books/Acme.Books.Domain.Model.Book/{Generation}/FindMany/{Predicate}/{QueryOptions}
-			if (!queryOptions.IsEmpty)
+			if(!queryOptions.IsEmpty)
 			{
 				cacheKey = $"{cacheKey}/{queryOptions}";
 			}
@@ -145,7 +145,7 @@
 			cacheKey = $"{cacheKey}/{predicate.ToExpressionString()}/{selector.ToExpressionString()}";
 
 			// Repositories/Books/Acme.Books.Domain.Model.Book/{Generation}/FindMany/{Predicate}/{Selector}/{QueryOptions}
-			if (!queryOptions.IsEmpty)
+			if(!queryOptions.IsEmpty)
 			{
 				cacheKey = $"{cacheKey}/{queryOptions}";
 			}
@@ -154,7 +154,7 @@
 		}
 
 		/// <inheritdoc />
-		public string GetExistsCacheKey<TAggregateRoot>(RepositoryName repositoryName, in long generation, string id) 
+		public string GetExistsCacheKey<TAggregateRoot>(RepositoryName repositoryName, in long generation, string id)
 			where TAggregateRoot : AggregateRoot<TAggregateRoot>
 		{
 			// Repositories/Books/Acme.Books.Domain.Model.Book/{Generation}/Exists/{ID}
@@ -164,7 +164,7 @@
 		}
 
 		/// <inheritdoc />
-		public string GetExistsCacheKey<TAggregateRoot>(RepositoryName repositoryName, in long generation, 
+		public string GetExistsCacheKey<TAggregateRoot>(RepositoryName repositoryName, in long generation,
 			Expression<Func<TAggregateRoot, bool>> predicate) where TAggregateRoot : AggregateRoot<TAggregateRoot>
 		{
 			// Repositories/Books/Acme.Books.Domain.Model.Book/{Generation}/Count/{Predicate}

@@ -7,15 +7,14 @@
 	using Fluxera.Entity;
 	using Fluxera.Extensions.Validation;
 	using Fluxera.Guards;
-	using Fluxera.Repository.Decorators;
 	using JetBrains.Annotations;
 	using Microsoft.Extensions.DependencyInjection;
 
 	[PublicAPI]
 	internal sealed class RepositoryOptionsBuilder : IRepositoryOptionsBuilder
 	{
-		private readonly IServiceCollection services;
 		private readonly RepositoryOptions repositoryOptions;
+		private readonly IServiceCollection services;
 
 		public RepositoryOptionsBuilder(IServiceCollection services, string repositoryName, Type repositoryType)
 		{
@@ -31,7 +30,7 @@
 		{
 			assemblies ??= Enumerable.Empty<Assembly>();
 
-			foreach (Assembly assembly in assemblies)
+			foreach(Assembly assembly in assemblies)
 			{
 				this.UseFor(assembly);
 			}
@@ -43,9 +42,9 @@
 		{
 			Guard.Against.Null(assembly, nameof(assembly));
 
-			foreach (Type type in assembly.GetTypes())
+			foreach(Type type in assembly.GetTypes())
 			{
-				if (type.IsAggregateRoot())
+				if(type.IsAggregateRoot())
 				{
 					this.UseFor(type);
 				}
@@ -60,7 +59,7 @@
 
 			foreach(Type type in types)
 			{
-				if (type.IsAggregateRoot())
+				if(type.IsAggregateRoot())
 				{
 					this.UseFor(type);
 				}
@@ -74,7 +73,7 @@
 			Guard.Against.Null(type, nameof(type));
 			Guard.Against.False(type.IsAggregateRoot(), nameof(type), $"The repository can only use aggregate root types: '{type.Name}'");
 
-			if (!this.repositoryOptions.AggregateRootTypes.Contains(type))
+			if(!this.repositoryOptions.AggregateRootTypes.Contains(type))
 			{
 				this.repositoryOptions.AggregateRootTypes.Add(type);
 			}
@@ -94,7 +93,7 @@
 
 		public IRepositoryOptionsBuilder AddSetting<T>(string key, T value)
 		{
-			if (!this.repositoryOptions.SettingsValues.ContainsKey(key))
+			if(!this.repositoryOptions.SettingsValues.ContainsKey(key))
 			{
 				this.repositoryOptions.SettingsValues.Add(key, value);
 			}
@@ -111,7 +110,7 @@
 		{
 			Guard.Against.Null(configure, nameof(configure));
 
-			if (this.repositoryOptions.ValidationOptions.IsEnabled)
+			if(this.repositoryOptions.ValidationOptions.IsEnabled)
 			{
 				throw new InvalidOperationException(
 					$"The validation was already enabled for repository '{this.repositoryOptions.RepositoryName}'.");
@@ -150,7 +149,7 @@
 		{
 			Guard.Against.Null(configure, nameof(configure));
 
-			if (this.repositoryOptions.DomainEventsOptions.IsEnabled)
+			if(this.repositoryOptions.DomainEventsOptions.IsEnabled)
 			{
 				throw new InvalidOperationException(
 					$"The domain event handling was already enabled for repository '{this.repositoryOptions.RepositoryName}'.");
@@ -166,7 +165,7 @@
 
 		public IRepositoryOptionsBuilder AddCaching(Action<ICachingOptionsBuilder>? configure = null)
 		{
-			if (this.repositoryOptions.CachingOptions.Enabled)
+			if(this.repositoryOptions.CachingOptions.Enabled)
 			{
 				throw new InvalidOperationException(
 					$"The caching was already enabled for repository '{this.repositoryOptions.RepositoryName}'.");

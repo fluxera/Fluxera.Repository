@@ -21,7 +21,7 @@
 			Name = "Tester"
 		};
 
-		public static readonly Person Transient = Person.Valid;
+		public static readonly Person Transient = Valid;
 
 		[Required]
 		public string Name { get; set; }

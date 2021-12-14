@@ -10,7 +10,7 @@
 	using Fluxera.Repository.Query;
 	using Fluxera.Repository.Traits;
 
-	public sealed class GuardRepositoryDecorator<TAggregateRoot> : IRepository<TAggregateRoot> 
+	public sealed class GuardRepositoryDecorator<TAggregateRoot> : IRepository<TAggregateRoot>
 		where TAggregateRoot : AggregateRoot<TAggregateRoot>
 	{
 		private readonly IRepository<TAggregateRoot> innerRepository;
@@ -28,7 +28,7 @@
 			Guard.Against.Disposed(this);
 			Guard.Against.Null(item, nameof(item));
 			Guard.Against.NotTransient(item, nameof(item), "A non-transient item can not be added.");
-			
+
 			await this.innerRepository.AddAsync(item, cancellationToken).ConfigureAwait(false);
 		}
 
@@ -82,7 +82,7 @@
 		}
 
 		/// <inheritdoc />
-		async Task ICanRemove<TAggregateRoot>.RemoveAsync(Expression<Func<TAggregateRoot, bool>> predicate, CancellationToken cancellationToken )
+		async Task ICanRemove<TAggregateRoot>.RemoveAsync(Expression<Func<TAggregateRoot, bool>> predicate, CancellationToken cancellationToken)
 		{
 			Guard.Against.Disposed(this);
 			Guard.Against.Null(predicate, nameof(predicate));
@@ -197,12 +197,6 @@
 		}
 
 		/// <inheritdoc />
-		public override string ToString()
-		{
-			return this.innerRepository.ToString();
-		}
-
-		/// <inheritdoc />
 		void IDisposable.Dispose()
 		{
 			if(!this.innerRepository.IsDisposed)
@@ -213,5 +207,11 @@
 
 		/// <inheritdoc />
 		bool IReadOnlyRepository<TAggregateRoot>.IsDisposed => this.innerRepository.IsDisposed;
+
+		/// <inheritdoc />
+		public override string ToString()
+		{
+			return this.innerRepository.ToString();
+		}
 	}
 }

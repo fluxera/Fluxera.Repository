@@ -42,7 +42,7 @@
 
 //			this.innerRepository = innerRepository;
 //		}
-		
+
 //		/// <inheritdoc />
 //		async Task ICanAdd<TAggregateRoot>.AddAsync(TAggregateRoot item, CancellationToken cancellationToken)
 //		{
@@ -262,7 +262,7 @@
 //			predicate = await this.interceptor.BeforeFindAsync(predicate, queryOptions).ConfigureAwait(false);
 
 //			TResult result = await this.innerRepository.FindOneAsync(predicate, selector, queryOptions, cancellationToken);
-			
+
 //			await this.interceptor.AfterFindAsync(result).ConfigureAwait(false);
 
 //			return result;
@@ -324,3 +324,5 @@
 //bool IDisposableRepository.IsDisposed => this.innerRepository.IsDisposed;
 //	}
 //}
+
+

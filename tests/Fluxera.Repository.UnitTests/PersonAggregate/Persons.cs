@@ -4,17 +4,17 @@
 
 	public static class Persons
 	{
-		public static readonly Person[] Valid = new Person[]
+		public static readonly Person[] Valid =
 		{
-			new Person 
+			new Person
 			{
 				Name = "Tester"
 			}
 		};
 
-		public static readonly Person[] Invalid = new Person[]
+		public static readonly Person[] Invalid =
 		{
-			new Person 
+			new Person
 			{
 				Name = "Tester"
 			},
@@ -25,9 +25,9 @@
 
 		public static readonly Person[] Empty = Array.Empty<Person>();
 
-		public static readonly Person[] NotTransient = new Person[]
+		public static readonly Person[] NotTransient =
 		{
-			new Person 
+			new Person
 			{
 				Name = "Tester"
 			},
@@ -38,9 +38,9 @@
 			}
 		};
 
-		public static readonly Person[] Transient = new Person[]
+		public static readonly Person[] Transient =
 		{
-			new Person 
+			new Person
 			{
 				Name = "Tester"
 			},

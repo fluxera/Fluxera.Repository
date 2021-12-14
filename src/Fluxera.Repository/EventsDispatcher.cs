@@ -46,12 +46,12 @@ namespace Fluxera.Repository
 			string committed = dispatchCommitted ? "After commit" : "Before commit";
 			this.logger.LogTrace($"Dispatching domain events ({committed}): Type = {typeof(TAggregateRoot)}, Count = {this.item.DomainEvents.Count}");
 
-			if (dispatchCommitted)
+			if(dispatchCommitted)
 			{
 				this.item.DomainEvents.Clear();
 			}
 
-			foreach (IDomainEvent domainEvent in this.item.DomainEvents)
+			foreach(IDomainEvent domainEvent in this.item.DomainEvents)
 			{
 				if(dispatchCommitted)
 				{

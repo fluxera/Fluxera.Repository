@@ -10,16 +10,16 @@
 	using JetBrains.Annotations;
 
 	/// <summary>
-	///     Based on the Interface Segregation Principle (ISP), the <see cref="ICanFind{TAggregateRoot,TKey}"/> interface
-	///		exposes only the "Find" methods of the repository.
+	///     Based on the Interface Segregation Principle (ISP), the <see cref="ICanFind{TAggregateRoot,TKey}" /> interface
+	///     exposes only the "Find" methods of the repository.
 	/// </summary>
 	/// <remarks>
-	///		<see href="http://richarddingwall.name/2009/01/19/irepositoryt-one-size-does-not-fit-all/" />
+	///     <see href="http://richarddingwall.name/2009/01/19/irepositoryt-one-size-does-not-fit-all/" />
 	/// </remarks>
 	/// <typeparam name="TAggregateRoot">Generic repository aggregate root type.</typeparam>
 	///// <typeparam name="TKey">The type of the ID.</typeparam>
 	[PublicAPI]
-	public interface ICanFind<TAggregateRoot/*, TKey*/> where TAggregateRoot : AggregateRoot<TAggregateRoot>
+	public interface ICanFind<TAggregateRoot /*, TKey*/> where TAggregateRoot : AggregateRoot<TAggregateRoot>
 	{
 		/// <summary>
 		///     Finds the first item that matches the predicate expression.

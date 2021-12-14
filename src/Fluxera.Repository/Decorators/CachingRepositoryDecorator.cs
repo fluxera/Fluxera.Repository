@@ -16,8 +16,8 @@
 	public sealed class CachingRepositoryDecorator<TAggregateRoot> : IRepository<TAggregateRoot>
 		where TAggregateRoot : AggregateRoot<TAggregateRoot>
 	{
-		private readonly IRepository<TAggregateRoot> innerRepository;
 		private readonly ICachingStrategy<TAggregateRoot> cachingStrategy;
+		private readonly IRepository<TAggregateRoot> innerRepository;
 
 		public CachingRepositoryDecorator(IRepository<TAggregateRoot> innerRepository, IRepositoryRegistry repositoryRegistry, ICachingStrategyFactory cachingStrategyFactory)
 		{
@@ -106,25 +106,25 @@
 		/// <inheritdoc />
 		async Task<TAggregateRoot> ICanGet<TAggregateRoot>.GetAsync(string id, CancellationToken cancellationToken)
 		{
-			return await this.cachingStrategy.GetAsync(id, 
-				async () => await this.innerRepository.GetAsync(id, cancellationToken)
-					.ConfigureAwait(false))
+			return await this.cachingStrategy.GetAsync(id,
+					async () => await this.innerRepository.GetAsync(id, cancellationToken)
+						.ConfigureAwait(false))
 				.ConfigureAwait(true);
 		}
 
 		/// <inheritdoc />
 		async Task<TResult> ICanGet<TAggregateRoot>.GetAsync<TResult>(string id, Expression<Func<TAggregateRoot, TResult>> selector, CancellationToken cancellationToken)
 		{
-			return await this.cachingStrategy.GetAsync(id, selector, 
-				async () => await this.innerRepository.GetAsync(id, selector, cancellationToken)
-					.ConfigureAwait(false))
+			return await this.cachingStrategy.GetAsync(id, selector,
+					async () => await this.innerRepository.GetAsync(id, selector, cancellationToken)
+						.ConfigureAwait(false))
 				.ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
 		async Task<bool> ICanGet<TAggregateRoot>.ExistsAsync(string id, CancellationToken cancellationToken)
 		{
-			return await this.cachingStrategy.ExistsAsync(id, 
+			return await this.cachingStrategy.ExistsAsync(id,
 					async () => await this.innerRepository.ExistsAsync(id, cancellationToken)
 						.ConfigureAwait(false))
 				.ConfigureAwait(false);
@@ -133,7 +133,7 @@
 		/// <inheritdoc />
 		async Task<TAggregateRoot> ICanFind<TAggregateRoot>.FindOneAsync(Expression<Func<TAggregateRoot, bool>> predicate, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
 		{
-			return await this.cachingStrategy.FindOneAsync(predicate, queryOptions, 
+			return await this.cachingStrategy.FindOneAsync(predicate, queryOptions,
 					async () => await this.innerRepository.FindOneAsync(predicate, queryOptions, cancellationToken)
 						.ConfigureAwait(false))
 				.ConfigureAwait(false);
@@ -142,7 +142,7 @@
 		/// <inheritdoc />
 		async Task<TResult> ICanFind<TAggregateRoot>.FindOneAsync<TResult>(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
 		{
-			return await this.cachingStrategy.FindOneAsync(predicate, selector, queryOptions, 
+			return await this.cachingStrategy.FindOneAsync(predicate, selector, queryOptions,
 					async () => await this.innerRepository.FindOneAsync(predicate, selector, queryOptions, cancellationToken)
 						.ConfigureAwait(false))
 				.ConfigureAwait(false);
@@ -187,16 +187,10 @@
 		/// <inheritdoc />
 		async Task<long> ICanAggregate<TAggregateRoot>.CountAsync(Expression<Func<TAggregateRoot, bool>> predicate, CancellationToken cancellationToken)
 		{
-			return await this.cachingStrategy.CountAsync(predicate, 
+			return await this.cachingStrategy.CountAsync(predicate,
 					async () => await this.innerRepository.CountAsync(cancellationToken)
 						.ConfigureAwait(false))
 				.ConfigureAwait(false);
-		}
-
-		/// <inheritdoc />
-		public override string ToString()
-		{
-			return this.innerRepository.ToString();
 		}
 
 		/// <inheritdoc />
@@ -210,5 +204,11 @@
 
 		/// <inheritdoc />
 		bool IReadOnlyRepository<TAggregateRoot>.IsDisposed => this.innerRepository.IsDisposed;
+
+		/// <inheritdoc />
+		public override string ToString()
+		{
+			return this.innerRepository.ToString();
+		}
 	}
 }

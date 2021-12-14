@@ -94,6 +94,9 @@
 			// Register validation service.
 			services.AddValidation();
 
+			// Register the validator provider service.
+			services.AddTransient<IValidatorProvider, ValidatorProvider>();
+
 			return services;
 		}
 	}

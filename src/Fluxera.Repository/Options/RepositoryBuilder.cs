@@ -38,6 +38,7 @@
 				Type implementationType = repositoryImplementationTemplateType.MakeGenericType(aggregateRootType);
 				this.services.AddTransient(serviceType, implementationType);
 			}
+
 			foreach(Type aggregateRootType in repositoryOptions.AggregateRootTypes)
 			{
 				Type serviceType = readOnlyRepositoryServiceTemplateType.MakeGenericType(aggregateRootType);

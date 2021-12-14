@@ -10,8 +10,6 @@
 	[TestFixture]
 	public class CachingRepositoryDecoratorTests : TestBase
 	{
-		private IRepository<Person> repository;
-
 		[SetUp]
 		public void SetUp()
 		{
@@ -37,10 +35,11 @@
 			this.repository = serviceProvider.GetRequiredService<IRepository<Person>>();
 		}
 
+		private IRepository<Person> repository;
+
 		[Test]
 		public void Should()
 		{
-
 		}
 	}
 }

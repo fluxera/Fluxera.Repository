@@ -44,13 +44,13 @@
 
 		public static Exception NoRepositoryNameAvailable(Type type)
 		{
-			string message =  $"The repository name was not found for type '{type.Name}'. Maybe a default repository is not configured.";
+			string message = $"The repository name was not found for type '{type.Name}'. Maybe a default repository is not configured.";
 			return new InvalidOperationException(message);
 		}
 
 		public static Exception NoRepositoryOptionsAvailable(RepositoryName repositoryName)
 		{
-			string message =  $"The repository options were found for repository '{repositoryName}'.";
+			string message = $"The repository options were found for repository '{repositoryName}'.";
 			return new InvalidOperationException(message);
 		}
 	}

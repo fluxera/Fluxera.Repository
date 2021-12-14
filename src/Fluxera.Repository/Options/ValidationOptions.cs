@@ -1,7 +1,5 @@
 namespace Fluxera.Repository.Options
 {
-	using System;
-	using System.Collections.Generic;
 	using JetBrains.Annotations;
 
 	[PublicAPI]

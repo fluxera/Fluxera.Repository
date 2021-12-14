@@ -9,14 +9,14 @@
 	using JetBrains.Annotations;
 
 	/// <summary>
-	///     Based on the Interface Segregation Principle (ISP), the <see cref="ICanRemove{TAggregateRoot,TKey}"/> interface
-	///		exposes only the "Delete" methods of the repository.
+	///     Based on the Interface Segregation Principle (ISP), the <see cref="ICanRemove{TAggregateRoot,TKey}" /> interface
+	///     exposes only the "Delete" methods of the repository.
 	///     <see href="http://richarddingwall.name/2009/01/19/irepositoryt-one-size-does-not-fit-all/" />
 	/// </summary>
 	/// <typeparam name="TAggregateRoot">Generic repository aggregate root type.</typeparam>
 	///// <typeparam name="TKey">The type of the ID.</typeparam>
 	[PublicAPI]
-	public interface ICanRemove<TAggregateRoot/*, TKey*/> where TAggregateRoot : AggregateRoot<TAggregateRoot>
+	public interface ICanRemove<TAggregateRoot /*, TKey*/> where TAggregateRoot : AggregateRoot<TAggregateRoot>
 	{
 		/// <summary>
 		///     Deletes the given instance from the underlying store.

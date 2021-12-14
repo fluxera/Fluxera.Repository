@@ -28,22 +28,22 @@
 		protected override async Task SetAsync<T>(string key, T value, TimeSpan? expiration = null)
 		{
 			DistributedCacheEntryOptions options = new DistributedCacheEntryOptions();
-			if (expiration.HasValue)
+			if(expiration.HasValue)
 			{
 				options.AbsoluteExpirationRelativeToNow = expiration;
 			}
 
 			await this.distributedCache
-					  .SetAsJsonAsync(key, value, options)
-					  .ConfigureAwait(false);
+				.SetAsJsonAsync(key, value, options)
+				.ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
 		protected override async Task<T> GetAsync<T>(string key)
 		{
 			T? item = await this.distributedCache
-							   .GetAsJsonAsync<T>(key)
-							   .ConfigureAwait(false);
+				.GetAsJsonAsync<T>(key)
+				.ConfigureAwait(false);
 
 			return item;
 		}
@@ -52,16 +52,16 @@
 		protected override async Task RemoveAsync(string key)
 		{
 			await this.distributedCache
-					  .RemoveAsync(key)
-					  .ConfigureAwait(false);
+				.RemoveAsync(key)
+				.ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
 		protected override async Task<bool> ExistsAsync(string key)
 		{
 			byte[] item = await this.distributedCache
-									.GetAsync(key)
-									.ConfigureAwait(false);
+				.GetAsync(key)
+				.ConfigureAwait(false);
 
 			return item != null;
 		}
@@ -75,7 +75,7 @@
 			// Asynchronously wait to enter the Semaphore.
 			// If no-one has been granted access to the Semaphore, code execution will proceed,
 			// otherwise this thread waits here until the semaphore is released.
-			await CachingProvider.semaphore.WaitAsync();
+			await semaphore.WaitAsync();
 			try
 			{
 				long value = await this.GetAsync<long>(key).ConfigureAwait(false);
@@ -91,7 +91,7 @@
 				// end up with a Semaphore that is forever locked. This is why it is important to
 				// do the Release within a try...finally clause; program execution may crash or
 				// take a different path, this way you are guaranteed execution.
-				CachingProvider.semaphore.Release();
+				semaphore.Release();
 			}
 		}
 	}

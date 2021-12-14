@@ -102,7 +102,7 @@
 				bool exists = await this.ExistsSafeTask(cacheKey).ConfigureAwait(false);
 
 				TAggregateRoot item;
-				if (exists)
+				if(exists)
 				{
 					item = await this.GetSafeAsync<TAggregateRoot>(cacheKey).ConfigureAwait(true);
 				}
@@ -114,7 +114,7 @@
 
 				return item;
 			}
-			catch (Exception e)
+			catch(Exception e)
 			{
 				this.Logger.LogError(e, e.Message);
 				throw;
@@ -131,7 +131,7 @@
 				bool exists = await this.ExistsSafeTask(cacheKey).ConfigureAwait(false);
 
 				TResult item;
-				if (exists)
+				if(exists)
 				{
 					item = await this.GetSafeAsync<TResult>(cacheKey).ConfigureAwait(true);
 				}
@@ -143,7 +143,7 @@
 
 				return item;
 			}
-			catch (Exception e)
+			catch(Exception e)
 			{
 				this.Logger.LogError(e, e.Message);
 				throw;
@@ -160,7 +160,7 @@
 				bool exists = await this.ExistsSafeTask(cacheKey).ConfigureAwait(false);
 
 				long count;
-				if (exists)
+				if(exists)
 				{
 					count = await this.GetSafeAsync<long>(cacheKey).ConfigureAwait(true);
 				}
@@ -172,7 +172,7 @@
 
 				return count;
 			}
-			catch (Exception e)
+			catch(Exception e)
 			{
 				this.Logger.LogError(e, e.Message);
 				throw;
@@ -189,7 +189,7 @@
 				bool exists = await this.ExistsSafeTask(cacheKey).ConfigureAwait(false);
 
 				long count;
-				if (exists)
+				if(exists)
 				{
 					count = await this.GetSafeAsync<long>(cacheKey).ConfigureAwait(true);
 				}
@@ -201,7 +201,7 @@
 
 				return count;
 			}
-			catch (Exception e)
+			catch(Exception e)
 			{
 				this.Logger.LogError(e, e.Message);
 				throw;
@@ -219,7 +219,7 @@
 				bool exists = await this.ExistsSafeTask(cacheKey).ConfigureAwait(false);
 
 				TAggregateRoot item;
-				if (exists)
+				if(exists)
 				{
 					item = await this.GetSafeAsync<TAggregateRoot>(cacheKey).ConfigureAwait(true);
 				}
@@ -231,7 +231,7 @@
 
 				return item;
 			}
-			catch (Exception e)
+			catch(Exception e)
 			{
 				this.Logger.LogError(e, e.Message);
 				throw;
@@ -249,7 +249,7 @@
 				bool exists = await this.ExistsSafeTask(cacheKey).ConfigureAwait(false);
 
 				TResult item;
-				if (exists)
+				if(exists)
 				{
 					item = await this.GetSafeAsync<TResult>(cacheKey).ConfigureAwait(true);
 				}
@@ -261,7 +261,7 @@
 
 				return item;
 			}
-			catch (Exception e)
+			catch(Exception e)
 			{
 				this.Logger.LogError(e, e.Message);
 				throw;
@@ -278,7 +278,7 @@
 				bool exists = await this.ExistsSafeTask(cacheKey).ConfigureAwait(false);
 
 				IReadOnlyCollection<TAggregateRoot> items;
-				if (exists)
+				if(exists)
 				{
 					items = await this.GetSafeAsync<IReadOnlyList<TAggregateRoot>>(cacheKey).ConfigureAwait(true);
 				}
@@ -290,7 +290,7 @@
 
 				return items;
 			}
-			catch (Exception e)
+			catch(Exception e)
 			{
 				this.Logger.LogError(e, e.Message);
 				throw;
@@ -308,7 +308,7 @@
 				bool exists = await this.ExistsSafeTask(cacheKey).ConfigureAwait(false);
 
 				IReadOnlyCollection<TResult> items;
-				if (exists)
+				if(exists)
 				{
 					items = await this.GetSafeAsync<IReadOnlyList<TResult>>(cacheKey).ConfigureAwait(true);
 				}
@@ -320,7 +320,7 @@
 
 				return items;
 			}
-			catch (Exception e)
+			catch(Exception e)
 			{
 				this.Logger.LogError(e, e.Message);
 				throw;
@@ -337,7 +337,7 @@
 				bool exists = await this.ExistsSafeTask(cacheKey).ConfigureAwait(false);
 
 				bool result;
-				if (exists)
+				if(exists)
 				{
 					result = await this.GetSafeAsync<bool>(cacheKey).ConfigureAwait(true);
 				}
@@ -349,7 +349,7 @@
 
 				return result;
 			}
-			catch (Exception e)
+			catch(Exception e)
 			{
 				this.Logger.LogError(e, e.Message);
 				throw;
@@ -366,7 +366,7 @@
 				bool exists = await this.ExistsSafeTask(cacheKey).ConfigureAwait(false);
 
 				bool result;
-				if (exists)
+				if(exists)
 				{
 					result = await this.GetSafeAsync<bool>(cacheKey).ConfigureAwait(true);
 				}
@@ -378,7 +378,7 @@
 
 				return result;
 			}
-			catch (Exception e)
+			catch(Exception e)
 			{
 				this.Logger.LogError(e, e.Message);
 				throw;
@@ -390,10 +390,10 @@
 			try
 			{
 				await this.CachingProvider
-						  .SetAsync(cacheKey, item)
-						  .ConfigureAwait(false);
+					.SetAsync(cacheKey, item)
+					.ConfigureAwait(false);
 			}
-			catch (Exception e)
+			catch(Exception e)
 			{
 				// Don't let caching errors mess with the repository.
 				this.Logger.LogError(e, e.Message);
@@ -405,10 +405,10 @@
 			try
 			{
 				return await this.CachingProvider
-								 .GetAsync<TCacheItem>(cacheKey)
-								 .ConfigureAwait(false);
+					.GetAsync<TCacheItem>(cacheKey)
+					.ConfigureAwait(false);
 			}
-			catch (Exception e)
+			catch(Exception e)
 			{
 				// Don't let caching errors mess with the repository.
 				this.Logger.LogError(e, e.Message);
@@ -421,10 +421,10 @@
 			try
 			{
 				await this.CachingProvider
-						  .IncrementAsync(cacheKey, 1)
-						  .ConfigureAwait(false);
+					.IncrementAsync(cacheKey, 1)
+					.ConfigureAwait(false);
 			}
-			catch (Exception e)
+			catch(Exception e)
 			{
 				// Don't let caching errors mess with the repository.
 				this.Logger.LogError(e, e.Message);
@@ -436,10 +436,10 @@
 			try
 			{
 				await this.CachingProvider
-						  .RemoveAsync(cacheKey)
-						  .ConfigureAwait(false);
+					.RemoveAsync(cacheKey)
+					.ConfigureAwait(false);
 			}
-			catch (Exception e)
+			catch(Exception e)
 			{
 				// Don't let caching errors mess with the repository.
 				this.Logger.LogError(e, e.Message);
@@ -451,8 +451,8 @@
 			try
 			{
 				bool exists = await this.CachingProvider
-										.ExistsAsync(cacheKey)
-										.ConfigureAwait(false);
+					.ExistsAsync(cacheKey)
+					.ConfigureAwait(false);
 
 				this.Logger.LogTrace(exists
 					? $"Entry found in cache for key: {cacheKey}"
@@ -460,7 +460,7 @@
 
 				return exists;
 			}
-			catch (Exception e)
+			catch(Exception e)
 			{
 				// Don't let caching errors mess with the repository.
 				this.Logger.LogError(e, e.Message);

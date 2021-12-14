@@ -8,15 +8,15 @@
 	[UsedImplicitly]
 	internal sealed class CachingStrategyFactory : ICachingStrategyFactory
 	{
-		private readonly IRepositoryRegistry repositoryRegistry;
 		private readonly ICacheKeyProvider cacheKeyProvider;
 		private readonly ICachingProviderFactory cachingProviderFactory;
 		private readonly ILoggerFactory loggerFactory;
+		private readonly IRepositoryRegistry repositoryRegistry;
 
 		public CachingStrategyFactory(
 			IRepositoryRegistry repositoryRegistry,
-			ICachingProviderFactory cachingProviderFactory, 
-			ICacheKeyProvider cacheKeyProvider, 
+			ICachingProviderFactory cachingProviderFactory,
+			ICacheKeyProvider cacheKeyProvider,
 			ILoggerFactory loggerFactory)
 		{
 			this.repositoryRegistry = repositoryRegistry;
@@ -31,7 +31,7 @@
 			RepositoryOptions repositoryOptions = this.repositoryRegistry.GetRepositoryOptionsFor(repositoryName);
 
 			bool isEnabled = repositoryOptions.CachingOptions.Enabled;
-			if (isEnabled)
+			if(isEnabled)
 			{
 				ICachingProvider cachingProvider = this.cachingProviderFactory.CreateCachingProvider();
 				return new StandardCachingStrategy<TAggregateRoot>(repositoryName, cachingProvider,

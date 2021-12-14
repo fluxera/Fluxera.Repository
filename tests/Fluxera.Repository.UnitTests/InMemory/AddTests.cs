@@ -3,17 +3,12 @@
 	using System;
 	using Fluxera.Repository.Storage.InMemory;
 	using Fluxera.Repository.UnitTests.PersonAggregate;
-	using JetBrains.Annotations;
 	using Microsoft.Extensions.DependencyInjection;
 	using NUnit.Framework;
 
 	[TestFixture]
 	public class AddTests : TestBase
 	{
-		private IRepository<Person> repository;
-		private IPersonRepository personRepository;
-		private IReadOnlyRepository<Person> readOnlyRepository;
-
 		[SetUp]
 		public void SetUp()
 		{
@@ -35,10 +30,13 @@
 			this.personRepository = serviceProvider.GetRequiredService<IPersonRepository>();
 		}
 
+		private IRepository<Person> repository;
+		private IPersonRepository personRepository;
+		private IReadOnlyRepository<Person> readOnlyRepository;
+
 		[Test]
 		public void ShouldAddItem()
 		{
-
 		}
 	}
 }

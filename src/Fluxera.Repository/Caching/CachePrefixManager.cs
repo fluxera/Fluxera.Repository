@@ -16,15 +16,15 @@
 		public async Task<long> GetGlobalCounterAsync()
 		{
 			return await this.cachingProvider
-							 .GetAsync<long>("Repositories/Counter")
-							 .ConfigureAwait(false);
+				.GetAsync<long>("Repositories/Counter")
+				.ConfigureAwait(false);
 		}
 
 		public async Task IncrementGlobalCounterAsync()
 		{
 			await this.cachingProvider
-					  .IncrementAsync("Repositories/Counter", 1)
-					  .ConfigureAwait(false);
+				.IncrementAsync("Repositories/Counter", 1)
+				.ConfigureAwait(false);
 		}
 	}
 }

@@ -6,10 +6,8 @@
 	using System.Threading;
 	using System.Threading.Tasks;
 	using Fluxera.Entity;
-	using Fluxera.Extensions.DependencyInjection;
 	using Fluxera.Extensions.Validation;
 	using Fluxera.Guards;
-	using Fluxera.Repository.Options;
 	using Fluxera.Repository.Query;
 	using Fluxera.Repository.Traits;
 
@@ -18,34 +16,16 @@
 	{
 		private readonly IRepository<TAggregateRoot> innerRepository;
 
-		private readonly RepositoryOptions repositoryOptions;
 		private readonly IEnumerable<IValidator> validators;
 
-		public ValidationRepositoryDecorator(IRepository<TAggregateRoot> innerRepository, IRepositoryRegistry repositoryRegistry, IServiceProvider serviceProvider)
+		public ValidationRepositoryDecorator(IRepository<TAggregateRoot> innerRepository, IValidatorProvider validatorProvider)
 		{
 			Guard.Against.Null(innerRepository, nameof(innerRepository));
-			Guard.Against.Null(repositoryRegistry, nameof(repositoryRegistry));
-			Guard.Against.Null(serviceProvider, nameof(serviceProvider));
+			Guard.Against.Null(validatorProvider, nameof(validatorProvider));
 
 			this.innerRepository = innerRepository;
 
-			// Get the repository options.
-			RepositoryName? repositoryName = repositoryRegistry.GetRepositoryNameFor<TAggregateRoot>();
-			this.repositoryOptions = repositoryRegistry.GetRepositoryOptionsFor(repositoryName);
-
-			// Initialize validators.
-			ICollection<IValidator> validatorCollection = new List<IValidator>();
-			if(this.repositoryOptions.ValidationOptions.IsEnabled)
-			{
-				IEnumerable<IValidatorFactory> validatorFactories = serviceProvider.GetNamedServices<IValidatorFactory>((string)repositoryName);
-				foreach(IValidatorFactory validatorFactory in validatorFactories)
-				{
-					IValidator validator = validatorFactory.CreateValidator();
-					validatorCollection.Add(validator);
-				}
-			}
-
-			this.validators = validatorCollection;
+			this.validators = validatorProvider.GetValidatorsFor<TAggregateRoot>();
 		}
 
 		/// <inheritdoc />
@@ -164,39 +144,6 @@
 			return await this.innerRepository.CountAsync(predicate, cancellationToken).ConfigureAwait(false);
 		}
 
-		private async Task ValidateAsync(TAggregateRoot item)
-		{
-			if (repositoryOptions.ValidationOptions.IsEnabled)
-			{
-				ValidationResult validationResult = await this.validators.ValidateAsync(item);
-				if (!validationResult.IsValid)
-				{
-					throw Errors.ItemNotValid(validationResult.ValidationErrors);
-				}
-			}
-		}
-
-		private async Task ValidateAsync(IEnumerable<TAggregateRoot> items)
-		{
-			if (repositoryOptions.ValidationOptions.IsEnabled)
-			{
-				foreach(TAggregateRoot item in items)
-				{
-					ValidationResult validationResult = await this.validators.ValidateAsync(item);
-					if (!validationResult.IsValid)
-					{
-						throw Errors.ItemNotValid(validationResult.ValidationErrors);
-					}	
-				}
-			}
-		}
-
-		/// <inheritdoc />
-		public override string ToString()
-		{
-			return this.innerRepository.ToString();
-		}
-
 		/// <inheritdoc />
 		void IDisposable.Dispose()
 		{
@@ -208,5 +155,32 @@
 
 		/// <inheritdoc />
 		bool IReadOnlyRepository<TAggregateRoot>.IsDisposed => this.innerRepository.IsDisposed;
+
+		private async Task ValidateAsync(TAggregateRoot item)
+		{
+			ValidationResult validationResult = await this.validators.ValidateAsync(item);
+			if(!validationResult.IsValid)
+			{
+				throw Errors.ItemNotValid(validationResult.ValidationErrors);
+			}
+		}
+
+		private async Task ValidateAsync(IEnumerable<TAggregateRoot> items)
+		{
+			foreach(TAggregateRoot item in items)
+			{
+				ValidationResult validationResult = await this.validators.ValidateAsync(item);
+				if(!validationResult.IsValid)
+				{
+					throw Errors.ItemNotValid(validationResult.ValidationErrors);
+				}
+			}
+		}
+
+		/// <inheritdoc />
+		public override string ToString()
+		{
+			return this.innerRepository.ToString();
+		}
 	}
 }

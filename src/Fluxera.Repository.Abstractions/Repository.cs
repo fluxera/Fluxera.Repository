@@ -9,12 +9,12 @@
 	using Fluxera.Guards;
 	using Fluxera.Repository.Traits;
 
-	public abstract class Repository<TAggregateRoot> : ReadOnlyRepository<TAggregateRoot>, IRepository<TAggregateRoot> 
+	public abstract class Repository<TAggregateRoot> : ReadOnlyRepository<TAggregateRoot>, IRepository<TAggregateRoot>
 		where TAggregateRoot : AggregateRoot<TAggregateRoot>
 	{
 		private readonly IRepository<TAggregateRoot> innerRepository;
 
-		protected Repository(IRepository<TAggregateRoot> innerRepository) 
+		protected Repository(IRepository<TAggregateRoot> innerRepository)
 			: base(innerRepository)
 		{
 			Guard.Against.Null(innerRepository, nameof(innerRepository));

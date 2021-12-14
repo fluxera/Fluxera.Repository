@@ -5,7 +5,7 @@
 	using Fluxera.Entity;
 	using Fluxera.Guards;
 	using JetBrains.Annotations;
-	using static Guards.ExceptionHelpers;
+	using static Fluxera.Guards.ExceptionHelpers;
 
 	[PublicAPI]
 	public static class GuardExtensions

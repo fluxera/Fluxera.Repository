@@ -5,8 +5,7 @@
 
 	public interface IValidationOptionsBuilder
 	{
-		IValidationOptionsBuilder AddValidatorFactory(Action<IValidationBuilder> configure);
-
 		string RepositoryName { get; }
+		IValidationOptionsBuilder AddValidatorFactory(Action<IValidationBuilder> configure);
 	}
 }

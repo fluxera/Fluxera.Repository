@@ -27,12 +27,23 @@
 
 		protected override string Name => "Fluxera.Repository.InMemoryRepository";
 
+		private IQueryable<TAggregateRoot> Queryable
+		{
+			get
+			{
+				lock(syncRoot)
+				{
+					return this.store.Values.AsQueryable();
+				}
+			}
+		}
+
 		/// <inheritdoc />
 		protected override async Task OnAddAsync(TAggregateRoot item, CancellationToken cancellationToken = default)
 		{
 			await Task.Factory.StartNew(() =>
 			{
-				lock (InMemoryRepository<TAggregateRoot>.syncRoot)
+				lock(syncRoot)
 				{
 					item.ID = Guid.NewGuid().ToString("N");
 					this.store.TryAdd(item.ID, item);
@@ -45,12 +56,12 @@
 		{
 			await Task.Factory.StartNew(() =>
 			{
-				lock (InMemoryRepository<TAggregateRoot>.syncRoot)
+				lock(syncRoot)
 				{
 					foreach(TAggregateRoot item in items)
 					{
 						item.ID = Guid.NewGuid().ToString("N");
-						this.store.TryAdd(item.ID, item);	
+						this.store.TryAdd(item.ID, item);
 					}
 				}
 			}, cancellationToken).ConfigureAwait(false);
@@ -61,7 +72,7 @@
 		{
 			await Task.Factory.StartNew(() =>
 			{
-				lock (InMemoryRepository<TAggregateRoot>.syncRoot)
+				lock(syncRoot)
 				{
 					this.store[item.ID] = item;
 				}
@@ -73,7 +84,7 @@
 		{
 			await Task.Factory.StartNew(() =>
 			{
-				lock (InMemoryRepository<TAggregateRoot>.syncRoot)
+				lock(syncRoot)
 				{
 					foreach(TAggregateRoot item in items)
 					{
@@ -88,7 +99,7 @@
 		{
 			await Task.Factory.StartNew(() =>
 			{
-				lock (InMemoryRepository<TAggregateRoot>.syncRoot)
+				lock(syncRoot)
 				{
 					this.store.TryRemove(item.ID, out _);
 				}
@@ -100,7 +111,7 @@
 		{
 			await Task.Factory.StartNew(() =>
 			{
-				lock (InMemoryRepository<TAggregateRoot>.syncRoot)
+				lock(syncRoot)
 				{
 					this.store.TryRemove(id, out _);
 				}
@@ -112,7 +123,7 @@
 		{
 			await Task.Factory.StartNew(() =>
 			{
-				lock (InMemoryRepository<TAggregateRoot>.syncRoot)
+				lock(syncRoot)
 				{
 					TAggregateRoot item = this.Queryable.Where(predicate).FirstOrDefault();
 					this.store.TryRemove(item.ID, out _);
@@ -125,11 +136,11 @@
 		{
 			await Task.Factory.StartNew(() =>
 			{
-				lock (InMemoryRepository<TAggregateRoot>.syncRoot)
+				lock(syncRoot)
 				{
 					foreach(TAggregateRoot item in items)
 					{
-						this.store.TryRemove(item.ID, out _);	
+						this.store.TryRemove(item.ID, out _);
 					}
 				}
 			}, cancellationToken).ConfigureAwait(false);
@@ -140,7 +151,7 @@
 		{
 			return await Task.Factory.StartNew(() =>
 			{
-				lock (InMemoryRepository<TAggregateRoot>.syncRoot)
+				lock(syncRoot)
 				{
 					return this.Queryable.FirstOrDefault(x => x.ID == id);
 				}
@@ -152,7 +163,7 @@
 		{
 			return await Task.Factory.StartNew(() =>
 			{
-				lock (InMemoryRepository<TAggregateRoot>.syncRoot)
+				lock(syncRoot)
 				{
 					return this.Queryable
 						.Where(x => x.ID == id)
@@ -167,7 +178,7 @@
 		{
 			return await Task.Factory.StartNew(() =>
 			{
-				lock (InMemoryRepository<TAggregateRoot>.syncRoot)
+				lock(syncRoot)
 				{
 					return this.Queryable.LongCount(predicate);
 				}
@@ -179,11 +190,11 @@
 		{
 			return await Task.Factory.StartNew(() =>
 			{
-				lock (InMemoryRepository<TAggregateRoot>.syncRoot)
+				lock(syncRoot)
 				{
 					return this.Queryable
-							   .ApplyOptions(queryOptions)
-							   .FirstOrDefault(predicate);
+						.ApplyOptions(queryOptions)
+						.FirstOrDefault(predicate);
 				}
 			}, cancellationToken).ConfigureAwait(false);
 		}
@@ -193,7 +204,7 @@
 		{
 			return await Task.Factory.StartNew(() =>
 			{
-				lock (InMemoryRepository<TAggregateRoot>.syncRoot)
+				lock(syncRoot)
 				{
 					return this.Queryable
 						.ApplyOptions(queryOptions)
@@ -209,12 +220,12 @@
 		{
 			return await Task.Factory.StartNew(() =>
 			{
-				lock (InMemoryRepository<TAggregateRoot>.syncRoot)
+				lock(syncRoot)
 				{
 					return this.Queryable
-							   .ApplyOptions(queryOptions)
-							   .Where(predicate)
-							   .AsReadOnly();
+						.ApplyOptions(queryOptions)
+						.Where(predicate)
+						.AsReadOnly();
 				}
 			}, cancellationToken).ConfigureAwait(false);
 		}
@@ -224,26 +235,15 @@
 		{
 			return await Task.Factory.StartNew(() =>
 			{
-				lock (InMemoryRepository<TAggregateRoot>.syncRoot)
+				lock(syncRoot)
 				{
 					return this.Queryable
-							   .ApplyOptions(queryOptions)
-							   .Where(predicate)
-							   .Select(selector)
-							   .AsReadOnly();
+						.ApplyOptions(queryOptions)
+						.Where(predicate)
+						.Select(selector)
+						.AsReadOnly();
 				}
 			}, cancellationToken).ConfigureAwait(false);
-		}
-
-		private IQueryable<TAggregateRoot> Queryable
-		{
-			get
-			{
-				lock(InMemoryRepository<TAggregateRoot>.syncRoot)
-				{
-					return this.store.Values.AsQueryable();
-				}
-			}
 		}
 	}
 }

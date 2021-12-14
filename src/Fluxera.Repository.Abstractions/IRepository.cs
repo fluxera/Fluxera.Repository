@@ -14,7 +14,7 @@
 	/// <typeparam name="TAggregateRoot">Generic repository entity type.</typeparam>
 	///// <typeparam name="TKey">The type of the ID.</typeparam>
 	[PublicAPI]
-	public interface IRepository<TAggregateRoot/*, TKey*/> :
+	public interface IRepository<TAggregateRoot /*, TKey*/> :
 		ICanAdd<TAggregateRoot>,
 		ICanUpdate<TAggregateRoot>,
 		ICanRemove<TAggregateRoot>,
