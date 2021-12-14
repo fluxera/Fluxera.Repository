@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Fluxera.Repository.Storage.InMemory\Fluxera.Repository.Storage.InMemory.csproj" />
+    <ProjectReference Include="..\..\src\Fluxera.Repository.Storage.InMemory\Fluxera.Repository.InMemory.csproj" />
     <ProjectReference Include="..\..\src\Fluxera.Repository\Fluxera.Repository.csproj" />
   </ItemGroup>
 
