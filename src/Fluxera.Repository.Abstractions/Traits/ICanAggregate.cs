@@ -32,7 +32,6 @@ namespace Fluxera.Repository.Traits
 		/// <param name="predicate">The predicate to match.</param>
 		/// <param name="cancellationToken">The cancellation token.</param>
 		/// <returns>The item count.</returns>
-		Task<long> CountAsync(Expression<Func<TAggregateRoot, bool>> predicate,
-			CancellationToken cancellationToken = default);
+		Task<long> CountAsync(Expression<Func<TAggregateRoot, bool>> predicate, CancellationToken cancellationToken = default);
 	}
 }

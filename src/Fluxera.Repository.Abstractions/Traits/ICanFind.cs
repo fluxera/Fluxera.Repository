@@ -28,8 +28,7 @@
 		/// <param name="queryOptions">The options for paging and sorting.</param>
 		/// <param name="cancellationToken">The cancellation token.</param>
 		/// <returns>The result item, or <c>null</c> if no item was found.</returns>
-		Task<TAggregateRoot> FindOneAsync(Expression<Func<TAggregateRoot, bool>> predicate,
-			IQueryOptions<TAggregateRoot>? queryOptions = null, CancellationToken cancellationToken = default);
+		Task<TAggregateRoot> FindOneAsync(Expression<Func<TAggregateRoot, bool>> predicate, IQueryOptions<TAggregateRoot>? queryOptions = null, CancellationToken cancellationToken = default);
 
 		/// <summary>
 		///     Finds the value of the property specified by the selector of the first item that matches the predicate.
@@ -40,8 +39,7 @@
 		/// <param name="cancellationToken">The cancellation token.</param>
 		/// <typeparam name="TResult">The type of the result property.</typeparam>
 		/// <returns>The result of the selector.</returns>
-		Task<TResult> FindOneAsync<TResult>(Expression<Func<TAggregateRoot, bool>> predicate,
-			Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot>? queryOptions = null,
+		Task<TResult> FindOneAsync<TResult>(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot>? queryOptions = null,
 			CancellationToken cancellationToken = default);
 
 		/// <summary>
@@ -50,8 +48,7 @@
 		/// <param name="predicate">The predicate to match.</param>
 		/// <param name="cancellationToken">The cancellation token.</param>
 		/// <returns><code>true</code> if an item exists; <code>false</code> otherwise.</returns>
-		Task<bool> ExistsAsync(Expression<Func<TAggregateRoot, bool>> predicate,
-			CancellationToken cancellationToken = default);
+		Task<bool> ExistsAsync(Expression<Func<TAggregateRoot, bool>> predicate, CancellationToken cancellationToken = default);
 
 		/// <summary>
 		///     Finds items matching the predicate.
@@ -60,8 +57,7 @@
 		/// <param name="queryOptions">The options for paging and sorting.</param>
 		/// <param name="cancellationToken">The cancellation token.</param>
 		/// <returns>The result items, or an empty enumerable if no item was found.</returns>
-		Task<IReadOnlyCollection<TAggregateRoot>> FindManyAsync(Expression<Func<TAggregateRoot, bool>> predicate,
-			IQueryOptions<TAggregateRoot>? queryOptions = null, CancellationToken cancellationToken = default);
+		Task<IReadOnlyCollection<TAggregateRoot>> FindManyAsync(Expression<Func<TAggregateRoot, bool>> predicate, IQueryOptions<TAggregateRoot>? queryOptions = null, CancellationToken cancellationToken = default);
 
 		///// <summary>
 		/////     Finds items satisfying the specification.
@@ -82,8 +78,6 @@
 		/// <param name="cancellationToken">The cancellation token.</param>
 		/// <typeparam name="TResult">The type of the result property.</typeparam>
 		/// <returns>The results of the selector.</returns>
-		Task<IReadOnlyCollection<TResult>> FindManyAsync<TResult>(Expression<Func<TAggregateRoot, bool>> predicate,
-			Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot>? queryOptions = null,
-			CancellationToken cancellationToken = default);
+		Task<IReadOnlyCollection<TResult>> FindManyAsync<TResult>(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot>? queryOptions = null, CancellationToken cancellationToken = default);
 	}
 }

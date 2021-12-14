@@ -35,8 +35,7 @@
 		/// <param name="cancellationToken">The cancellation token.</param>
 		/// <typeparam name="TResult">The type of the result property.</typeparam>
 		/// <returns>The result of the selector.</returns>
-		Task<TResult> GetAsync<TResult>(string id, Expression<Func<TAggregateRoot, TResult>> selector,
-			CancellationToken cancellationToken = default);
+		Task<TResult> GetAsync<TResult>(string id, Expression<Func<TAggregateRoot, TResult>> selector, CancellationToken cancellationToken = default);
 
 		/// <summary>
 		///     Checks if the item specified by the given id exist.
