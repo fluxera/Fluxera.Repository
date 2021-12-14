@@ -19,9 +19,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{DF28D730-99B
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{F18D2D58-282C-4D93-8D9A-3A76CF98F018}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fluxera.Repository", "src\Fluxera.Repository\Fluxera.Repository.csproj", "{63A7C12A-A5EE-4FDE-B844-6D69D408A817}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fluxera.Repository", "src\Fluxera.Repository\Fluxera.Repository.csproj", "{63A7C12A-A5EE-4FDE-B844-6D69D408A817}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fluxera.Repository.UnitTests", "tests\Fluxera.Repository.UnitTests\Fluxera.Repository.UnitTests.csproj", "{C64DF387-7035-4C8F-AC63-B5276F8E5050}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fluxera.Repository.UnitTests", "tests\Fluxera.Repository.UnitTests\Fluxera.Repository.UnitTests.csproj", "{C64DF387-7035-4C8F-AC63-B5276F8E5050}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fluxera.Repository.Storage.InMemory", "src\Fluxera.Repository.Storage.InMemory\Fluxera.Repository.Storage.InMemory.csproj", "{CC148A6E-4DC0-40D2-906C-4FA483A05690}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fluxera.Repository.Storage", "src\Fluxera.Repository.Storage\Fluxera.Repository.Storage.csproj", "{DAF0645C-54FD-4888-AD28-3CEBC20A7416}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fluxera.Repository.Abstractions", "src\Fluxera.Repository.Abstractions\Fluxera.Repository.Abstractions.csproj", "{F6E7830F-A3D7-4535-9B50-1F1BCD885691}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,6 +43,18 @@ Global
 		{C64DF387-7035-4C8F-AC63-B5276F8E5050}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C64DF387-7035-4C8F-AC63-B5276F8E5050}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C64DF387-7035-4C8F-AC63-B5276F8E5050}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC148A6E-4DC0-40D2-906C-4FA483A05690}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC148A6E-4DC0-40D2-906C-4FA483A05690}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC148A6E-4DC0-40D2-906C-4FA483A05690}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC148A6E-4DC0-40D2-906C-4FA483A05690}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DAF0645C-54FD-4888-AD28-3CEBC20A7416}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DAF0645C-54FD-4888-AD28-3CEBC20A7416}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DAF0645C-54FD-4888-AD28-3CEBC20A7416}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DAF0645C-54FD-4888-AD28-3CEBC20A7416}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6E7830F-A3D7-4535-9B50-1F1BCD885691}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6E7830F-A3D7-4535-9B50-1F1BCD885691}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6E7830F-A3D7-4535-9B50-1F1BCD885691}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6E7830F-A3D7-4535-9B50-1F1BCD885691}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -44,6 +62,9 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{63A7C12A-A5EE-4FDE-B844-6D69D408A817} = {DF28D730-99B3-4811-AAC7-725A73B3F668}
 		{C64DF387-7035-4C8F-AC63-B5276F8E5050} = {F18D2D58-282C-4D93-8D9A-3A76CF98F018}
+		{CC148A6E-4DC0-40D2-906C-4FA483A05690} = {DF28D730-99B3-4811-AAC7-725A73B3F668}
+		{DAF0645C-54FD-4888-AD28-3CEBC20A7416} = {DF28D730-99B3-4811-AAC7-725A73B3F668}
+		{F6E7830F-A3D7-4535-9B50-1F1BCD885691} = {DF28D730-99B3-4811-AAC7-725A73B3F668}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D97BF2AF-6E68-4E88-BF70-773A86E26013}

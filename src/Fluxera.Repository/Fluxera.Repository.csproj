@@ -1,16 +1,16 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFramework>netstandard2.1</TargetFramework>
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<PackageTags>library;extensions;persistence</PackageTags>
-		<Description>The custom extensions for persistence.</Description>
+		<PackageTags>fluxera;library;extensions;repository</PackageTags>
+		<Description>A generic repository implementation.</Description>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Compile Include="..\SolutionInfo.cs" Link="Properties\SolutionInfo.cs" />
+	  <Compile Include="..\SolutionInfo.cs" Link="Properties\SolutionInfo.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -25,11 +25,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Fluxera.Entity" Version="6.0.3" />
-		<PackageReference Include="Fluxera.Enumeration" Version="6.0.6" />
-		<PackageReference Include="Fluxera.Extensions.Common" Version="6.0.2" />
-		<PackageReference Include="Fluxera.Extensions.DependencyInjection" Version="6.0.2" />
-		<PackageReference Include="Fluxera.Extensions.Validation" Version="6.0.2" />
+		<PackageReference Include="Fluxera.Entity" Version="6.0.5" />
+		<PackageReference Include="Fluxera.Extensions.Caching" Version="6.0.13" />
+		<PackageReference Include="Fluxera.Extensions.Common" Version="6.0.13" />
+		<PackageReference Include="Fluxera.Extensions.DependencyInjection" Version="6.0.13" />
+		<PackageReference Include="Fluxera.Extensions.Validation" Version="6.0.13" />
 		<PackageReference Include="Fluxera.Guards" Version="6.0.5" />
 		<PackageReference Include="Fluxera.Linq.Expressions" Version="6.0.4" />
 		<PackageReference Include="Fluxera.Utilities" Version="6.0.4" />
@@ -38,13 +38,8 @@
 		<PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
 	</ItemGroup>
 
-	<!--<ItemGroup>
-		<ProjectReference Include="..\Fluxera.Extensions.Caching\Fluxera.Extensions.Caching.csproj" />
-		<ProjectReference Include="..\Fluxera.Extensions.Common\Fluxera.Extensions.Common.csproj" />
-		<ProjectReference Include="..\Fluxera.Extensions.DependencyInjection\Fluxera.Extensions.DependencyInjection.csproj" />
-		<ProjectReference Include="..\Fluxera.Extensions.DomainDrivenDesign\Fluxera.Extensions.DomainDrivenDesign.csproj" />
-		<ProjectReference Include="..\Fluxera.Extensions.Persistence.Abstractions\Fluxera.Extensions.Persistence.Abstractions.csproj" />
-		<ProjectReference Include="..\Fluxera.Extensions.Validation\Fluxera.Extensions.Validation.csproj" />
-	</ItemGroup>-->
+	<ItemGroup>
+	  <ProjectReference Include="..\Fluxera.Repository.Abstractions\Fluxera.Repository.Abstractions.csproj" />
+	</ItemGroup>
 
 </Project>

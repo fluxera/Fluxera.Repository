@@ -10,6 +10,8 @@
   <ItemGroup>
     <PackageReference Include="Bogus" Version="34.0.1" />
     <PackageReference Include="FluentAssertions" Version="6.2.0" />
+    <PackageReference Include="Fluxera.Extensions.Validation.DataAnnotations" Version="6.0.13" />
+    <PackageReference Include="Fluxera.Extensions.Validation.FluentValidation" Version="6.0.13" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
     <PackageReference Include="NUnit" Version="3.13.2" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.1.0" />
@@ -17,7 +19,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Fluxera.Repository.Storage.InMemory\Fluxera.Repository.Storage.InMemory.csproj" />
     <ProjectReference Include="..\..\src\Fluxera.Repository\Fluxera.Repository.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="InMemory\" />
+    <Folder Include="PersonAggregate\" />
   </ItemGroup>
 
 </Project>
