@@ -29,6 +29,7 @@
 		{
 			new Person
 			{
+				ID = Guid.NewGuid().ToString(),
 				Name = "Tester"
 			},
 			new Person
@@ -46,7 +47,6 @@
 			},
 			new Person
 			{
-				ID = Guid.NewGuid().ToString(),
 				Name = "Tester"
 			}
 		};

@@ -76,7 +76,7 @@
 		}
 
 		/// <inheritdoc />
-		public async Task DeleteAsync(string id)
+		public async Task RemoveAsync(string id)
 		{
 			string cacheKey = this.CacheKeyProvider.GetDeleteCacheKey<TAggregateRoot>(this.RepositoryName, id);
 			await this.RemoveSafeAsync(cacheKey).ConfigureAwait(false);
@@ -85,11 +85,11 @@
 		}
 
 		/// <inheritdoc />
-		public async Task DeleteAsync(IEnumerable<string> ids)
+		public async Task RemoveAsync(IEnumerable<string> ids)
 		{
 			foreach(string id in ids)
 			{
-				await this.DeleteAsync(id).ConfigureAwait(false);
+				await this.RemoveAsync(id).ConfigureAwait(false);
 			}
 		}
 

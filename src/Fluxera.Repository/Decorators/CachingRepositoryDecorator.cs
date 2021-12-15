@@ -67,7 +67,7 @@
 
 			await this.innerRepository.RemoveAsync(item, cancellationToken).ConfigureAwait(false);
 
-			await this.cachingStrategy.DeleteAsync(id).ConfigureAwait(false);
+			await this.cachingStrategy.RemoveAsync(id).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
@@ -75,7 +75,7 @@
 		{
 			await this.innerRepository.RemoveAsync(id, cancellationToken).ConfigureAwait(false);
 
-			await this.cachingStrategy.DeleteAsync(id).ConfigureAwait(false);
+			await this.cachingStrategy.RemoveAsync(id).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
@@ -86,7 +86,7 @@
 
 			await this.innerRepository.RemoveAsync(predicate, cancellationToken).ConfigureAwait(false);
 
-			await this.cachingStrategy.DeleteAsync(ids).ConfigureAwait(false);
+			await this.cachingStrategy.RemoveAsync(ids).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
@@ -96,7 +96,7 @@
 
 			await this.innerRepository.RemoveAsync(items, cancellationToken).ConfigureAwait(false);
 
-			await this.cachingStrategy.DeleteAsync(ids).ConfigureAwait(false);
+			await this.cachingStrategy.RemoveAsync(ids).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />

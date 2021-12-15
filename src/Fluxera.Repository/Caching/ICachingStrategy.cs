@@ -19,9 +19,9 @@
 
 		Task UpdateAsync(IEnumerable<TAggregateRoot> items);
 
-		Task DeleteAsync(string id);
+		Task RemoveAsync(string id);
 
-		Task DeleteAsync(IEnumerable<string> ids);
+		Task RemoveAsync(IEnumerable<string> ids);
 
 		Task<TAggregateRoot> GetAsync(string id, Func<Task<TAggregateRoot>> setter);
 

@@ -54,66 +54,105 @@
 		[Test]
 		public async Task Should_CountAsync()
 		{
+			await this.Repository.CountAsync();
+
+			this.ShouldHaveUsedStrategy(x => x.CountWasCalled);
 		}
 
 		[Test]
 		public async Task Should_CountAsync_Predicate()
 		{
+			await this.Repository.CountAsync(x => x.Name == "1");
+
+			this.ShouldHaveUsedStrategy(x => x.CountWithPredicateWasCalled);
 		}
 
 		[Test]
 		public async Task Should_ExistsAsync_Predicate()
 		{
+			await this.Repository.ExistsAsync(x => x.Name == "Tester");
+
+			this.ShouldHaveUsedStrategy(x => x.ExistsWithPredicateWasCalled);
 		}
 
 		[Test]
 		public async Task Should_ExistsAsync_Single()
 		{
+			await this.Repository.ExistsAsync("1");
+
+			this.ShouldHaveUsedStrategy(x => x.ExistsWasCalled);
 		}
 
 		[Test]
 		public async Task Should_FindManyAsync_Predicate()
 		{
+			await this.Repository.FindManyAsync(x => x.Name == "1");
+
+			this.ShouldHaveUsedStrategy(x => x.FindManyWithPredicateWasCalled);
 		}
 
 		[Test]
 		public async Task Should_FindManyAsync_Result()
 		{
+			await this.Repository.FindManyAsync(x => x.Name == "1", x => x.Name);
+
+			this.ShouldHaveUsedStrategy(x => x.FindManyWithPredicateAndSelectorWasCalled);
 		}
 
 		[Test]
 		public async Task Should_FindOneAsync_Predicate()
 		{
+			await this.Repository.FindOneAsync(x => x.Name == "1");
+
+			this.ShouldHaveUsedStrategy(x => x.FindOneWithPredicateWasCalled);
 		}
 
 		[Test]
 		public async Task Should_FindOneAsync_Result()
 		{
+			await this.Repository.FindOneAsync(x => x.Name == "1", x => x.Name);
+
+			this.ShouldHaveUsedStrategy(x => x.FindOneWithPredicateAndSelectorWasCalled);
 		}
 
 		[Test]
 		public async Task Should_GetAsync_Single()
 		{
+			await this.Repository.GetAsync("1");
+
+			this.ShouldHaveUsedStrategy(x => x.GetWasCalled);
 		}
 
 		[Test]
 		public async Task Should_GetAsync_Single_Result()
 		{
+			await this.Repository.GetAsync("1", x => x.Name);
+
+			this.ShouldHaveUsedStrategy(x => x.GetWithSelectorWasCalled);
 		}
 
 		[Test]
 		public async Task Should_RemoveAsync_Multiple_Predicate()
 		{
+			await this.Repository.RemoveAsync(Persons.NotTransient);
+
+			this.ShouldHaveUsedStrategy(x => x.RemoveMultipleWasCalled);
 		}
 
 		[Test]
 		public async Task Should_RemoveAsync_Single()
 		{
+			await this.Repository.RemoveAsync(Person.NotTransient);
+
+			this.ShouldHaveUsedStrategy(x => x.RemoveSingleWasCalled);
 		}
 
 		[Test]
 		public async Task Should_RemoveAsync_Single_Identifier()
 		{
+			await this.Repository.RemoveAsync("1");
+
+			this.ShouldHaveUsedStrategy(x => x.RemoveSingleWasCalled);
 		}
 
 		[Test]

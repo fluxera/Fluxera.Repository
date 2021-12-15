@@ -2,7 +2,9 @@
 {
 	using System;
 	using System.Threading.Tasks;
+	using Fluxera.Entity.DomainEvents;
 	using Fluxera.Repository.Decorators;
+	using Microsoft.Extensions.DependencyInjection;
 	using NUnit.Framework;
 
 	[TestFixture]
@@ -10,6 +12,12 @@
 	{
 		/// <inheritdoc />
 		protected override Type DecoratorType => typeof(DomainEventsRepositoryDecorator<>);
+
+		/// <inheritdoc />
+		protected override void ConfigureServices(IServiceCollection services)
+		{
+			services.AddTransient<IDomainEventDispatcher, TestDomainEventDispatcher>();
+		}
 
 		[Test]
 		public async Task Should_AddAsync_Multiple()

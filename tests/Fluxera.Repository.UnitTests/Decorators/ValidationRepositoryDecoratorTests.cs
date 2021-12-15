@@ -1,4 +1,4 @@
-﻿namespace Fluxera.Repository.UnitTests
+﻿namespace Fluxera.Repository.UnitTests.Decorators
 {
 	using System;
 	using System.Threading.Tasks;
@@ -38,25 +38,25 @@
 		}
 
 		[Test]
-		public void ShouldGuard_AddAsync_Multiple()
+		public void ShouldValidate_AddAsync_Multiple()
 		{
 			this.ShouldGuardAgainstInvalid(async () => await this.Repository.AddAsync(Persons.Invalid));
 		}
 
 		[Test]
-		public void ShouldGuard_AddAsync_Single()
+		public void ShouldValidate_AddAsync_Single()
 		{
 			this.ShouldGuardAgainstInvalid(async () => await this.Repository.AddAsync(Person.Invalid));
 		}
 
 		[Test]
-		public void ShouldGuard_UpdateAsync_Multiple()
+		public void ShouldValidate_UpdateAsync_Multiple()
 		{
 			this.ShouldGuardAgainstInvalid(async () => await this.Repository.UpdateAsync(Persons.Invalid));
 		}
 
 		[Test]
-		public void ShouldGuard_UpdateAsync_Single()
+		public void ShouldValidate_UpdateAsync_Single()
 		{
 			this.ShouldGuardAgainstInvalid(async () => await this.Repository.UpdateAsync(Person.Invalid));
 		}

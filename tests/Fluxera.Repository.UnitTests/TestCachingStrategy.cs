@@ -12,6 +12,18 @@
 	{
 		public bool AddMultipleWasCalled;
 		public bool AddSingleWasCalled;
+		public bool CountWasCalled;
+		public bool CountWithPredicateWasCalled;
+		public bool ExistsWasCalled;
+		public bool ExistsWithPredicateWasCalled;
+		public bool FindManyWithPredicateAndSelectorWasCalled;
+		public bool FindManyWithPredicateWasCalled;
+		public bool FindOneWithPredicateAndSelectorWasCalled;
+		public bool FindOneWithPredicateWasCalled;
+		public bool GetWasCalled;
+		public bool GetWithSelectorWasCalled;
+		public bool RemoveMultipleWasCalled;
+		public bool RemoveSingleWasCalled;
 		public bool UpdateMultipleWasCalled;
 		public bool UpdateSingleWasCalled;
 
@@ -40,75 +52,95 @@
 		}
 
 		/// <inheritdoc />
-		async Task ICachingStrategy<T>.DeleteAsync(string id)
+		async Task ICachingStrategy<T>.RemoveAsync(string id)
 		{
-			throw new NotImplementedException();
+			this.RemoveSingleWasCalled = true;
 		}
 
 		/// <inheritdoc />
-		async Task ICachingStrategy<T>.DeleteAsync(IEnumerable<string> ids)
+		async Task ICachingStrategy<T>.RemoveAsync(IEnumerable<string> ids)
 		{
-			throw new NotImplementedException();
+			this.RemoveMultipleWasCalled = true;
 		}
 
 		/// <inheritdoc />
 		async Task<T> ICachingStrategy<T>.GetAsync(string id, Func<Task<T>> setter)
 		{
-			throw new NotImplementedException();
+			this.GetWasCalled = true;
+
+			return default;
 		}
 
 		/// <inheritdoc />
 		async Task<TResult> ICachingStrategy<T>.GetAsync<TResult>(string id, Expression<Func<T, TResult>> selector, Func<Task<TResult>> setter)
 		{
-			throw new NotImplementedException();
+			this.GetWithSelectorWasCalled = true;
+
+			return default;
 		}
 
 		/// <inheritdoc />
 		async Task<long> ICachingStrategy<T>.CountAsync(Func<Task<long>> setter)
 		{
-			throw new NotImplementedException();
+			this.CountWasCalled = true;
+
+			return default;
 		}
 
 		/// <inheritdoc />
 		async Task<long> ICachingStrategy<T>.CountAsync(Expression<Func<T, bool>> predicate, Func<Task<long>> setter)
 		{
-			throw new NotImplementedException();
+			this.CountWithPredicateWasCalled = true;
+
+			return default;
 		}
 
 		/// <inheritdoc />
 		async Task<T> ICachingStrategy<T>.FindOneAsync(Expression<Func<T, bool>> predicate, IQueryOptions<T>? queryOptions, Func<Task<T>> setter)
 		{
-			throw new NotImplementedException();
+			this.FindOneWithPredicateWasCalled = true;
+
+			return default;
 		}
 
 		/// <inheritdoc />
 		async Task<TResult> ICachingStrategy<T>.FindOneAsync<TResult>(Expression<Func<T, bool>> predicate, Expression<Func<T, TResult>> selector, IQueryOptions<T>? queryOptions, Func<Task<TResult>> setter)
 		{
-			throw new NotImplementedException();
+			this.FindOneWithPredicateAndSelectorWasCalled = true;
+
+			return default;
 		}
 
 		/// <inheritdoc />
 		async Task<IReadOnlyCollection<T>> ICachingStrategy<T>.FindManyAsync(Expression<Func<T, bool>> predicate, IQueryOptions<T>? queryOptions, Func<Task<IReadOnlyCollection<T>>> setter)
 		{
-			throw new NotImplementedException();
+			this.FindManyWithPredicateWasCalled = true;
+
+			return default;
 		}
 
 		/// <inheritdoc />
 		async Task<IReadOnlyCollection<TResult>> ICachingStrategy<T>.FindManyAsync<TResult>(Expression<Func<T, bool>> predicate, Expression<Func<T, TResult>> selector, IQueryOptions<T>? queryOptions, Func<Task<IReadOnlyCollection<TResult>>> setter)
 		{
-			throw new NotImplementedException();
+			this.FindManyWithPredicateAndSelectorWasCalled = true;
+
+			return default;
 		}
 
 		/// <inheritdoc />
 		async Task<bool> ICachingStrategy<T>.ExistsAsync(string id, Func<Task<bool>> setter)
 		{
-			throw new NotImplementedException();
+			this.ExistsWasCalled = true;
+
+			return default;
 		}
 
 		/// <inheritdoc />
 		async Task<bool> ICachingStrategy<T>.ExistsAsync(Expression<Func<T, bool>> predicate, Func<Task<bool>> setter)
 		{
-			throw new NotImplementedException();
+			this.ExistsWithPredicateWasCalled = true;
+
+			return default;
 		}
 	}
 }
