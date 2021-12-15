@@ -14,8 +14,10 @@
 		<PackageReference Include="Fluxera.Extensions.Validation.DataAnnotations" Version="6.0.13" />
 		<PackageReference Include="Fluxera.Extensions.Validation.FluentValidation" Version="6.0.13" />
 		<PackageReference Include="Fluxera.Guards" Version="6.0.5" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Configuration" Version="6.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="6.0.0" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
+		<PackageReference Include="Moq" Version="4.16.1" />
 		<PackageReference Include="NUnit" Version="3.13.2" />
 		<PackageReference Include="NUnit3TestAdapter" Version="4.1.0" />
 		<PackageReference Include="coverlet.collector" Version="3.1.0" />

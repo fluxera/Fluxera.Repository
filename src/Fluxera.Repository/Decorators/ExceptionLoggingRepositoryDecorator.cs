@@ -16,6 +16,11 @@
 		private readonly IRepository<TAggregateRoot> innerRepository;
 		private readonly ILogger logger;
 
+		/// <summary>
+		///     Creates a new instance of the <see cref="ExceptionLoggingRepositoryDecorator{TAggregateRoot}" /> type.
+		/// </summary>
+		/// <param name="innerRepository"></param>
+		/// <param name="loggerFactory"></param>
 		public ExceptionLoggingRepositoryDecorator(IRepository<TAggregateRoot> innerRepository, ILoggerFactory loggerFactory)
 		{
 			this.innerRepository = innerRepository;

@@ -1,4 +1,4 @@
-﻿namespace Fluxera.Repository.UnitTests.Decorators
+﻿namespace Fluxera.Repository.UnitTests
 {
 	using System;
 	using System.Threading.Tasks;
