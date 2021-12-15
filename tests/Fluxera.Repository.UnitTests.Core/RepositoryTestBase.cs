@@ -1,8 +1,7 @@
-﻿namespace Fluxera.Repository.UnitTests
+﻿namespace Fluxera.Repository.UnitTests.Core
 {
 	using System;
-	using Fluxera.Repository.InMemory;
-	using Fluxera.Repository.UnitTests.PersonAggregate;
+	using Fluxera.Repository.UnitTests.Core.PersonAggregate;
 	using Microsoft.Extensions.DependencyInjection;
 	using NUnit.Framework;
 
@@ -17,7 +16,7 @@
 			{
 				services.AddRepository(rb =>
 				{
-					rb.AddInMemoryRepository("InMemory", rob =>
+					this.AddRepositoryUnderTest(rb, "RepositoryUnderTest", rob =>
 					{
 						rob.UseFor<Person>();
 					});
@@ -28,5 +27,14 @@
 
 			this.Repository = serviceProvider.GetRequiredService<IPersonRepository>();
 		}
+
+		[TearDown]
+		public void TearDown()
+		{
+			this.Repository.Dispose();
+		}
+
+		protected abstract void AddRepositoryUnderTest(IRepositoryBuilder repositoryBuilder,
+			string repositoryName, Action<IRepositoryOptionsBuilder> configureOptions);
 	}
 }

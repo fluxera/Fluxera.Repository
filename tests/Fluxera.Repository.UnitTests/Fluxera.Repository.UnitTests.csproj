@@ -14,8 +14,6 @@
 		<PackageReference Include="Fluxera.Extensions.Validation.DataAnnotations" Version="6.0.13" />
 		<PackageReference Include="Fluxera.Extensions.Validation.FluentValidation" Version="6.0.13" />
 		<PackageReference Include="Fluxera.Guards" Version="6.0.5" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Configuration" Version="6.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="6.0.0" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
 		<PackageReference Include="Moq" Version="4.16.1" />
 		<PackageReference Include="NUnit" Version="3.13.2" />
@@ -26,6 +24,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\..\src\Fluxera.Repository.InMemory\Fluxera.Repository.InMemory.csproj" />
 		<ProjectReference Include="..\..\src\Fluxera.Repository\Fluxera.Repository.csproj" />
+		<ProjectReference Include="..\Fluxera.Repository.UnitTests.Core\Fluxera.Repository.UnitTests.Core.csproj" />
 	</ItemGroup>
 
 </Project>

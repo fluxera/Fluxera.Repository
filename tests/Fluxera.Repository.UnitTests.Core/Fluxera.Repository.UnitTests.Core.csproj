@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+	  <Nullable>enable</Nullable>
+
+	  <IsPackable>false</IsPackable>
+	  <GenerateDocumentationFile>false</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentAssertions" Version="6.2.0" />
+    <PackageReference Include="Fluxera.Utilities" Version="6.0.4" />
+	<PackageReference Include="Fluxera.Guards" Version="6.0.5" />
+    <PackageReference Include="JetBrains.Annotations" Version="2021.3.0" />
+    <PackageReference Include="NUnit" Version="3.13.2" />
+	<PackageReference Include="Microsoft.Extensions.Logging.Configuration" Version="6.0.0" />
+	<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Fluxera.Repository.Abstractions\Fluxera.Repository.Abstractions.csproj" />
+    <ProjectReference Include="..\..\src\Fluxera.Repository\Fluxera.Repository.csproj" />
+  </ItemGroup>
+
+</Project>

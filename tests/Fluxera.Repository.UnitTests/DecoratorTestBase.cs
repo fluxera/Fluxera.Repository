@@ -2,7 +2,8 @@
 {
 	using System;
 	using Fluxera.Extensions.DependencyInjection;
-	using Fluxera.Repository.UnitTests.PersonAggregate;
+	using Fluxera.Repository.UnitTests.Core;
+	using Fluxera.Repository.UnitTests.Core.PersonAggregate;
 	using Microsoft.Extensions.DependencyInjection;
 	using NUnit.Framework;
 

@@ -6,7 +6,7 @@
 	using Fluxera.Extensions.Validation;
 	using Fluxera.Extensions.Validation.DataAnnotations;
 	using Fluxera.Repository.Decorators;
-	using Fluxera.Repository.UnitTests.PersonAggregate;
+	using Fluxera.Repository.UnitTests.Core.PersonAggregate;
 	using Fluxera.Repository.Validation;
 	using Microsoft.Extensions.DependencyInjection;
 	using NUnit.Framework;
@@ -40,25 +40,44 @@
 		[Test]
 		public void ShouldValidate_AddAsync_Multiple()
 		{
-			this.ShouldGuardAgainstInvalid(async () => await this.Repository.AddAsync(Persons.Invalid));
+			Person[] persons =
+			{
+				new Person(),
+				new Person()
+			};
+			this.ShouldGuardAgainstInvalid(async () => await this.Repository.AddAsync(persons));
 		}
 
 		[Test]
 		public void ShouldValidate_AddAsync_Single()
 		{
-			this.ShouldGuardAgainstInvalid(async () => await this.Repository.AddAsync(Person.Invalid));
+			this.ShouldGuardAgainstInvalid(async () => await this.Repository.AddAsync(new Person()));
 		}
 
 		[Test]
 		public void ShouldValidate_UpdateAsync_Multiple()
 		{
-			this.ShouldGuardAgainstInvalid(async () => await this.Repository.UpdateAsync(Persons.Invalid));
+			Person[] persons =
+			{
+				new Person
+				{
+					ID = "1"
+				},
+				new Person
+				{
+					ID = "2"
+				}
+			};
+			this.ShouldGuardAgainstInvalid(async () => await this.Repository.UpdateAsync(persons));
 		}
 
 		[Test]
 		public void ShouldValidate_UpdateAsync_Single()
 		{
-			this.ShouldGuardAgainstInvalid(async () => await this.Repository.UpdateAsync(Person.Invalid));
+			this.ShouldGuardAgainstInvalid(async () => await this.Repository.UpdateAsync(new Person
+			{
+				ID = "2"
+			}));
 		}
 	}
 }

@@ -184,7 +184,7 @@
 		async Task<long> ICanAggregate<TAggregateRoot>.CountAsync(Expression<Func<TAggregateRoot, bool>> predicate, CancellationToken cancellationToken)
 		{
 			return await this.cachingStrategy.CountAsync(predicate,
-					async () => await this.innerRepository.CountAsync(cancellationToken)
+					async () => await this.innerRepository.CountAsync(predicate, cancellationToken)
 						.ConfigureAwait(false))
 				.ConfigureAwait(false);
 		}

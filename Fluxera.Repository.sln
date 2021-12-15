@@ -35,6 +35,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fluxera.Repository.MongoDB"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fluxera.Repository.OData", "src\Fluxera.Repository.OData\Fluxera.Repository.OData.csproj", "{54D14DE4-2FBC-4AE9-B794-BE8792FAAF99}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fluxera.Repository.InMemory.IntegrationTests", "tests\Fluxera.Repository.InMemory.IntegrationTests\Fluxera.Repository.InMemory.IntegrationTests.csproj", "{B72F4E2B-F567-4340-B2C6-E4157484BF7E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fluxera.Repository.UnitTests.Core", "tests\Fluxera.Repository.UnitTests.Core\Fluxera.Repository.UnitTests.Core.csproj", "{4C12619F-7219-4C08-9FA6-1E9985B4151C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -73,6 +77,14 @@ Global
 		{54D14DE4-2FBC-4AE9-B794-BE8792FAAF99}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{54D14DE4-2FBC-4AE9-B794-BE8792FAAF99}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{54D14DE4-2FBC-4AE9-B794-BE8792FAAF99}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B72F4E2B-F567-4340-B2C6-E4157484BF7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B72F4E2B-F567-4340-B2C6-E4157484BF7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B72F4E2B-F567-4340-B2C6-E4157484BF7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B72F4E2B-F567-4340-B2C6-E4157484BF7E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C12619F-7219-4C08-9FA6-1E9985B4151C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C12619F-7219-4C08-9FA6-1E9985B4151C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C12619F-7219-4C08-9FA6-1E9985B4151C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C12619F-7219-4C08-9FA6-1E9985B4151C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -86,6 +98,8 @@ Global
 		{4E24EB48-DD12-4779-8507-A552DE84789C} = {DF28D730-99B3-4811-AAC7-725A73B3F668}
 		{69AE15E5-6E1A-472C-85B0-3B93DCB8998F} = {DF28D730-99B3-4811-AAC7-725A73B3F668}
 		{54D14DE4-2FBC-4AE9-B794-BE8792FAAF99} = {DF28D730-99B3-4811-AAC7-725A73B3F668}
+		{B72F4E2B-F567-4340-B2C6-E4157484BF7E} = {F18D2D58-282C-4D93-8D9A-3A76CF98F018}
+		{4C12619F-7219-4C08-9FA6-1E9985B4151C} = {F18D2D58-282C-4D93-8D9A-3A76CF98F018}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D97BF2AF-6E68-4E88-BF70-773A86E26013}

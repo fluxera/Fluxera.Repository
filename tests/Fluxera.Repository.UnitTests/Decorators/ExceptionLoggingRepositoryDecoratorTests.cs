@@ -4,7 +4,7 @@
 	using System.Threading.Tasks;
 	using FluentAssertions;
 	using Fluxera.Repository.Decorators;
-	using Fluxera.Repository.UnitTests.PersonAggregate;
+	using Fluxera.Repository.UnitTests.Core.PersonAggregate;
 	using Microsoft.Extensions.DependencyInjection;
 	using Microsoft.Extensions.Logging;
 	using Moq;
@@ -25,7 +25,6 @@
 
 			services.AddLogging(builder =>
 			{
-				builder.SetMinimumLevel(LogLevel.Trace);
 				builder.AddMock(this.loggerMock);
 			});
 		}
@@ -44,7 +43,18 @@
 		{
 			await this.ShouldLogException(async () =>
 			{
-				await this.Repository.AddAsync(Persons.Transient);
+				Person[] persons =
+				{
+					new Person
+					{
+						Name = "Tester"
+					},
+					new Person
+					{
+						Name = "Tester"
+					}
+				};
+				await this.Repository.AddAsync(persons);
 			});
 		}
 
@@ -53,7 +63,10 @@
 		{
 			await this.ShouldLogException(async () =>
 			{
-				await this.Repository.AddAsync(Person.Transient);
+				await this.Repository.AddAsync(new Person
+				{
+					Name = "Tester"
+				});
 			});
 		}
 
@@ -161,7 +174,20 @@
 		{
 			await this.ShouldLogException(async () =>
 			{
-				await this.Repository.RemoveAsync(Person.NotTransient);
+				Person[] persons =
+				{
+					new Person
+					{
+						ID = "1",
+						Name = "Tester"
+					},
+					new Person
+					{
+						ID = "2",
+						Name = "Tester"
+					}
+				};
+				await this.Repository.RemoveAsync(persons);
 			});
 		}
 
@@ -179,7 +205,20 @@
 		{
 			await this.ShouldLogException(async () =>
 			{
-				await this.Repository.UpdateAsync(Persons.NotTransient);
+				Person[] persons =
+				{
+					new Person
+					{
+						ID = "1",
+						Name = "Tester"
+					},
+					new Person
+					{
+						ID = "2",
+						Name = "Tester"
+					}
+				};
+				await this.Repository.UpdateAsync(persons);
 			});
 		}
 
@@ -188,7 +227,11 @@
 		{
 			await this.ShouldLogException(async () =>
 			{
-				await this.Repository.UpdateAsync(Person.NotTransient);
+				await this.Repository.UpdateAsync(new Person
+				{
+					ID = "1",
+					Name = "Tester"
+				});
 			});
 		}
 	}

@@ -108,6 +108,7 @@
 				lock(syncRoot)
 				{
 					this.store.TryRemove(item.ID, out _);
+					item.ID = null;
 				}
 			}, cancellationToken).ConfigureAwait(false);
 		}
@@ -119,7 +120,8 @@
 			{
 				lock(syncRoot)
 				{
-					this.store.TryRemove(id, out _);
+					this.store.TryRemove(id, out TAggregateRoot item);
+					item.ID = null;
 				}
 			}, cancellationToken).ConfigureAwait(false);
 		}
@@ -131,8 +133,9 @@
 			{
 				lock(syncRoot)
 				{
-					TAggregateRoot item = this.Queryable.Where(predicate).FirstOrDefault();
+					TAggregateRoot item = this.Queryable.FirstOrDefault(predicate);
 					this.store.TryRemove(item.ID, out _);
+					item.ID = null;
 				}
 			}, cancellationToken).ConfigureAwait(false);
 		}
@@ -147,6 +150,7 @@
 					foreach(TAggregateRoot item in items)
 					{
 						this.store.TryRemove(item.ID, out _);
+						item.ID = null;
 					}
 				}
 			}, cancellationToken).ConfigureAwait(false);

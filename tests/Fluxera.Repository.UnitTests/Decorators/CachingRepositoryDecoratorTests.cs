@@ -5,7 +5,7 @@
 	using FluentAssertions;
 	using Fluxera.Repository.Caching;
 	using Fluxera.Repository.Decorators;
-	using Fluxera.Repository.UnitTests.PersonAggregate;
+	using Fluxera.Repository.UnitTests.Core.PersonAggregate;
 	using Microsoft.Extensions.DependencyInjection;
 	using NUnit.Framework;
 
@@ -38,7 +38,18 @@
 		[Test]
 		public async Task Should_AddAsync_Multiple()
 		{
-			await this.Repository.AddAsync(Persons.Transient);
+			Person[] persons =
+			{
+				new Person
+				{
+					Name = "Tester"
+				},
+				new Person
+				{
+					Name = "Tester"
+				}
+			};
+			await this.Repository.AddAsync(persons);
 
 			this.ShouldHaveUsedStrategy(x => x.AddMultipleWasCalled);
 		}
@@ -46,7 +57,10 @@
 		[Test]
 		public async Task Should_AddAsync_Single()
 		{
-			await this.Repository.AddAsync(Person.Transient);
+			await this.Repository.AddAsync(new Person
+			{
+				Name = "Tester"
+			});
 
 			this.ShouldHaveUsedStrategy(x => x.AddSingleWasCalled);
 		}
@@ -134,7 +148,20 @@
 		[Test]
 		public async Task Should_RemoveAsync_Multiple_Predicate()
 		{
-			await this.Repository.RemoveAsync(Persons.NotTransient);
+			Person[] persons =
+			{
+				new Person
+				{
+					ID = "1",
+					Name = "Tester"
+				},
+				new Person
+				{
+					ID = "2",
+					Name = "Tester"
+				}
+			};
+			await this.Repository.RemoveAsync(persons);
 
 			this.ShouldHaveUsedStrategy(x => x.RemoveMultipleWasCalled);
 		}
@@ -142,7 +169,11 @@
 		[Test]
 		public async Task Should_RemoveAsync_Single()
 		{
-			await this.Repository.RemoveAsync(Person.NotTransient);
+			await this.Repository.RemoveAsync(new Person
+			{
+				ID = "2",
+				Name = "Tester"
+			});
 
 			this.ShouldHaveUsedStrategy(x => x.RemoveSingleWasCalled);
 		}
@@ -158,7 +189,18 @@
 		[Test]
 		public async Task Should_UpdateAsync_Multiple()
 		{
-			await this.Repository.UpdateAsync(Persons.NotTransient);
+			Person[] persons =
+			{
+				new Person
+				{
+					Name = "Tester"
+				},
+				new Person
+				{
+					Name = "Tester"
+				}
+			};
+			await this.Repository.UpdateAsync(persons);
 
 			this.ShouldHaveUsedStrategy(x => x.UpdateMultipleWasCalled);
 		}
@@ -166,7 +208,11 @@
 		[Test]
 		public async Task Should_UpdateAsync_Single()
 		{
-			await this.Repository.UpdateAsync(Person.NotTransient);
+			await this.Repository.UpdateAsync(new Person
+			{
+				ID = "1",
+				Name = "Tester"
+			});
 
 			this.ShouldHaveUsedStrategy(x => x.UpdateSingleWasCalled);
 		}

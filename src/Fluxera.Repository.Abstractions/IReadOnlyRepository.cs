@@ -20,6 +20,9 @@
 		ICanAggregate<TAggregateRoot>
 		where TAggregateRoot : AggregateRoot<TAggregateRoot>
 	{
+		/// <summary>
+		///     Checks it this repository instance was disposed.
+		/// </summary>
 		bool IsDisposed { get; }
 	}
 }

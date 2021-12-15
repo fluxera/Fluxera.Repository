@@ -5,7 +5,7 @@
 	using System.Threading.Tasks;
 	using FluentAssertions;
 	using Fluxera.Repository.Decorators;
-	using Fluxera.Repository.UnitTests.PersonAggregate;
+	using Fluxera.Repository.UnitTests.Core.PersonAggregate;
 	using NUnit.Framework;
 
 	[TestFixture]
@@ -72,17 +72,35 @@
 		[Test]
 		public void ShouldGuard_AddAsync_Multiple()
 		{
-			this.ShouldGuardAgainstNull(async () => await this.Repository.AddAsync(Persons.Null));
-			this.ShouldGuardAgainstNotTransient(async () => await this.Repository.AddAsync(Persons.NotTransient));
-			this.ShouldGuardAgainstDisposed(async () => await this.Repository.AddAsync(Persons.Valid));
+			Person[] persons =
+			{
+				new Person
+				{
+					ID = "1",
+					Name = "Tester"
+				},
+				new Person
+				{
+					ID = "2",
+					Name = "Tester"
+				}
+			};
+			this.ShouldGuardAgainstNull(async () => await this.Repository.AddAsync((Person[])null));
+			this.ShouldGuardAgainstNotTransient(async () => await this.Repository.AddAsync(persons));
+			this.ShouldGuardAgainstDisposed(async () => await this.Repository.AddAsync(persons));
 		}
 
 		[Test]
 		public void ShouldGuard_AddAsync_Single()
 		{
-			this.ShouldGuardAgainstNull(async () => await this.Repository.AddAsync(Person.Null));
-			this.ShouldGuardAgainstNotTransient(async () => await this.Repository.AddAsync(Person.NotTransient));
-			this.ShouldGuardAgainstDisposed(async () => await this.Repository.AddAsync(Person.Valid));
+			Person person = new Person
+			{
+				ID = "1",
+				Name = "Tester"
+			};
+			this.ShouldGuardAgainstNull(async () => await this.Repository.AddAsync((Person)null));
+			this.ShouldGuardAgainstNotTransient(async () => await this.Repository.AddAsync(person));
+			this.ShouldGuardAgainstDisposed(async () => await this.Repository.AddAsync(person));
 		}
 
 		[Test]
@@ -172,9 +190,14 @@
 		[Test]
 		public void ShouldGuard_RemoveAsync_Single()
 		{
-			this.ShouldGuardAgainstNull(async () => await this.Repository.RemoveAsync(Person.Null));
-			this.ShouldGuardAgainstNotTransient(async () => await this.Repository.RemoveAsync(Person.NotTransient));
-			this.ShouldGuardAgainstDisposed(async () => await this.Repository.RemoveAsync(Person.Valid));
+			Person person = new Person
+			{
+				ID = "1",
+				Name = "Tester"
+			};
+			this.ShouldGuardAgainstNull(async () => await this.Repository.RemoveAsync((Person)null));
+			this.ShouldGuardAgainstNotTransient(async () => await this.Repository.RemoveAsync(person));
+			this.ShouldGuardAgainstDisposed(async () => await this.Repository.RemoveAsync(person));
 		}
 
 		[Test]
@@ -189,17 +212,46 @@
 		[Test]
 		public void ShouldGuard_UpdateAsync_Multiple()
 		{
-			this.ShouldGuardAgainstNull(async () => await this.Repository.UpdateAsync(Persons.Null));
-			this.ShouldGuardAgainstTransient(async () => await this.Repository.UpdateAsync(Persons.Transient));
-			this.ShouldGuardAgainstDisposed(async () => await this.Repository.UpdateAsync(Persons.Valid));
+			Person[] persons =
+			{
+				new Person
+				{
+					Name = "Tester"
+				},
+				new Person
+				{
+					Name = "Tester"
+				}
+			};
+			Person[] validPersons =
+			{
+				new Person
+				{
+					Name = "Tester"
+				},
+				new Person
+				{
+					Name = "Tester"
+				}
+			};
+			this.ShouldGuardAgainstNull(async () => await this.Repository.UpdateAsync((Person[])null));
+			this.ShouldGuardAgainstTransient(async () => await this.Repository.UpdateAsync(persons));
+			this.ShouldGuardAgainstDisposed(async () => await this.Repository.UpdateAsync(validPersons));
 		}
 
 		[Test]
 		public void ShouldGuard_UpdateAsync_Single()
 		{
-			this.ShouldGuardAgainstNull(async () => await this.Repository.UpdateAsync(Person.Null));
-			this.ShouldGuardAgainstTransient(async () => await this.Repository.UpdateAsync(Person.Transient));
-			this.ShouldGuardAgainstDisposed(async () => await this.Repository.UpdateAsync(Person.Valid));
+			this.ShouldGuardAgainstNull(async () => await this.Repository.UpdateAsync((Person)null));
+			this.ShouldGuardAgainstTransient(async () => await this.Repository.UpdateAsync(new Person
+			{
+				Name = "Tester"
+			}));
+			this.ShouldGuardAgainstDisposed(async () => await this.Repository.UpdateAsync(new Person
+			{
+				ID = "1",
+				Name = "Tester"
+			}));
 		}
 	}
 }

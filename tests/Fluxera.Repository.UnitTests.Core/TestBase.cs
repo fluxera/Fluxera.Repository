@@ -1,4 +1,4 @@
-﻿namespace Fluxera.Repository.UnitTests
+﻿namespace Fluxera.Repository.UnitTests.Core
 {
 	using System;
 	using Microsoft.Extensions.DependencyInjection;

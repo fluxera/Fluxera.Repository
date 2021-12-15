@@ -1,4 +1,4 @@
-﻿namespace Fluxera.Repository.UnitTests.PersonAggregate
+﻿namespace Fluxera.Repository.UnitTests.Core.PersonAggregate
 {
 	using Fluxera.Entity.DomainEvents;
 
