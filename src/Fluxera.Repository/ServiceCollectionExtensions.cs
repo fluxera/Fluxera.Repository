@@ -14,7 +14,6 @@
 	using Fluxera.Utilities.Extensions;
 	using JetBrains.Annotations;
 	using Microsoft.Extensions.DependencyInjection;
-	using Microsoft.Extensions.DependencyInjection.Extensions;
 
 	[PublicAPI]
 	public static class ServiceCollectionExtensions
@@ -24,9 +23,8 @@
 			Guard.Against.Null(services, nameof(services));
 			Guard.Against.Null(configure, nameof(configure));
 
-			// Add the repository registry singleton instance.
-			IRepositoryRegistry repositoryRegistry = new RepositoryRegistry();
-			services.TryAddSingleton(repositoryRegistry);
+			// Add the repository registry singleton.
+			services.AddSingleton<IRepositoryRegistry, RepositoryRegistry>();
 
 			// Build the options of the repositories.
 			IRepositoryBuilder repositoryBuilder = new RepositoryBuilder(services);
@@ -53,9 +51,9 @@
 			{
 				builder.AddDomainEventHandlers(() =>
 				{
-					IReadOnlyCollection<RepositoryOptions> repositoryOptions = repositoryRegistry.GetRepositoryOptions();
+					RepositoryOptionsList repositoryOptionsList = services.GetSingletonInstance<RepositoryOptionsList>();
 					IList<Assembly> domainEventHandlerAssemblies = new List<Assembly>();
-					repositoryOptions.ForEach(x => domainEventHandlerAssemblies.AddRange(x.DomainEventsOptions.DomainEventHandlersAssemblies));
+					repositoryOptionsList.ForEach(x => domainEventHandlerAssemblies.AddRange(x.DomainEventsOptions.DomainEventHandlersAssemblies));
 					return domainEventHandlerAssemblies.AsReadOnly();
 				});
 			});

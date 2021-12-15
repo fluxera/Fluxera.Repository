@@ -37,7 +37,5 @@
 		/// </summary>
 		/// <returns>The options collection.</returns>
 		IReadOnlyCollection<RepositoryOptions> GetRepositoryOptions();
-
-		internal void Register(RepositoryName repositoryName, RepositoryOptions repositoryOptions);
 	}
 }

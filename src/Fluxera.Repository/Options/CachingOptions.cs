@@ -5,14 +5,14 @@ namespace Fluxera.Repository.Options
 	[PublicAPI]
 	public sealed class CachingOptions
 	{
-		public CachingOptions(string repositoryName)
+		public CachingOptions(RepositoryName repositoryName)
 		{
 			this.RepositoryName = repositoryName;
 		}
 
 		// TODO: Enable/Disable for specific aggregates.
 
-		public string RepositoryName { get; }
+		public RepositoryName RepositoryName { get; }
 
 		public bool Enabled { get; set; }
 	}

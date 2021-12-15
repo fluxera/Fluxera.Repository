@@ -5,12 +5,12 @@ namespace Fluxera.Repository.Options
 	[PublicAPI]
 	public sealed class ValidationOptions
 	{
-		public ValidationOptions(string repositoryName)
+		public ValidationOptions(RepositoryName repositoryName)
 		{
 			this.RepositoryName = repositoryName;
 		}
 
-		public string RepositoryName { get; }
+		public RepositoryName RepositoryName { get; }
 
 		//public IList<Type> ValidatorFactoryTypes { get; } = new List<Type>();
 

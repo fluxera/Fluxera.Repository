@@ -6,6 +6,7 @@
 	public interface IValidationOptionsBuilder
 	{
 		string RepositoryName { get; }
+
 		IValidationOptionsBuilder AddValidatorFactory(Action<IValidationBuilder> configure);
 	}
 }

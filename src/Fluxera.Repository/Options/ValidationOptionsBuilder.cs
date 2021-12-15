@@ -11,7 +11,7 @@
 		public ValidationOptionsBuilder(IValidationBuilder validationBuilder, RepositoryOptions repositoryOptions)
 		{
 			this.validationBuilder = validationBuilder;
-			this.RepositoryName = repositoryOptions.RepositoryName;
+			this.RepositoryName = (string)repositoryOptions.RepositoryName;
 		}
 
 		public string RepositoryName { get; }

@@ -23,7 +23,7 @@
 			Guard.Against.Null(repositoryType, nameof(repositoryType));
 
 			this.services = services;
-			this.repositoryOptions = new RepositoryOptions(repositoryName, repositoryType);
+			this.repositoryOptions = new RepositoryOptions((RepositoryName)repositoryName, repositoryType);
 		}
 
 		public IRepositoryOptionsBuilder UseFor(IEnumerable<Assembly> assemblies)

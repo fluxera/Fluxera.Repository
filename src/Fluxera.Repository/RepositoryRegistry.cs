@@ -3,6 +3,7 @@
 	using System;
 	using System.Collections.Concurrent;
 	using System.Collections.Generic;
+	using System.Linq;
 	using Fluxera.Entity;
 	using Fluxera.Repository.Options;
 	using Fluxera.Utilities.Extensions;
@@ -14,6 +15,12 @@
 		private readonly IDictionary<RepositoryName, RepositoryOptions> repositories = new ConcurrentDictionary<RepositoryName, RepositoryOptions>();
 
 		private readonly IDictionary<Type, RepositoryName> repositoryMappings = new ConcurrentDictionary<Type, RepositoryName>();
+		private readonly RepositoryOptionsList repositoryOptionsList;
+
+		public RepositoryRegistry(RepositoryOptionsList repositoryOptionsList)
+		{
+			this.repositoryOptionsList = repositoryOptionsList;
+		}
 
 		/// <inheritdoc />
 		void IDisposable.Dispose()
@@ -22,8 +29,63 @@
 			this.repositoryMappings.Clear();
 		}
 
-		void IRepositoryRegistry.Register(RepositoryName repositoryName, RepositoryOptions repositoryOptions)
+		public RepositoryName GetRepositoryNameFor(Type repositoryType)
 		{
+			this.EnsureInitialized();
+
+			RepositoryName? repositoryName = this.repositoryMappings.GetOrDefault(repositoryType);
+			if(repositoryName is null)
+			{
+				throw Errors.NoRepositoryNameAvailable(repositoryType);
+			}
+
+			return repositoryName;
+		}
+
+		public RepositoryName GetRepositoryNameFor<TAggregateRoot>() where TAggregateRoot : AggregateRoot<TAggregateRoot>
+		{
+			this.EnsureInitialized();
+
+			return this.GetRepositoryNameFor(typeof(TAggregateRoot));
+		}
+
+		public RepositoryOptions GetRepositoryOptionsFor(RepositoryName repositoryName)
+		{
+			this.EnsureInitialized();
+
+			RepositoryOptions? repositoryOptions = this.repositories.GetOrDefault(repositoryName);
+			if(repositoryOptions is null)
+			{
+				throw Errors.NoRepositoryOptionsAvailable(repositoryName);
+			}
+
+			return repositoryOptions;
+		}
+
+		public IReadOnlyCollection<RepositoryOptions> GetRepositoryOptions()
+		{
+			this.EnsureInitialized();
+
+			return this.repositories.Values.AsReadOnly();
+		}
+
+		private void EnsureInitialized()
+		{
+			if(this.repositories.Any() && this.repositoryMappings.Any())
+			{
+				return;
+			}
+
+			foreach(RepositoryOptions repositoryOptions in this.repositoryOptionsList)
+			{
+				this.Register(repositoryOptions);
+			}
+		}
+
+		private void Register(RepositoryOptions repositoryOptions)
+		{
+			RepositoryName repositoryName = repositoryOptions.RepositoryName;
+
 			if(!this.repositories.ContainsKey(repositoryName))
 			{
 				this.repositories.Add(repositoryName, repositoryOptions);
@@ -44,38 +106,6 @@
 			{
 				throw new InvalidOperationException($"A repository with the name '{repositoryName}' was already added.");
 			}
-		}
-
-		public RepositoryName GetRepositoryNameFor(Type repositoryType)
-		{
-			RepositoryName? repositoryName = this.repositoryMappings.GetOrDefault(repositoryType);
-			if(repositoryName is null)
-			{
-				throw Errors.NoRepositoryNameAvailable(repositoryType);
-			}
-
-			return repositoryName;
-		}
-
-		public RepositoryName GetRepositoryNameFor<TAggregateRoot>() where TAggregateRoot : AggregateRoot<TAggregateRoot>
-		{
-			return this.GetRepositoryNameFor(typeof(TAggregateRoot));
-		}
-
-		public RepositoryOptions GetRepositoryOptionsFor(RepositoryName repositoryName)
-		{
-			RepositoryOptions? repositoryOptions = this.repositories.GetOrDefault(repositoryName);
-			if(repositoryOptions is null)
-			{
-				throw Errors.NoRepositoryOptionsAvailable(repositoryName);
-			}
-
-			return repositoryOptions;
-		}
-
-		public IReadOnlyCollection<RepositoryOptions> GetRepositoryOptions()
-		{
-			return this.repositories.Values.AsReadOnly();
 		}
 	}
 }

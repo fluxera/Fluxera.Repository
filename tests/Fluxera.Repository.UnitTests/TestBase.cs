@@ -4,7 +4,7 @@
 	using Microsoft.Extensions.DependencyInjection;
 	using Microsoft.Extensions.Logging;
 
-	public class TestBase
+	public abstract class TestBase
 	{
 		protected static IServiceProvider BuildServiceProvider(Action<IServiceCollection> configure)
 		{

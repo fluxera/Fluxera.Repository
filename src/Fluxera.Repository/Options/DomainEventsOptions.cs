@@ -7,12 +7,12 @@
 	[PublicAPI]
 	public sealed class DomainEventsOptions
 	{
-		public DomainEventsOptions(string repositoryName)
+		public DomainEventsOptions(RepositoryName repositoryName)
 		{
 			this.RepositoryName = repositoryName;
 		}
 
-		public string RepositoryName { get; }
+		public RepositoryName RepositoryName { get; }
 
 		public bool IsEnabled { get; set; }
 

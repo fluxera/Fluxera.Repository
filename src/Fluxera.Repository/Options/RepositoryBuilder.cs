@@ -45,8 +45,14 @@
 				this.Services.AddTransient(serviceType, implementationType);
 			}
 
-			IRepositoryRegistry repositoryRegistry = this.Services.GetSingletonInstance<IRepositoryRegistry>();
-			repositoryRegistry.Register((RepositoryName)repositoryName, repositoryOptions);
+			RepositoryOptionsList? repositoryOptionsList = this.Services.GetSingletonInstanceOrDefault<RepositoryOptionsList>();
+			if(repositoryOptionsList is null)
+			{
+				repositoryOptionsList = new RepositoryOptionsList();
+				this.Services.AddSingleton(repositoryOptionsList);
+			}
+
+			repositoryOptionsList.Add(repositoryOptions);
 
 			return this;
 		}
