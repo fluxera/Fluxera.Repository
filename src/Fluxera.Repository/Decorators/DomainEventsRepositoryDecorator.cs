@@ -110,7 +110,7 @@
 		/// <inheritdoc />
 		async Task ICanRemove<TAggregateRoot>.RemoveAsync(string id, CancellationToken cancellationToken)
 		{
-			TAggregateRoot item = await this.innerRepository.GetAsync(id, cancellationToken);
+			TAggregateRoot item = await this.innerRepository.GetAsync(id, cancellationToken).ConfigureAwait(false);
 
 			await this.DispatchAsync(item).ConfigureAwait(false);
 

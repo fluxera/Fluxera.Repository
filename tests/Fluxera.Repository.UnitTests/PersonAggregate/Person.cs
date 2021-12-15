@@ -8,7 +8,11 @@
 	{
 		public static readonly Person Valid = new Person
 		{
-			Name = "Tester"
+			Name = "Tester",
+			DomainEvents =
+			{
+				new PersonDomainEvent()
+			}
 		};
 
 		public static readonly Person Invalid = new Person();
@@ -18,7 +22,11 @@
 		public static readonly Person NotTransient = new Person
 		{
 			ID = Guid.NewGuid().ToString(),
-			Name = "Tester"
+			Name = "Tester",
+			DomainEvents =
+			{
+				new PersonDomainEvent()
+			}
 		};
 
 		public static readonly Person Transient = Valid;

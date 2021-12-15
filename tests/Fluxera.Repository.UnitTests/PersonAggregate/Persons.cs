@@ -9,6 +9,14 @@
 			new Person
 			{
 				Name = "Tester"
+			},
+			new Person
+			{
+				Name = "Tester",
+				DomainEvents =
+				{
+					new PersonDomainEvent()
+				}
 			}
 		};
 
@@ -35,7 +43,11 @@
 			new Person
 			{
 				ID = Guid.NewGuid().ToString(),
-				Name = "Tester"
+				Name = "Tester",
+				DomainEvents =
+				{
+					new PersonDomainEvent()
+				}
 			}
 		};
 
@@ -47,7 +59,11 @@
 			},
 			new Person
 			{
-				Name = "Tester"
+				Name = "Tester",
+				DomainEvents =
+				{
+					new PersonDomainEvent()
+				}
 			}
 		};
 	}
