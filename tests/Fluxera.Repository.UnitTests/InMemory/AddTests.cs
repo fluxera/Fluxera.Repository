@@ -1,11 +1,9 @@
-﻿//namespace Fluxera.Repository.UnitTests.InMemory
-//{
-//	using NUnit.Framework;
+﻿namespace Fluxera.Repository.UnitTests.InMemory
+{
+	using NUnit.Framework;
 
-//	[TestFixture]
-//	public class AddTests : AddTestBase
-//	{
-//	}
-//}
-
-
+	[TestFixture]
+	public class AddTests : AddTestBase
+	{
+	}
+}

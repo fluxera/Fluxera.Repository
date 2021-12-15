@@ -233,7 +233,7 @@
 
 		private async Task DispatchAsync(TAggregateRoot item)
 		{
-			this.logger.LogTrace($"Dispatching domain events (Before commit): Type = {typeof(TAggregateRoot)}, Count = {item.DomainEvents.Count}");
+			this.logger.LogTrace($"Dispatching domain events (Before commit): Type = {typeof(TAggregateRoot).Name}, Count = {item.DomainEvents.Count}");
 
 			foreach(IDomainEvent domainEvent in item.DomainEvents)
 			{
@@ -251,7 +251,7 @@
 
 		private async Task DispatchCommittedAsync(TAggregateRoot item)
 		{
-			this.logger.LogTrace($"Dispatching domain events (After commit): Type = {typeof(TAggregateRoot)}, Count = {item.DomainEvents.Count}");
+			this.logger.LogTrace($"Dispatching domain events (After commit): Type = {typeof(TAggregateRoot).Name}, Count = {item.DomainEvents.Count}");
 
 			foreach(IDomainEvent domainEvent in item.DomainEvents)
 			{
