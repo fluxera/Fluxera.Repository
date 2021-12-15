@@ -7,24 +7,23 @@
 	using Microsoft.Extensions.DependencyInjection;
 
 	[PublicAPI]
-	public sealed class RepositoryBuilder : IRepositoryBuilder
+	internal sealed class RepositoryBuilder : IRepositoryBuilder
 	{
-		private readonly IServiceCollection services;
-
 		public RepositoryBuilder(IServiceCollection services)
 		{
 			Guard.Against.Null(services, nameof(services));
 
-			this.services = services;
+			this.Services = services;
 		}
 
+		/// <inheritdoc />
 		public IRepositoryBuilder AddRepository(string repositoryName, Type repositoryType, Action<IRepositoryOptionsBuilder> configure)
 		{
 			Guard.Against.NullOrWhiteSpace(repositoryName, nameof(repositoryName));
 			Guard.Against.Null(repositoryType, nameof(repositoryType));
 			Guard.Against.Null(configure, nameof(configure));
 
-			RepositoryOptionsBuilder repositoryOptionsBuilder = new RepositoryOptionsBuilder(this.services, repositoryName, repositoryType);
+			RepositoryOptionsBuilder repositoryOptionsBuilder = new RepositoryOptionsBuilder(this.Services, repositoryName, repositoryType);
 			configure.Invoke(repositoryOptionsBuilder);
 			RepositoryOptions repositoryOptions = repositoryOptionsBuilder.Build();
 
@@ -36,20 +35,23 @@
 			{
 				Type serviceType = repositoryServiceTemplateType.MakeGenericType(aggregateRootType);
 				Type implementationType = repositoryImplementationTemplateType.MakeGenericType(aggregateRootType);
-				this.services.AddTransient(serviceType, implementationType);
+				this.Services.AddTransient(serviceType, implementationType);
 			}
 
 			foreach(Type aggregateRootType in repositoryOptions.AggregateRootTypes)
 			{
 				Type serviceType = readOnlyRepositoryServiceTemplateType.MakeGenericType(aggregateRootType);
 				Type implementationType = repositoryImplementationTemplateType.MakeGenericType(aggregateRootType);
-				this.services.AddTransient(serviceType, implementationType);
+				this.Services.AddTransient(serviceType, implementationType);
 			}
 
-			IRepositoryRegistry repositoryRegistry = this.services.GetSingletonInstance<IRepositoryRegistry>();
+			IRepositoryRegistry repositoryRegistry = this.Services.GetSingletonInstance<IRepositoryRegistry>();
 			repositoryRegistry.Register((RepositoryName)repositoryName, repositoryOptions);
 
 			return this;
 		}
+
+		/// <inheritdoc />
+		public IServiceCollection Services { get; }
 	}
 }

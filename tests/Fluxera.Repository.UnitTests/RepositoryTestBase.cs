@@ -1,7 +1,7 @@
 ﻿namespace Fluxera.Repository.UnitTests
 {
 	using System;
-	using Fluxera.Repository.Storage.InMemory;
+	using Fluxera.Repository.InMemory;
 	using Fluxera.Repository.UnitTests.PersonAggregate;
 	using Microsoft.Extensions.DependencyInjection;
 	using NUnit.Framework;

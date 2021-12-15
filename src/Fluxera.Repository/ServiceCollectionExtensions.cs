@@ -60,9 +60,6 @@
 				});
 			});
 
-			// Register service that provides the registered repository name for a given aggregate root.
-			services.AddTransient<IRepositoryNameProvider, RepositoryNameProvider>();
-
 			// Register the repository configuration provider.
 			services.AddTransient<IRepositoryOptionsProvider, RepositoryOptionsProvider>();
 

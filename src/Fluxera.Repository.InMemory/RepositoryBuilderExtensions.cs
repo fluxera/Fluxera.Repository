@@ -1,4 +1,4 @@
-﻿namespace Fluxera.Repository.Storage.InMemory
+﻿namespace Fluxera.Repository.InMemory
 {
 	using System;
 	using Fluxera.Guards;

@@ -1,4 +1,4 @@
-﻿namespace Fluxera.Repository.Storage.EntityFramework
+﻿namespace Fluxera.Repository.EntityFramework
 {
 	using Fluxera.Repository.Options;
 	using Fluxera.Utilities.Extensions;

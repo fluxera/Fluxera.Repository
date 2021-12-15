@@ -5,7 +5,7 @@
 	using System.Threading.Tasks;
 	using FluentAssertions;
 	using Fluxera.Extensions.Validation.DataAnnotations;
-	using Fluxera.Repository.Storage.InMemory;
+	using Fluxera.Repository.InMemory;
 	using Fluxera.Repository.UnitTests.PersonAggregate;
 	using Microsoft.Extensions.DependencyInjection;
 	using NUnit.Framework;
