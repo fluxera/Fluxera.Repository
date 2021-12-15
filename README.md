@@ -3,9 +3,14 @@ A generic repository implementation.
 
 ## Repository Decorators Hierarchy
 
--> Guards
-    -> Interception
-		-> Validation
-			-> Caching
-				-> Domain Events
-					-> Store Specific Provider
+```plaintext
+
+-> Exception Logging
+    -> Guards
+        -> Interception
+            -> Validation
+                -> Caching
+                    -> Domain Events
+                        -> Store Specific Repository
+
+```
