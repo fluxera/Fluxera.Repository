@@ -44,7 +44,7 @@
 		{
 			await this.ShouldLogException(async () =>
 			{
-				await this.Repository.AddAsync(Person.Transient);
+				await this.Repository.AddAsync(Persons.Transient);
 			});
 		}
 
@@ -53,7 +53,7 @@
 		{
 			await this.ShouldLogException(async () =>
 			{
-				await this.Repository.AddAsync(Persons.Transient);
+				await this.Repository.AddAsync(Person.Transient);
 			});
 		}
 

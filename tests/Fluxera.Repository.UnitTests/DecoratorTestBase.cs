@@ -12,20 +12,24 @@
 
 		protected abstract Type DecoratorType { get; }
 
+		protected virtual Type RepositoryType => typeof(TestRepository<Person>);
+
+		protected IServiceProvider ServiceProvider { get; private set; }
+
 		[SetUp]
 		public void SetUp()
 		{
-			IServiceProvider serviceProvider = BuildServiceProvider(services =>
+			this.ServiceProvider = BuildServiceProvider(services =>
 			{
 				services
-					.AddTransient<IRepository<Person>, TestRepository<Person>>()
+					.AddTransient(typeof(IRepository<Person>), this.RepositoryType)
 					.Decorate(typeof(IRepository<>))
 					.With(this.DecoratorType);
 
 				this.ConfigureServices(services);
 			});
 
-			this.Repository = serviceProvider.GetRequiredService<IRepository<Person>>();
+			this.Repository = this.ServiceProvider.GetRequiredService<IRepository<Person>>();
 		}
 
 		protected virtual void ConfigureServices(IServiceCollection services)

@@ -10,28 +10,33 @@
 
 	public class TestCachingStrategy<T> : ICachingStrategy<T> where T : AggregateRoot<T>
 	{
+		public bool AddMultipleWasCalled;
+		public bool AddSingleWasCalled;
+		public bool UpdateMultipleWasCalled;
+		public bool UpdateSingleWasCalled;
+
 		/// <inheritdoc />
 		async Task ICachingStrategy<T>.AddAsync(T item)
 		{
-			throw new NotImplementedException();
+			this.AddSingleWasCalled = true;
 		}
 
 		/// <inheritdoc />
 		async Task ICachingStrategy<T>.AddAsync(IEnumerable<T> items)
 		{
-			throw new NotImplementedException();
+			this.AddMultipleWasCalled = true;
 		}
 
 		/// <inheritdoc />
 		async Task ICachingStrategy<T>.UpdateAsync(T item)
 		{
-			throw new NotImplementedException();
+			this.UpdateSingleWasCalled = true;
 		}
 
 		/// <inheritdoc />
 		async Task ICachingStrategy<T>.UpdateAsync(IEnumerable<T> items)
 		{
-			throw new NotImplementedException();
+			this.UpdateMultipleWasCalled = true;
 		}
 
 		/// <inheritdoc />
