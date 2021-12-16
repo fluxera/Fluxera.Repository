@@ -20,9 +20,10 @@ stages:
       persistCredentials: 'true'
       clean: true
     # Run GitVersion to acquire the current build version.  
-    - task: GitVersionNetCore@5
+    - task: GitVersion@5
       displayName: 'Acquire and Apply Version'
       inputs:
+        runtime: 'core'
         updateAssemblyInfo: true
         updateAssemblyInfoFilename: 'src/SolutionInfo.cs'
         additionalArguments: '/ensureassemblyinfo'
