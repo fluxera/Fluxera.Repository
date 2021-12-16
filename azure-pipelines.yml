@@ -19,14 +19,6 @@ stages:
     - checkout: self
       persistCredentials: 'true'
       clean: true
-    # Run GitVersion to acquire the current build version.   
-    - task: gitversion/execute@0
-      inputs:
-        useConfigFile: true
-        configFilePath: 'GitVersion.yml'
-        updateAssemblyInfo: true
-        updateAssemblyInfoFilename: './src/SolutionInfo.cs'
-        additionalArguments: '/ensureassemblyinfo'
     # Install the desired .NET SDK.   
     - task: UseDotNet@2
       displayName: 'Acquire .NET SDK'
@@ -49,23 +41,6 @@ stages:
         projects: '**/*Tests/*.csproj'
         arguments: '--configuration $(BuildConfiguration)'
         nobuild: true
-    # Set the version to a environment variable. This will be used in the NuGet pack task.
-    - script: echo %Action%%SemVerEnv%
-      displayName: 'Set Package Version Variable'
-      env:
-        Action: '##vso[task.setvariable variable=NuGetPackageVersion]'
-        SemVerEnv: $(GitVersion.SemVer)
-    # Create the NuGet packages.
-    - task: DotNetCoreCLI@2
-      displayName: 'NuGet Pack Packages'
-      inputs:
-        command: 'pack'
-        packagesToPack: 'src/**/*.csproj'
-        nobuild: true
-        versioningScheme: 'byEnvVar'
-        versionEnvVar: 'NuGetPackageVersion'
-        verbosityPack: Minimal
-        includesymbols: false
     # Copy created NuGet packages to the builds artifacts directory.
     - task: PublishBuildArtifacts@1
       displayName: 'NuGet Publish Package Artifacts'
