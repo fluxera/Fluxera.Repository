@@ -5,14 +5,11 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<PackageTags>fluxera;library;extensions;repository</PackageTags>
+		<Title>Fluxera.Repository.Abstractions</Title>
 		<Description>The abstractions for the generic repository implementation.</Description>
+		<PackageTags>fluxera;library;extensions;repository</PackageTags>
 		<RootNamespace>$(MSBuildProjectName.Replace(" ", "_").Replace(".Abstractions",""))</RootNamespace>
 	</PropertyGroup>
-
-	<ItemGroup>
-		<Compile Include="..\SolutionInfo.cs" Link="Properties\SolutionInfo.cs" />
-	</ItemGroup>
 
 	<ItemGroup>
 		<None Include="..\..\README.md" Link="Properties\README.md">
@@ -28,6 +25,10 @@
 	<ItemGroup>
 	  <PackageReference Include="Fluxera.Entity" Version="6.0.7" />
 	  <PackageReference Include="Fluxera.Extensions.Validation.Abstractions" Version="6.0.13" />
+	  <PackageReference Include="GitVersion.MsBuild" Version="5.8.1">
+	    <PrivateAssets>all</PrivateAssets>
+	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	  </PackageReference>
 	  <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.0" />
 	</ItemGroup>
 

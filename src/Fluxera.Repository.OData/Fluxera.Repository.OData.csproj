@@ -5,13 +5,10 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<PackageTags>fluxera;library;extensions;repository;storage;odata</PackageTags>
+		<Title>Fluxera.Repository.OData</Title>
 		<Description>A OData repository implementation.</Description>
+		<PackageTags>fluxera;library;extensions;repository;storage;odata</PackageTags>
 	</PropertyGroup>
-
-	<ItemGroup>
-		<Compile Include="..\SolutionInfo.cs" Link="Properties\SolutionInfo.cs" />
-	</ItemGroup>
 
 	<ItemGroup>
 		<None Include="..\..\README.md" Link="Properties\README.md">
@@ -25,6 +22,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <PackageReference Include="GitVersion.MsBuild" Version="5.8.1">
+	    <PrivateAssets>all</PrivateAssets>
+	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	  </PackageReference>
 	  <PackageReference Include="Simple.OData.Client" Version="5.26.0" />
 	</ItemGroup>
 

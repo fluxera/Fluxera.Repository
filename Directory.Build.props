@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<LangVersion>latest</LangVersion>
-		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>disable</ImplicitUsings>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -10,14 +10,8 @@
 
 	<PropertyGroup>
 		<Company>Fluxera Software Development GmbH</Company>
-		<Copyright>Copyright © 2014-2021 Fluxera Software Development GmbH. All rights reserved.</Copyright>
 		<Product>Fluxera Software Foundation</Product>
-	</PropertyGroup>
-
-	<PropertyGroup>
-		<Version>6.0.0</Version>
-		<AssemblyVersion>6.0.0</AssemblyVersion>
-		<FileVersion>6.0.0</FileVersion>
+		<Copyright>Copyright © 2014-2021 Fluxera Software Development GmbH. All rights reserved.</Copyright>
 	</PropertyGroup>
 
 	<PropertyGroup>

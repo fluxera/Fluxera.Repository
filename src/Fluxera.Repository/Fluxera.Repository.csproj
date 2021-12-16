@@ -5,13 +5,10 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<PackageTags>fluxera;library;extensions;repository</PackageTags>
+		<Title>Fluxera.Repository</Title>
 		<Description>A generic repository implementation.</Description>
+		<PackageTags>fluxera;library;extensions;repository</PackageTags>
 	</PropertyGroup>
-
-	<ItemGroup>
-	  <Compile Include="..\SolutionInfo.cs" Link="Properties\SolutionInfo.cs" />
-	</ItemGroup>
 
 	<ItemGroup>
 		<None Include="..\..\README.md" Link="Properties\README.md">
@@ -34,6 +31,10 @@
 		<PackageReference Include="Fluxera.Linq.Expressions" Version="6.0.4" />
 		<PackageReference Include="Fluxera.Utilities" Version="6.0.4" />
 		<PackageReference Include="Fluxera.ValueObject" Version="6.0.5" />
+		<PackageReference Include="GitVersion.MsBuild" Version="5.8.1">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
 		<PackageReference Include="JetBrains.Annotations" Version="2021.3.0" />
 		<PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
 	</ItemGroup>
