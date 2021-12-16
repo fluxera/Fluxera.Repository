@@ -23,7 +23,6 @@ stages:
     - task: GitVersion@5
       displayName: 'Acquire and Apply Version'
       inputs:
-        runtime: 'core'
         preferBundledVersion: false
         gitVersionPath: '~/.dotnet/tools/dotnet-gitversion'
         updateAssemblyInfo: true
