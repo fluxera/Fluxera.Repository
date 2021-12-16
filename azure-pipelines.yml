@@ -33,6 +33,12 @@ stages:
         projects: '**/*.csproj'
         arguments: '--configuration $(BuildConfiguration)'
         nugetConfigPath: NuGet.config  
+    # Set the build number.
+    - script: echo %Action%%SemVerEnv%
+      displayName: 'Set Package Version Variable'
+      env:
+        Action: '##vso[build.updatebuildnumber]'
+        SemVerEnv: $(GitVersion.FullSemVer)
     # Run all available tests.
     - task: DotNetCoreCLI@2
       displayName: 'Execute Tests'
@@ -47,9 +53,9 @@ stages:
       inputs:
         command: 'pack'
         packagesToPack: 'src/**/*.csproj'
-        nobuild: false
+        nobuild: true
         verbosityPack: Minimal
-        includesymbols: true
+        includesymbols: false
     # Copy created NuGet packages to the builds artifacts directory.
     - task: PublishBuildArtifacts@1
       displayName: 'NuGet Publish Package Artifacts'
