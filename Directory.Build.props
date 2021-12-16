@@ -29,4 +29,9 @@
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 	</PropertyGroup>
 
+	<Target Name="Update Version" BeforeTargets="Build" Condition="'$(TF_BUILD)' == 'true'">
+		<Message Text="Version = $(GITVERSION_FullSemVer)" Importance="High" />
+		<Message Text="##vso[build.updatebuildnumber]$(GITVERSION_FullSemVer)" Importance="High" />
+	</Target>
+
 </Project>

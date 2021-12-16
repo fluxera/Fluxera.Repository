@@ -33,11 +33,11 @@ stages:
         projects: '**/*.csproj'
         arguments: '--configuration $(BuildConfiguration)'
     # Set the build number.
-    - script: echo $Action$BuildVersion
-      displayName: 'Update Build Number'
-      env:
-        Action: '##vso[build.updatebuildnumber]'
-        BuildVersion: '$(GitVersion.FullSemVer)'
+    #- script: echo $Action$BuildVersion
+    #  displayName: 'Update Build Number'
+    #  env:
+    #    Action: '##vso[build.updatebuildnumber]'
+    #    BuildVersion: '$(GitVersion.FullSemVer)'
     # Run all available tests.
     - task: DotNetCoreCLI@2
       displayName: 'Execute Tests'
@@ -62,46 +62,3 @@ stages:
         PathtoPublish: '$(Build.ArtifactStagingDirectory)'
         ArtifactName: 'drop'
         publishLocation: 'Container'
-#- stage: DeployPackages
-#  dependsOn: BuildAndTest
-#  # Only publish packages for main, develop (alpha) and release (beta) branches.
-#  condition: and(succeeded('BuildAndTest'), or(eq(variables['Build.SourceBranch'], 'refs/heads/main'), eq(variables['Build.SourceBranch'], 'refs/heads/develop'), startsWith(variables['Build.SourceBranch'], 'refs/heads/release/')))
-#  jobs:
-#  - job: DeployPackages
-#    pool:
-#      vmImage: 'windows-latest'
-#    steps:
-#    - checkout: self
-#      persistCredentials: 'true'
-#      clean: true
-#    # Run GitVersion to acquire the current build version.
-#    - task: GitVersion@5
-#      displayName: 'Acquire and Apply Version'
-#      inputs:
-#        updateAssemblyInfo: false
-#        configFilePath: 'GitVersion.yml'
-#    # Download the created packages.
-#    - task: DownloadBuildArtifacts@0
-#      inputs:
-#        buildType: 'current'
-#        downloadType: 'single'
-#        artifactName: 'drop'
-#        downloadPath: '$(System.ArtifactsDirectory)'
-#    # Publish the NuGet packages to the package feed.
-#    # https://www.programmingwithwolfgang.com/azure-devops-publish-nuget/
-#    - task: DotNetCoreCLI@2
-#      condition: not(contains(variables['Build.BuildNumber'], '-ci'))
-#      displayName: 'NuGet Push Packages'
-#      inputs:
-#        command: custom
-#        custom: nuget
-#        arguments: >
-#          push $(System.ArtifactsDirectory)/**/*.nupkg
-#          -s https://api.nuget.org/v3/index.json
-#          -k $(NuGetApiKey)
-#        #command: 'push'
-#        #packagesToPush: '$(System.ArtifactsDirectory)/**/*.nupkg'
-#        #nuGetFeedType: 'external'
-#        #publishFeedCredentials: 'Foundation'
-#        #verbosityRestore: Normal
-#        #includesymbols: false
