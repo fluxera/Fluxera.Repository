@@ -19,10 +19,11 @@ stages:
     - checkout: self
       persistCredentials: 'true'
       clean: true
-    # Run GitVersion to acquire the current build version.    
-    - task: GitVersion@5
-      displayName: 'Acquire and Apply Version'
+    # Run GitVersion to acquire the current build version.   
+    - task: gitversion/execute@0
       inputs:
+        useConfigFile: true
+        configFilePath: 'GitVersion.yml'
         updateAssemblyInfo: true
         updateAssemblyInfoFilename: 'src/SolutionInfo.cs'
         additionalArguments: '/ensureassemblyinfo'
