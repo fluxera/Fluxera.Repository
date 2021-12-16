@@ -24,9 +24,8 @@ stages:
       displayName: 'Acquire and Apply Version'
       inputs:
         runtime: 'core'
-        #preferBundledVersion: false
-        #gitVersionPath: 'asd'
-        #targetPath: 'asd'
+        preferBundledVersion: false
+        gitVersionPath: 'dotnet-gitversion'
         updateAssemblyInfo: true
         updateAssemblyInfoFilename: 'src/SolutionInfo.cs'
         additionalArguments: '/ensureassemblyinfo'
