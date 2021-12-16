@@ -23,13 +23,18 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="Fluxera.Entity" Version="6.0.7" />
-	  <PackageReference Include="Fluxera.Extensions.Validation.Abstractions" Version="6.0.13" />
-	  <PackageReference Include="GitVersion.MsBuild" Version="5.8.1">
-	    <PrivateAssets>all</PrivateAssets>
-	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-	  </PackageReference>
-	  <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.0" />
+		<PackageReference Include="Fluxera.Entity" Version="6.0.7" />
+		<PackageReference Include="Fluxera.Extensions.Validation.Abstractions" Version="6.0.13" />
+		<PackageReference Include="GitVersion.MsBuild" Version="5.8.1">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.0" />
 	</ItemGroup>
+
+	<Target Name="Update Version" BeforeTargets="Build" Condition="'$(TF_BUILD)' == 'true'">
+		<Message Text="Version = $(GITVERSION_FullSemVer)" Importance="High" />
+		<Message Text="##vso[build.updatebuildnumber]$(GITVERSION_FullSemVer)" Importance="High" />
+	</Target>
 
 </Project>

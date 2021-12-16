@@ -32,15 +32,20 @@
 		<PackageReference Include="Fluxera.Utilities" Version="6.0.4" />
 		<PackageReference Include="Fluxera.ValueObject" Version="6.0.5" />
 		<PackageReference Include="GitVersion.MsBuild" Version="5.8.1">
-		  <PrivateAssets>all</PrivateAssets>
-		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="JetBrains.Annotations" Version="2021.3.0" />
 		<PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Fluxera.Repository.Abstractions\Fluxera.Repository.Abstractions.csproj" />
+		<ProjectReference Include="..\Fluxera.Repository.Abstractions\Fluxera.Repository.Abstractions.csproj" />
 	</ItemGroup>
+
+	<Target Name="Update Version" BeforeTargets="Build" Condition="'$(TF_BUILD)' == 'true'">
+		<Message Text="Version = $(GITVERSION_FullSemVer)" Importance="High" />
+		<Message Text="##vso[build.updatebuildnumber]$(GITVERSION_FullSemVer)" Importance="High" />
+	</Target>
 
 </Project>

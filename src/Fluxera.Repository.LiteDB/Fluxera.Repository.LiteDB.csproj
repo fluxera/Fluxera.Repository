@@ -22,16 +22,21 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="GitVersion.MsBuild" Version="5.8.1">
-	    <PrivateAssets>all</PrivateAssets>
-	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-	  </PackageReference>
-	  <PackageReference Include="LiteDB" Version="5.0.11" />
-	  <PackageReference Include="LiteDB.Async" Version="0.0.11" />
+		<PackageReference Include="GitVersion.MsBuild" Version="5.8.1">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="LiteDB" Version="5.0.11" />
+		<PackageReference Include="LiteDB.Async" Version="0.0.11" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\Fluxera.Repository\Fluxera.Repository.csproj" />
 	</ItemGroup>
+
+	<Target Name="Update Version" BeforeTargets="Build" Condition="'$(TF_BUILD)' == 'true'">
+		<Message Text="Version = $(GITVERSION_FullSemVer)" Importance="High" />
+		<Message Text="##vso[build.updatebuildnumber]$(GITVERSION_FullSemVer)" Importance="High" />
+	</Target>
 
 </Project>
