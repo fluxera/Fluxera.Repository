@@ -25,7 +25,7 @@ stages:
         useConfigFile: true
         configFilePath: 'GitVersion.yml'
         updateAssemblyInfo: true
-        updateAssemblyInfoFilename: 'src/SolutionInfo.cs'
+        updateAssemblyInfoFilename: './src/SolutionInfo.cs'
         additionalArguments: '/ensureassemblyinfo'
     # Install the desired .NET SDK.   
     - task: UseDotNet@2
