@@ -33,7 +33,7 @@ stages:
         projects: '**/*.csproj'
         arguments: '--configuration $(BuildConfiguration)'
     # Set the build number.
-    - script: echo '##vso[build.updatebuildnumber]'$GitVersion.FullSemVer
+    - script: echo '##vso[build.updatebuildnumber]'$GITVERSION_FullSemVer
       displayName: 'Update Build Number'
       #env:
       #  Action: '##vso[build.updatebuildnumber]'
