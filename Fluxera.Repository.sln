@@ -41,6 +41,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fluxera.Repository.UnitTest
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fluxera.Repository.EntityFramework.IntegrationTests", "tests\Fluxera.Repository.EntityFramework.IntegrationTests\Fluxera.Repository.EntityFramework.IntegrationTests.csproj", "{799BBB07-1C6A-4F1D-8460-7D45AA40F1C3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fluxera.Repository.LiteDB.IntegrationTests", "tests\Fluxera.Repository.LiteDB.IntegrationTests\Fluxera.Repository.LiteDB.IntegrationTests.csproj", "{0377B3AA-79FE-4341-863C-171E6B6CE890}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fluxera.Repository.MongoDB.IntegrationTests", "tests\Fluxera.Repository.MongoDB.IntegrationTests\Fluxera.Repository.MongoDB.IntegrationTests.csproj", "{B69B46BA-09C2-4115-81DE-2661A6A83897}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fluxera.Repository.OData.IntegrationTests", "tests\Fluxera.Repository.OData.IntegrationTests\Fluxera.Repository.OData.IntegrationTests.csproj", "{E363B989-28B4-440F-9CB0-8375E94BA934}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ODataApplication", "tests\ODataApplication\ODataApplication.csproj", "{29B9954C-0A2C-4D23-8C99-3396DC454FCF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -91,6 +99,22 @@ Global
 		{799BBB07-1C6A-4F1D-8460-7D45AA40F1C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{799BBB07-1C6A-4F1D-8460-7D45AA40F1C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{799BBB07-1C6A-4F1D-8460-7D45AA40F1C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0377B3AA-79FE-4341-863C-171E6B6CE890}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0377B3AA-79FE-4341-863C-171E6B6CE890}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0377B3AA-79FE-4341-863C-171E6B6CE890}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0377B3AA-79FE-4341-863C-171E6B6CE890}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B69B46BA-09C2-4115-81DE-2661A6A83897}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B69B46BA-09C2-4115-81DE-2661A6A83897}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B69B46BA-09C2-4115-81DE-2661A6A83897}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B69B46BA-09C2-4115-81DE-2661A6A83897}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E363B989-28B4-440F-9CB0-8375E94BA934}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E363B989-28B4-440F-9CB0-8375E94BA934}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E363B989-28B4-440F-9CB0-8375E94BA934}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E363B989-28B4-440F-9CB0-8375E94BA934}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29B9954C-0A2C-4D23-8C99-3396DC454FCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29B9954C-0A2C-4D23-8C99-3396DC454FCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29B9954C-0A2C-4D23-8C99-3396DC454FCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29B9954C-0A2C-4D23-8C99-3396DC454FCF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -107,6 +131,10 @@ Global
 		{B72F4E2B-F567-4340-B2C6-E4157484BF7E} = {F18D2D58-282C-4D93-8D9A-3A76CF98F018}
 		{4C12619F-7219-4C08-9FA6-1E9985B4151C} = {F18D2D58-282C-4D93-8D9A-3A76CF98F018}
 		{799BBB07-1C6A-4F1D-8460-7D45AA40F1C3} = {F18D2D58-282C-4D93-8D9A-3A76CF98F018}
+		{0377B3AA-79FE-4341-863C-171E6B6CE890} = {F18D2D58-282C-4D93-8D9A-3A76CF98F018}
+		{B69B46BA-09C2-4115-81DE-2661A6A83897} = {F18D2D58-282C-4D93-8D9A-3A76CF98F018}
+		{E363B989-28B4-440F-9CB0-8375E94BA934} = {F18D2D58-282C-4D93-8D9A-3A76CF98F018}
+		{29B9954C-0A2C-4D23-8C99-3396DC454FCF} = {F18D2D58-282C-4D93-8D9A-3A76CF98F018}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D97BF2AF-6E68-4E88-BF70-773A86E26013}

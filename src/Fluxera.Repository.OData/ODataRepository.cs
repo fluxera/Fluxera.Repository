@@ -25,6 +25,7 @@
 	{
 		private readonly ODataClient client;
 		private readonly ILogger logger;
+		private readonly ODataPersistenceSettings persistenceSettings;
 
 		static ODataRepository()
 		{
@@ -38,7 +39,7 @@
 			RepositoryName repositoryName = repositoryRegistry.GetRepositoryNameFor<TAggregateRoot>();
 			RepositoryOptions options = repositoryRegistry.GetRepositoryOptionsFor(repositoryName);
 
-			ODataPersistenceSettings persistenceSettings = new ODataPersistenceSettings
+			this.persistenceSettings = new ODataPersistenceSettings
 			{
 				ServiceRoot = (string)options.SettingsValues.GetOrDefault("OData.ServiceRoot"),
 				UseBatching = (bool)options.SettingsValues.GetOrDefault("OData.UseBatching"),
@@ -47,7 +48,7 @@
 			// TODO: Would be nice, if the authentication would work just as in the HttpClient module.
 			ODataClientSettings settings = new ODataClientSettings
 			{
-				BaseUri = new Uri(persistenceSettings.ServiceRoot),
+				BaseUri = new Uri(this.persistenceSettings.ServiceRoot),
 				IgnoreUnmappedProperties = true,
 				RenewHttpConnection = false,
 				BeforeRequest = request =>
@@ -403,26 +404,36 @@
 
 		private async Task ExecuteBatchAsync(IEnumerable<TAggregateRoot> items, Func<IODataClient, TAggregateRoot, Task> converter, CancellationToken cancellationToken)
 		{
-			ODataBatch batch = new ODataBatch(this.client);
-
-			IList<TAggregateRoot> itemsList = items.ToList();
-
-			// Insert in batches of max. 50 requests.
-			int batchSize = 25;
-
-			int entryCount = 0;
-			foreach(TAggregateRoot item in itemsList)
+			if(this.persistenceSettings.UseBatching)
 			{
-				entryCount++;
-				batch += async batchClient =>
-				{
-					await converter.Invoke(batchClient, item);
-				};
+				ODataBatch batch = new ODataBatch(this.client);
 
-				if(((entryCount % batchSize) == 0) || (entryCount == itemsList.Count))
+				IList<TAggregateRoot> itemsList = items.ToList();
+
+				// Insert in batches of max. 50 requests.
+				int batchSize = 25;
+
+				int entryCount = 0;
+				foreach(TAggregateRoot item in itemsList)
 				{
-					await batch.ExecuteAsync(cancellationToken).ConfigureAwait(false);
-					batch = new ODataBatch(this.client);
+					entryCount++;
+					batch += async batchClient =>
+					{
+						await converter.Invoke(batchClient, item);
+					};
+
+					if(((entryCount % batchSize) == 0) || (entryCount == itemsList.Count))
+					{
+						await batch.ExecuteAsync(cancellationToken).ConfigureAwait(false);
+						batch = new ODataBatch(this.client);
+					}
+				}
+			}
+			else
+			{
+				foreach(TAggregateRoot item in items)
+				{
+					await converter.Invoke(this.client, item);
 				}
 			}
 		}
