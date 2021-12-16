@@ -24,6 +24,9 @@ stages:
       displayName: 'Acquire and Apply Version'
       inputs:
         runtime: 'core'
+        #preferBundledVersion: false
+        #gitVersionPath: 'asd'
+        #targetPath: 'asd'
         updateAssemblyInfo: true
         updateAssemblyInfoFilename: 'src/SolutionInfo.cs'
         additionalArguments: '/ensureassemblyinfo'
