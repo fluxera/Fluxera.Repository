@@ -33,11 +33,11 @@ stages:
         projects: '**/*.csproj'
         arguments: '--configuration $(BuildConfiguration)'
     # Set the build number.
-    - script: echo '##vso[build.updatebuildnumber]'$GITVERSION_FullSemVer
+    - script: echo $Action$BuildVersion
       displayName: 'Update Build Number'
-      #env:
-      #  Action: '##vso[build.updatebuildnumber]'
-      #  BuildVersion: $(GitVersion.FullSemVer)
+      env:
+        Action: '##vso[build.updatebuildnumber]'
+        BuildVersion: $GitVersion_FullSemVer
     # Run all available tests.
     - task: DotNetCoreCLI@2
       displayName: 'Execute Tests'
