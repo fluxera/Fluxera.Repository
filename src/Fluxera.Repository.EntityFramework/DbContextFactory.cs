@@ -44,12 +44,12 @@
 
 			Guard.Against.Null(dbContextType, nameof(dbContextType));
 
-			if(!this.dbContextMap.TryAdd(repositoryName, dbContextType))
+			if(!this.dbContextMap.TryAdd(repositoryName, dbContextType!))
 			{
 				throw new InvalidOperationException($"Could not add DbContext type for repository '{repositoryName}'.");
 			}
 
-			return this.CreateContext(dbContextType);
+			return this.CreateContext(dbContextType!);
 		}
 
 		private DbContext CreateContext(Type dbContextType)
@@ -57,7 +57,11 @@
 			DbContext? dbContext = this.serviceProvider.GetService(dbContextType) as DbContext;
 			if(dbContext is null)
 			{
-				dbContext = Activator.CreateInstance(dbContextType, new object[] { this.serviceProvider, this.loggerFactory }) as DbContext;
+				dbContext = Activator.CreateInstance(dbContextType, new object[]
+				{
+					this.loggerFactory,
+					this.repositoryRegistry
+				}) as DbContext;
 			}
 
 			Guard.Against.Null(dbContext, nameof(dbContext));

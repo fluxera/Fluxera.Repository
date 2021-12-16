@@ -7,7 +7,7 @@
 
 	public abstract class RepositoryTestBase : TestBase
 	{
-		protected IRepository<Person> Repository { get; private set; }
+		protected IRepository<Person>? Repository { get; private set; }
 
 		[SetUp]
 		public void SetUp()
@@ -31,7 +31,7 @@
 		[TearDown]
 		public void TearDown()
 		{
-			this.Repository.Dispose();
+			this.Repository?.Dispose();
 		}
 
 		protected abstract void AddRepositoryUnderTest(IRepositoryBuilder repositoryBuilder,

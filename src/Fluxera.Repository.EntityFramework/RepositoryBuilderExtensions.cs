@@ -3,6 +3,7 @@
 	using System;
 	using Fluxera.Guards;
 	using JetBrains.Annotations;
+	using Microsoft.Extensions.DependencyInjection;
 
 	[PublicAPI]
 	public static class RepositoryBuilderExtensions
@@ -13,6 +14,8 @@
 			Guard.Against.Null(builder, nameof(builder));
 			Guard.Against.NullOrWhiteSpace(repositoryName, nameof(repositoryName));
 			Guard.Against.Null(configure, nameof(configure));
+
+			builder.Services.AddSingleton<IDbContextFactory, DbContextFactory>();
 
 			return builder.AddRepository(repositoryName, typeof(EntityFrameworkRepository<>), configure);
 		}

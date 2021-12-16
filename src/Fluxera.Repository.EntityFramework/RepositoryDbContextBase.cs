@@ -18,12 +18,12 @@
 			this.repositoryRegistry = repositoryRegistry;
 		}
 
-		protected abstract RepositoryName RepositoryName { get; }
+		protected abstract string RepositoryName { get; }
 
 		/// <inheritdoc />
 		protected sealed override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
-			RepositoryOptions options = this.repositoryRegistry.GetRepositoryOptionsFor(this.RepositoryName);
+			RepositoryOptions options = this.repositoryRegistry.GetRepositoryOptionsFor((RepositoryName)this.RepositoryName);
 
 			EntityFrameworkPersistenceSettings settings = new EntityFrameworkPersistenceSettings
 			{
