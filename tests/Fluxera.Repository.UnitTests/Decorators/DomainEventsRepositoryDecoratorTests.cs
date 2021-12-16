@@ -7,6 +7,7 @@
 	using Fluxera.Repository.UnitTests.Core.PersonAggregate;
 	using Microsoft.Extensions.DependencyInjection;
 	using Microsoft.Extensions.Logging;
+	using Microsoft.Extensions.Logging.Mock;
 	using Moq;
 	using NUnit.Framework;
 
@@ -43,10 +44,10 @@
 			if(expected)
 			{
 				// Trace is logged by the decorator.
-				this.loggerMock.VerifyTraceWasCalled();
+				this.loggerMock.VerifyLog().TraceWasCalled();
 
 				// Info is logged in the handlers.
-				this.loggerMock.VerifyInformationWasCalled();
+				this.loggerMock.VerifyLog().InformationWasCalled();
 			}
 		}
 
@@ -166,7 +167,7 @@
 			await this.Repository.RemoveAsync(x => x.Name == "1");
 
 			// Trace is logged by the decorator.
-			this.loggerMock.VerifyTraceWasCalled();
+			this.loggerMock.VerifyLog().TraceWasCalled();
 		}
 
 		[Test]
@@ -190,7 +191,7 @@
 			await this.Repository.RemoveAsync("1");
 
 			// Trace is logged by the decorator.
-			this.loggerMock.VerifyTraceWasCalled();
+			this.loggerMock.VerifyLog().TraceWasCalled();
 		}
 
 		[Test]

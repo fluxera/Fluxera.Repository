@@ -7,6 +7,7 @@
 	using Fluxera.Repository.UnitTests.Core.PersonAggregate;
 	using Microsoft.Extensions.DependencyInjection;
 	using Microsoft.Extensions.Logging;
+	using Microsoft.Extensions.Logging.Mock;
 	using Moq;
 	using NUnit.Framework;
 
@@ -35,7 +36,7 @@
 
 			await func.Should().ThrowAsync<NotImplementedException>();
 
-			this.loggerMock.VerifyCriticalWasCalled();
+			this.loggerMock.VerifyLog().CriticalWasCalled();
 		}
 
 		[Test]

@@ -10,6 +10,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Bogus" Version="34.0.1" />
+		<PackageReference Include="Extensions.Logging.Mock" Version="1.0.2" />
 		<PackageReference Include="FluentAssertions" Version="6.2.0" />
 		<PackageReference Include="Fluxera.Extensions.Validation.DataAnnotations" Version="6.0.13" />
 		<PackageReference Include="Fluxera.Extensions.Validation.FluentValidation" Version="6.0.13" />
