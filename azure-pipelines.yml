@@ -41,6 +41,15 @@ stages:
         projects: '**/*Tests/*.csproj'
         arguments: '--configuration $(BuildConfiguration)'
         nobuild: true
+    # Create the NuGet packages.
+    - task: DotNetCoreCLI@2
+      displayName: 'NuGet Pack Packages'
+      inputs:
+        command: 'pack'
+        packagesToPack: 'src/**/*.csproj'
+        nobuild: false
+        verbosityPack: Minimal
+        includesymbols: true
     # Copy created NuGet packages to the builds artifacts directory.
     - task: PublishBuildArtifacts@1
       displayName: 'NuGet Publish Package Artifacts'
