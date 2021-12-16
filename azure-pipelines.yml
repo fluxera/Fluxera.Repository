@@ -19,12 +19,10 @@ stages:
     - checkout: self
       persistCredentials: 'true'
       clean: true
-    # Run GitVersion to acquire the current build version.  
+    # Run GitVersion to acquire the current build version.    
     - task: GitVersion@5
       displayName: 'Acquire and Apply Version'
       inputs:
-        preferBundledVersion: false
-        gitVersionPath: '~/.dotnet/tools/dotnet-gitversion'
         updateAssemblyInfo: true
         updateAssemblyInfoFilename: 'src/SolutionInfo.cs'
         additionalArguments: '/ensureassemblyinfo'
