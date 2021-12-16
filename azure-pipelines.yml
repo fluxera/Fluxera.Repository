@@ -19,14 +19,13 @@ stages:
     - checkout: self
       persistCredentials: 'true'
       clean: true
-    # Run GitVersion to acquire the current build version.
-    - task: GitVersion@5
+    # Run GitVersion to acquire the current build version.  
+    - task: GitVersionNetCore@5
       displayName: 'Acquire and Apply Version'
       inputs:
         updateAssemblyInfo: true
         updateAssemblyInfoFilename: 'src/SolutionInfo.cs'
         additionalArguments: '/ensureassemblyinfo'
-        configFilePath: 'GitVersion.yml'
     # Install the desired .NET SDK.   
     - task: UseDotNet@2
       displayName: 'Acquire .NET SDK'
