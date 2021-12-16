@@ -7,7 +7,7 @@
 	[TestFixture]
 	public class UpdateTests : UpdateTestBase
 	{
-		/// <inheritdoc />
+		/ <inheritdoc />
 		protected override void AddRepositoryUnderTest(IRepositoryBuilder repositoryBuilder,
 			string repositoryName, Action<IRepositoryOptionsBuilder> configureOptions)
 		{
