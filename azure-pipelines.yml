@@ -25,7 +25,7 @@ stages:
       inputs:
         runtime: 'core'
         preferBundledVersion: false
-        gitVersionPath: 'dotnet-gitversion'
+        gitVersionPath: '~/.dotnet/tools/dotnet-gitversion'
         updateAssemblyInfo: true
         updateAssemblyInfoFilename: 'src/SolutionInfo.cs'
         additionalArguments: '/ensureassemblyinfo'
