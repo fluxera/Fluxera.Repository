@@ -14,7 +14,7 @@ stages:
   jobs:
   - job: BuildAndTest
     pool:
-      vmImage: 'windows-latest'
+      name: Default
     steps:
     - checkout: self
       persistCredentials: 'true'
