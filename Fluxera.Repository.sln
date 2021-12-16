@@ -7,7 +7,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".items", ".items", "{75AC41
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
 		azure-pipelines.yml = azure-pipelines.yml
-		Directory.Build.props = Directory.Build.props
 		GitVersion.yml = GitVersion.yml
 		global.json = global.json
 		icon.png = icon.png
@@ -16,8 +15,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".items", ".items", "{75AC41
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{DF28D730-99B3-4811-AAC7-725A73B3F668}"
+	ProjectSection(SolutionItems) = preProject
+		src\Directory.Build.props = src\Directory.Build.props
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{F18D2D58-282C-4D93-8D9A-3A76CF98F018}"
+	ProjectSection(SolutionItems) = preProject
+		tests\Directory.Build.props = tests\Directory.Build.props
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fluxera.Repository", "src\Fluxera.Repository\Fluxera.Repository.csproj", "{63A7C12A-A5EE-4FDE-B844-6D69D408A817}"
 EndProject
@@ -39,15 +44,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fluxera.Repository.InMemory
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fluxera.Repository.UnitTests.Core", "tests\Fluxera.Repository.UnitTests.Core\Fluxera.Repository.UnitTests.Core.csproj", "{4C12619F-7219-4C08-9FA6-1E9985B4151C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fluxera.Repository.EntityFramework.IntegrationTests", "tests\Fluxera.Repository.EntityFramework.IntegrationTests\Fluxera.Repository.EntityFramework.IntegrationTests.csproj", "{799BBB07-1C6A-4F1D-8460-7D45AA40F1C3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fluxera.Repository.EntityFramework.IntegrationTests", "tests\Fluxera.Repository.EntityFramework.IntegrationTests\Fluxera.Repository.EntityFramework.IntegrationTests.csproj", "{799BBB07-1C6A-4F1D-8460-7D45AA40F1C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fluxera.Repository.LiteDB.IntegrationTests", "tests\Fluxera.Repository.LiteDB.IntegrationTests\Fluxera.Repository.LiteDB.IntegrationTests.csproj", "{0377B3AA-79FE-4341-863C-171E6B6CE890}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fluxera.Repository.LiteDB.IntegrationTests", "tests\Fluxera.Repository.LiteDB.IntegrationTests\Fluxera.Repository.LiteDB.IntegrationTests.csproj", "{0377B3AA-79FE-4341-863C-171E6B6CE890}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fluxera.Repository.MongoDB.IntegrationTests", "tests\Fluxera.Repository.MongoDB.IntegrationTests\Fluxera.Repository.MongoDB.IntegrationTests.csproj", "{B69B46BA-09C2-4115-81DE-2661A6A83897}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fluxera.Repository.MongoDB.IntegrationTests", "tests\Fluxera.Repository.MongoDB.IntegrationTests\Fluxera.Repository.MongoDB.IntegrationTests.csproj", "{B69B46BA-09C2-4115-81DE-2661A6A83897}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fluxera.Repository.OData.IntegrationTests", "tests\Fluxera.Repository.OData.IntegrationTests\Fluxera.Repository.OData.IntegrationTests.csproj", "{E363B989-28B4-440F-9CB0-8375E94BA934}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fluxera.Repository.OData.IntegrationTests", "tests\Fluxera.Repository.OData.IntegrationTests\Fluxera.Repository.OData.IntegrationTests.csproj", "{E363B989-28B4-440F-9CB0-8375E94BA934}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ODataApplication", "tests\ODataApplication\ODataApplication.csproj", "{29B9954C-0A2C-4D23-8C99-3396DC454FCF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ODataApplication", "tests\ODataApplication\ODataApplication.csproj", "{29B9954C-0A2C-4D23-8C99-3396DC454FCF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
