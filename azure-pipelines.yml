@@ -25,17 +25,16 @@ stages:
       inputs:
         packageType: 'sdk'
         version: $(DotNetCoreVersion)
-        includePreviewVersions: true   
+        includePreviewVersions: false   
     # Build all projects.
     - task: DotNetCoreCLI@2
       displayName: 'Build Projects'
       inputs:
         projects: '**/*.csproj'
         arguments: '--configuration $(BuildConfiguration)'
-        nugetConfigPath: NuGet.config  
     # Set the build number.
-    - script: echo %Action%%SemVerEnv%
-      displayName: 'Set Package Version Variable'
+    - script: echo %Action%%BuildVersion%
+      displayName: 'Updating Build Number'
       env:
         Action: '##vso[build.updatebuildnumber]'
         SemVerEnv: $(GitVersion.FullSemVer)
@@ -49,7 +48,7 @@ stages:
         nobuild: true
     # Create the NuGet packages.
     - task: DotNetCoreCLI@2
-      displayName: 'NuGet Pack Packages'
+      displayName: 'Pack Packages'
       inputs:
         command: 'pack'
         packagesToPack: 'src/**/*.csproj'
@@ -58,7 +57,7 @@ stages:
         includesymbols: false
     # Copy created NuGet packages to the builds artifacts directory.
     - task: PublishBuildArtifacts@1
-      displayName: 'NuGet Publish Package Artifacts'
+      displayName: 'Publish Package Artifacts'
       inputs:
         PathtoPublish: '$(Build.ArtifactStagingDirectory)'
         ArtifactName: 'drop'
