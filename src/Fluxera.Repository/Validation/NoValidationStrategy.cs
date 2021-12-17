@@ -4,8 +4,8 @@
 	using System.Threading.Tasks;
 	using Fluxera.Entity;
 
-	internal sealed class NoValidationStrategy<TAggregateRoot> : IValidationStrategy<TAggregateRoot>
-		where TAggregateRoot : AggregateRoot<TAggregateRoot>
+	internal sealed class NoValidationStrategy<TAggregateRoot, TKey> : IValidationStrategy<TAggregateRoot, TKey>
+		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 	{
 		/// <inheritdoc />
 		public Task ValidateAsync(TAggregateRoot item)

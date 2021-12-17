@@ -13,10 +13,11 @@
 		///     Adds the or update.
 		/// </summary>
 		/// <typeparam name="TAggregateRoot">The type of the aggregate root.</typeparam>
+		/// <typeparam name="TKey">The type of the ID.</typeparam>
 		/// <param name="repository">The repository.</param>
 		/// <param name="item">The item.</param>
-		public static async Task AddOrUpdate<TAggregateRoot>(this IRepository<TAggregateRoot> repository, TAggregateRoot item)
-			where TAggregateRoot : AggregateRoot<TAggregateRoot>
+		public static async Task AddOrUpdate<TAggregateRoot, TKey>(this IRepository<TAggregateRoot, TKey> repository, TAggregateRoot item)
+			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 		{
 			Guard.Against.Null(repository, nameof(repository));
 			Guard.Against.Null(item, nameof(item));
@@ -35,10 +36,11 @@
 		///     Adds the or update.
 		/// </summary>
 		/// <typeparam name="TAggregateRoot">The type of the aggregate root.</typeparam>
+		/// <typeparam name="TKey">The type of the ID.</typeparam>
 		/// <param name="repository">The repository.</param>
 		/// <param name="items">The items.</param>
-		public static async Task AddOrUpdate<TAggregateRoot>(this IRepository<TAggregateRoot> repository, IEnumerable<TAggregateRoot> items)
-			where TAggregateRoot : AggregateRoot<TAggregateRoot>
+		public static async Task AddOrUpdate<TAggregateRoot, TKey>(this IRepository<TAggregateRoot, TKey> repository, IEnumerable<TAggregateRoot> items)
+			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 		{
 			Guard.Against.Null(repository, nameof(repository));
 			Guard.Against.Null(items, nameof(items));

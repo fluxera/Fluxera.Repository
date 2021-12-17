@@ -9,11 +9,11 @@
 
 	public abstract class DecoratorTestBase : TestBase
 	{
-		protected IRepository<Person> Repository { get; private set; }
+		protected IRepository<Person, string> Repository { get; private set; }
 
 		protected abstract Type DecoratorType { get; }
 
-		protected virtual Type RepositoryType => typeof(TestRepository<Person>);
+		protected virtual Type RepositoryType => typeof(TestRepository<Person, string>);
 
 		protected IServiceProvider ServiceProvider { get; private set; }
 
@@ -23,14 +23,14 @@
 			this.ServiceProvider = BuildServiceProvider(services =>
 			{
 				services
-					.AddTransient(typeof(IRepository<Person>), this.RepositoryType)
-					.Decorate(typeof(IRepository<>))
+					.AddTransient(typeof(IRepository<Person, string>), this.RepositoryType)
+					.Decorate(typeof(IRepository<,>))
 					.With(this.DecoratorType);
 
 				this.ConfigureServices(services);
 			});
 
-			this.Repository = this.ServiceProvider.GetRequiredService<IRepository<Person>>();
+			this.Repository = this.ServiceProvider.GetRequiredService<IRepository<Person, string>>();
 		}
 
 		protected virtual void ConfigureServices(IServiceCollection services)

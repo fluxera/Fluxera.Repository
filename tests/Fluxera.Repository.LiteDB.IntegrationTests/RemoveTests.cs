@@ -1,24 +1,22 @@
-﻿//namespace Fluxera.Repository.LiteDB.IntegrationTests
-//{
-//	using System;
-//	using Fluxera.Repository.UnitTests.Core;
-//	using NUnit.Framework;
+﻿namespace Fluxera.Repository.LiteDB.IntegrationTests
+{
+	using System;
+	using Fluxera.Repository.UnitTests.Core;
+	using NUnit.Framework;
 
-//	[TestFixture]
-//	public class RemoveTests : RemoveTestBase
-//	{
-//		/// <inheritdoc />
-//		protected override void AddRepositoryUnderTest(IRepositoryBuilder repositoryBuilder,
-//			string repositoryName, Action<IRepositoryOptionsBuilder> configureOptions)
-//		{
-//			repositoryBuilder.AddLiteRepository(repositoryName, options =>
-//			{
-//				options.AddSetting("Lite.Database", "test.db");
+	[TestFixture]
+	public class RemoveTests : RemoveTestBase
+	{
+		/// <inheritdoc />
+		protected override void AddRepositoryUnderTest(IRepositoryBuilder repositoryBuilder,
+			string repositoryName, Action<IRepositoryOptionsBuilder> configureOptions)
+		{
+			repositoryBuilder.AddLiteRepository(repositoryName, options =>
+			{
+				options.AddSetting("Lite.Database", "test.db");
 
-//				configureOptions.Invoke(options);
-//			});
-//		}
-//	}
-//}
-
-
+				configureOptions.Invoke(options);
+			});
+		}
+	}
+}

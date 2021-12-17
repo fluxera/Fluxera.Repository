@@ -8,15 +8,17 @@
 		private object strategy;
 
 		/// <inheritdoc />
-		public ICachingStrategy<TAggregateRoot> CreateStrategy<TAggregateRoot>() where TAggregateRoot : AggregateRoot<TAggregateRoot>
+		public ICachingStrategy<TAggregateRoot, TKey> CreateStrategy<TAggregateRoot, TKey>()
+			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 		{
-			this.strategy = new TestCachingStrategy<TAggregateRoot>();
-			return (ICachingStrategy<TAggregateRoot>)this.strategy;
+			this.strategy = new TestCachingStrategy<TAggregateRoot, TKey>();
+			return (ICachingStrategy<TAggregateRoot, TKey>)this.strategy;
 		}
 
-		public TestCachingStrategy<T> GetStrategy<T>() where T : AggregateRoot<T>
+		public TestCachingStrategy<TAggregateRoot, TKey> GetStrategy<TAggregateRoot, TKey>()
+			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 		{
-			return (TestCachingStrategy<T>)this.strategy;
+			return (TestCachingStrategy<TAggregateRoot, TKey>)this.strategy;
 		}
 	}
 }

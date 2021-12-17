@@ -2,13 +2,12 @@
 {
 	using System;
 	using System.Collections.Generic;
-	using Fluxera.Entity;
 	using Fluxera.Repository.Options;
 
 	public class TestRepositoryRegistry : IRepositoryRegistry
 	{
 		/// <inheritdoc />
-		public RepositoryName GetRepositoryNameFor<TAggregateRoot>() where TAggregateRoot : AggregateRoot<TAggregateRoot>
+		public RepositoryName GetRepositoryNameFor<TAggregateRoot>()
 		{
 			throw new NotImplementedException();
 		}

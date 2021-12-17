@@ -10,8 +10,9 @@
 		///     Creates the validation strategy to use for the repository and <see cref="TAggregateRoot" />.
 		/// </summary>
 		/// <typeparam name="TAggregateRoot"></typeparam>
+		/// <typeparam name="TKey">The type of the ID.</typeparam>
 		/// <returns></returns>
-		IValidationStrategy<TAggregateRoot> CreateStrategy<TAggregateRoot>()
-			where TAggregateRoot : AggregateRoot<TAggregateRoot>;
+		IValidationStrategy<TAggregateRoot, TKey> CreateStrategy<TAggregateRoot, TKey>()
+			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>;
 	}
 }

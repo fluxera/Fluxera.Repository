@@ -17,9 +17,10 @@
 	///     <see href="http://richarddingwall.name/2009/01/19/irepositoryt-one-size-does-not-fit-all/" />
 	/// </remarks>
 	/// <typeparam name="TAggregateRoot">Generic repository aggregate root type.</typeparam>
-	///// <typeparam name="TKey">The type of the ID.</typeparam>
+	/// <typeparam name="TKey">The type of the ID.</typeparam>
 	[PublicAPI]
-	public interface ICanFind<TAggregateRoot /*, TKey*/> where TAggregateRoot : AggregateRoot<TAggregateRoot>
+	public interface ICanFind<TAggregateRoot, TKey>
+		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 	{
 		/// <summary>
 		///     Finds the first item that matches the predicate expression.

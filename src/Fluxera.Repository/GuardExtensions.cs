@@ -10,8 +10,8 @@
 	[PublicAPI]
 	public static class GuardExtensions
 	{
-		public static void NotTransient<TAggregateRoot>(this IGuard guard, TAggregateRoot? input, [InvokerParameterName] string parameterName, string? message = null)
-			where TAggregateRoot : AggregateRoot<TAggregateRoot>
+		public static void NotTransient<TAggregateRoot, TKey>(this IGuard guard, TAggregateRoot? input, [InvokerParameterName] string parameterName, string? message = null)
+			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 		{
 			Guard.Against.Null(input, nameof(input));
 
@@ -21,19 +21,19 @@
 			}
 		}
 
-		public static void NotTransient<TAggregateRoot>(this IGuard guard, IEnumerable<TAggregateRoot>? input, [InvokerParameterName] string parameterName, string? message = null)
-			where TAggregateRoot : AggregateRoot<TAggregateRoot>
+		public static void NotTransient<TAggregateRoot, TKey>(this IGuard guard, IEnumerable<TAggregateRoot>? input, [InvokerParameterName] string parameterName, string? message = null)
+			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 		{
 			Guard.Against.Null(input, nameof(input));
 
 			foreach(TAggregateRoot item in input)
 			{
-				Guard.Against.NotTransient(item, parameterName, message);
+				Guard.Against.NotTransient<TAggregateRoot, TKey>(item, parameterName, message);
 			}
 		}
 
-		public static void Transient<TAggregateRoot>(this IGuard guard, TAggregateRoot? input, [InvokerParameterName] string parameterName, string? message = null)
-			where TAggregateRoot : AggregateRoot<TAggregateRoot>
+		public static void Transient<TAggregateRoot, TKey>(this IGuard guard, TAggregateRoot? input, [InvokerParameterName] string parameterName, string? message = null)
+			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 		{
 			Guard.Against.Null(input, nameof(input));
 
@@ -43,19 +43,19 @@
 			}
 		}
 
-		public static void Transient<TAggregateRoot>(this IGuard guard, IEnumerable<TAggregateRoot> input, [InvokerParameterName] string parameterName, string? message = null)
-			where TAggregateRoot : AggregateRoot<TAggregateRoot>
+		public static void Transient<TAggregateRoot, TKey>(this IGuard guard, IEnumerable<TAggregateRoot> input, [InvokerParameterName] string parameterName, string? message = null)
+			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 		{
 			Guard.Against.Null(input, nameof(input));
 
 			foreach(TAggregateRoot item in input)
 			{
-				Guard.Against.Transient(item, parameterName, message);
+				Guard.Against.Transient<TAggregateRoot, TKey>(item, parameterName, message);
 			}
 		}
 
-		public static void Disposed<TAggregateRoot>(this IGuard guard, IRepository<TAggregateRoot>? input)
-			where TAggregateRoot : AggregateRoot<TAggregateRoot>
+		public static void Disposed<TAggregateRoot, TKey>(this IGuard guard, IRepository<TAggregateRoot, TKey>? input)
+			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 		{
 			Guard.Against.Null(input, nameof(input));
 

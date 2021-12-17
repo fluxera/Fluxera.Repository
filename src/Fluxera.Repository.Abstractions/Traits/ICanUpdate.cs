@@ -14,10 +14,10 @@
 	///     <see href="http://richarddingwall.name/2009/01/19/irepositoryt-one-size-does-not-fit-all/" />
 	/// </remarks>
 	/// <typeparam name="TAggregateRoot">Generic repository aggregate root type.</typeparam>
-	///// <typeparam name="TKey">The type of the ID.</typeparam>
+	/// <typeparam name="TKey">The type of the ID.</typeparam>
 	[PublicAPI]
-	public interface ICanUpdate<in TAggregateRoot /*, TKey*/>
-		where TAggregateRoot : AggregateRoot<TAggregateRoot>
+	public interface ICanUpdate<in TAggregateRoot, TKey>
+		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 	{
 		/// <summary>
 		///     Updates the given instance in the underlying store.

@@ -23,8 +23,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Fluxera.Entity" Version="6.0.7" />
-		<PackageReference Include="Fluxera.Extensions.Validation.Abstractions" Version="6.0.13" />
+		<PackageReference Include="Fluxera.Entity" Version="6.0.8" />
+		<PackageReference Include="Fluxera.Extensions.Validation.Abstractions" Version="6.0.14" />
 		<PackageReference Include="GitVersion.MsBuild" Version="5.8.1">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

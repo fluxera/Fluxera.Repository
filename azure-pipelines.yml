@@ -7,7 +7,7 @@ trigger:
 
 variables:
   BuildConfiguration: Release
-  DotNetCoreVersion: 6.0.100
+  DotNetCoreVersion: 6.0.101
 
 stages:
 - stage: BuildAndTest
@@ -32,12 +32,6 @@ stages:
       inputs:
         projects: '**/*.csproj'
         arguments: '--configuration $(BuildConfiguration)'
-    # Set the build number.
-    #- script: echo $Action$BuildVersion
-    #  displayName: 'Update Build Number'
-    #  env:
-    #    Action: '##vso[build.updatebuildnumber]'
-    #    BuildVersion: '$(GitVersion_FullSemVer)'
     # Run all available tests.
     - task: DotNetCoreCLI@2
       displayName: 'Execute Tests'

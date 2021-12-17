@@ -8,45 +8,45 @@
 	using Fluxera.Entity;
 	using Fluxera.Repository.Query;
 
-	public class NoopTestRepository<T> : IRepository<T> where T : AggregateRoot<T>
+	public class NoopTestRepository<TAggregateRoot, TKey> : IRepository<TAggregateRoot, TKey> where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 	{
 		/// <inheritdoc />
-		public async Task AddAsync(T item, CancellationToken cancellationToken)
+		public async Task AddAsync(TAggregateRoot item, CancellationToken cancellationToken)
 		{
 		}
 
 		/// <inheritdoc />
-		public async Task AddAsync(IEnumerable<T> items, CancellationToken cancellationToken)
+		public async Task AddAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{
 		}
 
 		/// <inheritdoc />
-		public async Task UpdateAsync(T item, CancellationToken cancellationToken)
+		public async Task UpdateAsync(TAggregateRoot item, CancellationToken cancellationToken)
 		{
 		}
 
 		/// <inheritdoc />
-		public async Task UpdateAsync(IEnumerable<T> items, CancellationToken cancellationToken)
+		public async Task UpdateAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{
 		}
 
 		/// <inheritdoc />
-		public async Task RemoveAsync(T item, CancellationToken cancellationToken)
+		public async Task RemoveAsync(TAggregateRoot item, CancellationToken cancellationToken)
 		{
 		}
 
 		/// <inheritdoc />
-		public async Task RemoveAsync(string id, CancellationToken cancellationToken)
+		public async Task RemoveAsync(TKey id, CancellationToken cancellationToken)
 		{
 		}
 
 		/// <inheritdoc />
-		public async Task RemoveAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken)
+		public async Task RemoveAsync(Expression<Func<TAggregateRoot, bool>> predicate, CancellationToken cancellationToken)
 		{
 		}
 
 		/// <inheritdoc />
-		public async Task RemoveAsync(IEnumerable<T> items, CancellationToken cancellationToken)
+		public async Task RemoveAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{
 		}
 
@@ -56,49 +56,49 @@
 		}
 
 		/// <inheritdoc />
-		public virtual async Task<T> GetAsync(string id, CancellationToken cancellationToken)
+		public virtual async Task<TAggregateRoot> GetAsync(TKey id, CancellationToken cancellationToken)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<TResult> GetAsync<TResult>(string id, Expression<Func<T, TResult>> selector, CancellationToken cancellationToken)
+		public async Task<TResult> GetAsync<TResult>(TKey id, Expression<Func<TAggregateRoot, TResult>> selector, CancellationToken cancellationToken)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<bool> ExistsAsync(string id, CancellationToken cancellationToken)
+		public async Task<bool> ExistsAsync(TKey id, CancellationToken cancellationToken)
 		{
 			return false;
 		}
 
 		/// <inheritdoc />
-		public async Task<T> FindOneAsync(Expression<Func<T, bool>> predicate, IQueryOptions<T>? queryOptions, CancellationToken cancellationToken)
+		public async Task<TAggregateRoot> FindOneAsync(Expression<Func<TAggregateRoot, bool>> predicate, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<TResult> FindOneAsync<TResult>(Expression<Func<T, bool>> predicate, Expression<Func<T, TResult>> selector, IQueryOptions<T>? queryOptions, CancellationToken cancellationToken)
+		public async Task<TResult> FindOneAsync<TResult>(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<bool> ExistsAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken)
+		public async Task<bool> ExistsAsync(Expression<Func<TAggregateRoot, bool>> predicate, CancellationToken cancellationToken)
 		{
 			return false;
 		}
 
 		/// <inheritdoc />
-		public virtual async Task<IReadOnlyCollection<T>> FindManyAsync(Expression<Func<T, bool>> predicate, IQueryOptions<T>? queryOptions, CancellationToken cancellationToken)
+		public virtual async Task<IReadOnlyCollection<TAggregateRoot>> FindManyAsync(Expression<Func<TAggregateRoot, bool>> predicate, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<IReadOnlyCollection<TResult>> FindManyAsync<TResult>(Expression<Func<T, bool>> predicate, Expression<Func<T, TResult>> selector, IQueryOptions<T>? queryOptions, CancellationToken cancellationToken)
+		public async Task<IReadOnlyCollection<TResult>> FindManyAsync<TResult>(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
 		{
 			return default;
 		}
@@ -110,7 +110,7 @@
 		}
 
 		/// <inheritdoc />
-		public async Task<long> CountAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken)
+		public async Task<long> CountAsync(Expression<Func<TAggregateRoot, bool>> predicate, CancellationToken cancellationToken)
 		{
 			return default;
 		}

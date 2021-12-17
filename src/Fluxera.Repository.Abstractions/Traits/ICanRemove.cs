@@ -14,9 +14,10 @@
 	///     <see href="http://richarddingwall.name/2009/01/19/irepositoryt-one-size-does-not-fit-all/" />
 	/// </summary>
 	/// <typeparam name="TAggregateRoot">Generic repository aggregate root type.</typeparam>
-	///// <typeparam name="TKey">The type of the ID.</typeparam>
+	/// <typeparam name="TKey">The type of the ID.</typeparam>
 	[PublicAPI]
-	public interface ICanRemove<TAggregateRoot /*, TKey*/> where TAggregateRoot : AggregateRoot<TAggregateRoot>
+	public interface ICanRemove<TAggregateRoot, TKey>
+		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 	{
 		/// <summary>
 		///     Deletes the given instance from the underlying store.
@@ -30,7 +31,7 @@
 		/// </summary>
 		/// <param name="id">The id of the item to remove.</param>
 		/// <param name="cancellationToken">The cancellation token.</param>
-		Task RemoveAsync(string id, CancellationToken cancellationToken = default);
+		Task RemoveAsync(TKey id, CancellationToken cancellationToken = default);
 
 		/// <summary>
 		///     Deletes all items that match the given expression from the underlying store.

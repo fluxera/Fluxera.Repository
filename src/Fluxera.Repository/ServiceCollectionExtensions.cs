@@ -31,8 +31,8 @@
 			configure.Invoke(repositoryBuilder);
 
 			// Register the decorators.
-			services.DecorateRepository(typeof(IRepository<>));
-			services.DecorateRepository(typeof(IReadOnlyRepository<>));
+			services.DecorateRepository(typeof(IRepository<,>));
+			services.DecorateRepository(typeof(IReadOnlyRepository<,>));
 
 			// Add logging infrastructure.
 			services.AddLogging();
@@ -89,12 +89,12 @@
 
 			services
 				.Decorate(repositoryType)
-				.With(typeof(CachingRepositoryDecorator<>))
-				.With(typeof(DomainEventsRepositoryDecorator<>))
+				.With(typeof(CachingRepositoryDecorator<,>))
+				.With(typeof(DomainEventsRepositoryDecorator<,>))
 				// TODO: Add multi-tenancy decorator here.
-				.With(typeof(ValidationRepositoryDecorator<>))
-				.With(typeof(GuardRepositoryDecorator<>))
-				.With(typeof(ExceptionLoggingRepositoryDecorator<>));
+				.With(typeof(ValidationRepositoryDecorator<,>))
+				.With(typeof(GuardRepositoryDecorator<,>))
+				.With(typeof(ExceptionLoggingRepositoryDecorator<,>));
 
 			return services;
 		}

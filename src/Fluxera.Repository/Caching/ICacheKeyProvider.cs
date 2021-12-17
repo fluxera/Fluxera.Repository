@@ -9,75 +9,75 @@
 	[PublicAPI]
 	public interface ICacheKeyProvider
 	{
-		string GetGenerationCacheKey<TAggregateRoot>(
-			RepositoryName repositoryName) where TAggregateRoot : AggregateRoot<TAggregateRoot>;
+		string GetGenerationCacheKey<TAggregateRoot, TKey>(
+			RepositoryName repositoryName) where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>;
 
-		string GetAddCacheKey<TAggregateRoot>(
+		string GetAddCacheKey<TAggregateRoot, TKey>(
 			RepositoryName repositoryName,
-			string id) where TAggregateRoot : AggregateRoot<TAggregateRoot>;
+			TKey id) where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>;
 
-		string GetUpdateCacheKey<TAggregateRoot>(
+		string GetUpdateCacheKey<TAggregateRoot, TKey>(
 			RepositoryName repositoryName,
-			string id) where TAggregateRoot : AggregateRoot<TAggregateRoot>;
+			TKey id) where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>;
 
-		string GetDeleteCacheKey<TAggregateRoot>(
+		string GetDeleteCacheKey<TAggregateRoot, TKey>(
 			RepositoryName repositoryName,
-			string id) where TAggregateRoot : AggregateRoot<TAggregateRoot>;
+			TKey id) where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>;
 
-		string GetGetCacheKey<TAggregateRoot>(
+		string GetGetCacheKey<TAggregateRoot, TKey>(
 			RepositoryName repositoryName,
-			string id) where TAggregateRoot : AggregateRoot<TAggregateRoot>;
+			TKey id) where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>;
 
-		string GetGetCacheKey<TAggregateRoot, TResult>(
+		string GetGetCacheKey<TAggregateRoot, TKey, TResult>(
 			RepositoryName repositoryName,
-			string id,
-			Expression<Func<TAggregateRoot, TResult>> selector) where TAggregateRoot : AggregateRoot<TAggregateRoot>;
+			TKey id,
+			Expression<Func<TAggregateRoot, TResult>> selector) where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>;
 
-		string GetCountCacheKey<TAggregateRoot>(
+		string GetCountCacheKey<TAggregateRoot, TKey>(
 			RepositoryName repositoryName,
-			in long generation);
+			in long generation) where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>;
 
-		string GetCountCacheKey<TAggregateRoot>(
-			RepositoryName repositoryName,
-			in long generation,
-			Expression<Func<TAggregateRoot, bool>> predicate) where TAggregateRoot : AggregateRoot<TAggregateRoot>;
-
-		string GetFindOneCacheKey<TAggregateRoot>(
+		string GetCountCacheKey<TAggregateRoot, TKey>(
 			RepositoryName repositoryName,
 			in long generation,
-			Expression<Func<TAggregateRoot, bool>> predicate,
-			IQueryOptions<TAggregateRoot> queryOptions) where TAggregateRoot : AggregateRoot<TAggregateRoot>;
+			Expression<Func<TAggregateRoot, bool>> predicate) where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>;
 
-		string GetFindOneCacheKey<TAggregateRoot, TResult>(
+		string GetFindOneCacheKey<TAggregateRoot, TKey>(
 			RepositoryName repositoryName,
 			in long generation,
 			Expression<Func<TAggregateRoot, bool>> predicate,
-			Expression<Func<TAggregateRoot, TResult>> selector,
-			IQueryOptions<TAggregateRoot> queryOptions) where TAggregateRoot : AggregateRoot<TAggregateRoot>;
+			IQueryOptions<TAggregateRoot> queryOptions) where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>;
 
-		string GetFindManyCacheKey<TAggregateRoot>(
-			RepositoryName repositoryName,
-			in long generation,
-			Expression<Func<TAggregateRoot, bool>> predicate,
-			IQueryOptions<TAggregateRoot> queryOptions) where TAggregateRoot : AggregateRoot<TAggregateRoot>;
-
-		string GetFindManyCacheKey<TAggregateRoot, TResult>(
+		string GetFindOneCacheKey<TAggregateRoot, TKey, TResult>(
 			RepositoryName repositoryName,
 			in long generation,
 			Expression<Func<TAggregateRoot, bool>> predicate,
 			Expression<Func<TAggregateRoot, TResult>> selector,
-			IQueryOptions<TAggregateRoot> queryOptions) where TAggregateRoot : AggregateRoot<TAggregateRoot>;
+			IQueryOptions<TAggregateRoot> queryOptions) where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>;
 
-		string GetExistsCacheKey<TAggregateRoot>(
+		string GetFindManyCacheKey<TAggregateRoot, TKey>(
 			RepositoryName repositoryName,
 			in long generation,
-			string id)
-			where TAggregateRoot : AggregateRoot<TAggregateRoot>;
+			Expression<Func<TAggregateRoot, bool>> predicate,
+			IQueryOptions<TAggregateRoot> queryOptions) where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>;
 
-		string GetExistsCacheKey<TAggregateRoot>(
+		string GetFindManyCacheKey<TAggregateRoot, TKey, TResult>(
+			RepositoryName repositoryName,
+			in long generation,
+			Expression<Func<TAggregateRoot, bool>> predicate,
+			Expression<Func<TAggregateRoot, TResult>> selector,
+			IQueryOptions<TAggregateRoot> queryOptions) where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>;
+
+		string GetExistsCacheKey<TAggregateRoot, TKey>(
+			RepositoryName repositoryName,
+			in long generation,
+			TKey id)
+			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>;
+
+		string GetExistsCacheKey<TAggregateRoot, TKey>(
 			RepositoryName repositoryName,
 			in long generation,
 			Expression<Func<TAggregateRoot, bool>> predicate)
-			where TAggregateRoot : AggregateRoot<TAggregateRoot>;
+			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>;
 	}
 }

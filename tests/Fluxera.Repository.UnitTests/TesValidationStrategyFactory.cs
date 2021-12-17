@@ -18,9 +18,10 @@
 		}
 
 		/// <inheritdoc />
-		public IValidationStrategy<TAggregateRoot> CreateStrategy<TAggregateRoot>() where TAggregateRoot : AggregateRoot<TAggregateRoot>
+		public IValidationStrategy<TAggregateRoot, TKey> CreateStrategy<TAggregateRoot, TKey>()
+			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 		{
-			return new TestValidationStrategy<TAggregateRoot>(this.GetValidators());
+			return new TestValidationStrategy<TAggregateRoot, TKey>(this.GetValidators());
 		}
 
 		private IReadOnlyCollection<IValidator> GetValidators()

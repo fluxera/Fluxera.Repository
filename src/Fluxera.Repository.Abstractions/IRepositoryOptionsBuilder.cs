@@ -3,7 +3,6 @@
 	using System;
 	using System.Collections.Generic;
 	using System.Reflection;
-	using Fluxera.Entity;
 	using JetBrains.Annotations;
 
 	[PublicAPI]
@@ -17,7 +16,7 @@
 
 		IRepositoryOptionsBuilder UseFor(Type type);
 
-		IRepositoryOptionsBuilder UseFor<TAggregateRoot>() where TAggregateRoot : AggregateRoot<TAggregateRoot>;
+		IRepositoryOptionsBuilder UseFor<TAggregateRoot>();
 
 		IRepositoryOptionsBuilder AddSetting<T>(string key, T value);
 

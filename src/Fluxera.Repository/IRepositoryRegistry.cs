@@ -2,7 +2,6 @@
 {
 	using System;
 	using System.Collections.Generic;
-	using Fluxera.Entity;
 	using Fluxera.Repository.Options;
 	using JetBrains.Annotations;
 
@@ -17,7 +16,7 @@
 		/// </summary>
 		/// <typeparam name="TAggregateRoot">The aggregate type.</typeparam>
 		/// <returns>The name.</returns>
-		RepositoryName GetRepositoryNameFor<TAggregateRoot>() where TAggregateRoot : AggregateRoot<TAggregateRoot>;
+		RepositoryName GetRepositoryNameFor<TAggregateRoot>();
 
 		/// <summary>
 		///     Gets the name of the repository for the aggregate type.

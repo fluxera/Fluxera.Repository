@@ -7,7 +7,8 @@
 	using Fluxera.Repository.Validation;
 	using Fluxera.Utilities.Extensions;
 
-	public class TestValidationStrategy<T> : IValidationStrategy<T> where T : AggregateRoot<T>
+	public class TestValidationStrategy<TAggregateRoot, TKey> : IValidationStrategy<TAggregateRoot, TKey>
+		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 	{
 		private readonly IReadOnlyCollection<IValidator> validators;
 
@@ -16,7 +17,7 @@
 			this.validators = validators;
 		}
 
-		public async Task ValidateAsync(T item)
+		public async Task ValidateAsync(TAggregateRoot item)
 		{
 			ValidationResult validationResult = await this.validators.ValidateAsync(item);
 			if(!validationResult.IsValid)
@@ -27,9 +28,9 @@
 			}
 		}
 
-		public async Task ValidateAsync(IEnumerable<T> items)
+		public async Task ValidateAsync(IEnumerable<TAggregateRoot> items)
 		{
-			foreach(T item in items)
+			foreach(TAggregateRoot item in items)
 			{
 				ValidationResult validationResult = await this.validators.ValidateAsync(item);
 				if(!validationResult.IsValid)

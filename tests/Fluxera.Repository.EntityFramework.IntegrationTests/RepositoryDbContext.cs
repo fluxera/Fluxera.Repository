@@ -19,7 +19,7 @@
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder, EntityFrameworkPersistenceSettings settings)
 		{
 			// https://entityframeworkcore.com/providers-inmemory
-			optionsBuilder.UseInMemoryDatabase(settings.ConnectionString);
+			optionsBuilder.UseSqlite(settings.ConnectionString);
 		}
 
 		/// <inheritdoc />

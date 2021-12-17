@@ -67,7 +67,7 @@
 		}
 
 		/// <inheritdoc />
-		protected override Type DecoratorType => typeof(GuardRepositoryDecorator<>);
+		protected override Type DecoratorType => typeof(GuardRepositoryDecorator<,>);
 
 		[Test]
 		public void ShouldGuard_AddAsync_Multiple()

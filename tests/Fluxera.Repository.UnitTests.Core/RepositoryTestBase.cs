@@ -8,7 +8,7 @@
 
 	public abstract class RepositoryTestBase : TestBase
 	{
-		protected IRepository<Person> Repository { get; private set; }
+		protected IRepository<Person, string> Repository { get; private set; }
 
 		[SetUp]
 		public void SetUp()

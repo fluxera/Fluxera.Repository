@@ -13,7 +13,7 @@
 			Guard.Against.NullOrWhiteSpace(repositoryName, nameof(repositoryName));
 			Guard.Against.Null(configure, nameof(configure));
 
-			return builder.AddRepository(repositoryName, typeof(InMemoryRepository<>), configure);
+			return builder.AddRepository(repositoryName, typeof(InMemoryRepository<,>), configure);
 		}
 	}
 }

@@ -6,9 +6,9 @@
 
 	internal static class LiteRepositoryExtensions
 	{
-		internal static ILiteQueryableAsync<TAggregateRoot> ApplyOptions<TAggregateRoot>(
+		internal static ILiteQueryableAsync<TAggregateRoot> ApplyOptions<TAggregateRoot, TKey>(
 			this ILiteQueryableAsync<TAggregateRoot> queryable, IQueryOptions<TAggregateRoot>? options)
-			where TAggregateRoot : AggregateRoot<TAggregateRoot>
+			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 		{
 			if(options is null)
 			{

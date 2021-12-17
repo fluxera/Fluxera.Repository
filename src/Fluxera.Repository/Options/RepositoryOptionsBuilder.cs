@@ -86,11 +86,6 @@
 			return this;
 		}
 
-		public IRepositoryOptionsBuilder UseFor<TAggregateRoot>() where TAggregateRoot : AggregateRoot<TAggregateRoot>
-		{
-			return this.UseFor(typeof(TAggregateRoot));
-		}
-
 		public IRepositoryOptionsBuilder AddSetting<T>(string key, T value)
 		{
 			if(!this.repositoryOptions.SettingsValues.ContainsKey(key))
@@ -127,24 +122,6 @@
 			return this;
 		}
 
-		//public IRepositoryOptionsBuilder AddInterception(Action<IInterceptionOptionsBuilder> configure)
-		//{
-		//	Guard.Against.Null(configure, nameof(configure));
-
-		//	if (this.repositoryOptions.InterceptionOptions.IsEnabled)
-		//	{
-		//		throw new InvalidOperationException(
-		//			$"The interception was already enabled for repository '{this.repositoryOptions.RepositoryName}'.");
-		//	}
-
-		//	InterceptionOptionsBuilder builder = new InterceptionOptionsBuilder(this.repositoryOptions, this.Services);
-		//	configure.Invoke(builder);
-
-		//	this.repositoryOptions.InterceptionOptions.IsEnabled = true;
-
-		//	return this;
-		//}
-
 		public IRepositoryOptionsBuilder AddDomainEventHandling(Action<IDomainEventsOptionsBuilder> configure)
 		{
 			Guard.Against.Null(configure, nameof(configure));
@@ -177,6 +154,11 @@
 			this.repositoryOptions.CachingOptions.Enabled = true;
 
 			return this;
+		}
+
+		public IRepositoryOptionsBuilder UseFor<TAggregateRoot>()
+		{
+			return this.UseFor(typeof(TAggregateRoot));
 		}
 
 		internal RepositoryOptions Build()

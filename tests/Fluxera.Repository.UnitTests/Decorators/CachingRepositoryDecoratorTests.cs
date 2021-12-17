@@ -13,10 +13,10 @@
 	public class CachingRepositoryDecoratorTests : DecoratorTestBase
 	{
 		/// <inheritdoc />
-		protected override Type DecoratorType => typeof(CachingRepositoryDecorator<>);
+		protected override Type DecoratorType => typeof(CachingRepositoryDecorator<,>);
 
 		/// <inheritdoc />
-		protected override Type RepositoryType => typeof(NoopTestRepository<Person>);
+		protected override Type RepositoryType => typeof(NoopTestRepository<Person, string>);
 
 		/// <inheritdoc />
 		protected override void ConfigureServices(IServiceCollection services)
@@ -26,10 +26,10 @@
 			services.AddSingleton(sp => (TestCachingStrategyFactory)sp.GetRequiredService<ICachingStrategyFactory>());
 		}
 
-		private void ShouldHaveUsedStrategy(Func<TestCachingStrategy<Person>, bool> flagProviderFunc)
+		private void ShouldHaveUsedStrategy(Func<TestCachingStrategy<Person, string>, bool> flagProviderFunc)
 		{
 			TestCachingStrategyFactory cachingStrategyFactory = this.ServiceProvider.GetRequiredService<TestCachingStrategyFactory>();
-			TestCachingStrategy<Person> cachingStrategy = cachingStrategyFactory.GetStrategy<Person>();
+			TestCachingStrategy<Person, string> cachingStrategy = cachingStrategyFactory.GetStrategy<Person, string>();
 
 			bool result = flagProviderFunc.Invoke(cachingStrategy);
 			result.Should().BeTrue();

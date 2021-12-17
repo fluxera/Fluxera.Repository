@@ -6,8 +6,8 @@
 	using Fluxera.Extensions.Validation;
 	using Fluxera.Guards;
 
-	internal sealed class StandardValidationStrategy<TAggregateRoot> : IValidationStrategy<TAggregateRoot>
-		where TAggregateRoot : AggregateRoot<TAggregateRoot>
+	internal sealed class StandardValidationStrategy<TAggregateRoot, TKey> : IValidationStrategy<TAggregateRoot, TKey>
+		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 	{
 		private readonly IReadOnlyCollection<IValidator> validators;
 

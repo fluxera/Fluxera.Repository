@@ -17,10 +17,10 @@
 		private Mock<ILogger> loggerMock;
 
 		/// <inheritdoc />
-		protected override Type DecoratorType => typeof(DomainEventsRepositoryDecorator<>);
+		protected override Type DecoratorType => typeof(DomainEventsRepositoryDecorator<,>);
 
 		/// <inheritdoc />
-		protected override Type RepositoryType => typeof(DomainEventsTestRepository<Person>);
+		protected override Type RepositoryType => typeof(DomainEventsTestRepository<Person, string>);
 
 		/// <inheritdoc />
 		protected override void ConfigureServices(IServiceCollection services)

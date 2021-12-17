@@ -25,8 +25,8 @@
 			this.loggerFactory = loggerFactory;
 		}
 
-		public ICachingStrategy<TAggregateRoot> CreateStrategy<TAggregateRoot>()
-			where TAggregateRoot : AggregateRoot<TAggregateRoot>
+		public ICachingStrategy<TAggregateRoot, TKey> CreateStrategy<TAggregateRoot, TKey>()
+			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 		{
 			RepositoryName repositoryName = this.repositoryRegistry.GetRepositoryNameFor<TAggregateRoot>();
 			RepositoryOptions repositoryOptions = this.repositoryRegistry.GetRepositoryOptionsFor(repositoryName);
@@ -35,11 +35,11 @@
 			if(isEnabled)
 			{
 				ICachingProvider cachingProvider = this.cachingProviderFactory.CreateCachingProvider();
-				return new StandardCachingStrategy<TAggregateRoot>(repositoryName, cachingProvider,
+				return new StandardCachingStrategy<TAggregateRoot, TKey>(repositoryName, cachingProvider,
 					this.cacheKeyProvider, this.loggerFactory);
 			}
 
-			return new NoCachingStrategy<TAggregateRoot>();
+			return new NoCachingStrategy<TAggregateRoot, TKey>();
 		}
 	}
 }

@@ -12,14 +12,14 @@
 	///     Contract for a repository that accesses <typeparamref name="TAggregateRoot" /> entities.
 	/// </summary>
 	/// <typeparam name="TAggregateRoot">Generic repository entity type.</typeparam>
-	///// <typeparam name="TKey">The type of the ID.</typeparam>
+	/// <typeparam name="TKey">The type of the ID.</typeparam>
 	[PublicAPI]
-	public interface IRepository<TAggregateRoot /*, TKey*/> :
-		ICanAdd<TAggregateRoot>,
-		ICanUpdate<TAggregateRoot>,
-		ICanRemove<TAggregateRoot>,
-		IReadOnlyRepository<TAggregateRoot>
-		where TAggregateRoot : AggregateRoot<TAggregateRoot>
+	public interface IRepository<TAggregateRoot, TKey> :
+		ICanAdd<TAggregateRoot, TKey>,
+		ICanUpdate<TAggregateRoot, TKey>,
+		ICanRemove<TAggregateRoot, TKey>,
+		IReadOnlyRepository<TAggregateRoot, TKey>
+		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 	{
 	}
 }

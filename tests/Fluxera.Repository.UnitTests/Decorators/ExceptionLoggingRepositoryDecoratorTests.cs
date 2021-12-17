@@ -17,7 +17,7 @@
 		private Mock<ILogger> loggerMock;
 
 		/// <inheritdoc />
-		protected override Type DecoratorType => typeof(ExceptionLoggingRepositoryDecorator<>);
+		protected override Type DecoratorType => typeof(ExceptionLoggingRepositoryDecorator<,>);
 
 		/// <inheritdoc />
 		protected override void ConfigureServices(IServiceCollection services)

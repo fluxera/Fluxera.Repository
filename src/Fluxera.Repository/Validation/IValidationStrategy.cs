@@ -6,8 +6,8 @@
 	using JetBrains.Annotations;
 
 	[PublicAPI]
-	public interface IValidationStrategy<in TAggregateRoot>
-		where TAggregateRoot : AggregateRoot<TAggregateRoot>
+	public interface IValidationStrategy<in TAggregateRoot, TKey>
+		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 	{
 		Task ValidateAsync(TAggregateRoot item);
 

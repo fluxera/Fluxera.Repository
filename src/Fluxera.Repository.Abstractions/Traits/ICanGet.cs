@@ -15,9 +15,10 @@
 	///     <see href="http://richarddingwall.name/2009/01/19/irepositoryt-one-size-does-not-fit-all/" />
 	/// </remarks>
 	/// <typeparam name="TAggregateRoot">Generic repository entity root type.</typeparam>
-	///// <typeparam name="TKey">The type of the ID.</typeparam>
+	/// <typeparam name="TKey">The type of the ID.</typeparam>
 	[PublicAPI]
-	public interface ICanGet<TAggregateRoot /*, TKey*/> where TAggregateRoot : AggregateRoot<TAggregateRoot>
+	public interface ICanGet<TAggregateRoot, TKey>
+		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 	{
 		/// <summary>
 		///     Gets the instance from the underlying store for the given id.
@@ -25,7 +26,7 @@
 		/// <param name="id">The id of the item to get.</param>
 		/// <param name="cancellationToken">The cancellation token.</param>
 		/// <returns>The item for the given id.</returns>
-		Task<TAggregateRoot> GetAsync(string id, CancellationToken cancellationToken = default);
+		Task<TAggregateRoot> GetAsync(TKey id, CancellationToken cancellationToken = default);
 
 		/// <summary>
 		///     Gets the value of the property specified by the selector.
@@ -35,7 +36,7 @@
 		/// <param name="cancellationToken">The cancellation token.</param>
 		/// <typeparam name="TResult">The type of the result property.</typeparam>
 		/// <returns>The result of the selector.</returns>
-		Task<TResult> GetAsync<TResult>(string id, Expression<Func<TAggregateRoot, TResult>> selector, CancellationToken cancellationToken = default);
+		Task<TResult> GetAsync<TResult>(TKey id, Expression<Func<TAggregateRoot, TResult>> selector, CancellationToken cancellationToken = default);
 
 		/// <summary>
 		///     Checks if the item specified by the given id exist.
@@ -43,6 +44,6 @@
 		/// <param name="id">The id of the item to check for.</param>
 		/// <param name="cancellationToken">The cancellation token.</param>
 		/// <returns><code>true</code> if the item exists; <code>false</code> otherwise.</returns>
-		Task<bool> ExistsAsync(string id, CancellationToken cancellationToken = default);
+		Task<bool> ExistsAsync(TKey id, CancellationToken cancellationToken = default);
 	}
 }

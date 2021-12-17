@@ -8,7 +8,8 @@
 	using Fluxera.Repository.Caching;
 	using Fluxera.Repository.Query;
 
-	public class TestCachingStrategy<T> : ICachingStrategy<T> where T : AggregateRoot<T>
+	public class TestCachingStrategy<TAggregateRoot, TKey> : ICachingStrategy<TAggregateRoot, TKey>
+		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 	{
 		public bool AddMultipleWasCalled;
 		public bool AddSingleWasCalled;
@@ -28,43 +29,43 @@
 		public bool UpdateSingleWasCalled;
 
 		/// <inheritdoc />
-		async Task ICachingStrategy<T>.AddAsync(T item)
+		async Task ICachingStrategy<TAggregateRoot, TKey>.AddAsync(TAggregateRoot item)
 		{
 			this.AddSingleWasCalled = true;
 		}
 
 		/// <inheritdoc />
-		async Task ICachingStrategy<T>.AddAsync(IEnumerable<T> items)
+		async Task ICachingStrategy<TAggregateRoot, TKey>.AddAsync(IEnumerable<TAggregateRoot> items)
 		{
 			this.AddMultipleWasCalled = true;
 		}
 
 		/// <inheritdoc />
-		async Task ICachingStrategy<T>.UpdateAsync(T item)
+		async Task ICachingStrategy<TAggregateRoot, TKey>.UpdateAsync(TAggregateRoot item)
 		{
 			this.UpdateSingleWasCalled = true;
 		}
 
 		/// <inheritdoc />
-		async Task ICachingStrategy<T>.UpdateAsync(IEnumerable<T> items)
+		async Task ICachingStrategy<TAggregateRoot, TKey>.UpdateAsync(IEnumerable<TAggregateRoot> items)
 		{
 			this.UpdateMultipleWasCalled = true;
 		}
 
 		/// <inheritdoc />
-		async Task ICachingStrategy<T>.RemoveAsync(string id)
+		async Task ICachingStrategy<TAggregateRoot, TKey>.RemoveAsync(TKey id)
 		{
 			this.RemoveSingleWasCalled = true;
 		}
 
 		/// <inheritdoc />
-		async Task ICachingStrategy<T>.RemoveAsync(IEnumerable<string> ids)
+		async Task ICachingStrategy<TAggregateRoot, TKey>.RemoveAsync(IEnumerable<TKey> ids)
 		{
 			this.RemoveMultipleWasCalled = true;
 		}
 
 		/// <inheritdoc />
-		async Task<T> ICachingStrategy<T>.GetAsync(string id, Func<Task<T>> setter)
+		async Task<TAggregateRoot> ICachingStrategy<TAggregateRoot, TKey>.GetAsync(TKey id, Func<Task<TAggregateRoot>> setter)
 		{
 			this.GetWasCalled = true;
 
@@ -72,7 +73,7 @@
 		}
 
 		/// <inheritdoc />
-		async Task<TResult> ICachingStrategy<T>.GetAsync<TResult>(string id, Expression<Func<T, TResult>> selector, Func<Task<TResult>> setter)
+		async Task<TResult> ICachingStrategy<TAggregateRoot, TKey>.GetAsync<TResult>(TKey id, Expression<Func<TAggregateRoot, TResult>> selector, Func<Task<TResult>> setter)
 		{
 			this.GetWithSelectorWasCalled = true;
 
@@ -80,7 +81,7 @@
 		}
 
 		/// <inheritdoc />
-		async Task<long> ICachingStrategy<T>.CountAsync(Func<Task<long>> setter)
+		async Task<long> ICachingStrategy<TAggregateRoot, TKey>.CountAsync(Func<Task<long>> setter)
 		{
 			this.CountWasCalled = true;
 
@@ -88,7 +89,7 @@
 		}
 
 		/// <inheritdoc />
-		async Task<long> ICachingStrategy<T>.CountAsync(Expression<Func<T, bool>> predicate, Func<Task<long>> setter)
+		async Task<long> ICachingStrategy<TAggregateRoot, TKey>.CountAsync(Expression<Func<TAggregateRoot, bool>> predicate, Func<Task<long>> setter)
 		{
 			this.CountWithPredicateWasCalled = true;
 
@@ -96,7 +97,7 @@
 		}
 
 		/// <inheritdoc />
-		async Task<T> ICachingStrategy<T>.FindOneAsync(Expression<Func<T, bool>> predicate, IQueryOptions<T>? queryOptions, Func<Task<T>> setter)
+		async Task<TAggregateRoot> ICachingStrategy<TAggregateRoot, TKey>.FindOneAsync(Expression<Func<TAggregateRoot, bool>> predicate, IQueryOptions<TAggregateRoot>? queryOptions, Func<Task<TAggregateRoot>> setter)
 		{
 			this.FindOneWithPredicateWasCalled = true;
 
@@ -104,7 +105,7 @@
 		}
 
 		/// <inheritdoc />
-		async Task<TResult> ICachingStrategy<T>.FindOneAsync<TResult>(Expression<Func<T, bool>> predicate, Expression<Func<T, TResult>> selector, IQueryOptions<T>? queryOptions, Func<Task<TResult>> setter)
+		async Task<TResult> ICachingStrategy<TAggregateRoot, TKey>.FindOneAsync<TResult>(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot>? queryOptions, Func<Task<TResult>> setter)
 		{
 			this.FindOneWithPredicateAndSelectorWasCalled = true;
 
@@ -112,7 +113,7 @@
 		}
 
 		/// <inheritdoc />
-		async Task<IReadOnlyCollection<T>> ICachingStrategy<T>.FindManyAsync(Expression<Func<T, bool>> predicate, IQueryOptions<T>? queryOptions, Func<Task<IReadOnlyCollection<T>>> setter)
+		async Task<IReadOnlyCollection<TAggregateRoot>> ICachingStrategy<TAggregateRoot, TKey>.FindManyAsync(Expression<Func<TAggregateRoot, bool>> predicate, IQueryOptions<TAggregateRoot>? queryOptions, Func<Task<IReadOnlyCollection<TAggregateRoot>>> setter)
 		{
 			this.FindManyWithPredicateWasCalled = true;
 
@@ -120,7 +121,7 @@
 		}
 
 		/// <inheritdoc />
-		async Task<IReadOnlyCollection<TResult>> ICachingStrategy<T>.FindManyAsync<TResult>(Expression<Func<T, bool>> predicate, Expression<Func<T, TResult>> selector, IQueryOptions<T>? queryOptions, Func<Task<IReadOnlyCollection<TResult>>> setter)
+		async Task<IReadOnlyCollection<TResult>> ICachingStrategy<TAggregateRoot, TKey>.FindManyAsync<TResult>(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot>? queryOptions, Func<Task<IReadOnlyCollection<TResult>>> setter)
 		{
 			this.FindManyWithPredicateAndSelectorWasCalled = true;
 
@@ -128,7 +129,7 @@
 		}
 
 		/// <inheritdoc />
-		async Task<bool> ICachingStrategy<T>.ExistsAsync(string id, Func<Task<bool>> setter)
+		async Task<bool> ICachingStrategy<TAggregateRoot, TKey>.ExistsAsync(TKey id, Func<Task<bool>> setter)
 		{
 			this.ExistsWasCalled = true;
 
@@ -136,7 +137,7 @@
 		}
 
 		/// <inheritdoc />
-		async Task<bool> ICachingStrategy<T>.ExistsAsync(Expression<Func<T, bool>> predicate, Func<Task<bool>> setter)
+		async Task<bool> ICachingStrategy<TAggregateRoot, TKey>.ExistsAsync(Expression<Func<TAggregateRoot, bool>> predicate, Func<Task<bool>> setter)
 		{
 			this.ExistsWithPredicateWasCalled = true;
 

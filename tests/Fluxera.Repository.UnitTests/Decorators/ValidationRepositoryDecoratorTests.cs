@@ -24,7 +24,7 @@
 		}
 
 		/// <inheritdoc />
-		protected override Type DecoratorType => typeof(ValidationRepositoryDecorator<>);
+		protected override Type DecoratorType => typeof(ValidationRepositoryDecorator<,>);
 
 		/// <inheritdoc />
 		protected override void ConfigureServices(IServiceCollection services)

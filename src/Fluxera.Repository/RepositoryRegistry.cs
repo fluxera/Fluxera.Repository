@@ -4,7 +4,6 @@
 	using System.Collections.Concurrent;
 	using System.Collections.Generic;
 	using System.Linq;
-	using Fluxera.Entity;
 	using Fluxera.Repository.Options;
 	using Fluxera.Utilities.Extensions;
 	using JetBrains.Annotations;
@@ -29,11 +28,11 @@
 			this.repositoryMappings.Clear();
 		}
 
-		public RepositoryName? GetRepositoryNameFor(Type repositoryType)
+		public RepositoryName GetRepositoryNameFor(Type repositoryType)
 		{
 			this.EnsureInitialized();
 
-			RepositoryName repositoryName = this.repositoryMappings.GetOrDefault(repositoryType);
+			RepositoryName? repositoryName = this.repositoryMappings.GetOrDefault(repositoryType);
 			if(repositoryName is null)
 			{
 				throw Errors.NoRepositoryNameAvailable(repositoryType);
@@ -42,7 +41,7 @@
 			return repositoryName;
 		}
 
-		public RepositoryName GetRepositoryNameFor<TAggregateRoot>() where TAggregateRoot : AggregateRoot<TAggregateRoot>
+		public RepositoryName GetRepositoryNameFor<TAggregateRoot>()
 		{
 			this.EnsureInitialized();
 
@@ -53,7 +52,7 @@
 		{
 			this.EnsureInitialized();
 
-			RepositoryOptions repositoryOptions = this.repositories.GetOrDefault(repositoryName);
+			RepositoryOptions? repositoryOptions = this.repositories.GetOrDefault(repositoryName);
 			if(repositoryOptions is null)
 			{
 				throw Errors.NoRepositoryOptionsAvailable(repositoryName);

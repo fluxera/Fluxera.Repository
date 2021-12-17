@@ -26,18 +26,18 @@
 		}
 
 		/// <inheritdoc />
-		public IValidationStrategy<TAggregateRoot> CreateStrategy<TAggregateRoot>()
-			where TAggregateRoot : AggregateRoot<TAggregateRoot>
+		public IValidationStrategy<TAggregateRoot, TKey> CreateStrategy<TAggregateRoot, TKey>()
+			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 		{
 			RepositoryName repositoryName = this.repositoryRegistry.GetRepositoryNameFor<TAggregateRoot>();
 			RepositoryOptions repositoryOptions = this.repositoryRegistry.GetRepositoryOptionsFor(repositoryName);
 
 			if(repositoryOptions.ValidationOptions.IsEnabled)
 			{
-				return new StandardValidationStrategy<TAggregateRoot>(this.GetValidators(repositoryName));
+				return new StandardValidationStrategy<TAggregateRoot, TKey>(this.GetValidators(repositoryName));
 			}
 
-			return new NoValidationStrategy<TAggregateRoot>();
+			return new NoValidationStrategy<TAggregateRoot, TKey>();
 		}
 
 		private IReadOnlyCollection<IValidator> GetValidators(RepositoryName repositoryName)
