@@ -345,13 +345,27 @@
 		}
 
 		/// <inheritdoc />
-		void IDisposable.Dispose()
+		public void Dispose()
 		{
 			this.IsDisposed = true;
 		}
 
 		/// <inheritdoc />
 		bool IReadOnlyRepository<TAggregateRoot>.IsDisposed => this.IsDisposed;
+
+		/// <inheritdoc />
+		ValueTask IAsyncDisposable.DisposeAsync()
+		{
+			try
+			{
+				this.Dispose();
+				return default;
+			}
+			catch(Exception exception)
+			{
+				return new ValueTask(Task.FromException(exception));
+			}
+		}
 
 		private static Expression<Func<TAggregateRoot, object>> ConvertSelector<TResult>(
 			Expression<Func<TAggregateRoot, TResult>> selector)

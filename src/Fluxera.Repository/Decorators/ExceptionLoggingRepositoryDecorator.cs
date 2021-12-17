@@ -290,5 +290,20 @@
 
 		/// <inheritdoc />
 		bool IReadOnlyRepository<TAggregateRoot>.IsDisposed => this.innerRepository.IsDisposed;
+
+		/// <inheritdoc />
+		async ValueTask IAsyncDisposable.DisposeAsync()
+		{
+			if(!this.innerRepository.IsDisposed)
+			{
+				await this.innerRepository.DisposeAsync();
+			}
+		}
+
+		/// <inheritdoc />
+		public override string ToString()
+		{
+			return this.innerRepository.ToString();
+		}
 	}
 }

@@ -127,5 +127,11 @@
 
 		/// <inheritdoc />
 		bool IReadOnlyRepository<T>.IsDisposed { get; }
+
+		/// <inheritdoc />
+		public async ValueTask DisposeAsync()
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

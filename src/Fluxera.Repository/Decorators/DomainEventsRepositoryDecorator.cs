@@ -231,6 +231,15 @@
 		/// <inheritdoc />
 		bool IReadOnlyRepository<TAggregateRoot>.IsDisposed => this.innerRepository.IsDisposed;
 
+		/// <inheritdoc />
+		async ValueTask IAsyncDisposable.DisposeAsync()
+		{
+			if(!this.innerRepository.IsDisposed)
+			{
+				await this.innerRepository.DisposeAsync();
+			}
+		}
+
 		private async Task DispatchAsync(TAggregateRoot item)
 		{
 			this.logger.LogTrace($"Dispatching domain events (Before commit): Type = {typeof(TAggregateRoot).Name}, Count = {item.DomainEvents.Count}");

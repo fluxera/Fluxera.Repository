@@ -2,6 +2,7 @@
 {
 	using System;
 	using System.Collections.Generic;
+	using System.Linq;
 	using System.Linq.Expressions;
 	using System.Security.Authentication;
 	using System.Threading;
@@ -97,7 +98,7 @@
 		async Task ICanUpdate<TAggregateRoot>.UpdateAsync(TAggregateRoot item, CancellationToken cancellationToken)
 		{
 			await this.collection
-				.ReplaceOneAsync(item.ID, item, cancellationToken: cancellationToken)
+				.ReplaceOneAsync(x => x.ID == item.ID, item, cancellationToken: cancellationToken)
 				.ConfigureAwait(false);
 		}
 
@@ -107,17 +108,21 @@
 			IList<WriteModel<TAggregateRoot>> updates = new List<WriteModel<TAggregateRoot>>();
 			foreach(TAggregateRoot item in items)
 			{
-				updates.Add(new ReplaceOneModel<TAggregateRoot>(item.ID, item));
+				Expression<Func<TAggregateRoot, bool>> predicate = x => x.ID == item.ID;
+				updates.Add(new ReplaceOneModel<TAggregateRoot>(predicate, item));
 			}
 
-			await this.collection.BulkWriteAsync(updates, new BulkWriteOptions { IsOrdered = false }, cancellationToken).ConfigureAwait(false);
+			await this.collection.BulkWriteAsync(updates, new BulkWriteOptions
+			{
+				IsOrdered = false,
+			}, cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
 		async Task ICanRemove<TAggregateRoot>.RemoveAsync(TAggregateRoot item, CancellationToken cancellationToken)
 		{
 			await this.collection
-				.DeleteOneAsync(item.ID, cancellationToken)
+				.DeleteOneAsync(x => x.ID == item.ID, cancellationToken)
 				.ConfigureAwait(false);
 		}
 
@@ -125,7 +130,7 @@
 		async Task ICanRemove<TAggregateRoot>.RemoveAsync(string id, CancellationToken cancellationToken)
 		{
 			await this.collection
-				.DeleteOneAsync(id, cancellationToken)
+				.DeleteOneAsync(x => x.ID == id, cancellationToken)
 				.ConfigureAwait(false);
 		}
 
@@ -133,27 +138,34 @@
 		async Task ICanRemove<TAggregateRoot>.RemoveAsync(Expression<Func<TAggregateRoot, bool>> predicate, CancellationToken cancellationToken)
 		{
 			await this.collection
-				.DeleteOneAsync(predicate, cancellationToken)
+				.DeleteManyAsync(predicate, cancellationToken)
 				.ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
 		async Task ICanRemove<TAggregateRoot>.RemoveAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{
+			IList<TAggregateRoot> itemsList = items.ToList();
+
 			IList<WriteModel<TAggregateRoot>> deletes = new List<WriteModel<TAggregateRoot>>();
-			foreach(TAggregateRoot item in items)
+			foreach(TAggregateRoot item in itemsList)
 			{
-				deletes.Add(new DeleteOneModel<TAggregateRoot>(item.ID));
+				Expression<Func<TAggregateRoot, bool>> predicate = x => x.ID == item.ID;
+				deletes.Add(new DeleteOneModel<TAggregateRoot>(predicate));
 			}
 
-			await this.collection.BulkWriteAsync(deletes, new BulkWriteOptions { IsOrdered = false }, cancellationToken).ConfigureAwait(false);
+			await this.collection.BulkWriteAsync(deletes, new BulkWriteOptions
+				{
+					IsOrdered = false
+				}, cancellationToken)
+				.ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
 		async Task<TAggregateRoot> ICanGet<TAggregateRoot>.GetAsync(string id, CancellationToken cancellationToken)
 		{
 			return await this.collection
-				.Find(id)
+				.Find(x => x.ID == id)
 				.FirstOrDefaultAsync(cancellationToken)
 				.ConfigureAwait(false);
 		}
@@ -162,7 +174,7 @@
 		async Task<TResult> ICanGet<TAggregateRoot>.GetAsync<TResult>(string id, Expression<Func<TAggregateRoot, TResult>> selector, CancellationToken cancellationToken)
 		{
 			return await this.collection
-				.Find(id)
+				.Find(x => x.ID == id)
 				.Project(selector)
 				.FirstOrDefaultAsync(cancellationToken)
 				.ConfigureAwait(false);
@@ -172,7 +184,7 @@
 		async Task<bool> ICanGet<TAggregateRoot>.ExistsAsync(string id, CancellationToken cancellationToken)
 		{
 			return await this.collection
-				.Find(id)
+				.Find(x => x.ID == id)
 				.AnyAsync(cancellationToken)
 				.ConfigureAwait(false);
 		}
@@ -245,12 +257,26 @@
 		}
 
 		/// <inheritdoc />
-		void IDisposable.Dispose()
+		public void Dispose()
 		{
 			this.IsDisposed = true;
 		}
 
 		/// <inheritdoc />
 		bool IReadOnlyRepository<TAggregateRoot>.IsDisposed => this.IsDisposed;
+
+		/// <inheritdoc />
+		ValueTask IAsyncDisposable.DisposeAsync()
+		{
+			try
+			{
+				this.Dispose();
+				return default;
+			}
+			catch(Exception exception)
+			{
+				return new ValueTask(Task.FromException(exception));
+			}
+		}
 	}
 }

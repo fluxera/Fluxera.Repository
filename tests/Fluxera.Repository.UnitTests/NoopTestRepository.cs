@@ -117,5 +117,10 @@
 
 		/// <inheritdoc />
 		public bool IsDisposed { get; }
+
+		/// <inheritdoc />
+		public async ValueTask DisposeAsync()
+		{
+		}
 	}
 }

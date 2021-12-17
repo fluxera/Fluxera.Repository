@@ -214,6 +214,17 @@
 		/// <inheritdoc />
 		bool IReadOnlyRepository<TAggregateRoot>.IsDisposed => this.IsDisposed;
 
+		/// <inheritdoc />
+		async ValueTask IAsyncDisposable.DisposeAsync()
+		{
+			if(!this.IsDisposed)
+			{
+				await this.dbContext.DisposeAsync();
+			}
+
+			this.IsDisposed = true;
+		}
+
 		private async Task UpdateAsync(TAggregateRoot item, CancellationToken cancellationToken)
 		{
 			EntityEntry<TAggregateRoot> entry = this.dbContext.Entry(item);

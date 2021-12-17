@@ -21,8 +21,6 @@
 			person.ID.Should().NotBeNullOrWhiteSpace();
 
 			await this.Repository.RemoveAsync(person);
-			person.ID.Should().BeNullOrWhiteSpace();
-
 			long count = await this.Repository.CountAsync();
 			count.Should().Be(0);
 		}
@@ -38,8 +36,6 @@
 			person.ID.Should().NotBeNullOrWhiteSpace();
 
 			await this.Repository.RemoveAsync(person.ID);
-			person.ID.Should().BeNullOrWhiteSpace();
-
 			long count = await this.Repository.CountAsync();
 			count.Should().Be(0);
 		}
@@ -55,8 +51,6 @@
 			person.ID.Should().NotBeNullOrWhiteSpace();
 
 			await this.Repository.RemoveAsync(x => x.ID == person.ID);
-			person.ID.Should().BeNullOrWhiteSpace();
-
 			long count = await this.Repository.CountAsync();
 			count.Should().Be(0);
 		}
@@ -76,11 +70,9 @@
 				}
 			};
 			await this.Repository.AddAsync(persons);
-			persons.ForEach(x => ((string)x.ID).Should().NotBeNullOrWhiteSpace());
+			persons.ForEach(x => x.ID.Should().NotBeNullOrWhiteSpace());
 
 			await this.Repository.RemoveAsync(persons);
-			persons.ForEach(x => x.ID.Should().BeNullOrWhiteSpace());
-
 			long count = await this.Repository.CountAsync();
 			count.Should().Be(0);
 		}

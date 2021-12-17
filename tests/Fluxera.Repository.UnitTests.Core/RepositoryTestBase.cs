@@ -1,13 +1,14 @@
 ﻿namespace Fluxera.Repository.UnitTests.Core
 {
 	using System;
+	using System.Threading.Tasks;
 	using Fluxera.Repository.UnitTests.Core.PersonAggregate;
 	using Microsoft.Extensions.DependencyInjection;
 	using NUnit.Framework;
 
 	public abstract class RepositoryTestBase : TestBase
 	{
-		protected IRepository<Person>? Repository { get; private set; }
+		protected IRepository<Person> Repository { get; private set; }
 
 		[SetUp]
 		public void SetUp()
@@ -29,9 +30,10 @@
 		}
 
 		[TearDown]
-		public void TearDown()
+		public async Task TearDown()
 		{
-			this.Repository?.Dispose();
+			await this.Repository.RemoveAsync(x => true);
+			await this.Repository.DisposeAsync();
 		}
 
 		protected abstract void AddRepositoryUnderTest(IRepositoryBuilder repositoryBuilder,

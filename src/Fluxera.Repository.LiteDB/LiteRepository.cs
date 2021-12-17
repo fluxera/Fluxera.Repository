@@ -199,7 +199,7 @@
 		}
 
 		/// <inheritdoc />
-		void IDisposable.Dispose()
+		public void Dispose()
 		{
 			if(!this.IsDisposed)
 			{
@@ -207,6 +207,20 @@
 			}
 
 			this.IsDisposed = true;
+		}
+
+		/// <inheritdoc />
+		ValueTask IAsyncDisposable.DisposeAsync()
+		{
+			try
+			{
+				this.Dispose();
+				return default;
+			}
+			catch(Exception exception)
+			{
+				return new ValueTask(Task.FromException(exception));
+			}
 		}
 
 		/// <inheritdoc />
