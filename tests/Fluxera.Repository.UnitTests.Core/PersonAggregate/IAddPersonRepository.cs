@@ -1,6 +1,8 @@
 ﻿namespace Fluxera.Repository.UnitTests.Core.PersonAggregate
 {
-	public interface IPersonRepository : IRepository<Person, string>
+	using System;
+
+	public interface IPersonRepository : IRepository<Person, Guid>
 	{
 	}
 }

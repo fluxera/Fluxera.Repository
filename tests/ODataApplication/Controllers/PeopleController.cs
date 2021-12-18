@@ -23,17 +23,17 @@ namespace ODataApplication.Controllers
 			{
 				new Person
 				{
-					ID = this.guidGenerator.Create().ToString("N"),
+					ID = this.guidGenerator.Create(),
 					Name = "Tester-12"
 				},
 				new Person
 				{
-					ID = this.guidGenerator.Create().ToString("N"),
+					ID = this.guidGenerator.Create(),
 					Name = "Tester-26"
 				},
 				new Person
 				{
-					ID = this.guidGenerator.Create().ToString("N"),
+					ID = this.guidGenerator.Create(),
 					Name = "Tester-32"
 				},
 			};

@@ -7,6 +7,7 @@
 	using System.Threading.Tasks;
 	using Fluxera.Entity;
 	using Fluxera.Guards;
+	using Fluxera.Repository.Specifications;
 	using Fluxera.Repository.Traits;
 
 	public abstract class Repository<TAggregateRoot, TKey> : ReadOnlyRepository<TAggregateRoot, TKey>, IRepository<TAggregateRoot, TKey>
@@ -62,6 +63,12 @@
 		async Task ICanRemove<TAggregateRoot, TKey>.RemoveAsync(Expression<Func<TAggregateRoot, bool>> predicate, CancellationToken cancellationToken)
 		{
 			await this.innerRepository.RemoveAsync(predicate, cancellationToken);
+		}
+
+		/// <inheritdoc />
+		async Task ICanRemove<TAggregateRoot, TKey>.RemoveAsync(ISpecification<TAggregateRoot> specification, CancellationToken cancellationToken)
+		{
+			await this.innerRepository.RemoveAsync(specification, cancellationToken);
 		}
 
 		/// <inheritdoc />

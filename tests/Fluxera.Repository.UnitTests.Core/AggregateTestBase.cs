@@ -29,7 +29,7 @@
 				}
 			};
 			await this.Repository.AddAsync(persons);
-			persons.ForEach(x => ((string)x.ID).Should().NotBeNullOrWhiteSpace());
+			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 
 			long count = await this.Repository.CountAsync();
 			count.Should().Be(persons.Length);
@@ -54,7 +54,7 @@
 				}
 			};
 			await this.Repository.AddAsync(persons);
-			persons.ForEach(x => x.ID.Should().NotBeNullOrWhiteSpace());
+			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 
 			long count = await this.Repository.CountAsync(x => x.Name.EndsWith("2"));
 			count.Should().Be(2);

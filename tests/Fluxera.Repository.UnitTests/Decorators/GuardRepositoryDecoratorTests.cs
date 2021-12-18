@@ -5,6 +5,7 @@
 	using System.Threading.Tasks;
 	using FluentAssertions;
 	using Fluxera.Repository.Decorators;
+	using Fluxera.Repository.Specifications;
 	using Fluxera.Repository.UnitTests.Core.PersonAggregate;
 	using NUnit.Framework;
 
@@ -76,12 +77,12 @@
 			{
 				new Person
 				{
-					ID = "1",
+					ID = Guid.NewGuid(),
 					Name = "Tester"
 				},
 				new Person
 				{
-					ID = "2",
+					ID = Guid.NewGuid(),
 					Name = "Tester"
 				}
 			};
@@ -95,7 +96,7 @@
 		{
 			Person person = new Person
 			{
-				ID = "1",
+				ID = Guid.NewGuid(),
 				Name = "Tester"
 			};
 			this.ShouldGuardAgainstNull(async () => await this.Repository.AddAsync((Person)null));
@@ -112,7 +113,14 @@
 		[Test]
 		public void ShouldGuard_CountAsync_Predicate()
 		{
-			this.ShouldGuardAgainstNull(async () => await this.Repository.CountAsync(null));
+			this.ShouldGuardAgainstNull(async () => await this.Repository.CountAsync((Expression<Func<Person, bool>>)null));
+			this.ShouldGuardAgainstDisposed(async () => await this.Repository.CountAsync(x => x.Name == "1"));
+		}
+
+		[Test]
+		public void ShouldGuard_CountAsync_Specification()
+		{
+			this.ShouldGuardAgainstNull(async () => await this.Repository.CountAsync((ISpecification<Person>)null));
 			this.ShouldGuardAgainstDisposed(async () => await this.Repository.CountAsync(x => x.Name == "1"));
 		}
 
@@ -126,65 +134,101 @@
 		[Test]
 		public void ShouldGuard_ExistsAsync_Single()
 		{
-			this.ShouldGuardAgainstNull(async () => await this.Repository.ExistsAsync((string)null));
-			this.ShouldGuardAgainstEmpty(async () => await this.Repository.ExistsAsync(string.Empty));
-			this.ShouldGuardAgainstWhitespace(async () => await this.Repository.ExistsAsync("   "));
-			this.ShouldGuardAgainstDisposed(async () => await this.Repository.ExistsAsync("1234"));
+			this.ShouldGuardAgainstNull(async () => await this.Repository.ExistsAsync(Guid.Empty));
+			this.ShouldGuardAgainstEmpty(async () => await this.Repository.ExistsAsync(Guid.Empty));
+			this.ShouldGuardAgainstWhitespace(async () => await this.Repository.ExistsAsync(Guid.NewGuid()));
+			this.ShouldGuardAgainstDisposed(async () => await this.Repository.ExistsAsync(Guid.NewGuid()));
+		}
+
+		[Test]
+		public void ShouldGuard_ExistsAsync_Specification()
+		{
+			this.ShouldGuardAgainstNull(async () => await this.Repository.ExistsAsync((ISpecification<Person>)null));
+			this.ShouldGuardAgainstDisposed(async () => await this.Repository.ExistsAsync(x => x.Name == "1"));
 		}
 
 		[Test]
 		public void ShouldGuard_FindManyAsync_Predicate()
 		{
-			this.ShouldGuardAgainstNull(async () => await this.Repository.FindManyAsync(null));
+			this.ShouldGuardAgainstNull(async () => await this.Repository.FindManyAsync((Expression<Func<Person, bool>>)null));
 			this.ShouldGuardAgainstDisposed(async () => await this.Repository.FindManyAsync(x => x.Name == "1"));
 		}
 
 		[Test]
-		public void ShouldGuard_FindManyAsync_Result()
+		public void ShouldGuard_FindManyAsync_Result_Predicate()
 		{
-			this.ShouldGuardAgainstNull(async () => await this.Repository.FindManyAsync(null, x => x.Name));
+			this.ShouldGuardAgainstNull(async () => await this.Repository.FindManyAsync((Expression<Func<Person, bool>>)null, x => x.Name));
 			this.ShouldGuardAgainstNull(async () => await this.Repository.FindManyAsync<string>(x => x.Name == "1", null));
 			this.ShouldGuardAgainstDisposed(async () => await this.Repository.FindManyAsync(x => x.Name == "1", x => x.Name));
 		}
 
 		[Test]
+		public void ShouldGuard_FindManyAsync_Result_Specification()
+		{
+			this.ShouldGuardAgainstNull(async () => await this.Repository.FindManyAsync((ISpecification<Person>)null, x => x.Name));
+			this.ShouldGuardAgainstNull(async () => await this.Repository.FindManyAsync<string>(new Specification<Person>(x => x.Name == "1"), null));
+			this.ShouldGuardAgainstDisposed(async () => await this.Repository.FindManyAsync(new Specification<Person>(x => x.Name == "1"), x => x.Name));
+		}
+
+		[Test]
+		public void ShouldGuard_FindManyAsync_Specification()
+		{
+			this.ShouldGuardAgainstNull(async () => await this.Repository.FindManyAsync((ISpecification<Person>)null));
+			this.ShouldGuardAgainstDisposed(async () => await this.Repository.FindManyAsync(new Specification<Person>(x => x.Name == "1")));
+		}
+
+		[Test]
 		public void ShouldGuard_FindOneAsync_Predicate()
 		{
-			this.ShouldGuardAgainstNull(async () => await this.Repository.FindOneAsync(null));
+			this.ShouldGuardAgainstNull(async () => await this.Repository.FindOneAsync((Expression<Func<Person, bool>>)null));
 			this.ShouldGuardAgainstDisposed(async () => await this.Repository.FindOneAsync(x => x.Name == "1"));
 		}
 
 		[Test]
-		public void ShouldGuard_FindOneAsync_Result()
+		public void ShouldGuard_FindOneAsync_Result_Predicate()
 		{
 			this.ShouldGuardAgainstNull(async () => await this.Repository.FindOneAsync<string>(x => x.Name == "1", null));
 			this.ShouldGuardAgainstDisposed(async () => await this.Repository.FindOneAsync(x => x.Name == "1", x => x.Name));
 		}
 
 		[Test]
+		public void ShouldGuard_FindOneAsync_Result_Specification()
+		{
+			this.ShouldGuardAgainstNull(async () => await this.Repository.FindOneAsync<string>(new Specification<Person>(x => x.Name == "1"), null));
+			this.ShouldGuardAgainstDisposed(async () => await this.Repository.FindOneAsync(new Specification<Person>(x => x.Name == "1"), x => x.Name));
+		}
+
+		[Test]
+		public void ShouldGuard_FindOneAsync_Specification()
+		{
+			this.ShouldGuardAgainstNull(async () => await this.Repository.FindOneAsync((ISpecification<Person>)null));
+			this.ShouldGuardAgainstDisposed(async () => await this.Repository.FindOneAsync(new Specification<Person>(x => x.Name == "1")));
+		}
+
+		[Test]
 		public void ShouldGuard_GetAsync_Single()
 		{
-			this.ShouldGuardAgainstNull(async () => await this.Repository.GetAsync(null));
-			this.ShouldGuardAgainstEmpty(async () => await this.Repository.GetAsync(string.Empty));
-			this.ShouldGuardAgainstWhitespace(async () => await this.Repository.GetAsync("   "));
-			this.ShouldGuardAgainstDisposed(async () => await this.Repository.GetAsync("1234"));
+			this.ShouldGuardAgainstNull(async () => await this.Repository.GetAsync(Guid.Empty));
+			this.ShouldGuardAgainstEmpty(async () => await this.Repository.GetAsync(Guid.Empty));
+			this.ShouldGuardAgainstWhitespace(async () => await this.Repository.GetAsync(Guid.Empty));
+			this.ShouldGuardAgainstDisposed(async () => await this.Repository.GetAsync(Guid.NewGuid()));
 		}
 
 		[Test]
 		public void ShouldGuard_GetAsync_Single_Result()
 		{
-			this.ShouldGuardAgainstNull(async () => await this.Repository.GetAsync(null, x => x.Name));
-			this.ShouldGuardAgainstEmpty(async () => await this.Repository.GetAsync(string.Empty, x => x.Name));
-			this.ShouldGuardAgainstWhitespace(async () => await this.Repository.GetAsync("   ", x => x.Name));
-			this.ShouldGuardAgainstNull(async () => await this.Repository.GetAsync("1234", (Expression<Func<Person, string>>)null));
-			this.ShouldGuardAgainstDisposed(async () => await this.Repository.GetAsync("1234", x => x.Name));
+			this.ShouldGuardAgainstNull(async () => await this.Repository.GetAsync(Guid.Empty, x => x.Name));
+			this.ShouldGuardAgainstEmpty(async () => await this.Repository.GetAsync(Guid.Empty, x => x.Name));
+			this.ShouldGuardAgainstWhitespace(async () => await this.Repository.GetAsync(Guid.Empty, x => x.Name));
+			this.ShouldGuardAgainstNull(async () => await this.Repository.GetAsync(Guid.NewGuid(), (Expression<Func<Person, string>>)null));
+			this.ShouldGuardAgainstDisposed(async () => await this.Repository.GetAsync(Guid.NewGuid(), x => x.Name));
 		}
 
 		[Test]
 		public void ShouldGuard_RemoveAsync_Multiple_Predicate()
 		{
 			this.ShouldGuardAgainstNull(async () => await this.Repository.RemoveAsync((Expression<Func<Person, bool>>)null));
-			this.ShouldGuardAgainstDisposed(async () => await this.Repository.RemoveAsync(x => x.ID == "1234"));
+			this.ShouldGuardAgainstDisposed(async () => await this.Repository.RemoveAsync(x => x.ID == Guid.NewGuid()));
 		}
 
 		[Test]
@@ -192,7 +236,7 @@
 		{
 			Person person = new Person
 			{
-				ID = "1",
+				ID = Guid.NewGuid(),
 				Name = "Tester"
 			};
 			this.ShouldGuardAgainstNull(async () => await this.Repository.RemoveAsync((Person)null));
@@ -203,10 +247,10 @@
 		[Test]
 		public void ShouldGuard_RemoveAsync_Single_Identifier()
 		{
-			this.ShouldGuardAgainstNull(async () => await this.Repository.RemoveAsync((string)null));
-			this.ShouldGuardAgainstEmpty(async () => await this.Repository.RemoveAsync(string.Empty));
-			this.ShouldGuardAgainstWhitespace(async () => await this.Repository.RemoveAsync("   "));
-			this.ShouldGuardAgainstDisposed(async () => await this.Repository.RemoveAsync("1234"));
+			this.ShouldGuardAgainstNull(async () => await this.Repository.RemoveAsync(Guid.Empty));
+			this.ShouldGuardAgainstEmpty(async () => await this.Repository.RemoveAsync(Guid.Empty));
+			this.ShouldGuardAgainstWhitespace(async () => await this.Repository.RemoveAsync(Guid.Empty));
+			this.ShouldGuardAgainstDisposed(async () => await this.Repository.RemoveAsync(Guid.NewGuid()));
 		}
 
 		[Test]
@@ -249,7 +293,7 @@
 			}));
 			this.ShouldGuardAgainstDisposed(async () => await this.Repository.UpdateAsync(new Person
 			{
-				ID = "1",
+				ID = Guid.NewGuid(),
 				Name = "Tester"
 			}));
 		}

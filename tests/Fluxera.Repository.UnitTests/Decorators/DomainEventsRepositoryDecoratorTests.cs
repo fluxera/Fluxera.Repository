@@ -20,7 +20,7 @@
 		protected override Type DecoratorType => typeof(DomainEventsRepositoryDecorator<,>);
 
 		/// <inheritdoc />
-		protected override Type RepositoryType => typeof(DomainEventsTestRepository<Person, string>);
+		protected override Type RepositoryType => typeof(DomainEventsTestRepository<Person, Guid>);
 
 		/// <inheritdoc />
 		protected override void ConfigureServices(IServiceCollection services)
@@ -115,7 +115,7 @@
 		[Test]
 		public async Task Should_ExistsAsync_Single()
 		{
-			await this.Repository.ExistsAsync("1");
+			await this.Repository.ExistsAsync(Guid.NewGuid());
 			await this.ShouldHaveUsedDispatcher(false);
 		}
 
@@ -150,14 +150,14 @@
 		[Test]
 		public async Task Should_GetAsync_Single()
 		{
-			await this.Repository.GetAsync("1");
+			await this.Repository.GetAsync(Guid.NewGuid());
 			await this.ShouldHaveUsedDispatcher(false);
 		}
 
 		[Test]
 		public async Task Should_GetAsync_Single_Result()
 		{
-			await this.Repository.GetAsync("1", x => x.Name);
+			await this.Repository.GetAsync(Guid.NewGuid(), x => x.Name);
 			await this.ShouldHaveUsedDispatcher(false);
 		}
 
@@ -175,7 +175,7 @@
 		{
 			await this.Repository.RemoveAsync(new Person
 			{
-				ID = "2",
+				ID = Guid.NewGuid(),
 				Name = "Tester",
 				DomainEvents =
 				{
@@ -188,7 +188,7 @@
 		[Test]
 		public async Task Should_RemoveAsync_Single_Identifier()
 		{
-			await this.Repository.RemoveAsync("1");
+			await this.Repository.RemoveAsync(Guid.NewGuid());
 
 			// Trace is logged by the decorator.
 			this.loggerMock.VerifyLog().TraceWasCalled();
@@ -201,7 +201,7 @@
 			{
 				new Person
 				{
-					ID = "1",
+					ID = Guid.NewGuid(),
 					Name = "Tester",
 					DomainEvents =
 					{
@@ -210,7 +210,7 @@
 				},
 				new Person
 				{
-					ID = "2",
+					ID = Guid.NewGuid(),
 					Name = "Tester",
 					DomainEvents =
 					{
@@ -219,7 +219,7 @@
 				},
 				new Person
 				{
-					ID = "3",
+					ID = Guid.NewGuid(),
 					Name = "Tester",
 					DomainEvents =
 					{
@@ -236,7 +236,7 @@
 		{
 			await this.Repository.UpdateAsync(new Person
 			{
-				ID = "2",
+				ID = Guid.NewGuid(),
 				Name = "Tester",
 				DomainEvents =
 				{

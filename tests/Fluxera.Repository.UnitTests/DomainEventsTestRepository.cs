@@ -21,17 +21,17 @@
 			{
 				new Person
 				{
-					ID = "1",
+					ID = Guid.NewGuid(),
 					Name = "Tester"
 				},
 				new Person
 				{
-					ID = "2",
+					ID = Guid.NewGuid(),
 					Name = "Tester"
 				},
 				new Person
 				{
-					ID = "3",
+					ID = Guid.NewGuid(),
 					Name = "Tester"
 				}
 			};
@@ -44,7 +44,7 @@
 		{
 			Person item = new Person
 			{
-				ID = "3",
+				ID = Guid.NewGuid(),
 				Name = "Tester"
 			};
 			return item as TAggregateRoot;

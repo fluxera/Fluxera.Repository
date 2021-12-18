@@ -28,4 +28,8 @@
 		<ProjectReference Include="..\Fluxera.Repository.UnitTests.Core\Fluxera.Repository.UnitTests.Core.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Specifications\" />
+	</ItemGroup>
+
 </Project>

@@ -17,7 +17,7 @@
 				Name = "Tester"
 			};
 			await this.Repository.AddAsync(person);
-			person.ID.Should().NotBeNullOrWhiteSpace();
+			person.ID.Should().NotBeEmpty();
 
 			Person fromStore = await this.Repository.GetAsync(person.ID);
 			fromStore.Should().NotBeNull();
@@ -32,7 +32,7 @@
 				Name = "Tester"
 			};
 			await this.Repository.AddAsync(person);
-			person.ID.Should().NotBeNullOrWhiteSpace();
+			person.ID.Should().NotBeEmpty();
 
 			string fromStore = await this.Repository.GetAsync(person.ID, x => x.Name);
 			fromStore.Should().NotBeNull();
@@ -47,7 +47,7 @@
 				Name = "Tester"
 			};
 			await this.Repository.AddAsync(person);
-			person.ID.Should().NotBeNullOrWhiteSpace();
+			person.ID.Should().NotBeEmpty();
 
 			bool fromStore = await this.Repository.ExistsAsync(person.ID);
 			fromStore.Should().BeTrue();

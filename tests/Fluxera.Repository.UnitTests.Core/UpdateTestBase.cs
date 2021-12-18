@@ -17,7 +17,7 @@
 				Name = "Tester"
 			};
 			await this.Repository.AddAsync(person);
-			person.ID.Should().NotBeNullOrWhiteSpace();
+			person.ID.Should().NotBeEmpty();
 
 			Person fromStore = await this.Repository.GetAsync(person.ID);
 			fromStore.Name.Should().Be("Tester");
@@ -36,7 +36,7 @@
 				Name = "Tester"
 			};
 			await this.Repository.AddAsync(person);
-			person.ID.Should().NotBeNullOrWhiteSpace();
+			person.ID.Should().NotBeEmpty();
 
 			Person item = await this.Repository.GetAsync(person.ID);
 			item.Name.Should().Be("Tester");

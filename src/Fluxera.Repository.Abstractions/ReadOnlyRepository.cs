@@ -8,6 +8,7 @@
 	using Fluxera.Entity;
 	using Fluxera.Guards;
 	using Fluxera.Repository.Query;
+	using Fluxera.Repository.Specifications;
 	using Fluxera.Repository.Traits;
 
 	public abstract class ReadOnlyRepository<TAggregateRoot, TKey> : IReadOnlyRepository<TAggregateRoot, TKey>
@@ -47,9 +48,21 @@
 		}
 
 		/// <inheritdoc />
+		public async Task<TAggregateRoot> FindOneAsync(ISpecification<TAggregateRoot> specification, IQueryOptions<TAggregateRoot>? queryOptions = null, CancellationToken cancellationToken = default)
+		{
+			return await this.innerRepository.FindOneAsync(specification, queryOptions, cancellationToken);
+		}
+
+		/// <inheritdoc />
 		async Task<TResult> ICanFind<TAggregateRoot, TKey>.FindOneAsync<TResult>(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.FindOneAsync(predicate, selector, queryOptions, cancellationToken);
+		}
+
+		/// <inheritdoc />
+		public async Task<TResult> FindOneAsync<TResult>(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot>? queryOptions = null, CancellationToken cancellationToken = default)
+		{
+			return await this.innerRepository.FindOneAsync(specification, selector, queryOptions, cancellationToken);
 		}
 
 		/// <inheritdoc />
@@ -59,15 +72,33 @@
 		}
 
 		/// <inheritdoc />
+		public async Task<bool> ExistsAsync(ISpecification<TAggregateRoot> specification, CancellationToken cancellationToken = default)
+		{
+			return await this.innerRepository.ExistsAsync(specification, cancellationToken);
+		}
+
+		/// <inheritdoc />
 		async Task<IReadOnlyCollection<TAggregateRoot>> ICanFind<TAggregateRoot, TKey>.FindManyAsync(Expression<Func<TAggregateRoot, bool>> predicate, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.FindManyAsync(predicate, queryOptions, cancellationToken);
 		}
 
 		/// <inheritdoc />
+		public async Task<IReadOnlyCollection<TAggregateRoot>> FindManyAsync(ISpecification<TAggregateRoot> specification, IQueryOptions<TAggregateRoot>? queryOptions = null, CancellationToken cancellationToken = default)
+		{
+			return await this.innerRepository.FindManyAsync(specification, queryOptions, cancellationToken);
+		}
+
+		/// <inheritdoc />
 		async Task<IReadOnlyCollection<TResult>> ICanFind<TAggregateRoot, TKey>.FindManyAsync<TResult>(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.FindManyAsync(predicate, selector, queryOptions, cancellationToken);
+		}
+
+		/// <inheritdoc />
+		public async Task<IReadOnlyCollection<TResult>> FindManyAsync<TResult>(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot>? queryOptions = null, CancellationToken cancellationToken = default)
+		{
+			return await this.innerRepository.FindManyAsync(specification, selector, queryOptions, cancellationToken);
 		}
 
 		/// <inheritdoc />
@@ -83,6 +114,12 @@
 		}
 
 		/// <inheritdoc />
+		async Task<long> ICanAggregate<TAggregateRoot, TKey>.CountAsync(ISpecification<TAggregateRoot> specification, CancellationToken cancellationToken)
+		{
+			return await this.innerRepository.CountAsync(specification, cancellationToken);
+		}
+
+		/// <inheritdoc />
 		void IDisposable.Dispose()
 		{
 			if(!this.innerRepository.IsDisposed)
@@ -92,7 +129,7 @@
 		}
 
 		/// <inheritdoc />
-		bool IReadOnlyRepository<TAggregateRoot, TKey>.IsDisposed => this.innerRepository.IsDisposed;
+		bool IDisposableRepository.IsDisposed => this.innerRepository.IsDisposed;
 
 		/// <inheritdoc />
 		async ValueTask IAsyncDisposable.DisposeAsync()

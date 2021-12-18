@@ -6,6 +6,7 @@
 	using System.Threading;
 	using System.Threading.Tasks;
 	using Fluxera.Entity;
+	using Fluxera.Repository.Specifications;
 	using JetBrains.Annotations;
 
 	/// <summary>
@@ -16,7 +17,7 @@
 	/// <typeparam name="TAggregateRoot">Generic repository aggregate root type.</typeparam>
 	/// <typeparam name="TKey">The type of the ID.</typeparam>
 	[PublicAPI]
-	public interface ICanRemove<TAggregateRoot, TKey>
+	public interface ICanRemove<TAggregateRoot, in TKey>
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 	{
 		/// <summary>
@@ -39,6 +40,13 @@
 		/// <param name="predicate">The predicate to match.</param>
 		/// <param name="cancellationToken">The cancellation token.</param>
 		Task RemoveAsync(Expression<Func<TAggregateRoot, bool>> predicate, CancellationToken cancellationToken = default);
+
+		/// <summary>
+		///     Deletes all items that match the given specification from the underlying store.
+		/// </summary>
+		/// <param name="specification">The specification to match.</param>
+		/// <param name="cancellationToken">The cancellation token.</param>
+		Task RemoveAsync(ISpecification<TAggregateRoot> specification, CancellationToken cancellationToken = default);
 
 		/// <summary>
 		///     Removes the given instances from the underlying store.

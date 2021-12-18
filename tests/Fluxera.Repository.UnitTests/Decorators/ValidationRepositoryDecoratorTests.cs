@@ -61,11 +61,11 @@
 			{
 				new Person
 				{
-					ID = "1"
+					ID = Guid.NewGuid()
 				},
 				new Person
 				{
-					ID = "2"
+					ID = Guid.NewGuid()
 				}
 			};
 			this.ShouldGuardAgainstInvalid(async () => await this.Repository.UpdateAsync(persons));
@@ -76,7 +76,7 @@
 		{
 			this.ShouldGuardAgainstInvalid(async () => await this.Repository.UpdateAsync(new Person
 			{
-				ID = "2"
+				ID = Guid.NewGuid()
 			}));
 		}
 	}

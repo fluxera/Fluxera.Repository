@@ -3,9 +3,15 @@
 	using System;
 	using JetBrains.Annotations;
 
+	/// <summary>
+	///     Contract for a repository that can get disposed.
+	/// </summary>
 	[PublicAPI]
-	public interface IDisposableRepository : IDisposable
+	public interface IDisposableRepository : IDisposable, IAsyncDisposable
 	{
-		public bool IsDisposed { get; }
+		/// <summary>
+		///     Checks it this repository instance was disposed.
+		/// </summary>
+		bool IsDisposed { get; }
 	}
 }

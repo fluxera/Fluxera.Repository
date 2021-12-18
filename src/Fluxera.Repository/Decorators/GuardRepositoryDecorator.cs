@@ -8,6 +8,7 @@
 	using Fluxera.Entity;
 	using Fluxera.Guards;
 	using Fluxera.Repository.Query;
+	using Fluxera.Repository.Specifications;
 	using Fluxera.Repository.Traits;
 
 	public sealed class GuardRepositoryDecorator<TAggregateRoot, TKey> : IRepository<TAggregateRoot, TKey>
@@ -82,6 +83,15 @@
 		}
 
 		/// <inheritdoc />
+		async Task ICanRemove<TAggregateRoot, TKey>.RemoveAsync(ISpecification<TAggregateRoot> specification, CancellationToken cancellationToken)
+		{
+			Guard.Against.Disposed(this);
+			Guard.Against.Null(specification, nameof(specification));
+
+			await this.innerRepository.RemoveAsync(specification, cancellationToken);
+		}
+
+		/// <inheritdoc />
 		async Task ICanRemove<TAggregateRoot, TKey>.RemoveAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{
 			Guard.Against.Disposed(this);
@@ -102,6 +112,16 @@
 		}
 
 		/// <inheritdoc />
+		async Task<TAggregateRoot> ICanFind<TAggregateRoot, TKey>.FindOneAsync(ISpecification<TAggregateRoot> specification, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
+		{
+			Guard.Against.Disposed(this);
+			Guard.Against.Null(specification, nameof(specification));
+
+			queryOptions ??= new QueryOptions<TAggregateRoot>();
+			return await this.innerRepository.FindOneAsync(specification, queryOptions, cancellationToken);
+		}
+
+		/// <inheritdoc />
 		async Task<TResult> ICanFind<TAggregateRoot, TKey>.FindOneAsync<TResult>(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
 		{
 			Guard.Against.Disposed(this);
@@ -113,12 +133,32 @@
 		}
 
 		/// <inheritdoc />
+		async Task<TResult> ICanFind<TAggregateRoot, TKey>.FindOneAsync<TResult>(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
+		{
+			Guard.Against.Disposed(this);
+			Guard.Against.Null(specification, nameof(specification));
+			Guard.Against.Null(selector, nameof(selector));
+
+			queryOptions ??= new QueryOptions<TAggregateRoot>();
+			return await this.innerRepository.FindOneAsync(specification, selector, queryOptions, cancellationToken);
+		}
+
+		/// <inheritdoc />
 		async Task<bool> ICanFind<TAggregateRoot, TKey>.ExistsAsync(Expression<Func<TAggregateRoot, bool>> predicate, CancellationToken cancellationToken)
 		{
 			Guard.Against.Disposed(this);
 			Guard.Against.Null(predicate, nameof(predicate));
 
 			return await this.innerRepository.ExistsAsync(predicate, cancellationToken).ConfigureAwait(false);
+		}
+
+		/// <inheritdoc />
+		async Task<bool> ICanFind<TAggregateRoot, TKey>.ExistsAsync(ISpecification<TAggregateRoot> specification, CancellationToken cancellationToken)
+		{
+			Guard.Against.Disposed(this);
+			Guard.Against.Null(specification, nameof(specification));
+
+			return await this.innerRepository.ExistsAsync(specification, cancellationToken);
 		}
 
 		/// <inheritdoc />
@@ -132,6 +172,16 @@
 		}
 
 		/// <inheritdoc />
+		async Task<IReadOnlyCollection<TAggregateRoot>> ICanFind<TAggregateRoot, TKey>.FindManyAsync(ISpecification<TAggregateRoot> specification, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
+		{
+			Guard.Against.Disposed(this);
+			Guard.Against.Null(specification, nameof(specification));
+
+			queryOptions ??= new QueryOptions<TAggregateRoot>();
+			return await this.innerRepository.FindManyAsync(specification, queryOptions, cancellationToken);
+		}
+
+		/// <inheritdoc />
 		async Task<IReadOnlyCollection<TResult>> ICanFind<TAggregateRoot, TKey>.FindManyAsync<TResult>(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
 		{
 			Guard.Against.Disposed(this);
@@ -140,6 +190,12 @@
 
 			queryOptions ??= new QueryOptions<TAggregateRoot>();
 			return await this.innerRepository.FindManyAsync(predicate, selector, queryOptions, cancellationToken).ConfigureAwait(false);
+		}
+
+		/// <inheritdoc />
+		async Task<IReadOnlyCollection<TResult>> ICanFind<TAggregateRoot, TKey>.FindManyAsync<TResult>(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
+		{
+			return await this.innerRepository.FindManyAsync(specification, selector, queryOptions, cancellationToken);
 		}
 
 		/// <inheritdoc />
@@ -160,6 +216,15 @@
 		}
 
 		/// <inheritdoc />
+		async Task<long> ICanAggregate<TAggregateRoot, TKey>.CountAsync(ISpecification<TAggregateRoot> specification, CancellationToken cancellationToken)
+		{
+			Guard.Against.Disposed(this);
+			Guard.Against.Null(specification, nameof(specification));
+
+			return await this.innerRepository.CountAsync(specification, cancellationToken);
+		}
+
+		/// <inheritdoc />
 		void IDisposable.Dispose()
 		{
 			if(!this.innerRepository.IsDisposed)
@@ -169,7 +234,7 @@
 		}
 
 		/// <inheritdoc />
-		bool IReadOnlyRepository<TAggregateRoot, TKey>.IsDisposed => this.innerRepository.IsDisposed;
+		bool IDisposableRepository.IsDisposed => this.innerRepository.IsDisposed;
 
 		/// <inheritdoc />
 		async ValueTask IAsyncDisposable.DisposeAsync()

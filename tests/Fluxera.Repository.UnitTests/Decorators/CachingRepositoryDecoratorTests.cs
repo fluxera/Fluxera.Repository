@@ -16,7 +16,7 @@
 		protected override Type DecoratorType => typeof(CachingRepositoryDecorator<,>);
 
 		/// <inheritdoc />
-		protected override Type RepositoryType => typeof(NoopTestRepository<Person, string>);
+		protected override Type RepositoryType => typeof(NoopTestRepository<Person, Guid>);
 
 		/// <inheritdoc />
 		protected override void ConfigureServices(IServiceCollection services)
@@ -26,10 +26,10 @@
 			services.AddSingleton(sp => (TestCachingStrategyFactory)sp.GetRequiredService<ICachingStrategyFactory>());
 		}
 
-		private void ShouldHaveUsedStrategy(Func<TestCachingStrategy<Person, string>, bool> flagProviderFunc)
+		private void ShouldHaveUsedStrategy(Func<TestCachingStrategy<Person, Guid>, bool> flagProviderFunc)
 		{
 			TestCachingStrategyFactory cachingStrategyFactory = this.ServiceProvider.GetRequiredService<TestCachingStrategyFactory>();
-			TestCachingStrategy<Person, string> cachingStrategy = cachingStrategyFactory.GetStrategy<Person, string>();
+			TestCachingStrategy<Person, Guid> cachingStrategy = cachingStrategyFactory.GetStrategy<Person, Guid>();
 
 			bool result = flagProviderFunc.Invoke(cachingStrategy);
 			result.Should().BeTrue();
@@ -92,7 +92,7 @@
 		[Test]
 		public async Task Should_ExistsAsync_Single()
 		{
-			await this.Repository.ExistsAsync("1");
+			await this.Repository.ExistsAsync(Guid.NewGuid());
 
 			this.ShouldHaveUsedStrategy(x => x.ExistsWasCalled);
 		}
@@ -132,7 +132,7 @@
 		[Test]
 		public async Task Should_GetAsync_Single()
 		{
-			await this.Repository.GetAsync("1");
+			await this.Repository.GetAsync(Guid.NewGuid());
 
 			this.ShouldHaveUsedStrategy(x => x.GetWasCalled);
 		}
@@ -140,7 +140,7 @@
 		[Test]
 		public async Task Should_GetAsync_Single_Result()
 		{
-			await this.Repository.GetAsync("1", x => x.Name);
+			await this.Repository.GetAsync(Guid.NewGuid(), x => x.Name);
 
 			this.ShouldHaveUsedStrategy(x => x.GetWithSelectorWasCalled);
 		}
@@ -152,12 +152,12 @@
 			{
 				new Person
 				{
-					ID = "1",
+					ID = Guid.NewGuid(),
 					Name = "Tester"
 				},
 				new Person
 				{
-					ID = "2",
+					ID = Guid.NewGuid(),
 					Name = "Tester"
 				}
 			};
@@ -171,7 +171,7 @@
 		{
 			await this.Repository.RemoveAsync(new Person
 			{
-				ID = "2",
+				ID = Guid.NewGuid(),
 				Name = "Tester"
 			});
 
@@ -181,7 +181,7 @@
 		[Test]
 		public async Task Should_RemoveAsync_Single_Identifier()
 		{
-			await this.Repository.RemoveAsync("1");
+			await this.Repository.RemoveAsync(Guid.NewGuid());
 
 			this.ShouldHaveUsedStrategy(x => x.RemoveSingleWasCalled);
 		}
@@ -210,7 +210,7 @@
 		{
 			await this.Repository.UpdateAsync(new Person
 			{
-				ID = "1",
+				ID = Guid.NewGuid(),
 				Name = "Tester"
 			});
 

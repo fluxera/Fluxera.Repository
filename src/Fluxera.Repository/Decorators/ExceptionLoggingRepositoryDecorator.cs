@@ -7,6 +7,7 @@
 	using System.Threading.Tasks;
 	using Fluxera.Entity;
 	using Fluxera.Repository.Query;
+	using Fluxera.Repository.Specifications;
 	using Fluxera.Repository.Traits;
 	using Microsoft.Extensions.Logging;
 
@@ -126,6 +127,20 @@
 		}
 
 		/// <inheritdoc />
+		async Task ICanRemove<TAggregateRoot, TKey>.RemoveAsync(ISpecification<TAggregateRoot> specification, CancellationToken cancellationToken)
+		{
+			try
+			{
+				await this.innerRepository.RemoveAsync(specification, cancellationToken);
+			}
+			catch(Exception ex)
+			{
+				this.logger.LogCritical(ex, "A critical error occurred trying to perform remove: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				throw;
+			}
+		}
+
+		/// <inheritdoc />
 		async Task ICanRemove<TAggregateRoot, TKey>.RemoveAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{
 			try
@@ -196,11 +211,39 @@
 		}
 
 		/// <inheritdoc />
+		async Task<TAggregateRoot> ICanFind<TAggregateRoot, TKey>.FindOneAsync(ISpecification<TAggregateRoot> specification, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
+		{
+			try
+			{
+				return await this.innerRepository.FindOneAsync(specification, queryOptions, cancellationToken);
+			}
+			catch(Exception ex)
+			{
+				this.logger.LogCritical(ex, "A critical error occurred trying to perform find one: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				throw;
+			}
+		}
+
+		/// <inheritdoc />
 		async Task<TResult> ICanFind<TAggregateRoot, TKey>.FindOneAsync<TResult>(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
 		{
 			try
 			{
 				return await this.innerRepository.FindOneAsync(predicate, selector, queryOptions, cancellationToken);
+			}
+			catch(Exception ex)
+			{
+				this.logger.LogCritical(ex, "A critical error occurred trying to perform find one: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				throw;
+			}
+		}
+
+		/// <inheritdoc />
+		async Task<TResult> ICanFind<TAggregateRoot, TKey>.FindOneAsync<TResult>(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
+		{
+			try
+			{
+				return await this.innerRepository.FindOneAsync(specification, selector, queryOptions, cancellationToken);
 			}
 			catch(Exception ex)
 			{
@@ -224,6 +267,20 @@
 		}
 
 		/// <inheritdoc />
+		async Task<bool> ICanFind<TAggregateRoot, TKey>.ExistsAsync(ISpecification<TAggregateRoot> specification, CancellationToken cancellationToken)
+		{
+			try
+			{
+				return await this.innerRepository.ExistsAsync(specification, cancellationToken);
+			}
+			catch(Exception ex)
+			{
+				this.logger.LogCritical(ex, "A critical error occurred trying to perform exists: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				throw;
+			}
+		}
+
+		/// <inheritdoc />
 		async Task<IReadOnlyCollection<TAggregateRoot>> ICanFind<TAggregateRoot, TKey>.FindManyAsync(Expression<Func<TAggregateRoot, bool>> predicate, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
 		{
 			try
@@ -238,11 +295,39 @@
 		}
 
 		/// <inheritdoc />
+		async Task<IReadOnlyCollection<TAggregateRoot>> ICanFind<TAggregateRoot, TKey>.FindManyAsync(ISpecification<TAggregateRoot> specification, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
+		{
+			try
+			{
+				return await this.innerRepository.FindManyAsync(specification, queryOptions, cancellationToken);
+			}
+			catch(Exception ex)
+			{
+				this.logger.LogCritical(ex, "A critical error occurred trying to perform find many: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				throw;
+			}
+		}
+
+		/// <inheritdoc />
 		async Task<IReadOnlyCollection<TResult>> ICanFind<TAggregateRoot, TKey>.FindManyAsync<TResult>(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
 		{
 			try
 			{
 				return await this.innerRepository.FindManyAsync(predicate, selector, queryOptions, cancellationToken);
+			}
+			catch(Exception ex)
+			{
+				this.logger.LogCritical(ex, "A critical error occurred trying to perform find many: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				throw;
+			}
+		}
+
+		/// <inheritdoc />
+		async Task<IReadOnlyCollection<TResult>> ICanFind<TAggregateRoot, TKey>.FindManyAsync<TResult>(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
+		{
+			try
+			{
+				return await this.innerRepository.FindManyAsync(specification, selector, queryOptions, cancellationToken);
 			}
 			catch(Exception ex)
 			{
@@ -280,6 +365,20 @@
 		}
 
 		/// <inheritdoc />
+		public async Task<long> CountAsync(ISpecification<TAggregateRoot> specification, CancellationToken cancellationToken = default)
+		{
+			try
+			{
+				return await this.innerRepository.CountAsync(specification, cancellationToken);
+			}
+			catch(Exception ex)
+			{
+				this.logger.LogCritical(ex, "A critical error occurred trying to perform count: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				throw;
+			}
+		}
+
+		/// <inheritdoc />
 		void IDisposable.Dispose()
 		{
 			if(!this.innerRepository.IsDisposed)
@@ -289,7 +388,7 @@
 		}
 
 		/// <inheritdoc />
-		bool IReadOnlyRepository<TAggregateRoot, TKey>.IsDisposed => this.innerRepository.IsDisposed;
+		bool IDisposableRepository.IsDisposed => this.innerRepository.IsDisposed;
 
 		/// <inheritdoc />
 		async ValueTask IAsyncDisposable.DisposeAsync()

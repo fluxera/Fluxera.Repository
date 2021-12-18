@@ -30,7 +30,7 @@
 				}
 			};
 			await this.Repository.AddAsync(persons);
-			persons.ForEach(x => ((string)x.ID).Should().NotBeNullOrWhiteSpace());
+			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 
 			Person fromStore = await this.Repository.FindOneAsync(x => x.Name.EndsWith("2"));
 			fromStore.Should().NotBeNull();
@@ -56,7 +56,7 @@
 				}
 			};
 			await this.Repository.AddAsync(persons);
-			persons.ForEach(x => x.ID.Should().NotBeNullOrWhiteSpace());
+			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 
 			string fromStore = await this.Repository.FindOneAsync(x => x.Name.EndsWith("2"), x => x.Name);
 			fromStore.Should().NotBeNullOrWhiteSpace();
@@ -82,7 +82,7 @@
 				}
 			};
 			await this.Repository.AddAsync(persons);
-			persons.ForEach(x => x.ID.Should().NotBeNullOrWhiteSpace());
+			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 
 			bool fromStore = await this.Repository.ExistsAsync(x => x.Name.EndsWith("2"));
 			fromStore.Should().BeTrue();
@@ -107,10 +107,10 @@
 				}
 			};
 			await this.Repository.AddAsync(persons);
-			persons.ForEach(x => x.ID.Should().NotBeNullOrWhiteSpace());
+			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 
 			Person[] fromStore = (await this.Repository.FindManyAsync(x => x.Name.EndsWith("2"))).ToArray();
-			fromStore.ForEach(x => x.ID.Should().NotBeNullOrWhiteSpace());
+			fromStore.ForEach(x => x.ID.Should().NotBeEmpty());
 			fromStore.ForEach(x => x.Name.Should().EndWith("2"));
 		}
 
@@ -133,7 +133,7 @@
 				}
 			};
 			await this.Repository.AddAsync(persons);
-			persons.ForEach(x => x.ID.Should().NotBeNullOrWhiteSpace());
+			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 
 			string[] fromStore = (await this.Repository.FindManyAsync(x => x.Name.EndsWith("2"), x => x.Name)).ToArray();
 			fromStore.ForEach(x => x.Should().NotBeNullOrWhiteSpace());

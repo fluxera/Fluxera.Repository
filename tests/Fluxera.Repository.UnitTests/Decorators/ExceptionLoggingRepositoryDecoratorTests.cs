@@ -103,7 +103,7 @@
 		{
 			await this.ShouldLogException(async () =>
 			{
-				await this.Repository.ExistsAsync("1");
+				await this.Repository.ExistsAsync(Guid.NewGuid());
 			});
 		}
 
@@ -148,7 +148,7 @@
 		{
 			await this.ShouldLogException(async () =>
 			{
-				await this.Repository.GetAsync("1");
+				await this.Repository.GetAsync(Guid.NewGuid());
 			});
 		}
 
@@ -157,7 +157,7 @@
 		{
 			await this.ShouldLogException(async () =>
 			{
-				await this.Repository.GetAsync("1", x => x.Name);
+				await this.Repository.GetAsync(Guid.NewGuid(), x => x.Name);
 			});
 		}
 
@@ -179,12 +179,12 @@
 				{
 					new Person
 					{
-						ID = "1",
+						ID = Guid.NewGuid(),
 						Name = "Tester"
 					},
 					new Person
 					{
-						ID = "2",
+						ID = Guid.NewGuid(),
 						Name = "Tester"
 					}
 				};
@@ -197,7 +197,7 @@
 		{
 			await this.ShouldLogException(async () =>
 			{
-				await this.Repository.RemoveAsync("1");
+				await this.Repository.RemoveAsync(Guid.NewGuid());
 			});
 		}
 
@@ -210,12 +210,12 @@
 				{
 					new Person
 					{
-						ID = "1",
+						ID = Guid.NewGuid(),
 						Name = "Tester"
 					},
 					new Person
 					{
-						ID = "2",
+						ID = Guid.NewGuid(),
 						Name = "Tester"
 					}
 				};
@@ -230,7 +230,7 @@
 			{
 				await this.Repository.UpdateAsync(new Person
 				{
-					ID = "1",
+					ID = Guid.NewGuid(),
 					Name = "Tester"
 				});
 			});

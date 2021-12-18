@@ -74,6 +74,7 @@
 			return this.GetWriteThroughCacheKey<TAggregateRoot, TKey>(repositoryName, id);
 		}
 
+		/// <inheritdoc />
 		public string GetGetCacheKey<TAggregateRoot, TKey, TResult>(RepositoryName repositoryName, TKey id,
 			Expression<Func<TAggregateRoot, TResult>> selector)
 			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
@@ -87,7 +88,8 @@
 
 		/// <inheritdoc />
 		public string GetFindOneCacheKey<TAggregateRoot, TKey>(RepositoryName repositoryName, in long generation,
-			Expression<Func<TAggregateRoot, bool>> predicate, IQueryOptions<TAggregateRoot> queryOptions)
+			Expression<Func<TAggregateRoot, bool>> predicate,
+			IQueryOptions<TAggregateRoot>? queryOptions)
 			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 		{
 			// Repositories/Books/Acme.Books.Domain.Model.Book/{Generation}/FindOne/{Predicate}
@@ -95,7 +97,7 @@
 			cacheKey = $"{cacheKey}/{predicate.ToExpressionString()}";
 
 			// Repositories/Books/Acme.Books.Domain.Model.Book/{Generation}/FindOne/{Predicate}/{QueryOptions}
-			if(!queryOptions.IsEmpty)
+			if(queryOptions is not null && !queryOptions.IsEmpty)
 			{
 				cacheKey = $"{cacheKey}/{queryOptions}";
 			}
@@ -103,16 +105,19 @@
 			return cacheKey;
 		}
 
+		/// <inheritdoc />
 		public string GetFindOneCacheKey<TAggregateRoot, TKey, TResult>(RepositoryName repositoryName, in long generation,
-			Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, TResult>> selector,
-			IQueryOptions<TAggregateRoot> queryOptions) where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+			Expression<Func<TAggregateRoot, bool>> predicate,
+			Expression<Func<TAggregateRoot, TResult>> selector,
+			IQueryOptions<TAggregateRoot>? queryOptions)
+			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 		{
 			// Repositories/Books/Acme.Books.Domain.Model.Book/{Generation}/FindOne/{Predicate}/{Selector}
 			string cacheKey = $"{this.GetCachePrefix(repositoryName, typeof(TAggregateRoot))}/{generation}/FindOne";
 			cacheKey = $"{cacheKey}/{predicate.ToExpressionString()}/{selector.ToExpressionString()}";
 
 			// Repositories/Books/Acme.Books.Domain.Model.Book/{Generation}/FindOne/{Predicate}/{Selector}/{QueryOptions}
-			if(!queryOptions.IsEmpty)
+			if(queryOptions is not null && !queryOptions.IsEmpty)
 			{
 				cacheKey = $"{cacheKey}/{queryOptions}";
 			}
@@ -120,8 +125,9 @@
 			return cacheKey;
 		}
 
+		/// <inheritdoc />
 		public string GetFindManyCacheKey<TAggregateRoot, TKey>(RepositoryName repositoryName, in long generation,
-			Expression<Func<TAggregateRoot, bool>> predicate, IQueryOptions<TAggregateRoot> queryOptions)
+			Expression<Func<TAggregateRoot, bool>> predicate, IQueryOptions<TAggregateRoot>? queryOptions)
 			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 		{
 			// Repositories/Books/Acme.Books.Domain.Model.Book/{Generation}/FindMany/{Predicate}
@@ -129,7 +135,7 @@
 			cacheKey = $"{cacheKey}/{predicate.ToExpressionString()}";
 
 			// Repositories/Books/Acme.Books.Domain.Model.Book/{Generation}/FindMany/{Predicate}/{QueryOptions}
-			if(!queryOptions.IsEmpty)
+			if(queryOptions is not null && !queryOptions.IsEmpty)
 			{
 				cacheKey = $"{cacheKey}/{queryOptions}";
 			}
@@ -137,16 +143,18 @@
 			return cacheKey;
 		}
 
+		/// <inheritdoc />
 		public string GetFindManyCacheKey<TAggregateRoot, TKey, TResult>(RepositoryName repositoryName, in long generation,
 			Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, TResult>> selector,
-			IQueryOptions<TAggregateRoot> queryOptions) where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+			IQueryOptions<TAggregateRoot>? queryOptions)
+			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 		{
 			// Repositories/Books/Acme.Books.Domain.Model.Book/{Generation}/FindMany/{Predicate}/{Selector}
 			string cacheKey = $"{this.GetCachePrefix(repositoryName, typeof(TAggregateRoot))}/{generation}/FindMany";
 			cacheKey = $"{cacheKey}/{predicate.ToExpressionString()}/{selector.ToExpressionString()}";
 
 			// Repositories/Books/Acme.Books.Domain.Model.Book/{Generation}/FindMany/{Predicate}/{Selector}/{QueryOptions}
-			if(!queryOptions.IsEmpty)
+			if(queryOptions is not null && !queryOptions.IsEmpty)
 			{
 				cacheKey = $"{cacheKey}/{queryOptions}";
 			}
@@ -156,7 +164,8 @@
 
 		/// <inheritdoc />
 		public string GetExistsCacheKey<TAggregateRoot, TKey>(RepositoryName repositoryName, in long generation,
-			Expression<Func<TAggregateRoot, bool>> predicate) where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+			Expression<Func<TAggregateRoot, bool>> predicate)
+			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 		{
 			// Repositories/Books/Acme.Books.Domain.Model.Book/{Generation}/Count/{Predicate}
 			string cacheKey = $"{this.GetCachePrefix(repositoryName, typeof(TAggregateRoot))}/{generation}/Exists";

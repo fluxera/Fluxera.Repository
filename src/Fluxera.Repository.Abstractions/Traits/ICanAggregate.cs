@@ -5,6 +5,7 @@ namespace Fluxera.Repository.Traits
 	using System.Threading;
 	using System.Threading.Tasks;
 	using Fluxera.Entity;
+	using Fluxera.Repository.Specifications;
 	using JetBrains.Annotations;
 
 	/// <summary>
@@ -34,5 +35,50 @@ namespace Fluxera.Repository.Traits
 		/// <param name="cancellationToken">The cancellation token.</param>
 		/// <returns>The item count.</returns>
 		Task<long> CountAsync(Expression<Func<TAggregateRoot, bool>> predicate, CancellationToken cancellationToken = default);
+
+		/// <summary>
+		///     Gets the count of items of the underlying store that match the given specification.
+		/// </summary>
+		/// <param name="specification">The specification to match.</param>
+		/// <param name="cancellationToken">The cancellation token.</param>
+		/// <returns>The item count.</returns>
+		Task<long> CountAsync(ISpecification<TAggregateRoot> specification, CancellationToken cancellationToken = default);
+
+		// TODO
+		//Task<int> SumAsync(Expression<Func<TAggregateRoot, int>> selector, CancellationToken cancellationToken = default);
+		//Task<int> SumAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, int>> selector, CancellationToken cancellationToken = default);
+
+		//Task<long> SumAsync(Expression<Func<TAggregateRoot, long>> selector, CancellationToken cancellationToken = default);
+		//Task<long> SumAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, long>> selector, CancellationToken cancellationToken = default);
+
+		//Task<decimal> SumAsync(Expression<Func<TAggregateRoot, decimal>> selector, CancellationToken cancellationToken = default);
+		//Task<decimal> SumAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, decimal>> selector, CancellationToken cancellationToken = default);
+
+		//Task<float> SumAsync(Expression<Func<TAggregateRoot, float>> selector, CancellationToken cancellationToken = default);
+		//Task<float> SumAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, float>> selector, CancellationToken cancellationToken = default);
+
+		//Task<double> SumAsync(Expression<Func<TAggregateRoot, double>> selector, CancellationToken cancellationToken = default);
+		//Task<double> SumAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, double>> selector, CancellationToken cancellationToken = default);
+
+		//Task<double> AverageAsync(Expression<Func<TAggregateRoot, int>> selector, CancellationToken cancellationToken = default);
+		//Task<double> AverageAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, int>> selector, CancellationToken cancellationToken = default);
+
+		//Task<double> AverageAsync(Expression<Func<TAggregateRoot, long>> selector, CancellationToken cancellationToken = default);
+		//Task<double> AverageAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, long>> selector, CancellationToken cancellationToken = default);
+
+		//Task<decimal> AverageAsync(Expression<Func<TAggregateRoot, decimal>> selector, CancellationToken cancellationToken = default);
+		//Task<decimal> AverageAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, decimal>> selector, CancellationToken cancellationToken = default);
+
+		//Task<float> AverageAsync(Expression<Func<TAggregateRoot, float>> selector, CancellationToken cancellationToken = default);
+		//Task<float> AverageAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, float>> selector, CancellationToken cancellationToken = default);
+
+		//Task<double> AverageAsync(Expression<Func<TAggregateRoot, double>> selector, CancellationToken cancellationToken = default);
+		//Task<double> AverageAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, double>> selector, CancellationToken cancellationToken = default);
+
+		//TResult MinAsync<TResult>(Expression<Func<TAggregateRoot, TResult>> selector, CancellationToken cancellationToken = default);
+		//TResult MinAsync<TResult>(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, TResult>> selector, CancellationToken cancellationToken = default);
+
+		//TResult MaxAsync<TResult>(Expression<Func<TAggregateRoot, TResult>> selector, CancellationToken cancellationToken = default);
+		//TResult MaxAsync<TResult>(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, TResult>> selector, CancellationToken cancellationToken = default);
 	}
 }

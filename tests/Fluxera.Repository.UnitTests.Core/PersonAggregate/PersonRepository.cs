@@ -1,9 +1,11 @@
 ﻿namespace Fluxera.Repository.UnitTests.Core.PersonAggregate
 {
-	public class PersonRepository : Repository<Person, string>, IPersonRepository
+	using System;
+
+	public class PersonRepository : Repository<Person, Guid>, IPersonRepository
 	{
 		/// <inheritdoc />
-		public PersonRepository(IRepository<Person, string> innerRepository)
+		public PersonRepository(IRepository<Person, Guid> innerRepository)
 			: base(innerRepository)
 		{
 		}

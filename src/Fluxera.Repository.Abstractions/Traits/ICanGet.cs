@@ -17,7 +17,7 @@
 	/// <typeparam name="TAggregateRoot">Generic repository entity root type.</typeparam>
 	/// <typeparam name="TKey">The type of the ID.</typeparam>
 	[PublicAPI]
-	public interface ICanGet<TAggregateRoot, TKey>
+	public interface ICanGet<TAggregateRoot, in TKey>
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 	{
 		/// <summary>

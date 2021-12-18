@@ -18,7 +18,7 @@
 				Name = "Tester"
 			};
 			await this.Repository.AddAsync(person);
-			person.ID.Should().NotBeNullOrWhiteSpace();
+			person.ID.Should().NotBeEmpty();
 		}
 
 		[Test]
@@ -36,7 +36,7 @@
 				}
 			};
 			await this.Repository.AddAsync(persons);
-			persons.ForEach(x => x.ID.Should().NotBeNullOrWhiteSpace());
+			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 		}
 	}
 }
