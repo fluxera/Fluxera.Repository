@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Bogus" Version="34.0.1" />
     <PackageReference Include="FluentAssertions" Version="6.2.0" />
     <PackageReference Include="Fluxera.Utilities" Version="6.0.8" />
 	<PackageReference Include="Fluxera.Guards" Version="6.0.7" />
