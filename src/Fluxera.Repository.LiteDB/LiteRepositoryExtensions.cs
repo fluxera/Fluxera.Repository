@@ -1,66 +1,54 @@
 ﻿namespace Fluxera.Repository.LiteDB
 {
-	using Fluxera.Entity;
 	using Fluxera.Repository.Query;
 	using global::LiteDB.Async;
 
 	internal static class LiteRepositoryExtensions
 	{
-		internal static ILiteQueryableAsync<TAggregateRoot> ApplyOptions<TAggregateRoot, TKey>(
-			this ILiteQueryableAsync<TAggregateRoot> queryable, IQueryOptions<TAggregateRoot>? options)
-			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+		internal static ILiteQueryableAsync<T> Apply<T>(this ILiteQueryableAsync<T> queryable, IQueryOptions<T>? options) where T : class
 		{
 			if(options is null)
 			{
 				return queryable;
 			}
 
-			// TODO
-			//if(options.HasPagingOptions)
-			//{
-			//	options.TryGetPagingOptions(out IPagingOptions<TAggregateRoot>? pagingOptions);
+			if(options.TryGetPagingOptions(out IPagingOptions<T>? pagingOptions))
+			{
+				queryable = (ILiteQueryableAsync<T>)queryable
+					.Skip(pagingOptions.Skip)
+					.Limit(pagingOptions.Take);
+			}
 
-			//	queryable = (ILiteQueryableAsync<TAggregateRoot>)queryable.Skip(pagingOptions.Skip).Limit(pagingOptions.PageSize);
-			//}
+			if(options.TryGetSkipTakeOptions(out ISkipTakeOptions<T>? skipTakeOptions))
+			{
+				if(skipTakeOptions.SkipNumber.HasValue)
+				{
+					queryable = (ILiteQueryableAsync<T>)queryable.Skip(skipTakeOptions.SkipNumber.Value);
+				}
 
-			//if(options.HasSkipTakeOptions)
-			//{
-			//	options.TryGetSkipTakeOptions(out ISkipTakeOptions<TAggregateRoot>? skipTakeOptions);
+				if(skipTakeOptions.TakeNumber.HasValue)
+				{
+					queryable = (ILiteQueryableAsync<T>)queryable.Limit(skipTakeOptions.TakeNumber.Value);
+				}
+			}
 
-			//	if(skipTakeOptions.Skip.HasValue)
-			//	{
-			//		queryable = (ILiteQueryableAsync<TAggregateRoot>)queryable.Skip(skipTakeOptions.Skip.Value);
-			//	}
+			if(options.TryGetSortingOptions(out ISortingOptions<T>? orderByOptions))
+			{
+				ISortExpression<T> primaryExpression = orderByOptions.PrimaryExpression;
 
-			//	if(skipTakeOptions.Take.HasValue)
-			//	{
-			//		queryable = (ILiteQueryableAsync<TAggregateRoot>)queryable.Limit(skipTakeOptions.Take.Value);
-			//	}
-			//}
+				ILiteQueryableAsync<T> orderedQueryable = primaryExpression.IsDescending
+					? queryable.OrderByDescending(primaryExpression.Expression)
+					: queryable.OrderBy(primaryExpression.Expression);
 
-			//if(options.HasOrderByOptions)
-			//{
-			//	options.TryGetOrderByOptions(out IOrderByOptions<TAggregateRoot>? orderByOptions);
-			//	IOrderByExpression<TAggregateRoot>? orderBy = orderByOptions?.OrderByExpression;
-			//	if(orderBy != null)
-			//	{
-			//		ILiteQueryableAsync<TAggregateRoot> orderedQueryable = orderBy.IsDescending
-			//			? queryable.OrderByDescending(orderBy.SortExpression)
-			//			: queryable.OrderBy(orderBy.SortExpression);
+				foreach(ISortExpression<T> expression in orderByOptions.SecondaryExpressions)
+				{
+					orderedQueryable = expression.IsDescending
+						? orderedQueryable.OrderByDescending(expression.Expression)
+						: orderedQueryable.OrderBy(expression.Expression);
+				}
 
-			//		if(orderByOptions.ThenByExpressions != null)
-			//		{
-			//			foreach(IOrderByExpression<TAggregateRoot> thenBy in orderByOptions.ThenByExpressions)
-			//			{
-			//				orderedQueryable = thenBy.IsDescending
-			//					? orderedQueryable.OrderBy(thenBy.SortExpression)
-			//					: orderedQueryable.OrderByDescending(thenBy.SortExpression);
-			//			}
-			//		}
-
-			//		queryable = orderedQueryable;
-			//	}
-			//}
+				queryable = orderedQueryable;
+			}
 
 			return queryable;
 		}

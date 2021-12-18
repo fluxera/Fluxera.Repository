@@ -8,7 +8,6 @@ namespace Fluxera.Repository.Query
 
 	internal sealed class SortingOptions<T> : ISortingOptions<T> where T : class
 	{
-		private readonly ISortExpression<T> primaryExpression;
 		private readonly IList<ISortExpression<T>> secondaryExpressions = new List<ISortExpression<T>>();
 
 		private IPagingOptions<T>? pagingOptions;
@@ -16,8 +15,14 @@ namespace Fluxera.Repository.Query
 
 		public SortingOptions(Expression<Func<T, object>> sortExpression, bool isDescending = false)
 		{
-			this.primaryExpression = new SortExpression<T>(sortExpression, isDescending);
+			this.PrimaryExpression = new SortExpression<T>(sortExpression, isDescending);
 		}
+
+		/// <inheritdoc />
+		public IEnumerable<ISortExpression<T>> SecondaryExpressions => this.secondaryExpressions;
+
+		/// <inheritdoc />
+		public ISortExpression<T> PrimaryExpression { get; }
 
 		/// <inheritdoc />
 		public ISortingOptions<T> ThenBy(Expression<Func<T, object>> sortExpression)
@@ -66,7 +71,7 @@ namespace Fluxera.Repository.Query
 		/// <inheritdoc />
 		public IQueryable<T> ApplyTo(IQueryable<T> queryable)
 		{
-			queryable = this.primaryExpression.ApplyTo(queryable);
+			queryable = this.PrimaryExpression.ApplyTo(queryable);
 			foreach(ISortExpression<T> secondaryExpression in this.secondaryExpressions)
 			{
 				IOrderedQueryable<T> orderedQueryable = (IOrderedQueryable<T>)queryable;
@@ -87,9 +92,30 @@ namespace Fluxera.Repository.Query
 		}
 
 		/// <inheritdoc />
+		public bool TryGetPagingOptions(out IPagingOptions<T>? pagingOptions)
+		{
+			pagingOptions = this.pagingOptions;
+			return this.pagingOptions != null;
+		}
+
+		/// <inheritdoc />
+		public bool TryGetSkipTakeOptions(out ISkipTakeOptions<T>? skipTakeOptions)
+		{
+			skipTakeOptions = this.skipTakeOptions;
+			return this.skipTakeOptions != null;
+		}
+
+		/// <inheritdoc />
+		public bool TryGetSortingOptions(out ISortingOptions<T>? sortingOptions)
+		{
+			sortingOptions = this;
+			return true;
+		}
+
+		/// <inheritdoc />
 		public override string ToString()
 		{
-			string orderByString = this.primaryExpression.ToString();
+			string orderByString = this.PrimaryExpression.ToString();
 			string thenByString = this.secondaryExpressions.Select(x => x.ToString()).Aggregate((s1, s2) => string.Concat(s1, ", ", s2));
 			string sortingOptionsString = "(OrderBy: {0}, ThenBy: {1})".FormatInvariantWith(orderByString, thenByString);
 

@@ -3,7 +3,9 @@
 	using System;
 	using System.Linq;
 	using System.Linq.Expressions;
+	using JetBrains.Annotations;
 
+	[PublicAPI]
 	public interface ISortExpression<T> where T : class
 	{
 		Expression<Func<T, object>> Expression { get; }

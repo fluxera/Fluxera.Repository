@@ -162,7 +162,7 @@
 				return await this.client
 					.For<TAggregateRoot>()
 					.Filter(specification.Predicate)
-					.ApplyOptions<TAggregateRoot, TKey>(queryOptions)
+					.Apply(queryOptions)
 					.FindEntryAsync(cancellationToken)
 					.ConfigureAwait(false);
 			}
@@ -181,7 +181,7 @@
 				TAggregateRoot item = await this.client
 					.For<TAggregateRoot>()
 					.Filter(specification.Predicate)
-					.ApplyOptions<TAggregateRoot, TKey>(queryOptions)
+					.Apply(queryOptions)
 					.Select(objectSelector)
 					.FindEntryAsync(cancellationToken)
 					.ConfigureAwait(false);
@@ -203,7 +203,7 @@
 				IEnumerable<TAggregateRoot> items = await this.client
 					.For<TAggregateRoot>()
 					.Filter(specification.Predicate)
-					.ApplyOptions<TAggregateRoot, TKey>(queryOptions)
+					.Apply(queryOptions)
 					.FindEntriesAsync(cancellationToken)
 					.ConfigureAwait(false);
 
@@ -224,7 +224,7 @@
 				IEnumerable<TAggregateRoot> items = await this.client
 					.For<TAggregateRoot>()
 					.Filter(specification.Predicate)
-					.ApplyOptions<TAggregateRoot, TKey>(queryOptions)
+					.Apply(queryOptions)
 					.Select(objectSelector)
 					.FindEntriesAsync(cancellationToken)
 					.ConfigureAwait(false);

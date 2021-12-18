@@ -113,7 +113,7 @@
 			return await this.collection
 				.Query()
 				.Where(specification.Predicate)
-				.ApplyOptions<TAggregateRoot, TKey>(queryOptions)
+				.Apply(queryOptions)
 				.FirstOrDefaultAsync()
 				.ConfigureAwait(false);
 		}
@@ -124,7 +124,7 @@
 			return await this.collection
 				.Query()
 				.Where(specification.Predicate)
-				.ApplyOptions<TAggregateRoot, TKey>(queryOptions)
+				.Apply(queryOptions)
 				.Select(selector)
 				.FirstOrDefaultAsync()
 				.ConfigureAwait(false);
@@ -136,7 +136,7 @@
 			return await this.collection
 				.Query()
 				.Where(specification.Predicate)
-				.ApplyOptions<TAggregateRoot, TKey>(queryOptions)
+				.Apply(queryOptions)
 				.ToListAsync()
 				.ConfigureAwait(false)
 				.AsReadOnly();
@@ -148,7 +148,7 @@
 			return await this.collection
 				.Query()
 				.Where(specification.Predicate)
-				.ApplyOptions<TAggregateRoot, TKey>(queryOptions)
+				.Apply(queryOptions)
 				.Select(selector)
 				.ToListAsync()
 				.ConfigureAwait(false)
