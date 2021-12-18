@@ -15,51 +15,52 @@
 				return queryable;
 			}
 
-			if(options.HasPagingOptions)
-			{
-				options.TryGetPagingOptions(out IPagingOptions<TAggregateRoot>? pagingOptions);
+			// TODO
+			//if(options.HasPagingOptions)
+			//{
+			//	options.TryGetPagingOptions(out IPagingOptions<TAggregateRoot>? pagingOptions);
 
-				queryable = (ILiteQueryableAsync<TAggregateRoot>)queryable.Skip(pagingOptions.Skip).Limit(pagingOptions.PageSize);
-			}
+			//	queryable = (ILiteQueryableAsync<TAggregateRoot>)queryable.Skip(pagingOptions.Skip).Limit(pagingOptions.PageSize);
+			//}
 
-			if(options.HasSkipTakeOptions)
-			{
-				options.TryGetSkipTakeOptions(out ISkipTakeOptions<TAggregateRoot>? skipTakeOptions);
+			//if(options.HasSkipTakeOptions)
+			//{
+			//	options.TryGetSkipTakeOptions(out ISkipTakeOptions<TAggregateRoot>? skipTakeOptions);
 
-				if(skipTakeOptions.Skip.HasValue)
-				{
-					queryable = (ILiteQueryableAsync<TAggregateRoot>)queryable.Skip(skipTakeOptions.Skip.Value);
-				}
+			//	if(skipTakeOptions.Skip.HasValue)
+			//	{
+			//		queryable = (ILiteQueryableAsync<TAggregateRoot>)queryable.Skip(skipTakeOptions.Skip.Value);
+			//	}
 
-				if(skipTakeOptions.Take.HasValue)
-				{
-					queryable = (ILiteQueryableAsync<TAggregateRoot>)queryable.Limit(skipTakeOptions.Take.Value);
-				}
-			}
+			//	if(skipTakeOptions.Take.HasValue)
+			//	{
+			//		queryable = (ILiteQueryableAsync<TAggregateRoot>)queryable.Limit(skipTakeOptions.Take.Value);
+			//	}
+			//}
 
-			if(options.HasOrderByOptions)
-			{
-				options.TryGetOrderByOptions(out IOrderByOptions<TAggregateRoot>? orderByOptions);
-				IOrderByExpression<TAggregateRoot>? orderBy = orderByOptions?.OrderByExpression;
-				if(orderBy != null)
-				{
-					ILiteQueryableAsync<TAggregateRoot> orderedQueryable = orderBy.IsDescending
-						? queryable.OrderByDescending(orderBy.SortExpression)
-						: queryable.OrderBy(orderBy.SortExpression);
+			//if(options.HasOrderByOptions)
+			//{
+			//	options.TryGetOrderByOptions(out IOrderByOptions<TAggregateRoot>? orderByOptions);
+			//	IOrderByExpression<TAggregateRoot>? orderBy = orderByOptions?.OrderByExpression;
+			//	if(orderBy != null)
+			//	{
+			//		ILiteQueryableAsync<TAggregateRoot> orderedQueryable = orderBy.IsDescending
+			//			? queryable.OrderByDescending(orderBy.SortExpression)
+			//			: queryable.OrderBy(orderBy.SortExpression);
 
-					if(orderByOptions.ThenByExpressions != null)
-					{
-						foreach(IOrderByExpression<TAggregateRoot> thenBy in orderByOptions.ThenByExpressions)
-						{
-							orderedQueryable = thenBy.IsDescending
-								? orderedQueryable.OrderBy(thenBy.SortExpression)
-								: orderedQueryable.OrderByDescending(thenBy.SortExpression);
-						}
-					}
+			//		if(orderByOptions.ThenByExpressions != null)
+			//		{
+			//			foreach(IOrderByExpression<TAggregateRoot> thenBy in orderByOptions.ThenByExpressions)
+			//			{
+			//				orderedQueryable = thenBy.IsDescending
+			//					? orderedQueryable.OrderBy(thenBy.SortExpression)
+			//					: orderedQueryable.OrderByDescending(thenBy.SortExpression);
+			//			}
+			//		}
 
-					queryable = orderedQueryable;
-				}
-			}
+			//		queryable = orderedQueryable;
+			//	}
+			//}
 
 			return queryable;
 		}

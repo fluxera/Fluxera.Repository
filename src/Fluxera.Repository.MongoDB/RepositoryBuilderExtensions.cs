@@ -2,9 +2,7 @@
 {
 	using System;
 	using global::MongoDB.Bson;
-	using global::MongoDB.Bson.Serialization;
 	using global::MongoDB.Bson.Serialization.Conventions;
-	using global::MongoDB.Bson.Serialization.Serializers;
 	using JetBrains.Annotations;
 
 	[PublicAPI]
@@ -13,10 +11,9 @@
 		public static IRepositoryBuilder AddMongoRepository(this IRepositoryBuilder builder, string repositoryName, Action<IRepositoryOptionsBuilder> configureOptions,
 			Action<ConventionPack>? configureConventions = null)
 		{
-			BsonSerializer.RegisterSerializer(new GuidSerializer(GuidRepresentation.Standard));
-
 			ConventionPack pack = new ConventionPack
 			{
+				new GuidAsStringRepresentationConvention(),
 				new EnumRepresentationConvention(BsonType.String),
 				new CamelCaseElementNameConvention(),
 				new NamedIdMemberConvention("ID"),

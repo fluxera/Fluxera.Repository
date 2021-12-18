@@ -67,6 +67,14 @@
 				new Person
 				{
 					Name = "Tester"
+				},
+				new Person
+				{
+					Name = "Tester"
+				},
+				new Person
+				{
+					Name = "Tester"
 				}
 			};
 			await this.Repository.AddAsync(persons);

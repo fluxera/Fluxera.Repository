@@ -10,14 +10,14 @@
 	using Fluxera.Entity;
 	using Fluxera.Guards;
 	using Fluxera.Repository.Options;
-	using Fluxera.Repository.Query;
-	using Fluxera.Repository.Traits;
+	using Fluxera.Repository.Specifications;
 	using Fluxera.Utilities.Extensions;
 	using global::MongoDB.Driver;
+	using global::MongoDB.Driver.Linq;
 	using Microsoft.Extensions.Logging;
 
 	// TODO: Transactions; https://gist.github.com/codepope/1366893d703a0be57953545619e87eea
-	internal sealed class MongoRepository<TAggregateRoot, TKey> : IRepository<TAggregateRoot, TKey>
+	internal sealed class MongoRepository<TAggregateRoot, TKey> : LinqRepositoryBase<TAggregateRoot, TKey>
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 	{
 		private readonly MongoClient client;
@@ -75,10 +75,11 @@
 
 		private static string Name => "Fluxera.Repository.MongoRepository";
 
-		private bool IsDisposed { get; set; }
+		/// <inheritdoc />
+		protected override IQueryable<TAggregateRoot> Queryable => this.collection.AsQueryable();
 
 		/// <inheritdoc />
-		async Task ICanAdd<TAggregateRoot, TKey>.AddAsync(TAggregateRoot item, CancellationToken cancellationToken)
+		protected override async Task AddAsync(TAggregateRoot item, CancellationToken cancellationToken)
 		{
 			await this.collection
 				.InsertOneAsync(item, cancellationToken: cancellationToken)
@@ -86,7 +87,7 @@
 		}
 
 		/// <inheritdoc />
-		async Task ICanAdd<TAggregateRoot, TKey>.AddAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
+		protected override async Task AddRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{
 			await this.collection
 				.InsertManyAsync(items, cancellationToken: cancellationToken)
@@ -94,188 +95,91 @@
 		}
 
 		/// <inheritdoc />
-		async Task ICanUpdate<TAggregateRoot, TKey>.UpdateAsync(TAggregateRoot item, CancellationToken cancellationToken)
+		protected override async Task RemoveRangeAsync(ISpecification<TAggregateRoot> specification, CancellationToken cancellationToken)
 		{
 			await this.collection
-				.ReplaceOneAsync(x => x.ID == item.ID, item, cancellationToken: cancellationToken)
+				.DeleteManyAsync(specification.Predicate, cancellationToken)
 				.ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
-		async Task ICanUpdate<TAggregateRoot, TKey>.UpdateAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
-		{
-			IList<WriteModel<TAggregateRoot>> updates = new List<WriteModel<TAggregateRoot>>();
-			foreach(TAggregateRoot item in items)
-			{
-				Expression<Func<TAggregateRoot, bool>> predicate = x => x.ID == item.ID;
-				updates.Add(new ReplaceOneModel<TAggregateRoot>(predicate, item));
-			}
-
-			await this.collection.BulkWriteAsync(updates, new BulkWriteOptions
-			{
-				IsOrdered = false,
-			}, cancellationToken).ConfigureAwait(false);
-		}
-
-		/// <inheritdoc />
-		async Task ICanRemove<TAggregateRoot, TKey>.RemoveAsync(TAggregateRoot item, CancellationToken cancellationToken)
-		{
-			await this.collection
-				.DeleteOneAsync(x => x.ID == item.ID, cancellationToken)
-				.ConfigureAwait(false);
-		}
-
-		/// <inheritdoc />
-		async Task ICanRemove<TAggregateRoot, TKey>.RemoveAsync(TKey id, CancellationToken cancellationToken)
-		{
-			await this.collection
-				.DeleteOneAsync(x => x.ID == id, cancellationToken)
-				.ConfigureAwait(false);
-		}
-
-		/// <inheritdoc />
-		async Task ICanRemove<TAggregateRoot, TKey>.RemoveAsync(Expression<Func<TAggregateRoot, bool>> predicate, CancellationToken cancellationToken)
-		{
-			await this.collection
-				.DeleteManyAsync(predicate, cancellationToken)
-				.ConfigureAwait(false);
-		}
-
-		/// <inheritdoc />
-		async Task ICanRemove<TAggregateRoot, TKey>.RemoveAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
+		protected override async Task RemoveRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{
 			IList<TAggregateRoot> itemsList = items.ToList();
 
 			IList<WriteModel<TAggregateRoot>> deletes = new List<WriteModel<TAggregateRoot>>();
 			foreach(TAggregateRoot item in itemsList)
 			{
-				Expression<Func<TAggregateRoot, bool>> predicate = x => x.ID == item.ID;
+				Expression<Func<TAggregateRoot, bool>> predicate = this.CreatePrimaryKeyPredicate(item.ID);
 				deletes.Add(new DeleteOneModel<TAggregateRoot>(predicate));
 			}
 
-			await this.collection.BulkWriteAsync(deletes, new BulkWriteOptions
-				{
-					IsOrdered = false
-				}, cancellationToken)
+			await this.collection
+				.BulkWriteAsync(deletes, new BulkWriteOptions { IsOrdered = false }, cancellationToken)
 				.ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
-		async Task<TAggregateRoot> ICanGet<TAggregateRoot, TKey>.GetAsync(TKey id, CancellationToken cancellationToken)
+		protected override async Task UpdateAsync(TAggregateRoot item, CancellationToken cancellationToken)
 		{
-			return await this.collection
-				.Find(x => x.ID == id)
-				.FirstOrDefaultAsync(cancellationToken)
+			await this.collection
+				.ReplaceOneAsync(this.CreatePrimaryKeyPredicate(item.ID), item, cancellationToken: cancellationToken)
 				.ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
-		async Task<TResult> ICanGet<TAggregateRoot, TKey>.GetAsync<TResult>(TKey id, Expression<Func<TAggregateRoot, TResult>> selector, CancellationToken cancellationToken)
+		protected override async Task UpdateRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{
-			return await this.collection
-				.Find(x => x.ID == id)
-				.Project(selector)
-				.FirstOrDefaultAsync(cancellationToken)
-				.ConfigureAwait(false);
-		}
-
-		/// <inheritdoc />
-		async Task<bool> ICanGet<TAggregateRoot, TKey>.ExistsAsync(TKey id, CancellationToken cancellationToken)
-		{
-			return await this.collection
-				.Find(x => x.ID == id)
-				.AnyAsync(cancellationToken)
-				.ConfigureAwait(false);
-		}
-
-		/// <inheritdoc />
-		async Task<TAggregateRoot> ICanFind<TAggregateRoot, TKey>.FindOneAsync(Expression<Func<TAggregateRoot, bool>> predicate, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
-		{
-			return await this.collection
-				.Find(predicate)
-				.ApplyOptions(queryOptions)
-				.FirstOrDefaultAsync(cancellationToken)
-				.ConfigureAwait(false);
-		}
-
-		/// <inheritdoc />
-		async Task<TResult> ICanFind<TAggregateRoot, TKey>.FindOneAsync<TResult>(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
-		{
-			return await this.collection
-				.Find(predicate)
-				.ApplyOptions(queryOptions)
-				.Project(selector)
-				.FirstOrDefaultAsync(cancellationToken)
-				.ConfigureAwait(false);
-		}
-
-		/// <inheritdoc />
-		async Task<bool> ICanFind<TAggregateRoot, TKey>.ExistsAsync(Expression<Func<TAggregateRoot, bool>> predicate, CancellationToken cancellationToken)
-		{
-			return await this.collection
-				.Find(predicate)
-				.AnyAsync(cancellationToken)
-				.ConfigureAwait(false);
-		}
-
-		/// <inheritdoc />
-		async Task<IReadOnlyCollection<TAggregateRoot>> ICanFind<TAggregateRoot, TKey>.FindManyAsync(Expression<Func<TAggregateRoot, bool>> predicate, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
-		{
-			return await this.collection
-				.Find(predicate)
-				.ApplyOptions(queryOptions)
-				.ToListAsync(cancellationToken)
-				.ConfigureAwait(false);
-		}
-
-		/// <inheritdoc />
-		async Task<IReadOnlyCollection<TResult>> ICanFind<TAggregateRoot, TKey>.FindManyAsync<TResult>(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
-		{
-			return await this.collection
-				.Find(predicate)
-				.ApplyOptions(queryOptions)
-				.Project(selector)
-				.ToListAsync(cancellationToken)
-				.ConfigureAwait(false);
-		}
-
-		/// <inheritdoc />
-		async Task<long> ICanAggregate<TAggregateRoot, TKey>.CountAsync(CancellationToken cancellationToken)
-		{
-			return await this.collection
-				.CountDocumentsAsync(x => true, cancellationToken: cancellationToken)
-				.ConfigureAwait(false);
-		}
-
-		/// <inheritdoc />
-		async Task<long> ICanAggregate<TAggregateRoot, TKey>.CountAsync(Expression<Func<TAggregateRoot, bool>> predicate, CancellationToken cancellationToken)
-		{
-			return await this.collection
-				.CountDocumentsAsync(predicate, cancellationToken: cancellationToken)
-				.ConfigureAwait(false);
-		}
-
-		/// <inheritdoc />
-		public void Dispose()
-		{
-			this.IsDisposed = true;
-		}
-
-		/// <inheritdoc />
-		bool IReadOnlyRepository<TAggregateRoot, TKey>.IsDisposed => this.IsDisposed;
-
-		/// <inheritdoc />
-		ValueTask IAsyncDisposable.DisposeAsync()
-		{
-			try
+			IList<WriteModel<TAggregateRoot>> updates = new List<WriteModel<TAggregateRoot>>();
+			foreach(TAggregateRoot item in items)
 			{
-				this.Dispose();
-				return default;
+				Expression<Func<TAggregateRoot, bool>> predicate = this.CreatePrimaryKeyPredicate(item.ID);
+				updates.Add(new ReplaceOneModel<TAggregateRoot>(predicate, item));
 			}
-			catch(Exception exception)
-			{
-				return new ValueTask(Task.FromException(exception));
-			}
+
+			await this.collection
+				.BulkWriteAsync(updates, new BulkWriteOptions { IsOrdered = false }, cancellationToken)
+				.ConfigureAwait(false);
+		}
+
+		/// <inheritdoc />
+		protected override async Task<TAggregateRoot> FirstOrDefaultAsync(IQueryable<TAggregateRoot> queryable, CancellationToken cancellationToken)
+		{
+			return await queryable
+				.ToMongoQueryable()
+				.FirstOrDefaultAsync(cancellationToken);
+		}
+
+		/// <inheritdoc />
+		protected override async Task<TResult> FirstOrDefaultAsync<TResult>(IQueryable<TResult> queryable, CancellationToken cancellationToken)
+		{
+			return await queryable
+				.ToMongoQueryable()
+				.FirstOrDefaultAsync(cancellationToken);
+		}
+
+		/// <inheritdoc />
+		protected override async Task<long> LongCountAsync(IQueryable<TAggregateRoot> queryable, CancellationToken cancellationToken)
+		{
+			return await queryable
+				.ToMongoQueryable()
+				.LongCountAsync(cancellationToken);
+		}
+
+		/// <inheritdoc />
+		protected override async Task<IReadOnlyCollection<TAggregateRoot>> ToListAsync(IQueryable<TAggregateRoot> queryable, CancellationToken cancellationToken)
+		{
+			return await queryable
+				.ToMongoQueryable()
+				.ToListAsync(cancellationToken);
+		}
+
+		/// <inheritdoc />
+		protected override async Task<IReadOnlyCollection<TResult>> ToListAsync<TResult>(IQueryable<TResult> queryable, CancellationToken cancellationToken)
+		{
+			return await queryable
+				.ToMongoQueryable()
+				.ToListAsync(cancellationToken);
 		}
 	}
 }

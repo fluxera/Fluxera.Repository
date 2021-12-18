@@ -4,11 +4,11 @@
 	using System.Collections.Concurrent;
 	using System.Collections.Generic;
 	using System.Linq;
-	using System.Linq.Expressions;
 	using System.Threading;
 	using System.Threading.Tasks;
 	using Fluxera.Entity;
 	using Fluxera.Guards;
+	using Fluxera.Repository.Specifications;
 	using Microsoft.Extensions.Logging;
 
 	public sealed class InMemoryRepository<TAggregateRoot, TKey> : LinqRepositoryBase<TAggregateRoot, TKey>
@@ -36,13 +36,31 @@
 		}
 
 		/// <inheritdoc />
-		protected override async Task<TAggregateRoot> FirstOrDefaultAsync(IQueryable<TAggregateRoot> queryable)
+		protected override async Task<long> LongCountAsync(IQueryable<TAggregateRoot> queryable, CancellationToken cancellationToken)
+		{
+			return queryable.LongCount();
+		}
+
+		/// <inheritdoc />
+		protected override async Task<IReadOnlyCollection<TAggregateRoot>> ToListAsync(IQueryable<TAggregateRoot> queryable, CancellationToken cancellationToken)
+		{
+			return queryable.ToList();
+		}
+
+		/// <inheritdoc />
+		protected override async Task<IReadOnlyCollection<TResult>> ToListAsync<TResult>(IQueryable<TResult> queryable, CancellationToken cancellationToken)
+		{
+			return queryable.ToList();
+		}
+
+		/// <inheritdoc />
+		protected override async Task<TAggregateRoot> FirstOrDefaultAsync(IQueryable<TAggregateRoot> queryable, CancellationToken cancellationToken)
 		{
 			return queryable.FirstOrDefault()!;
 		}
 
 		/// <inheritdoc />
-		protected override async Task<TResult> FirstOrDefaultAsync<TResult>(IQueryable<TResult> queryable)
+		protected override async Task<TResult> FirstOrDefaultAsync<TResult>(IQueryable<TResult> queryable, CancellationToken cancellationToken)
 		{
 			return queryable.FirstOrDefault()!;
 		}
@@ -65,9 +83,9 @@
 		}
 
 		/// <inheritdoc />
-		protected override async Task RemoveRangeAsync(Expression<Func<TAggregateRoot, bool>> predicate, CancellationToken cancellationToken)
+		protected override async Task RemoveRangeAsync(ISpecification<TAggregateRoot> specification, CancellationToken cancellationToken)
 		{
-			IQueryable<TAggregateRoot> items = this.Queryable.Where(predicate);
+			IQueryable<TAggregateRoot> items = this.Queryable.Where(specification.Predicate);
 			foreach(TAggregateRoot? item in items)
 			{
 				this.store.TryRemove(item.ID, out _);
@@ -75,134 +93,28 @@
 		}
 
 		/// <inheritdoc />
-		protected override async Task RemoveAsync(TAggregateRoot item, CancellationToken cancellationToken)
-		{
-			this.store.TryRemove(item.ID, out _);
-		}
-
-		/// <inheritdoc />
 		protected override async Task RemoveRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{
-			throw new NotImplementedException();
+			foreach(TAggregateRoot item in items)
+			{
+				this.store.TryRemove(item.ID, out _);
+			}
 		}
 
 		/// <inheritdoc />
 		protected override async Task UpdateAsync(TAggregateRoot item, CancellationToken cancellationToken)
 		{
-			throw new NotImplementedException();
+			this.store[item.ID] = item;
 		}
 
 		/// <inheritdoc />
 		protected override async Task UpdateRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{
-			throw new NotImplementedException();
+			foreach(TAggregateRoot item in items)
+			{
+				this.store[item.ID] = item;
+			}
 		}
-
-		///// <inheritdoc />
-		//async Task ICanUpdate<TAggregateRoot, TKey>.UpdateAsync(TAggregateRoot item, CancellationToken cancellationToken)
-		//{
-		//	this.store[item.ID] = item;
-		//}
-
-		///// <inheritdoc />
-		//async Task ICanUpdate<TAggregateRoot, TKey>.UpdateAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
-		//{
-		//	foreach(TAggregateRoot item in items)
-		//	{
-		//		this.store[item.ID] = item;
-		//	}
-		//}
-
-		///// <inheritdoc />
-		//async Task ICanRemove<TAggregateRoot, TKey>.RemoveAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
-		//{
-		//	foreach(TAggregateRoot item in items)
-		//	{
-		//		this.store.TryRemove(item.ID, out _);
-		//	}
-		//}
-
-		///// <inheritdoc />
-		//async Task<long> ICanAggregate<TAggregateRoot, TKey>.CountAsync(CancellationToken cancellationToken)
-		//{
-		//	return this.Queryable.LongCount();
-		//}
-
-		///// <inheritdoc />
-		//async Task<long> ICanAggregate<TAggregateRoot, TKey>.CountAsync(Expression<Func<TAggregateRoot, bool>> predicate, CancellationToken cancellationToken)
-		//{
-		//	return this.Queryable.LongCount(predicate);
-		//}
-
-		///// <inheritdoc />
-		//async Task<bool> ICanFind<TAggregateRoot, TKey>.ExistsAsync(Expression<Func<TAggregateRoot, bool>> predicate, CancellationToken cancellationToken)
-		//{
-		//	return this.Queryable.LongCount(predicate) > 0;
-		//}
-
-		///// <inheritdoc />
-		//async Task<TAggregateRoot> ICanFind<TAggregateRoot, TKey>.FindOneAsync(Expression<Func<TAggregateRoot, bool>> predicate, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
-		//{
-		//	return this.Queryable
-		//		.ApplyOptions<TAggregateRoot, TKey>(queryOptions)
-		//		.FirstOrDefault(predicate)!;
-		//}
-
-		///// <inheritdoc />
-		//async Task<TResult> ICanFind<TAggregateRoot, TKey>.FindOneAsync<TResult>(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
-		//{
-		//	return this.Queryable
-		//		.ApplyOptions<TAggregateRoot, TKey>(queryOptions)
-		//		.Where(predicate)
-		//		.Select(selector)
-		//		.FirstOrDefault();
-		//}
-
-		///// <inheritdoc />
-		//async Task<IReadOnlyCollection<TAggregateRoot>> ICanFind<TAggregateRoot, TKey>.FindManyAsync(Expression<Func<TAggregateRoot, bool>> predicate, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
-		//{
-		//	return this.Queryable
-		//		.ApplyOptions<TAggregateRoot, TKey>(queryOptions)
-		//		.Where(predicate)
-		//		.AsReadOnly();
-		//}
-
-		///// <inheritdoc />
-		//async Task<IReadOnlyCollection<TResult>> ICanFind<TAggregateRoot, TKey>.FindManyAsync<TResult>(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
-		//{
-		//	return this.Queryable
-		//		.ApplyOptions<TAggregateRoot, TKey>(queryOptions)
-		//		.Where(predicate)
-		//		.Select(selector)
-		//		.AsReadOnly();
-		//}
-
-		///// <inheritdoc />
-		//async Task ICanRemove<TAggregateRoot, TKey>.RemoveAsync(TKey id, CancellationToken cancellationToken)
-		//{
-		//	this.store.TryRemove(id, out TAggregateRoot item);
-		//}
-
-		///// <inheritdoc />
-		//async Task<TAggregateRoot> ICanGet<TAggregateRoot, TKey>.GetAsync(TKey id, CancellationToken cancellationToken)
-		//{
-		//	return this.Queryable.FirstOrDefault(x => Equals(x.ID, id))!;
-		//}
-
-		///// <inheritdoc />
-		//async Task<TResult> ICanGet<TAggregateRoot, TKey>.GetAsync<TResult>(TKey id, Expression<Func<TAggregateRoot, TResult>> selector, CancellationToken cancellationToken)
-		//{
-		//	return this.Queryable
-		//		.Where(x => Equals(x.ID, id))
-		//		.Select(selector)
-		//		.FirstOrDefault();
-		//}
-
-		///// <inheritdoc />
-		//async Task<bool> ICanGet<TAggregateRoot, TKey>.ExistsAsync(TKey id, CancellationToken cancellationToken)
-		//{
-		//	return this.Queryable.LongCount(x => Equals(x.ID, id)) > 0;
-		//}
 
 		private TKey GenerateKey()
 		{

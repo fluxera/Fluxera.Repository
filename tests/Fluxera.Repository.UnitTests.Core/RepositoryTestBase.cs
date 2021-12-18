@@ -32,8 +32,11 @@
 		[TearDown]
 		public async Task TearDown()
 		{
-			await this.Repository.RemoveAsync(x => true);
-			await this.Repository.DisposeAsync();
+			if(this.Repository != null!)
+			{
+				await this.Repository.RemoveAsync(x => true);
+				await this.Repository.DisposeAsync();
+			}
 		}
 
 		protected abstract void AddRepositoryUnderTest(IRepositoryBuilder repositoryBuilder,

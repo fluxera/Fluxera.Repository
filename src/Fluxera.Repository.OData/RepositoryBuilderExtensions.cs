@@ -8,7 +8,7 @@
 	{
 		public static IRepositoryBuilder AddODataRepository(this IRepositoryBuilder builder, string repositoryName, Action<IRepositoryOptionsBuilder> configure)
 		{
-			return builder.AddRepository(repositoryName, typeof(ODataRepository<>), configure);
+			return builder.AddRepository(repositoryName, typeof(ODataRepository<,>), configure);
 		}
 	}
 }

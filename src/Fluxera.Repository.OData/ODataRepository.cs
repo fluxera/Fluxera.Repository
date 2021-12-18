@@ -12,7 +12,7 @@
 	using Fluxera.Guards;
 	using Fluxera.Repository.Options;
 	using Fluxera.Repository.Query;
-	using Fluxera.Repository.Traits;
+	using Fluxera.Repository.Specifications;
 	using Fluxera.Utilities.Extensions;
 	using Microsoft.Extensions.Logging;
 	using Simple.OData.Client;
@@ -20,8 +20,8 @@
 	/// <summary>
 	///     http://odata.github.io/odata.net/#04-01-basic-crud-operations
 	/// </summary>
-	internal class ODataRepository<TAggregateRoot> : IRepository<TAggregateRoot>
-		where TAggregateRoot : AggregateRoot<TAggregateRoot>
+	internal class ODataRepository<TAggregateRoot, TKey> : RepositoryBase<TAggregateRoot, TKey>
+		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 	{
 		private readonly ODataClient client;
 		private readonly ILogger logger;
@@ -73,10 +73,14 @@
 
 		private static string Name => "Fluxera.Repository.ODataRepository";
 
-		private bool IsDisposed { get; set; }
+		/// <inheritdoc />
+		public override string ToString()
+		{
+			return Name;
+		}
 
 		/// <inheritdoc />
-		async Task ICanAdd<TAggregateRoot>.AddAsync(TAggregateRoot item, CancellationToken cancellationToken)
+		protected override async Task AddAsync(TAggregateRoot item, CancellationToken cancellationToken)
 		{
 			TAggregateRoot result = await this.client
 				.For<TAggregateRoot>()
@@ -88,7 +92,7 @@
 		}
 
 		/// <inheritdoc />
-		async Task ICanAdd<TAggregateRoot>.AddAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
+		protected override async Task AddRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{
 			await this.ExecuteBatchAsync(items, async (batchClient, item) =>
 			{
@@ -103,7 +107,30 @@
 		}
 
 		/// <inheritdoc />
-		async Task ICanUpdate<TAggregateRoot>.UpdateAsync(TAggregateRoot item, CancellationToken cancellationToken)
+		protected override async Task RemoveRangeAsync(ISpecification<TAggregateRoot> specification, CancellationToken cancellationToken)
+		{
+			await this.client
+				.For<TAggregateRoot>()
+				.Filter(specification.Predicate)
+				.DeleteEntryAsync(cancellationToken)
+				.ConfigureAwait(false);
+		}
+
+		/// <inheritdoc />
+		protected override async Task RemoveRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
+		{
+			await this.ExecuteBatchAsync(items, async (batchClient, item) =>
+			{
+				await batchClient
+					.For<TAggregateRoot>()
+					.Key(item.ID)
+					.DeleteEntryAsync(cancellationToken)
+					.ConfigureAwait(false);
+			}, cancellationToken);
+		}
+
+		/// <inheritdoc />
+		protected override async Task UpdateAsync(TAggregateRoot item, CancellationToken cancellationToken)
 		{
 			await this.client
 				.For<TAggregateRoot>()
@@ -114,7 +141,7 @@
 		}
 
 		/// <inheritdoc />
-		async Task ICanUpdate<TAggregateRoot>.UpdateAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
+		protected override async Task UpdateRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{
 			await this.ExecuteBatchAsync(items, async (batchClient, item) =>
 			{
@@ -128,56 +155,14 @@
 		}
 
 		/// <inheritdoc />
-		async Task ICanRemove<TAggregateRoot>.RemoveAsync(TAggregateRoot item, CancellationToken cancellationToken)
-		{
-			await this.client
-				.For<TAggregateRoot>()
-				.Key(item.ID)
-				.DeleteEntryAsync(cancellationToken)
-				.ConfigureAwait(false);
-		}
-
-		/// <inheritdoc />
-		async Task ICanRemove<TAggregateRoot>.RemoveAsync(string id, CancellationToken cancellationToken)
-		{
-			await this.client
-				.For<TAggregateRoot>()
-				.Key(id)
-				.DeleteEntryAsync(cancellationToken)
-				.ConfigureAwait(false);
-		}
-
-		/// <inheritdoc />
-		async Task ICanRemove<TAggregateRoot>.RemoveAsync(Expression<Func<TAggregateRoot, bool>> predicate, CancellationToken cancellationToken)
-		{
-			await this.client
-				.For<TAggregateRoot>()
-				.Filter(predicate)
-				.DeleteEntryAsync(cancellationToken)
-				.ConfigureAwait(false);
-		}
-
-		/// <inheritdoc />
-		async Task ICanRemove<TAggregateRoot>.RemoveAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
-		{
-			await this.ExecuteBatchAsync(items, async (batchClient, item) =>
-			{
-				await batchClient
-					.For<TAggregateRoot>()
-					.Key(item.ID)
-					.DeleteEntryAsync(cancellationToken)
-					.ConfigureAwait(false);
-			}, cancellationToken);
-		}
-
-		/// <inheritdoc />
-		async Task<TAggregateRoot> ICanGet<TAggregateRoot>.GetAsync(string id, CancellationToken cancellationToken)
+		protected override async Task<TAggregateRoot> FindOneAsync(ISpecification<TAggregateRoot> specification, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
 		{
 			try
 			{
 				return await this.client
 					.For<TAggregateRoot>()
-					.Key(id)
+					.Filter(specification.Predicate)
+					.ApplyOptions<TAggregateRoot, TKey>(queryOptions)
 					.FindEntryAsync(cancellationToken)
 					.ConfigureAwait(false);
 			}
@@ -188,14 +173,15 @@
 		}
 
 		/// <inheritdoc />
-		async Task<TResult> ICanGet<TAggregateRoot>.GetAsync<TResult>(string id, Expression<Func<TAggregateRoot, TResult>> selector, CancellationToken cancellationToken)
+		protected override async Task<TResult> FindOneAsync<TResult>(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
 		{
 			try
 			{
 				Expression<Func<TAggregateRoot, object>> objectSelector = ConvertSelector(selector);
 				TAggregateRoot item = await this.client
 					.For<TAggregateRoot>()
-					.Key(id)
+					.Filter(specification.Predicate)
+					.ApplyOptions<TAggregateRoot, TKey>(queryOptions)
 					.Select(objectSelector)
 					.FindEntryAsync(cancellationToken)
 					.ConfigureAwait(false);
@@ -210,77 +196,14 @@
 		}
 
 		/// <inheritdoc />
-		async Task<bool> ICanGet<TAggregateRoot>.ExistsAsync(string id, CancellationToken cancellationToken)
-		{
-			return await this.client
-				.For<TAggregateRoot>()
-				.Key(id)
-				.Count()
-				.FindScalarAsync<long>(cancellationToken)
-				.ConfigureAwait(false) > 0;
-		}
-
-		/// <inheritdoc />
-		async Task<TAggregateRoot> ICanFind<TAggregateRoot>.FindOneAsync(Expression<Func<TAggregateRoot, bool>> predicate, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
-		{
-			try
-			{
-				return await this.client
-					.For<TAggregateRoot>()
-					.Filter(predicate)
-					.ApplyOptions(queryOptions)
-					.FindEntryAsync(cancellationToken)
-					.ConfigureAwait(false);
-			}
-			catch(WebRequestException ex) when(ex.Code == HttpStatusCode.NotFound)
-			{
-				return null!;
-			}
-		}
-
-		/// <inheritdoc />
-		async Task<TResult> ICanFind<TAggregateRoot>.FindOneAsync<TResult>(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
-		{
-			try
-			{
-				Expression<Func<TAggregateRoot, object>> objectSelector = ConvertSelector(selector);
-				TAggregateRoot item = await this.client
-					.For<TAggregateRoot>()
-					.Filter(predicate)
-					.ApplyOptions(queryOptions)
-					.Select(objectSelector)
-					.FindEntryAsync(cancellationToken)
-					.ConfigureAwait(false);
-
-				// HACK: Implement property selection on server side.
-				return selector.Compile().Invoke(item);
-			}
-			catch(WebRequestException ex) when(ex.Code == HttpStatusCode.NotFound)
-			{
-				return default!;
-			}
-		}
-
-		/// <inheritdoc />
-		async Task<bool> ICanFind<TAggregateRoot>.ExistsAsync(Expression<Func<TAggregateRoot, bool>> predicate, CancellationToken cancellationToken)
-		{
-			return await this.client
-				.For<TAggregateRoot>()
-				.Filter(predicate)
-				.Count()
-				.FindScalarAsync<long>(cancellationToken)
-				.ConfigureAwait(false) > 0;
-		}
-
-		/// <inheritdoc />
-		async Task<IReadOnlyCollection<TAggregateRoot>> ICanFind<TAggregateRoot>.FindManyAsync(Expression<Func<TAggregateRoot, bool>> predicate, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
+		protected override async Task<IReadOnlyCollection<TAggregateRoot>> FindManyAsync(ISpecification<TAggregateRoot> specification, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
 		{
 			try
 			{
 				IEnumerable<TAggregateRoot> items = await this.client
 					.For<TAggregateRoot>()
-					.Filter(predicate)
-					.ApplyOptions(queryOptions)
+					.Filter(specification.Predicate)
+					.ApplyOptions<TAggregateRoot, TKey>(queryOptions)
 					.FindEntriesAsync(cancellationToken)
 					.ConfigureAwait(false);
 
@@ -293,15 +216,15 @@
 		}
 
 		/// <inheritdoc />
-		async Task<IReadOnlyCollection<TResult>> ICanFind<TAggregateRoot>.FindManyAsync<TResult>(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
+		protected override async Task<IReadOnlyCollection<TResult>> FindManyAsync<TResult>(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
 		{
 			try
 			{
 				Expression<Func<TAggregateRoot, object>> objectSelector = ConvertSelector(selector);
 				IEnumerable<TAggregateRoot> items = await this.client
 					.For<TAggregateRoot>()
-					.Filter(predicate)
-					.ApplyOptions(queryOptions)
+					.Filter(specification.Predicate)
+					.ApplyOptions<TAggregateRoot, TKey>(queryOptions)
 					.Select(objectSelector)
 					.FindEntriesAsync(cancellationToken)
 					.ConfigureAwait(false);
@@ -324,47 +247,14 @@
 		}
 
 		/// <inheritdoc />
-		async Task<long> ICanAggregate<TAggregateRoot>.CountAsync(CancellationToken cancellationToken)
+		protected override async Task<long> LongCountAsync(ISpecification<TAggregateRoot> specification, CancellationToken cancellationToken)
 		{
 			return await this.client
 				.For<TAggregateRoot>()
+				.Filter(specification.Predicate)
 				.Count()
 				.FindScalarAsync<long>(cancellationToken)
 				.ConfigureAwait(false);
-		}
-
-		/// <inheritdoc />
-		async Task<long> ICanAggregate<TAggregateRoot>.CountAsync(Expression<Func<TAggregateRoot, bool>> predicate, CancellationToken cancellationToken)
-		{
-			return await this.client
-				.For<TAggregateRoot>()
-				.Filter(predicate)
-				.Count()
-				.FindScalarAsync<long>(cancellationToken)
-				.ConfigureAwait(false);
-		}
-
-		/// <inheritdoc />
-		public void Dispose()
-		{
-			this.IsDisposed = true;
-		}
-
-		/// <inheritdoc />
-		bool IReadOnlyRepository<TAggregateRoot>.IsDisposed => this.IsDisposed;
-
-		/// <inheritdoc />
-		ValueTask IAsyncDisposable.DisposeAsync()
-		{
-			try
-			{
-				this.Dispose();
-				return default;
-			}
-			catch(Exception exception)
-			{
-				return new ValueTask(Task.FromException(exception));
-			}
 		}
 
 		private static Expression<Func<TAggregateRoot, object>> ConvertSelector<TResult>(

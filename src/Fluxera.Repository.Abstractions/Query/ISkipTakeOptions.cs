@@ -3,10 +3,10 @@ namespace Fluxera.Repository.Query
 	using JetBrains.Annotations;
 
 	[PublicAPI]
-	public interface ISkipTakeOptions<T> where T : class
+	public interface ISkipTakeOptions<T> : IQueryOptions<T> where T : class
 	{
-		int? Skip { get; }
+		ISkipTakeOptions<T> Skip(int skipNumber);
 
-		int? Take { get; }
+		ISkipTakeOptions<T> Take(int takeNumber);
 	}
 }

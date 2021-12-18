@@ -44,9 +44,9 @@ namespace Fluxera.Repository.Traits
 		/// <returns>The item count.</returns>
 		Task<long> CountAsync(ISpecification<TAggregateRoot> specification, CancellationToken cancellationToken = default);
 
-		// TODO
 		//Task<int> SumAsync(Expression<Func<TAggregateRoot, int>> selector, CancellationToken cancellationToken = default);
 		//Task<int> SumAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, int>> selector, CancellationToken cancellationToken = default);
+		//Task<int> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, int>> selector, CancellationToken cancellationToken = default);
 
 		//Task<long> SumAsync(Expression<Func<TAggregateRoot, long>> selector, CancellationToken cancellationToken = default);
 		//Task<long> SumAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, long>> selector, CancellationToken cancellationToken = default);

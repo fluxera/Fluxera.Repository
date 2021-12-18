@@ -9,6 +9,22 @@
 	using global::MongoDB.Bson.Serialization.Conventions;
 	using global::MongoDB.Bson.Serialization.Serializers;
 
+	//internal sealed class DateOnlyConvention : ConventionBase, IMemberMapConvention
+	//{
+	//	/// <inheritdoc />
+	//	public void Apply(BsonMemberMap memberMap)
+	//	{
+	//		Type originalMemberType = memberMap.MemberType;
+	//		Type memberType = originalMemberType.UnwrapNullableType();
+
+	//		MemberInfo member = memberMap.MemberInfo;
+
+	//		if(memberType == typeof(DateOnly))
+	//		{
+	//		}
+	//	}
+	//}
+
 	internal sealed class DateTimeConvention : ConventionBase, IMemberMapConvention
 	{
 		/// <inheritdoc />

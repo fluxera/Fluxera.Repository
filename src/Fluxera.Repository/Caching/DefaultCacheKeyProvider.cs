@@ -97,7 +97,7 @@
 			cacheKey = $"{cacheKey}/{predicate.ToExpressionString()}";
 
 			// Repositories/Books/Acme.Books.Domain.Model.Book/{Generation}/FindOne/{Predicate}/{QueryOptions}
-			if(queryOptions is not null && !queryOptions.IsEmpty)
+			if(queryOptions is not null)
 			{
 				cacheKey = $"{cacheKey}/{queryOptions}";
 			}
@@ -117,7 +117,7 @@
 			cacheKey = $"{cacheKey}/{predicate.ToExpressionString()}/{selector.ToExpressionString()}";
 
 			// Repositories/Books/Acme.Books.Domain.Model.Book/{Generation}/FindOne/{Predicate}/{Selector}/{QueryOptions}
-			if(queryOptions is not null && !queryOptions.IsEmpty)
+			if(queryOptions is not null)
 			{
 				cacheKey = $"{cacheKey}/{queryOptions}";
 			}
@@ -135,7 +135,7 @@
 			cacheKey = $"{cacheKey}/{predicate.ToExpressionString()}";
 
 			// Repositories/Books/Acme.Books.Domain.Model.Book/{Generation}/FindMany/{Predicate}/{QueryOptions}
-			if(queryOptions is not null && !queryOptions.IsEmpty)
+			if(queryOptions is not null)
 			{
 				cacheKey = $"{cacheKey}/{queryOptions}";
 			}
@@ -154,7 +154,7 @@
 			cacheKey = $"{cacheKey}/{predicate.ToExpressionString()}/{selector.ToExpressionString()}";
 
 			// Repositories/Books/Acme.Books.Domain.Model.Book/{Generation}/FindMany/{Predicate}/{Selector}/{QueryOptions}
-			if(queryOptions is not null && !queryOptions.IsEmpty)
+			if(queryOptions is not null)
 			{
 				cacheKey = $"{cacheKey}/{queryOptions}";
 			}

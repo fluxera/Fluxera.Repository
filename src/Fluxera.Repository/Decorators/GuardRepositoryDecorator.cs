@@ -107,7 +107,7 @@
 			Guard.Against.Disposed(this);
 			Guard.Against.Null(predicate, nameof(predicate));
 
-			queryOptions ??= new QueryOptions<TAggregateRoot>();
+			queryOptions ??= QueryOptions<TAggregateRoot>.Empty();
 			return await this.innerRepository.FindOneAsync(predicate, queryOptions, cancellationToken).ConfigureAwait(false);
 		}
 
@@ -117,7 +117,7 @@
 			Guard.Against.Disposed(this);
 			Guard.Against.Null(specification, nameof(specification));
 
-			queryOptions ??= new QueryOptions<TAggregateRoot>();
+			queryOptions ??= QueryOptions<TAggregateRoot>.Empty();
 			return await this.innerRepository.FindOneAsync(specification, queryOptions, cancellationToken);
 		}
 
@@ -128,7 +128,7 @@
 			Guard.Against.Null(predicate, nameof(predicate));
 			Guard.Against.Null(selector, nameof(selector));
 
-			queryOptions ??= new QueryOptions<TAggregateRoot>();
+			queryOptions ??= QueryOptions<TAggregateRoot>.Empty();
 			return await this.innerRepository.FindOneAsync(predicate, selector, queryOptions, cancellationToken).ConfigureAwait(false);
 		}
 
@@ -139,7 +139,7 @@
 			Guard.Against.Null(specification, nameof(specification));
 			Guard.Against.Null(selector, nameof(selector));
 
-			queryOptions ??= new QueryOptions<TAggregateRoot>();
+			queryOptions ??= QueryOptions<TAggregateRoot>.Empty();
 			return await this.innerRepository.FindOneAsync(specification, selector, queryOptions, cancellationToken);
 		}
 
@@ -167,7 +167,7 @@
 			Guard.Against.Disposed(this);
 			Guard.Against.Null(predicate, nameof(predicate));
 
-			queryOptions ??= new QueryOptions<TAggregateRoot>();
+			queryOptions ??= QueryOptions<TAggregateRoot>.Empty();
 			return await this.innerRepository.FindManyAsync(predicate, queryOptions, cancellationToken).ConfigureAwait(false);
 		}
 
@@ -177,7 +177,7 @@
 			Guard.Against.Disposed(this);
 			Guard.Against.Null(specification, nameof(specification));
 
-			queryOptions ??= new QueryOptions<TAggregateRoot>();
+			queryOptions ??= QueryOptions<TAggregateRoot>.Empty();
 			return await this.innerRepository.FindManyAsync(specification, queryOptions, cancellationToken);
 		}
 
@@ -188,7 +188,7 @@
 			Guard.Against.Null(predicate, nameof(predicate));
 			Guard.Against.Null(selector, nameof(selector));
 
-			queryOptions ??= new QueryOptions<TAggregateRoot>();
+			queryOptions ??= QueryOptions<TAggregateRoot>.Empty();
 			return await this.innerRepository.FindManyAsync(predicate, selector, queryOptions, cancellationToken).ConfigureAwait(false);
 		}
 

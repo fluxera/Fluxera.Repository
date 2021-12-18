@@ -5,6 +5,6 @@ namespace Fluxera.Repository.EntityFramework
 
 	internal interface IDbContextFactory
 	{
-		DbContext CreateDbContext<TAggregateRoot>() where TAggregateRoot : AggregateRoot<TAggregateRoot>;
+		DbContext CreateDbContext<TAggregateRoot, TKey>() where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>;
 	}
 }

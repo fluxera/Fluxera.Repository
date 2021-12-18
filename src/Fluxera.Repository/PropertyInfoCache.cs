@@ -1,4 +1,4 @@
-﻿namespace Fluxera.Repository.InMemory
+﻿namespace Fluxera.Repository
 {
 	using System;
 	using System.Collections.Concurrent;

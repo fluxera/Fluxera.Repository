@@ -4,6 +4,7 @@ namespace Fluxera.Repository.Specifications
 	using System.Linq;
 	using System.Linq.Expressions;
 	using Fluxera.Guards;
+	using Fluxera.Linq.Expressions;
 	using JetBrains.Annotations;
 
 	/// <summary>
@@ -170,22 +171,10 @@ namespace Fluxera.Repository.Specifications
 		/// <inheritdoc />
 		public virtual Expression<Func<T, bool>> Predicate { get; private set; }
 
-		///// <summary>
-		/////     Converts a specification to an expression.
-		///// </summary>
-		///// <param name="specification"></param>
-		//public static explicit operator Expression<Func<T, bool>>(Specification<T> specification)
-		//{
-		//	return specification.Predicate;
-		//}
-
-		///// <summary>
-		/////     Converts an expression to a specification.
-		///// </summary>
-		///// <param name="predicate"></param>
-		//public static explicit operator Specification<T>(Expression<Func<T, bool>> predicate)
-		//{
-		//	return new Specification<T>(predicate!);
-		//}
+		/// <inheritdoc />
+		public override string ToString()
+		{
+			return this.Predicate.ToExpressionString() ?? base.ToString();
+		}
 	}
 }

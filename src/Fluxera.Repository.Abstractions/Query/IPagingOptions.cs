@@ -1,16 +1,15 @@
 namespace Fluxera.Repository.Query
 {
-	using JetBrains.Annotations;
-
-	[PublicAPI]
-	public interface IPagingOptions<T> where T : class
+	public interface IPagingOptions<T> : IQueryOptions<T> where T : class
 	{
-		public int PageNumber { get; }
+		int PageSize { get; }
 
-		public int PageSize { get; }
+		int PageNumber { get; }
 
-		public int Skip { get; }
+		int Skip { get; }
 
-		public int TotalItemCount { get; set; }
+		int Take { get; }
+
+		int TotalItemCount { get; }
 	}
 }
