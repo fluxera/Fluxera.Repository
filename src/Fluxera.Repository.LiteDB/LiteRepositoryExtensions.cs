@@ -1,5 +1,6 @@
 ﻿namespace Fluxera.Repository.LiteDB
 {
+	using System;
 	using Fluxera.Repository.Query;
 	using global::LiteDB.Async;
 
@@ -42,6 +43,7 @@
 
 				foreach(ISortExpression<T> expression in orderByOptions.SecondaryExpressions)
 				{
+					throw new NotSupportedException("The ThenBy syntax it currently not supported for LiteDB.");
 					orderedQueryable = expression.IsDescending
 						? orderedQueryable.OrderByDescending(expression.Expression)
 						: orderedQueryable.OrderBy(expression.Expression);
