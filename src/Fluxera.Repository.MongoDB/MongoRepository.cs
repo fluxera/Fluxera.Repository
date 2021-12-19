@@ -33,8 +33,8 @@
 				Database = (string)options.SettingsValues.GetOrDefault("Mongo.Database")!
 			};
 
-			object settingsUseSsl = options.SettingsValues.GetOrDefault("Mongo.UseSsl")!;
-			persistenceSettings.UseSsl = (bool)settingsUseSsl;
+			object? settingsUseSsl = options.SettingsValues.GetOrDefault("Mongo.UseSsl");
+			persistenceSettings.UseSsl = (bool)(settingsUseSsl ?? false);
 
 			string connectionString = persistenceSettings.ConnectionString;
 			string databaseName = persistenceSettings.Database;
