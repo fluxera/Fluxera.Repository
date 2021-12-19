@@ -173,7 +173,7 @@
 					$"The interception was already enabled for repository '{this.repositoryOptions.RepositoryName}'.");
 			}
 
-			IInterceptionOptionsBuilder builder = new InterceptionOptionsBuilder(this.services, this.repositoryOptions);
+			IInterceptionOptionsBuilder builder = new InterceptionOptionsBuilder(this.services);
 			configure.Invoke(builder);
 
 			this.repositoryOptions.InterceptionOptions.IsEnabled = true;

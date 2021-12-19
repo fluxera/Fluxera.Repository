@@ -36,7 +36,7 @@
 			return new InvalidOperationException(message);
 		}
 
-		public static Exception ConfigurationMethodAlreadyUsed([CallerMemberName] string methodName = null)
+		public static Exception ConfigurationMethodAlreadyUsed([CallerMemberName] string? methodName = null)
 		{
 			string message = $"The configuration method '{methodName}' can only be used once.";
 			return new InvalidOperationException(message);

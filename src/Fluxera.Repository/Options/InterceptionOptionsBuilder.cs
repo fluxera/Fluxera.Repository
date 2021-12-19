@@ -10,19 +10,17 @@
 
 	internal sealed class InterceptionOptionsBuilder : IInterceptionOptionsBuilder
 	{
-		private readonly RepositoryOptions repositoryOptions;
 		private readonly IServiceCollection services;
 
-		public InterceptionOptionsBuilder(IServiceCollection services, RepositoryOptions repositoryOptions)
+		public InterceptionOptionsBuilder(IServiceCollection services)
 		{
 			this.services = services;
-			this.repositoryOptions = repositoryOptions;
 		}
 
 		/// <inheritdoc />
-		public IInterceptionOptionsBuilder AddInterceptors(IEnumerable<Assembly> assemblies)
+		public IInterceptionOptionsBuilder AddInterceptors(IEnumerable<Assembly>? assemblies)
 		{
-			Guard.Against.Null(assemblies, nameof(assemblies));
+			assemblies ??= Enumerable.Empty<Assembly>();
 
 			foreach(Assembly assembly in assemblies)
 			{

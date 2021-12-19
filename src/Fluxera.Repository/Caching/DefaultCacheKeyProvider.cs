@@ -8,6 +8,11 @@
 	using Fluxera.Utilities;
 	using JetBrains.Annotations;
 
+	/// <summary>
+	///     The default implementation of <see cref="ICacheKeyProvider" /> which provides
+	///     the protected virtual method <see cref="GetCachePrefix" /> for use in derived
+	///     classes.
+	/// </summary>
 	[PublicAPI]
 	public class DefaultCacheKeyProvider : ICacheKeyProvider
 	{

@@ -2,7 +2,6 @@
 {
 	using System;
 	using System.Collections.Generic;
-	using System.Linq;
 	using System.Linq.Expressions;
 	using System.Threading.Tasks;
 	using Fluxera.Entity;
@@ -20,7 +19,7 @@
 			ILoggerFactory loggerFactory,
 			IEnumerable<IInterceptor<TAggregateRoot, TKey>> interceptors)
 		{
-			this.innerInterceptors = interceptors ?? Enumerable.Empty<IInterceptor<TAggregateRoot, TKey>>();
+			this.innerInterceptors = interceptors;
 			this.logger = loggerFactory.CreateLogger(LoggerNames.Interception);
 		}
 

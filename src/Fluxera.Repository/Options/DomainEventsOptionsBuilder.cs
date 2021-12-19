@@ -15,7 +15,7 @@
 
 		private DomainEventsOptions DomainEventsOptions { get; }
 
-		public IDomainEventsOptionsBuilder AddEventHandlers(IEnumerable<Assembly> assemblies)
+		public IDomainEventsOptionsBuilder AddEventHandlers(IEnumerable<Assembly>? assemblies)
 		{
 			assemblies ??= Enumerable.Empty<Assembly>();
 

@@ -16,9 +16,18 @@
 	using JetBrains.Annotations;
 	using Microsoft.Extensions.DependencyInjection;
 
+	/// <summary>
+	///     The configuration extensions methods for the repository.
+	/// </summary>
 	[PublicAPI]
 	public static class ServiceCollectionExtensions
 	{
+		/// <summary>
+		///     Adds the repository services and configures the repository by executing the given configure function.
+		/// </summary>
+		/// <param name="services"></param>
+		/// <param name="configure"></param>
+		/// <returns></returns>
 		public static IServiceCollection AddRepository(this IServiceCollection services, Action<IRepositoryBuilder> configure)
 		{
 			Guard.Against.Null(services, nameof(services));
@@ -58,9 +67,6 @@
 					return domainEventHandlerAssemblies.AsReadOnly();
 				});
 			});
-
-			// Register the repository configuration provider.
-			services.AddTransient<IRepositoryOptionsProvider, RepositoryOptionsProvider>();
 
 			// Register caching strategy factory.
 			services.AddTransient<ICachingStrategyFactory, CachingStrategyFactory>();

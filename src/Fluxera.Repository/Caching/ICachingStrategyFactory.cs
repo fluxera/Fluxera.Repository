@@ -3,6 +3,9 @@
 	using Fluxera.Entity;
 	using JetBrains.Annotations;
 
+	/// <summary>
+	///     A contract for factories that created instances of <see cref="ICachingStrategy{TAggregateRoot,TKey}" />.
+	/// </summary>
 	[PublicAPI]
 	public interface ICachingStrategyFactory
 	{

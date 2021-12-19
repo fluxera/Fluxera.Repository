@@ -1,4 +1,6 @@
-﻿namespace Fluxera.Repository
+﻿// ReSharper disable PossibleMultipleEnumeration
+
+namespace Fluxera.Repository
 {
 	using System;
 	using System.Collections.Generic;
@@ -8,14 +10,14 @@
 	using static Fluxera.Guards.ExceptionHelpers;
 
 	[PublicAPI]
-	public static class GuardExtensions
+	internal static class GuardExtensions
 	{
 		public static void NotTransient<TAggregateRoot, TKey>(this IGuard guard, TAggregateRoot? input, [InvokerParameterName] string parameterName, string? message = null)
 			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 		{
 			Guard.Against.Null(input, nameof(input));
 
-			if(!input.IsTransient)
+			if(!input!.IsTransient)
 			{
 				throw CreateArgumentException(parameterName, message);
 			}
@@ -26,7 +28,7 @@
 		{
 			Guard.Against.Null(input, nameof(input));
 
-			foreach(TAggregateRoot item in input)
+			foreach(TAggregateRoot item in input!)
 			{
 				Guard.Against.NotTransient<TAggregateRoot, TKey>(item, parameterName, message);
 			}
@@ -37,7 +39,7 @@
 		{
 			Guard.Against.Null(input, nameof(input));
 
-			if(input.IsTransient)
+			if(input!.IsTransient)
 			{
 				throw CreateArgumentException(parameterName, message);
 			}
@@ -59,7 +61,7 @@
 		{
 			Guard.Against.Null(input, nameof(input));
 
-			if(input.IsDisposed)
+			if(input!.IsDisposed)
 			{
 				throw new ObjectDisposedException(input.ToString(), "The repository instance was already disposed.");
 			}
