@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netstandard2.1</TargetFramework>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<Title>Fluxera.Repository.Abstractions</Title>
+		<Description>The abstractions for the generic repository implementation.</Description>
+		<PackageTags>fluxera;library;extensions;repository</PackageTags>
+		<RootNamespace>$(MSBuildProjectName.Replace(" ", "_").Replace(".Abstractions",""))</RootNamespace>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="..\..\README.md" Link="Properties\README.md">
+			<Pack>true</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+		<None Include="..\..\icon.png" Link="Properties\icon.png">
+			<Pack>true</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Fluxera.Entity" Version="6.0.9" />
+		<PackageReference Include="Fluxera.Extensions.Validation.Abstractions" Version="6.0.14" />
+		<PackageReference Include="GitVersion.MsBuild" Version="5.8.1">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Interception\" />
+	</ItemGroup>
+
+</Project>

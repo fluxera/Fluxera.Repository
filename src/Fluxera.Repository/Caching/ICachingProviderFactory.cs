@@ -1,0 +1,1 @@
+namespace Fluxera.Repository.Caching{	internal interface ICachingProviderFactory	{		ICachingProvider CreateCachingProvider();	}}

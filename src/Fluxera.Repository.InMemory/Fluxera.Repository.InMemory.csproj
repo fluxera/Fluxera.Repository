@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netstandard2.1</TargetFramework>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<Title>Fluxera.Repository.InMemory</Title>
+		<Description>An in-memory repository implementation.</Description>
+		<PackageTags>fluxera;library;extensions;repository;storage;in-memory</PackageTags>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="..\..\README.md" Link="Properties\README.md">
+			<Pack>true</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+		<None Include="..\..\icon.png" Link="Properties\icon.png">
+			<Pack>true</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="GitVersion.MsBuild" Version="5.8.1">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Fluxera.Repository\Fluxera.Repository.csproj" />
+	</ItemGroup>
+
+</Project>

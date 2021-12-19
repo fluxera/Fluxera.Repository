@@ -1,0 +1,1 @@
+﻿namespace Fluxera.Repository.Caching{	using System;	using System.Threading.Tasks;	internal interface ICachingProvider	{		Task SetAsync<T>(string key, T value, TimeSpan? expiration = null);		Task<T> GetAsync<T>(string key);		Task RemoveAsync(string key);		Task<bool> ExistsAsync(string key);		Task<long> IncrementAsync(string key, long incrementValue);	}}

@@ -1,0 +1,50 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netstandard2.1</TargetFramework>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<Title>Fluxera.Repository</Title>
+		<Description>A generic repository implementation.</Description>
+		<PackageTags>fluxera;library;extensions;repository</PackageTags>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="..\..\README.md" Link="Properties\README.md">
+			<Pack>true</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+		<None Include="..\..\icon.png" Link="Properties\icon.png">
+			<Pack>true</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Fluxera.Entity" Version="6.0.9" />
+		<PackageReference Include="Fluxera.Extensions.Caching" Version="6.0.14" />
+		<PackageReference Include="Fluxera.Extensions.Common" Version="6.0.14" />
+		<PackageReference Include="Fluxera.Extensions.DependencyInjection" Version="6.0.14" />
+		<PackageReference Include="Fluxera.Extensions.Validation" Version="6.0.14" />
+		<PackageReference Include="Fluxera.Guards" Version="6.0.7" />
+		<PackageReference Include="Fluxera.Linq.Expressions" Version="6.0.7" />
+		<PackageReference Include="Fluxera.Utilities" Version="6.0.8" />
+		<PackageReference Include="Fluxera.ValueObject" Version="6.0.6" />
+		<PackageReference Include="GitVersion.MsBuild" Version="5.8.1">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="JetBrains.Annotations" Version="2021.3.0" />
+		<PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Fluxera.Repository.Abstractions\Fluxera.Repository.Abstractions.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Interception\" />
+	</ItemGroup>
+
+</Project>

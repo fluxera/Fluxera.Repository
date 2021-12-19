@@ -1,0 +1,58 @@
+# CI pipeline for a NuGet package solution.
+
+trigger:
+  branches:
+    include: [ '*' ]
+    exclude: [ 'refs/tags/*' ]
+
+variables:
+  BuildConfiguration: Release
+  DotNetCoreVersion: 6.0.101
+
+stages:
+- stage: BuildAndTest
+  jobs:
+  - job: BuildAndTest
+    pool:
+      name: Default
+    steps:
+    - checkout: self
+      persistCredentials: 'true'
+      clean: true
+    # Install the desired .NET SDK.   
+    - task: UseDotNet@2
+      displayName: 'Acquire .NET SDK'
+      inputs:
+        packageType: 'sdk'
+        version: $(DotNetCoreVersion)
+        includePreviewVersions: false   
+    # Build all projects.
+    - task: DotNetCoreCLI@2
+      displayName: 'Build Projects'
+      inputs:
+        projects: '**/*.csproj'
+        arguments: '--configuration $(BuildConfiguration)'
+    # Run all available tests.
+    - task: DotNetCoreCLI@2
+      displayName: 'Execute Tests'
+      inputs:
+        command: test
+        projects: '**/*Tests/*.csproj'
+        arguments: '--configuration $(BuildConfiguration)'
+        nobuild: true
+    # Create the NuGet packages.
+    - task: DotNetCoreCLI@2
+      displayName: 'Pack Packages'
+      inputs:
+        command: 'pack'
+        packagesToPack: 'src/**/*.csproj'
+        nobuild: true
+        verbosityPack: Minimal
+        includesymbols: false
+    # Copy created NuGet packages to the builds artifacts directory.
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Package Artifacts'
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'drop'
+        publishLocation: 'Container'
