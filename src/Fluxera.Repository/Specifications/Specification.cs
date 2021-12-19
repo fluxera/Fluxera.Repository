@@ -14,8 +14,14 @@ namespace Fluxera.Repository.Specifications
 	[PublicAPI]
 	public class Specification<T> : ISpecification<T> where T : class
 	{
+		/// <summary>
+		///     A specification that defines that any item satisfies it.
+		/// </summary>
 		public static ISpecification<T> All = new Specification<T>(x => true);
 
+		/// <summary>
+		///     A specification that defines that no item satisfies it.
+		/// </summary>
 		public static ISpecification<T> None = new Specification<T>(x => false);
 
 		/// <summary>

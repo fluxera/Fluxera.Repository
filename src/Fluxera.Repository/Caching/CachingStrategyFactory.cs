@@ -31,7 +31,7 @@
 			RepositoryName repositoryName = this.repositoryRegistry.GetRepositoryNameFor<TAggregateRoot>();
 			RepositoryOptions repositoryOptions = this.repositoryRegistry.GetRepositoryOptionsFor(repositoryName);
 
-			bool isEnabled = repositoryOptions.CachingOptions.Enabled;
+			bool isEnabled = repositoryOptions.CachingOptions.IsEnabled;
 			if(isEnabled)
 			{
 				ICachingProvider cachingProvider = this.cachingProviderFactory.CreateCachingProvider();

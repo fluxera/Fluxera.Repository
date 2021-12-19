@@ -14,22 +14,40 @@
 	using Fluxera.Repository.Query;
 	using Fluxera.Repository.Specifications;
 	using Fluxera.Repository.Traits;
+	using Microsoft.Extensions.Logging;
 
+	/// <summary>
+	///     A repository decorator that controls the interceptor feature.
+	/// </summary>
+	/// <typeparam name="TAggregateRoot"></typeparam>
+	/// <typeparam name="TKey"></typeparam>
 	public sealed class InterceptionRepositoryDecorator<TAggregateRoot, TKey> : IRepository<TAggregateRoot, TKey>
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 	{
 		private readonly IRepository<TAggregateRoot, TKey> innerRepository;
 		private readonly IInterceptor<TAggregateRoot, TKey> interceptor;
+		private readonly ILogger logger;
 		private readonly RepositoryOptions repositoryOptions;
 
+		/// <summary>
+		///     Creates a new instance of the <see cref="InterceptionRepositoryDecorator{TAggregateRoot,TKey}" /> type.
+		/// </summary>
+		/// <param name="loggerFactory"></param>
+		/// <param name="innerRepository"></param>
+		/// <param name="repositoryRegistry"></param>
+		/// <param name="decoratingInterceptorFactory"></param>
 		public InterceptionRepositoryDecorator(
+			ILoggerFactory loggerFactory,
 			IRepository<TAggregateRoot, TKey> innerRepository,
 			IRepositoryRegistry repositoryRegistry,
 			IDecoratingInterceptorFactory<TAggregateRoot, TKey> decoratingInterceptorFactory)
 		{
+			Guard.Against.Null(loggerFactory, nameof(loggerFactory));
 			Guard.Against.Null(innerRepository, nameof(innerRepository));
 			Guard.Against.Null(repositoryRegistry, nameof(repositoryRegistry));
 			Guard.Against.Null(decoratingInterceptorFactory, nameof(decoratingInterceptorFactory));
+
+			this.logger = loggerFactory.CreateLogger(LoggerNames.Interception);
 
 			this.innerRepository = innerRepository;
 
@@ -77,6 +95,10 @@
 					await this.innerRepository.AddAsync(item, cancellationToken).ConfigureAwait(false);
 					await this.interceptor.AfterAddAsync(item).ConfigureAwait(false);
 				}
+				else
+				{
+					this.logger.LogInformation(e.CancellationMessage);
+				}
 			}
 			else
 			{
@@ -110,6 +132,10 @@
 						await this.interceptor.AfterAddAsync(item).ConfigureAwait(false);
 					}
 				}
+				else
+				{
+					this.logger.LogInformation(e.CancellationMessage);
+				}
 			}
 			else
 			{
@@ -133,6 +159,10 @@
 				{
 					await this.innerRepository.UpdateAsync(item, cancellationToken).ConfigureAwait(false);
 					await this.interceptor.AfterUpdateAsync(item).ConfigureAwait(false);
+				}
+				else
+				{
+					this.logger.LogInformation(e.CancellationMessage);
 				}
 			}
 			else
@@ -167,6 +197,10 @@
 						await this.interceptor.AfterUpdateAsync(item).ConfigureAwait(false);
 					}
 				}
+				else
+				{
+					this.logger.LogInformation(e.CancellationMessage);
+				}
 			}
 			else
 			{
@@ -180,7 +214,7 @@
 			if(this.repositoryOptions.InterceptionOptions.IsEnabled)
 			{
 				InterceptionEvent e = new InterceptionEvent();
-				Expression<Func<TAggregateRoot, bool>> predicate = this.CreatePrimaryKeyPredicate(id);
+				Expression<Func<TAggregateRoot, bool>> predicate = CreatePrimaryKeyPredicate(id);
 				predicate = await this.interceptor.BeforeRemoveRangeAsync(predicate, e).ConfigureAwait(false);
 				if(e.CancelOperation && e.ThrowOnCancellation)
 				{
@@ -191,6 +225,10 @@
 				{
 					await this.innerRepository.RemoveRangeAsync(predicate, cancellationToken).ConfigureAwait(false);
 					//await this.interceptor.AfterRemoveRangeAsync().ConfigureAwait(false);
+				}
+				else
+				{
+					this.logger.LogInformation(e.CancellationMessage);
 				}
 			}
 			else
@@ -216,6 +254,10 @@
 					await this.innerRepository.RemoveAsync(item, cancellationToken).ConfigureAwait(false);
 					await this.interceptor.AfterRemoveAsync(item).ConfigureAwait(false);
 				}
+				else
+				{
+					this.logger.LogInformation(e.CancellationMessage);
+				}
 			}
 			else
 			{
@@ -240,6 +282,10 @@
 					await this.innerRepository.RemoveRangeAsync(predicate, cancellationToken).ConfigureAwait(false);
 					//await this.interceptor.AfterRemoveRangeAsync().ConfigureAwait(false);
 				}
+				else
+				{
+					this.logger.LogInformation(e.CancellationMessage);
+				}
 			}
 			else
 			{
@@ -263,6 +309,10 @@
 				{
 					await this.innerRepository.RemoveRangeAsync(specification, cancellationToken).ConfigureAwait(false);
 					//await this.interceptor.AfterRemoveRangeAsync().ConfigureAwait(false);
+				}
+				else
+				{
+					this.logger.LogInformation(e.CancellationMessage);
 				}
 			}
 			else
@@ -297,6 +347,10 @@
 						await this.interceptor.AfterRemoveAsync(item).ConfigureAwait(false);
 					}
 				}
+				else
+				{
+					this.logger.LogInformation(e.CancellationMessage);
+				}
 			}
 			else
 			{
@@ -309,7 +363,7 @@
 		{
 			if(this.repositoryOptions.InterceptionOptions.IsEnabled)
 			{
-				predicate = await this.interceptor.BeforeFindAsync(predicate, queryOptions).ConfigureAwait(false);
+				predicate = await this.interceptor.BeforeFindAsync(predicate, queryOptions!).ConfigureAwait(false);
 
 				TAggregateRoot result = await this.innerRepository.FindOneAsync(predicate, queryOptions, cancellationToken).ConfigureAwait(false);
 
@@ -326,7 +380,7 @@
 		{
 			if(this.repositoryOptions.InterceptionOptions.IsEnabled)
 			{
-				specification = await this.interceptor.BeforeFindAsync(specification, queryOptions).ConfigureAwait(false);
+				specification = await this.interceptor.BeforeFindAsync(specification, queryOptions!).ConfigureAwait(false);
 
 				TAggregateRoot result = await this.innerRepository.FindOneAsync(specification, queryOptions, cancellationToken).ConfigureAwait(false);
 
@@ -343,7 +397,7 @@
 		{
 			if(this.repositoryOptions.InterceptionOptions.IsEnabled)
 			{
-				predicate = await this.interceptor.BeforeFindAsync(predicate, queryOptions).ConfigureAwait(false);
+				predicate = await this.interceptor.BeforeFindAsync(predicate, queryOptions!).ConfigureAwait(false);
 
 				TResult result = await this.innerRepository.FindOneAsync(predicate, selector, queryOptions, cancellationToken).ConfigureAwait(false);
 
@@ -360,7 +414,7 @@
 		{
 			if(this.repositoryOptions.InterceptionOptions.IsEnabled)
 			{
-				specification = await this.interceptor.BeforeFindAsync(specification, queryOptions).ConfigureAwait(false);
+				specification = await this.interceptor.BeforeFindAsync(specification, queryOptions!).ConfigureAwait(false);
 
 				TResult result = await this.innerRepository.FindOneAsync(specification, selector, queryOptions, cancellationToken).ConfigureAwait(false);
 
@@ -377,7 +431,7 @@
 		{
 			if(this.repositoryOptions.InterceptionOptions.IsEnabled)
 			{
-				Expression<Func<TAggregateRoot, bool>> predicate = this.CreatePrimaryKeyPredicate(id);
+				Expression<Func<TAggregateRoot, bool>> predicate = CreatePrimaryKeyPredicate(id);
 				predicate = await this.interceptor.BeforeFindAsync(predicate, QueryOptions<TAggregateRoot>.Empty());
 
 				bool result = await this.innerRepository.ExistsAsync(predicate, cancellationToken).ConfigureAwait(false);
@@ -429,7 +483,7 @@
 		{
 			if(this.repositoryOptions.InterceptionOptions.IsEnabled)
 			{
-				predicate = await this.interceptor.BeforeFindAsync(predicate, queryOptions);
+				predicate = await this.interceptor.BeforeFindAsync(predicate, queryOptions!);
 
 				IReadOnlyCollection<TAggregateRoot> result = await this.innerRepository.FindManyAsync(predicate, queryOptions, cancellationToken).ConfigureAwait(false);
 
@@ -446,7 +500,7 @@
 		{
 			if(this.repositoryOptions.InterceptionOptions.IsEnabled)
 			{
-				specification = await this.interceptor.BeforeFindAsync(specification, queryOptions);
+				specification = await this.interceptor.BeforeFindAsync(specification, queryOptions!);
 
 				IReadOnlyCollection<TAggregateRoot> result = await this.innerRepository.FindManyAsync(specification, queryOptions, cancellationToken).ConfigureAwait(false);
 
@@ -463,7 +517,7 @@
 		{
 			if(this.repositoryOptions.InterceptionOptions.IsEnabled)
 			{
-				predicate = await this.interceptor.BeforeFindAsync(predicate, queryOptions);
+				predicate = await this.interceptor.BeforeFindAsync(predicate, queryOptions!);
 
 				IReadOnlyCollection<TResult> result = await this.innerRepository.FindManyAsync(predicate, selector, queryOptions, cancellationToken).ConfigureAwait(false);
 
@@ -480,7 +534,7 @@
 		{
 			if(this.repositoryOptions.InterceptionOptions.IsEnabled)
 			{
-				specification = await this.interceptor.BeforeFindAsync(specification, queryOptions);
+				specification = await this.interceptor.BeforeFindAsync(specification, queryOptions!);
 
 				IReadOnlyCollection<TResult> result = await this.innerRepository.FindManyAsync(specification, selector, queryOptions, cancellationToken).ConfigureAwait(false);
 
@@ -549,7 +603,7 @@
 		{
 			if(this.repositoryOptions.InterceptionOptions.IsEnabled)
 			{
-				Expression<Func<TAggregateRoot, bool>> predicate = this.CreatePrimaryKeyPredicate(id);
+				Expression<Func<TAggregateRoot, bool>> predicate = CreatePrimaryKeyPredicate(id);
 				predicate = await this.interceptor.BeforeFindAsync(predicate, QueryOptions<TAggregateRoot>.Empty());
 
 				TAggregateRoot result = await this.innerRepository.FindOneAsync(predicate, QueryOptions<TAggregateRoot>.Empty(), cancellationToken).ConfigureAwait(false);
@@ -567,7 +621,7 @@
 		{
 			if(this.repositoryOptions.InterceptionOptions.IsEnabled)
 			{
-				Expression<Func<TAggregateRoot, bool>> predicate = this.CreatePrimaryKeyPredicate(id);
+				Expression<Func<TAggregateRoot, bool>> predicate = CreatePrimaryKeyPredicate(id);
 				predicate = await this.interceptor.BeforeFindAsync(predicate, QueryOptions<TAggregateRoot>.Empty());
 
 				TResult result = await this.innerRepository.FindOneAsync(predicate, selector, QueryOptions<TAggregateRoot>.Empty(), cancellationToken).ConfigureAwait(false);
@@ -586,9 +640,9 @@
 			return this.innerRepository.ToString();
 		}
 
-		private Expression<Func<TAggregateRoot, bool>> CreatePrimaryKeyPredicate(TKey id)
+		private static Expression<Func<TAggregateRoot, bool>> CreatePrimaryKeyPredicate(TKey id)
 		{
-			PropertyInfo primaryKeyProperty = this.GetPrimaryKeyProperty();
+			PropertyInfo primaryKeyProperty = GetPrimaryKeyProperty();
 
 			ParameterExpression parameter = Expression.Parameter(typeof(TAggregateRoot), "x");
 			Expression<Func<TAggregateRoot, bool>> predicate = Expression.Lambda<Func<TAggregateRoot, bool>>(
@@ -601,14 +655,14 @@
 			return predicate;
 		}
 
-		private ISpecification<TAggregateRoot> CreatePrimaryKeySpecification(TKey id)
-		{
-			Expression<Func<TAggregateRoot, bool>> predicate = this.CreatePrimaryKeyPredicate(id);
-			ISpecification<TAggregateRoot> specification = new Specification<TAggregateRoot>(predicate);
-			return specification;
-		}
+		//private ISpecification<TAggregateRoot> CreatePrimaryKeySpecification(TKey id)
+		//{
+		//	Expression<Func<TAggregateRoot, bool>> predicate = this.CreatePrimaryKeyPredicate(id);
+		//	ISpecification<TAggregateRoot> specification = new Specification<TAggregateRoot>(predicate);
+		//	return specification;
+		//}
 
-		private PropertyInfo GetPrimaryKeyProperty()
+		private static PropertyInfo GetPrimaryKeyProperty()
 		{
 			Type type = typeof(TAggregateRoot);
 			Type keyType = typeof(TKey);

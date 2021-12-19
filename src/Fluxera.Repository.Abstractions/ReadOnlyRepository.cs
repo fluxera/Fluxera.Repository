@@ -11,11 +11,36 @@
 	using Fluxera.Repository.Specifications;
 	using Fluxera.Repository.Traits;
 
+	/// <summary>
+	///     A base class for specialized repository service implementations.
+	/// </summary>
+	/// <remarks>
+	///     This class contains the read operations only.
+	/// </remarks>
+	/// <example>
+	///     public interface IPersonRepository : ICanFind&lt;Person, Guid&gt;
+	///     {
+	///     }
+	///     <br />
+	///     public class PersonRepository : ReadOnlyRepository&lt;Person, Guid&gt;, IPersonRepository
+	///     {
+	///     public PersonRepository(IRepository&lt;Person, Guid&gt; innerRepository)
+	///     : base(innerRepository)
+	///     {
+	///     }
+	///     }
+	/// </example>
+	/// <typeparam name="TAggregateRoot"></typeparam>
+	/// <typeparam name="TKey"></typeparam>
 	public abstract class ReadOnlyRepository<TAggregateRoot, TKey> : IReadOnlyRepository<TAggregateRoot, TKey>
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 	{
 		private readonly IReadOnlyRepository<TAggregateRoot, TKey> innerRepository;
 
+		/// <summary>
+		///     Creates a new instance of the <see cref="ReadOnlyRepository{TAggregateRoot,TKey}" /> type.
+		/// </summary>
+		/// <param name="innerRepository"></param>
 		protected ReadOnlyRepository(IReadOnlyRepository<TAggregateRoot, TKey> innerRepository)
 		{
 			Guard.Against.Null(innerRepository, nameof(innerRepository));

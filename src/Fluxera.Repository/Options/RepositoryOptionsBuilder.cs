@@ -26,7 +26,7 @@
 			this.repositoryOptions = new RepositoryOptions((RepositoryName)repositoryName, repositoryType);
 		}
 
-		public IRepositoryOptionsBuilder UseFor(IEnumerable<Assembly> assemblies)
+		public IRepositoryOptionsBuilder UseFor(IEnumerable<Assembly>? assemblies)
 		{
 			assemblies ??= Enumerable.Empty<Assembly>();
 
@@ -53,7 +53,7 @@
 			return this;
 		}
 
-		public IRepositoryOptionsBuilder UseFor(IEnumerable<Type> types)
+		public IRepositoryOptionsBuilder UseFor(IEnumerable<Type>? types)
 		{
 			types ??= Enumerable.Empty<Type>();
 
@@ -93,9 +93,12 @@
 
 		public IRepositoryOptionsBuilder AddSetting<T>(string key, T value)
 		{
+			Guard.Against.NullOrWhiteSpace(key, nameof(key));
+			Guard.Against.Default(value, nameof(value));
+
 			if(!this.repositoryOptions.SettingsValues.ContainsKey(key))
 			{
-				this.repositoryOptions.SettingsValues.Add(key, value);
+				this.repositoryOptions.SettingsValues.Add(key, value!);
 			}
 			else
 			{
@@ -147,7 +150,7 @@
 
 		public IRepositoryOptionsBuilder AddCaching(Action<ICachingOptionsBuilder>? configure = null)
 		{
-			if(this.repositoryOptions.CachingOptions.Enabled)
+			if(this.repositoryOptions.CachingOptions.IsEnabled)
 			{
 				throw new InvalidOperationException(
 					$"The caching was already enabled for repository '{this.repositoryOptions.RepositoryName}'.");
@@ -156,7 +159,7 @@
 			CachingOptionsBuilder builder = new CachingOptionsBuilder(this.repositoryOptions);
 			configure?.Invoke(builder);
 
-			this.repositoryOptions.CachingOptions.Enabled = true;
+			this.repositoryOptions.CachingOptions.IsEnabled = true;
 
 			return this;
 		}

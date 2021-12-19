@@ -14,7 +14,6 @@
 	using Fluxera.Repository.Query;
 	using Fluxera.Repository.Specifications;
 	using Fluxera.Utilities.Extensions;
-	using Microsoft.Extensions.Logging;
 	using Simple.OData.Client;
 
 	/// <summary>
@@ -24,7 +23,6 @@
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 	{
 		private readonly ODataClient client;
-		private readonly ILogger logger;
 		private readonly ODataPersistenceSettings persistenceSettings;
 
 		static ODataRepository()
@@ -32,17 +30,15 @@
 			V4Adapter.Reference();
 		}
 
-		public ODataRepository(ILoggerFactory loggerFactory, IRepositoryRegistry repositoryRegistry)
+		public ODataRepository(IRepositoryRegistry repositoryRegistry)
 		{
-			this.logger = loggerFactory.CreateLogger(Name);
-
 			RepositoryName repositoryName = repositoryRegistry.GetRepositoryNameFor<TAggregateRoot>();
 			RepositoryOptions options = repositoryRegistry.GetRepositoryOptionsFor(repositoryName);
 
 			this.persistenceSettings = new ODataPersistenceSettings
 			{
-				ServiceRoot = (string)options.SettingsValues.GetOrDefault("OData.ServiceRoot"),
-				UseBatching = (bool)options.SettingsValues.GetOrDefault("OData.UseBatching"),
+				ServiceRoot = (string)options.SettingsValues.GetOrDefault("OData.ServiceRoot")!,
+				UseBatching = (bool)options.SettingsValues.GetOrDefault("OData.UseBatching")!,
 			};
 
 			// TODO: Would be nice, if the authentication would work just as in the HttpClient module.
@@ -51,21 +47,21 @@
 				BaseUri = new Uri(this.persistenceSettings.ServiceRoot),
 				IgnoreUnmappedProperties = true,
 				RenewHttpConnection = false,
-				BeforeRequest = request =>
-				{
-					// TODO: Authentication
-				},
-				OnTrace = (message, parameters) =>
-				{
-					if((parameters != null) && (parameters.Length > 0))
-					{
-						this.logger.LogTrace(string.Format(message, parameters));
-					}
-					else
-					{
-						this.logger.LogTrace(message);
-					}
-				},
+				//BeforeRequest = request =>
+				//{
+				//	// TODO: Authentication
+				//},
+				//OnTrace = (message, parameters) =>
+				//{
+				//	if((parameters != null) && (parameters.Length > 0))
+				//	{
+				//		this.logger.LogTrace(string.Format(message, parameters));
+				//	}
+				//	else
+				//	{
+				//		this.logger.LogTrace(message);
+				//	}
+				//},
 			};
 
 			this.client = new ODataClient(settings);
@@ -277,18 +273,18 @@
 
 		private static MemberExpression GetMemberInfo(Expression method)
 		{
-			LambdaExpression lambda = method as LambdaExpression;
 			Guard.Against.Null(method, nameof(method));
 
-			MemberExpression memberExpr = null;
+			LambdaExpression? lambda = method as LambdaExpression;
+			MemberExpression memberExpr = null!;
 
 			if((lambda != null) && (lambda.Body.NodeType == ExpressionType.Convert))
 			{
-				memberExpr = ((UnaryExpression)lambda.Body).Operand as MemberExpression;
+				memberExpr = (((UnaryExpression)lambda.Body).Operand as MemberExpression)!;
 			}
 			else if((lambda != null) && (lambda.Body.NodeType == ExpressionType.MemberAccess))
 			{
-				memberExpr = lambda.Body as MemberExpression;
+				memberExpr = (lambda.Body as MemberExpression)!;
 			}
 
 			Guard.Against.Null(memberExpr, nameof(method));

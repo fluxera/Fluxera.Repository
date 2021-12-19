@@ -16,37 +16,37 @@
 			if(options.TryGetPagingOptions(out IPagingOptions<T>? pagingOptions))
 			{
 				queryable = (ILiteQueryableAsync<T>)queryable
-					.Skip(pagingOptions.Skip)
+					.Skip(pagingOptions!.Skip)
 					.Limit(pagingOptions.Take);
 			}
 
 			if(options.TryGetSkipTakeOptions(out ISkipTakeOptions<T>? skipTakeOptions))
 			{
-				if(skipTakeOptions.SkipNumber.HasValue)
+				if(skipTakeOptions!.SkipAmount.HasValue)
 				{
-					queryable = (ILiteQueryableAsync<T>)queryable.Skip(skipTakeOptions.SkipNumber.Value);
+					queryable = (ILiteQueryableAsync<T>)queryable.Skip(skipTakeOptions.SkipAmount.Value);
 				}
 
-				if(skipTakeOptions.TakeNumber.HasValue)
+				if(skipTakeOptions.TakeAmount.HasValue)
 				{
-					queryable = (ILiteQueryableAsync<T>)queryable.Limit(skipTakeOptions.TakeNumber.Value);
+					queryable = (ILiteQueryableAsync<T>)queryable.Limit(skipTakeOptions.TakeAmount.Value);
 				}
 			}
 
 			if(options.TryGetSortingOptions(out ISortingOptions<T>? orderByOptions))
 			{
-				ISortExpression<T> primaryExpression = orderByOptions.PrimaryExpression;
+				ISortExpression<T> primaryExpression = orderByOptions!.PrimaryExpression;
 
 				ILiteQueryableAsync<T> orderedQueryable = primaryExpression.IsDescending
 					? queryable.OrderByDescending(primaryExpression.Expression)
 					: queryable.OrderBy(primaryExpression.Expression);
 
-				foreach(ISortExpression<T> expression in orderByOptions.SecondaryExpressions)
+				foreach(ISortExpression<T> _ in orderByOptions.SecondaryExpressions)
 				{
 					throw new NotSupportedException("The ThenBy syntax it currently not supported for LiteDB.");
-					orderedQueryable = expression.IsDescending
-						? orderedQueryable.OrderByDescending(expression.Expression)
-						: orderedQueryable.OrderBy(expression.Expression);
+					//orderedQueryable = expression.IsDescending
+					//	? orderedQueryable.OrderByDescending(expression.Expression)
+					//	: orderedQueryable.OrderBy(expression.Expression);
 				}
 
 				queryable = orderedQueryable;

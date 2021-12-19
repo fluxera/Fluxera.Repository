@@ -9,21 +9,17 @@
 	using Fluxera.Repository.Specifications;
 	using Microsoft.EntityFrameworkCore;
 	using Microsoft.EntityFrameworkCore.ChangeTracking;
-	using Microsoft.Extensions.Logging;
 
 	internal sealed class EntityFrameworkRepository<TAggregateRoot, TKey> : LinqRepositoryBase<TAggregateRoot, TKey>
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 	{
 		private readonly DbContext dbContext;
 		private readonly DbSet<TAggregateRoot> dbSet;
-		private readonly ILogger logger;
 
-		public EntityFrameworkRepository(ILoggerFactory loggerFactory, IDbContextFactory dbContextFactory)
+		public EntityFrameworkRepository(IDbContextFactory dbContextFactory)
 		{
-			Guard.Against.Null(loggerFactory, nameof(loggerFactory));
 			Guard.Against.Null(dbContextFactory, nameof(dbContextFactory));
 
-			this.logger = loggerFactory.CreateLogger(Name);
 			this.dbContext = dbContextFactory.CreateDbContext<TAggregateRoot, TKey>();
 			this.dbSet = this.dbContext.Set<TAggregateRoot>();
 		}
@@ -140,7 +136,7 @@
 			{
 				if(entry.State == EntityState.Detached)
 				{
-					TKey key = item.ID;
+					TKey key = item.ID!;
 
 					// Check to see if this item is already attached. If it is then we need to copy the values to the
 					// attached value instead of changing the State to modified since it will throw a duplicate key

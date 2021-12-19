@@ -6,11 +6,14 @@
 	using Fluxera.Guards;
 	using JetBrains.Annotations;
 
+	/// <summary>
+	///     Provides extension methods for the <see cref="IRepository{TAggregateRoot,TKey}" /> type.
+	/// </summary>
 	[PublicAPI]
 	public static class RepositoryExtensions
 	{
 		/// <summary>
-		///     Adds the or update.
+		///     Adds or updates the given item.
 		/// </summary>
 		/// <typeparam name="TAggregateRoot">The type of the aggregate root.</typeparam>
 		/// <typeparam name="TKey">The type of the ID.</typeparam>
@@ -33,7 +36,7 @@
 		}
 
 		/// <summary>
-		///     Adds the or update.
+		///     Adds or updates the given items.
 		/// </summary>
 		/// <typeparam name="TAggregateRoot">The type of the aggregate root.</typeparam>
 		/// <typeparam name="TKey">The type of the ID.</typeparam>
@@ -42,6 +45,7 @@
 		public static async Task AddOrUpdate<TAggregateRoot, TKey>(this IRepository<TAggregateRoot, TKey> repository, IEnumerable<TAggregateRoot> items)
 			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 		{
+			// ReSharper disable PossibleMultipleEnumeration
 			Guard.Against.Null(repository, nameof(repository));
 			Guard.Against.Null(items, nameof(items));
 
@@ -49,6 +53,7 @@
 			{
 				await repository.AddOrUpdate(item);
 			}
+			// ReSharper enable PossibleMultipleEnumeration
 		}
 	}
 }

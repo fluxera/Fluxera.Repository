@@ -33,30 +33,94 @@ namespace Fluxera.Repository.Specifications
 		/// <returns>The modified queryable.</returns>
 		IQueryable<T> ApplyTo(IQueryable<T> queryable);
 
+		/// <summary>
+		///     Combines this specification with the given one using the And operator.
+		/// </summary>
+		/// <param name="specification"></param>
+		/// <returns></returns>
 		ISpecification<T> And(ISpecification<T> specification);
 
+		/// <summary>
+		///     Combines this specification with the given expression using the And operator.
+		/// </summary>
+		/// <param name="predicate"></param>
+		/// <returns></returns>
 		ISpecification<T> And(Expression<Func<T, bool>> predicate);
 
+		/// <summary>
+		///     Combines this specification with the given one using the AndAlso operator.
+		/// </summary>
+		/// <param name="specification"></param>
+		/// <returns></returns>
 		ISpecification<T> AndAlso(ISpecification<T> specification);
 
+		/// <summary>
+		///     Combines this specification with the given expression using the And operator.
+		/// </summary>
+		/// <param name="predicate"></param>
+		/// <returns></returns>
 		ISpecification<T> AndAlso(Expression<Func<T, bool>> predicate);
 
+		/// <summary>
+		///     Combines this specification with the given one using the Or operator.
+		/// </summary>
+		/// <param name="specification"></param>
+		/// <returns></returns>
 		ISpecification<T> Or(ISpecification<T> specification);
 
+		/// <summary>
+		///     Combines this specification with the given expression using the And operator.
+		/// </summary>
+		/// <param name="predicate"></param>
+		/// <returns></returns>
 		ISpecification<T> Or(Expression<Func<T, bool>> predicate);
 
+		/// <summary>
+		///     Combines this specification with the given one using the OrElse operator.
+		/// </summary>
+		/// <param name="specification"></param>
+		/// <returns></returns>
 		ISpecification<T> OrElse(ISpecification<T> specification);
 
+		/// <summary>
+		///     Combines this specification with the given expression using the And operator.
+		/// </summary>
+		/// <param name="predicate"></param>
+		/// <returns></returns>
 		ISpecification<T> OrElse(Expression<Func<T, bool>> predicate);
 
+		/// <summary>
+		///     Negates this specification using the Not operator.
+		/// </summary>
+		/// <returns></returns>
 		ISpecification<T> Not();
 
+		/// <summary>
+		///     Combines this specification with the given one using the AndNot operator.
+		/// </summary>
+		/// <param name="specification"></param>
+		/// <returns></returns>
 		ISpecification<T> AndNot(ISpecification<T> specification);
 
+		/// <summary>
+		///     Combines this specification with the given expression using the AndNot operator.
+		/// </summary>
+		/// <param name="predicate"></param>
+		/// <returns></returns>
 		ISpecification<T> AndNot(Expression<Func<T, bool>> predicate);
 
+		/// <summary>
+		///     Combines this specification with the given one using the OrNot operator.
+		/// </summary>
+		/// <param name="specification"></param>
+		/// <returns></returns>
 		ISpecification<T> OrNot(ISpecification<T> specification);
 
+		/// <summary>
+		///     Combines this specification with the given expression using the OrNot operator.
+		/// </summary>
+		/// <param name="predicate"></param>
+		/// <returns></returns>
 		ISpecification<T> OrNot(Expression<Func<T, bool>> predicate);
 	}
 }

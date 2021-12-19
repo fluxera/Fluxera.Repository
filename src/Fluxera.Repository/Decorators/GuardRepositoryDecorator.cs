@@ -11,11 +11,21 @@
 	using Fluxera.Repository.Specifications;
 	using Fluxera.Repository.Traits;
 
+	/// <summary>
+	///     A repository decorator that performs initial guard checks and makes sure that the
+	///     <see cref="IQueryOptions{T}" /> are never null.
+	/// </summary>
+	/// <typeparam name="TAggregateRoot"></typeparam>
+	/// <typeparam name="TKey"></typeparam>
 	public sealed class GuardRepositoryDecorator<TAggregateRoot, TKey> : IRepository<TAggregateRoot, TKey>
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 	{
 		private readonly IRepository<TAggregateRoot, TKey> innerRepository;
 
+		/// <summary>
+		///     Creates a new instance of the <see cref="GuardRepositoryDecorator{TAggregateRoot,TKey}" /> type.
+		/// </summary>
+		/// <param name="innerRepository"></param>
 		public GuardRepositoryDecorator(IRepository<TAggregateRoot, TKey> innerRepository)
 		{
 			Guard.Against.Null(innerRepository, nameof(innerRepository));
@@ -36,11 +46,13 @@
 		/// <inheritdoc />
 		async Task ICanAdd<TAggregateRoot, TKey>.AddRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{
+			// ReSharper disable PossibleMultipleEnumeration
 			Guard.Against.Disposed(this);
 			Guard.Against.Null(items, nameof(items));
 			Guard.Against.NotTransient<TAggregateRoot, TKey>(items, nameof(items), "A non-transient item can not be added.");
 
 			await this.innerRepository.AddRangeAsync(items, cancellationToken).ConfigureAwait(false);
+			// ReSharper enable PossibleMultipleEnumeration
 		}
 
 		/// <inheritdoc />
@@ -56,11 +68,13 @@
 		/// <inheritdoc />
 		async Task ICanUpdate<TAggregateRoot, TKey>.UpdateRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{
+			// ReSharper disable PossibleMultipleEnumeration
 			Guard.Against.Disposed(this);
 			Guard.Against.Null(items, nameof(items));
 			Guard.Against.Transient<TAggregateRoot, TKey>(items, nameof(items), "A transient item can not be updated. Add the item first.");
 
 			await this.innerRepository.UpdateRangeAsync(items, cancellationToken).ConfigureAwait(false);
+			// ReSharper enable PossibleMultipleEnumeration
 		}
 
 		/// <inheritdoc />
@@ -94,11 +108,13 @@
 		/// <inheritdoc />
 		async Task ICanRemove<TAggregateRoot, TKey>.RemoveRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{
+			// ReSharper disable PossibleMultipleEnumeration
 			Guard.Against.Disposed(this);
 			Guard.Against.Null(items, nameof(items));
 			Guard.Against.Transient<TAggregateRoot, TKey>(items, nameof(items), "A transient item can not be removed. Add the item first.");
 
 			await this.innerRepository.RemoveRangeAsync(items, cancellationToken).ConfigureAwait(false);
+			// ReSharper enable PossibleMultipleEnumeration
 		}
 
 		/// <inheritdoc />

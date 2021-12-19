@@ -2,6 +2,7 @@
 {
 	using System;
 	using System.Collections.Generic;
+	using System.Linq;
 	using System.Linq.Expressions;
 	using System.Reflection;
 	using System.Threading;
@@ -13,6 +14,13 @@
 	using Fluxera.Utilities;
 	using JetBrains.Annotations;
 
+	/// <summary>
+	///     A base class for storage repository implementations that do not support LINQ or
+	///     async extensions methods for <see cref="IQueryable{T}" />. The base class is prepared
+	///     to make implementing storage implementations easier and streamlined.
+	/// </summary>
+	/// <typeparam name="TAggregateRoot"></typeparam>
+	/// <typeparam name="TKey"></typeparam>
 	[PublicAPI]
 	public abstract class RepositoryBase<TAggregateRoot, TKey> : Disposable, IRepository<TAggregateRoot, TKey>
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
@@ -35,7 +43,8 @@
 		/// <inheritdoc />
 		async Task ICanRemove<TAggregateRoot, TKey>.RemoveAsync(TAggregateRoot item, CancellationToken cancellationToken)
 		{
-			await this.RemoveRangeAsync(this.CreatePrimaryKeySpecification(item.ID), cancellationToken).ConfigureAwait(false);
+			await this.RemoveRangeAsync(this.CreatePrimaryKeySpecification(item.ID!), cancellationToken).ConfigureAwait(false);
+			// ReSharper disable once ArrangeDefaultValueWhenTypeNotEvident
 			item.ID = default(TKey);
 		}
 
@@ -60,9 +69,11 @@
 		/// <inheritdoc />
 		async Task ICanRemove<TAggregateRoot, TKey>.RemoveRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{
-			await this.RemoveRangeAsync(items, cancellationToken);
-			foreach(TAggregateRoot item in items)
+			IEnumerable<TAggregateRoot> itemsList = items.ToList();
+			await this.RemoveRangeAsync(itemsList, cancellationToken);
+			foreach(TAggregateRoot item in itemsList)
 			{
+				// ReSharper disable once ArrangeDefaultValueWhenTypeNotEvident
 				item.ID = default(TKey);
 			}
 		}
@@ -104,25 +115,25 @@
 		}
 
 		/// <inheritdoc />
-		async Task<IReadOnlyCollection<TAggregateRoot>> ICanFind<TAggregateRoot, TKey>.FindManyAsync(Expression<Func<TAggregateRoot, bool>> predicate, IQueryOptions<TAggregateRoot>? queryOptions = null, CancellationToken cancellationToken = default)
+		async Task<IReadOnlyCollection<TAggregateRoot>> ICanFind<TAggregateRoot, TKey>.FindManyAsync(Expression<Func<TAggregateRoot, bool>> predicate, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
 		{
 			return await this.FindManyAsync(new Specification<TAggregateRoot>(predicate), queryOptions, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<IReadOnlyCollection<TAggregateRoot>> ICanFind<TAggregateRoot, TKey>.FindManyAsync(ISpecification<TAggregateRoot> specification, IQueryOptions<TAggregateRoot>? queryOptions = null, CancellationToken cancellationToken = default)
+		async Task<IReadOnlyCollection<TAggregateRoot>> ICanFind<TAggregateRoot, TKey>.FindManyAsync(ISpecification<TAggregateRoot> specification, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
 		{
 			return await this.FindManyAsync(specification, queryOptions, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<IReadOnlyCollection<TResult>> ICanFind<TAggregateRoot, TKey>.FindManyAsync<TResult>(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot>? queryOptions = null, CancellationToken cancellationToken = default)
+		async Task<IReadOnlyCollection<TResult>> ICanFind<TAggregateRoot, TKey>.FindManyAsync<TResult>(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
 		{
 			return await this.FindManyAsync(new Specification<TAggregateRoot>(predicate), selector, queryOptions, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<IReadOnlyCollection<TResult>> ICanFind<TAggregateRoot, TKey>.FindManyAsync<TResult>(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot>? queryOptions = null, CancellationToken cancellationToken = default)
+		async Task<IReadOnlyCollection<TResult>> ICanFind<TAggregateRoot, TKey>.FindManyAsync<TResult>(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
 		{
 			return await this.FindManyAsync(specification, selector, queryOptions, cancellationToken);
 		}
@@ -175,28 +186,107 @@
 			return await this.LongCountAsync(specification, cancellationToken) > 0;
 		}
 
+		/// <summary>
+		///     Adds an item to the underlying storage.
+		/// </summary>
+		/// <param name="item"></param>
+		/// <param name="cancellationToken"></param>
+		/// <returns></returns>
 		protected abstract Task AddAsync(TAggregateRoot item, CancellationToken cancellationToken);
 
+		/// <summary>
+		///     Adds the items to the underlying store.
+		/// </summary>
+		/// <param name="items"></param>
+		/// <param name="cancellationToken"></param>
+		/// <returns></returns>
 		protected abstract Task AddRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken);
 
+		/// <summary>
+		///     Removes the items that satisfy the specification from the underlying store.
+		/// </summary>
+		/// <param name="specification"></param>
+		/// <param name="cancellationToken"></param>
+		/// <returns></returns>
 		protected abstract Task RemoveRangeAsync(ISpecification<TAggregateRoot> specification, CancellationToken cancellationToken);
 
+		/// <summary>
+		///     Removes the items from the underlying store.
+		/// </summary>
+		/// <param name="items"></param>
+		/// <param name="cancellationToken"></param>
+		/// <returns></returns>
 		protected abstract Task RemoveRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken);
 
+		/// <summary>
+		///     Update the item in the underlying store.
+		/// </summary>
+		/// <param name="item"></param>
+		/// <param name="cancellationToken"></param>
+		/// <returns></returns>
 		protected abstract Task UpdateAsync(TAggregateRoot item, CancellationToken cancellationToken);
 
+		/// <summary>
+		///     Updates the items in the underlying store.
+		/// </summary>
+		/// <param name="items"></param>
+		/// <param name="cancellationToken"></param>
+		/// <returns></returns>
 		protected abstract Task UpdateRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken);
 
+		/// <summary>
+		///     Finds the first (or none) items that satisfies the specification.
+		/// </summary>
+		/// <param name="specification"></param>
+		/// <param name="queryOptions"></param>
+		/// <param name="cancellationToken"></param>
+		/// <returns></returns>
 		protected abstract Task<TAggregateRoot> FindOneAsync(ISpecification<TAggregateRoot> specification, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken);
 
+		/// <summary>
+		///     Finds the first (or none) items that satisfies the specification and returns the selected value.
+		/// </summary>
+		/// <typeparam name="TResult"></typeparam>
+		/// <param name="specification"></param>
+		/// <param name="selector"></param>
+		/// <param name="queryOptions"></param>
+		/// <param name="cancellationToken"></param>
+		/// <returns></returns>
 		protected abstract Task<TResult> FindOneAsync<TResult>(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken);
 
+		/// <summary>
+		///     Finds many (or none) items that satisfy the specification.
+		/// </summary>
+		/// <param name="specification"></param>
+		/// <param name="queryOptions"></param>
+		/// <param name="cancellationToken"></param>
+		/// <returns></returns>
 		protected abstract Task<IReadOnlyCollection<TAggregateRoot>> FindManyAsync(ISpecification<TAggregateRoot> specification, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken);
 
+		/// <summary>
+		///     Finds many (or none) items that satisfy the specification and returns the selected value for each item.
+		/// </summary>
+		/// <typeparam name="TResult"></typeparam>
+		/// <param name="specification"></param>
+		/// <param name="selector"></param>
+		/// <param name="queryOptions"></param>
+		/// <param name="cancellationToken"></param>
+		/// <returns></returns>
 		protected abstract Task<IReadOnlyCollection<TResult>> FindManyAsync<TResult>(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken);
 
+		/// <summary>
+		///     Gets the count of items that satisfy the specification.
+		/// </summary>
+		/// <param name="specification"></param>
+		/// <param name="cancellationToken"></param>
+		/// <returns></returns>
 		protected abstract Task<long> LongCountAsync(ISpecification<TAggregateRoot> specification, CancellationToken cancellationToken);
 
+		/// <summary>
+		///     Creates an <see cref="Expression" /> in the form of <c>x => x.ID == id</c> for the given ID value.
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
 		protected Expression<Func<TAggregateRoot, bool>> CreatePrimaryKeyPredicate(TKey id)
 		{
 			PropertyInfo primaryKeyProperty = this.GetPrimaryKeyProperty();
@@ -212,6 +302,11 @@
 			return predicate;
 		}
 
+		/// <summary>
+		///     Creates a <see cref="ISpecification{T}" /> in the form of <c>x => x.ID == id</c> for the given ID value.
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
 		protected ISpecification<TAggregateRoot> CreatePrimaryKeySpecification(TKey id)
 		{
 			Expression<Func<TAggregateRoot, bool>> predicate = this.CreatePrimaryKeyPredicate(id);

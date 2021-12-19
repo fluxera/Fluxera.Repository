@@ -10,11 +10,33 @@
 	using Fluxera.Repository.Specifications;
 	using Fluxera.Repository.Traits;
 
+	/// <summary>
+	///     A base class for specialized repository service implementations.
+	/// </summary>
+	/// <example>
+	///     public interface IPersonRepository : ICanAdd&lt;Person, Guid&gt;
+	///     {
+	///     }
+	///     <br />
+	///     public class PersonRepository : Repository&lt;Person, Guid&gt;, IPersonRepository
+	///     {
+	///     public PersonRepository(IRepository&lt;Person, Guid&gt; innerRepository)
+	///     : base(innerRepository)
+	///     {
+	///     }
+	///     }
+	/// </example>
+	/// <typeparam name="TAggregateRoot"></typeparam>
+	/// <typeparam name="TKey"></typeparam>
 	public abstract class Repository<TAggregateRoot, TKey> : ReadOnlyRepository<TAggregateRoot, TKey>, IRepository<TAggregateRoot, TKey>
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 	{
 		private readonly IRepository<TAggregateRoot, TKey> innerRepository;
 
+		/// <summary>
+		///     Creates a new instance of the <see cref="Repository{TAggregateRoot,TKey}" /> type.
+		/// </summary>
+		/// <param name="innerRepository"></param>
 		protected Repository(IRepository<TAggregateRoot, TKey> innerRepository)
 			: base(innerRepository)
 		{

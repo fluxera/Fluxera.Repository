@@ -14,35 +14,27 @@
 	using Fluxera.Utilities.Extensions;
 	using global::MongoDB.Driver;
 	using global::MongoDB.Driver.Linq;
-	using Microsoft.Extensions.Logging;
 
-	// TODO: Transactions; https://gist.github.com/codepope/1366893d703a0be57953545619e87eea
 	internal sealed class MongoRepository<TAggregateRoot, TKey> : LinqRepositoryBase<TAggregateRoot, TKey>
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 	{
-		private readonly MongoClient client;
 		private readonly IMongoCollection<TAggregateRoot> collection;
-		private readonly IMongoDatabase database;
-		private readonly ILogger logger;
 
 		public MongoRepository(
-			ILoggerFactory loggerFactory,
 			IRepositoryRegistry repositoryRegistry,
 			IDatabaseNameProvider? databaseNameProvider = null)
 		{
-			this.logger = loggerFactory.CreateLogger(Name);
-
 			RepositoryName repositoryName = repositoryRegistry.GetRepositoryNameFor<TAggregateRoot>();
 			RepositoryOptions options = repositoryRegistry.GetRepositoryOptionsFor(repositoryName);
 
 			MongoPersistenceSettings persistenceSettings = new MongoPersistenceSettings
 			{
-				ConnectionString = (string)options.SettingsValues.GetOrDefault("Mongo.ConnectionString"),
-				Database = (string)options.SettingsValues.GetOrDefault("Mongo.Database")
+				ConnectionString = (string)options.SettingsValues.GetOrDefault("Mongo.ConnectionString")!,
+				Database = (string)options.SettingsValues.GetOrDefault("Mongo.Database")!
 			};
 
-			object settingsUseSsl = options.SettingsValues.GetOrDefault("Mongo.UseSsl");
-			persistenceSettings.UseSsl = (bool)(settingsUseSsl ?? false);
+			object settingsUseSsl = options.SettingsValues.GetOrDefault("Mongo.UseSsl")!;
+			persistenceSettings.UseSsl = (bool)settingsUseSsl;
 
 			string connectionString = persistenceSettings.ConnectionString;
 			string databaseName = persistenceSettings.Database;
@@ -68,15 +60,21 @@
 				};
 			}
 
-			this.client = new MongoClient(settings);
-			this.database = this.client.GetDatabase(databaseName);
-			this.collection = this.database.GetCollection<TAggregateRoot>(collectionName);
+			MongoClient client = new MongoClient(settings);
+			IMongoDatabase database = client.GetDatabase(databaseName);
+			this.collection = database.GetCollection<TAggregateRoot>(collectionName);
 		}
 
 		private static string Name => "Fluxera.Repository.MongoRepository";
 
 		/// <inheritdoc />
 		protected override IQueryable<TAggregateRoot> Queryable => this.collection.AsQueryable();
+
+		/// <inheritdoc />
+		public override string ToString()
+		{
+			return Name;
+		}
 
 		/// <inheritdoc />
 		protected override async Task AddAsync(TAggregateRoot item, CancellationToken cancellationToken)
@@ -110,7 +108,7 @@
 			IList<WriteModel<TAggregateRoot>> deletes = new List<WriteModel<TAggregateRoot>>();
 			foreach(TAggregateRoot item in itemsList)
 			{
-				Expression<Func<TAggregateRoot, bool>> predicate = this.CreatePrimaryKeyPredicate(item.ID);
+				Expression<Func<TAggregateRoot, bool>> predicate = this.CreatePrimaryKeyPredicate(item.ID!);
 				deletes.Add(new DeleteOneModel<TAggregateRoot>(predicate));
 			}
 
@@ -123,7 +121,7 @@
 		protected override async Task UpdateAsync(TAggregateRoot item, CancellationToken cancellationToken)
 		{
 			await this.collection
-				.ReplaceOneAsync(this.CreatePrimaryKeyPredicate(item.ID), item, cancellationToken: cancellationToken)
+				.ReplaceOneAsync(this.CreatePrimaryKeyPredicate(item.ID!), item, cancellationToken: cancellationToken)
 				.ConfigureAwait(false);
 		}
 
@@ -133,7 +131,7 @@
 			IList<WriteModel<TAggregateRoot>> updates = new List<WriteModel<TAggregateRoot>>();
 			foreach(TAggregateRoot item in items)
 			{
-				Expression<Func<TAggregateRoot, bool>> predicate = this.CreatePrimaryKeyPredicate(item.ID);
+				Expression<Func<TAggregateRoot, bool>> predicate = this.CreatePrimaryKeyPredicate(item.ID!);
 				updates.Add(new ReplaceOneModel<TAggregateRoot>(predicate, item));
 			}
 

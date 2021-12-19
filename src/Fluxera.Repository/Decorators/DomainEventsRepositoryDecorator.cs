@@ -14,6 +14,11 @@
 	using Fluxera.Repository.Traits;
 	using Microsoft.Extensions.Logging;
 
+	/// <summary>
+	///     A repository decorator that controls the domain events feature.
+	/// </summary>
+	/// <typeparam name="TAggregateRoot"></typeparam>
+	/// <typeparam name="TKey"></typeparam>
 	public sealed class DomainEventsRepositoryDecorator<TAggregateRoot, TKey> : IRepository<TAggregateRoot, TKey>
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 	{
@@ -21,6 +26,12 @@
 		private readonly IRepository<TAggregateRoot, TKey> innerRepository;
 		private readonly ILogger logger;
 
+		/// <summary>
+		///     Creates a new instance of the <see cref="DomainEventsRepositoryDecorator{TAggregateRoot,TKey}" /> type.
+		/// </summary>
+		/// <param name="innerRepository"></param>
+		/// <param name="domainEventDispatcher"></param>
+		/// <param name="loggerFactory"></param>
 		public DomainEventsRepositoryDecorator(
 			IRepository<TAggregateRoot, TKey> innerRepository,
 			IDomainEventDispatcher domainEventDispatcher,
@@ -51,17 +62,19 @@
 		/// <inheritdoc />
 		async Task ICanAdd<TAggregateRoot, TKey>.AddRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{
-			await this.DispatchAsync(items).ConfigureAwait(false);
+			IEnumerable<TAggregateRoot> itemsList = items.ToList();
 
-			await this.innerRepository.AddRangeAsync(items, cancellationToken).ConfigureAwait(false);
+			await this.DispatchAsync(itemsList).ConfigureAwait(false);
+
+			await this.innerRepository.AddRangeAsync(itemsList, cancellationToken).ConfigureAwait(false);
 
 			// Add event to dispatch 'item added' event only to committed event handlers.
-			foreach(TAggregateRoot item in items)
+			foreach(TAggregateRoot item in itemsList)
 			{
 				item.DomainEvents.Add(new ItemAdded<TAggregateRoot, TKey>(item));
 			}
 
-			await this.DispatchCommittedAsync(items).ConfigureAwait(false);
+			await this.DispatchCommittedAsync(itemsList).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
@@ -80,23 +93,25 @@
 		/// <inheritdoc />
 		async Task ICanUpdate<TAggregateRoot, TKey>.UpdateRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{
-			await this.DispatchAsync(items).ConfigureAwait(false);
+			IEnumerable<TAggregateRoot> itemsList = items.ToList();
 
-			await this.innerRepository.UpdateRangeAsync(items, cancellationToken).ConfigureAwait(false);
+			await this.DispatchAsync(itemsList).ConfigureAwait(false);
+
+			await this.innerRepository.UpdateRangeAsync(itemsList, cancellationToken).ConfigureAwait(false);
 
 			// Add event to dispatch 'item updated' event only to committed event handlers.
-			foreach(TAggregateRoot item in items)
+			foreach(TAggregateRoot item in itemsList)
 			{
 				item.DomainEvents.Add(new ItemAdded<TAggregateRoot, TKey>(item));
 			}
 
-			await this.DispatchCommittedAsync(items).ConfigureAwait(false);
+			await this.DispatchCommittedAsync(itemsList).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
 		async Task ICanRemove<TAggregateRoot, TKey>.RemoveAsync(TAggregateRoot item, CancellationToken cancellationToken)
 		{
-			TKey id = item.ID;
+			TKey id = item.ID!;
 
 			await this.DispatchAsync(item).ConfigureAwait(false);
 
@@ -112,14 +127,14 @@
 		async Task ICanRemove<TAggregateRoot, TKey>.RemoveRangeAsync(Expression<Func<TAggregateRoot, bool>> predicate, CancellationToken cancellationToken)
 		{
 			IReadOnlyCollection<TAggregateRoot> items = await this.innerRepository.FindManyAsync(predicate, cancellationToken: cancellationToken).ConfigureAwait(false);
-			IDictionary<TKey?, TAggregateRoot> itemsDict = items.ToDictionary(x => x.ID, x => x);
+			IDictionary<TKey, TAggregateRoot> itemsDict = items.ToDictionary(x => x.ID, x => x)!;
 
 			await this.DispatchAsync(items).ConfigureAwait(false);
 
 			await this.innerRepository.RemoveRangeAsync(predicate, cancellationToken).ConfigureAwait(false);
 
 			// Add event to dispatch 'item removed' event only to committed event handlers.
-			foreach((TKey? key, TAggregateRoot? value) in itemsDict)
+			foreach((TKey key, TAggregateRoot? value) in itemsDict)
 			{
 				value.DomainEvents.Add(new ItemRemoved<TAggregateRoot, TKey>(value, key));
 			}
@@ -131,14 +146,14 @@
 		async Task ICanRemove<TAggregateRoot, TKey>.RemoveRangeAsync(ISpecification<TAggregateRoot> specification, CancellationToken cancellationToken)
 		{
 			IReadOnlyCollection<TAggregateRoot> items = await this.innerRepository.FindManyAsync(specification, cancellationToken: cancellationToken).ConfigureAwait(false);
-			IDictionary<TKey?, TAggregateRoot> itemsDict = items.ToDictionary(x => x.ID, x => x);
+			IDictionary<TKey, TAggregateRoot> itemsDict = items.ToDictionary(x => x.ID, x => x)!;
 
 			await this.DispatchAsync(items).ConfigureAwait(false);
 
 			await this.innerRepository.RemoveRangeAsync(specification, cancellationToken).ConfigureAwait(false);
 
 			// Add event to dispatch 'item removed' event only to committed event handlers.
-			foreach((TKey? key, TAggregateRoot? value) in itemsDict)
+			foreach((TKey key, TAggregateRoot? value) in itemsDict)
 			{
 				value.DomainEvents.Add(new ItemRemoved<TAggregateRoot, TKey>(value, key));
 			}
@@ -149,19 +164,20 @@
 		/// <inheritdoc />
 		async Task ICanRemove<TAggregateRoot, TKey>.RemoveRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{
-			IDictionary<TKey?, TAggregateRoot> itemsDict = items.ToDictionary(x => x.ID, x => x);
+			IEnumerable<TAggregateRoot> itemsList = items.ToList();
+			Dictionary<TKey, TAggregateRoot> itemsDict = itemsList.ToDictionary(x => x.ID, x => x)!;
 
-			await this.DispatchAsync(items).ConfigureAwait(false);
+			await this.DispatchAsync(itemsList).ConfigureAwait(false);
 
-			await this.innerRepository.RemoveRangeAsync(items, cancellationToken).ConfigureAwait(false);
+			await this.innerRepository.RemoveRangeAsync(itemsList, cancellationToken).ConfigureAwait(false);
 
 			// Add event to dispatch 'item removed' event only to committed event handlers.
-			foreach((TKey? key, TAggregateRoot? value) in itemsDict)
+			foreach((TKey key, TAggregateRoot? value) in itemsDict)
 			{
 				value.DomainEvents.Add(new ItemRemoved<TAggregateRoot, TKey>(value, key));
 			}
 
-			await this.DispatchCommittedAsync(items).ConfigureAwait(false);
+			await this.DispatchCommittedAsync(itemsList).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />

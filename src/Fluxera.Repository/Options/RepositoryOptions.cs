@@ -4,9 +4,17 @@
 	using System.Collections.Generic;
 	using JetBrains.Annotations;
 
+	/// <summary>
+	///     Provides the options for a repository.
+	/// </summary>
 	[PublicAPI]
 	public sealed class RepositoryOptions
 	{
+		/// <summary>
+		///     Creates a new instance of the <see cref="RepositoryOptions" /> type.
+		/// </summary>
+		/// <param name="repositoryName"></param>
+		/// <param name="repositoryType"></param>
 		public RepositoryOptions(RepositoryName repositoryName, Type repositoryType)
 		{
 			this.RepositoryName = repositoryName;
@@ -17,20 +25,44 @@
 			this.InterceptionOptions = new InterceptionOptions(repositoryName);
 		}
 
+		/// <summary>
+		///     Gets the repository name.
+		/// </summary>
 		public RepositoryName RepositoryName { get; }
 
+		/// <summary>
+		///     Gets the storage repository's type.
+		/// </summary>
 		public Type RepositoryType { get; }
 
+		/// <summary>
+		///     Gets the aggregate root types this repository is used for.
+		/// </summary>
 		public IList<Type> AggregateRootTypes { get; } = new List<Type>();
 
+		/// <summary>
+		///     Gets the raw settings vales.
+		/// </summary>
 		public IDictionary<string, object> SettingsValues { get; } = new Dictionary<string, object>();
 
+		/// <summary>
+		///     Gets the validation options.
+		/// </summary>
 		public ValidationOptions ValidationOptions { get; }
 
-		public DomainEventsOptions DomainEventsOptions { get; set; }
+		/// <summary>
+		///     Gets the domain events options.
+		/// </summary>
+		public DomainEventsOptions DomainEventsOptions { get; }
 
-		public CachingOptions CachingOptions { get; set; }
+		/// <summary>
+		///     Gets the caching options.
+		/// </summary>
+		public CachingOptions CachingOptions { get; }
 
-		public InterceptionOptions InterceptionOptions { get; set; }
+		/// <summary>
+		///     Gets the interception options.
+		/// </summary>
+		public InterceptionOptions InterceptionOptions { get; }
 	}
 }

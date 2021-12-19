@@ -10,13 +10,14 @@ namespace Fluxera.Repository.Query
 	{
 		private readonly IList<ISortExpression<T>> secondaryExpressions = new List<ISortExpression<T>>();
 
-		private IPagingOptions<T>? pagingOptions;
-		private ISkipTakeOptions<T>? skipTakeOptions;
-
 		public SortingOptions(Expression<Func<T, object>> sortExpression, bool isDescending = false)
 		{
 			this.PrimaryExpression = new SortExpression<T>(sortExpression, isDescending);
 		}
+
+		private IPagingOptions<T>? PagingOptions { get; set; }
+
+		private ISkipTakeOptions<T>? TakeOptions { get; set; }
 
 		/// <inheritdoc />
 		public IEnumerable<ISortExpression<T>> SecondaryExpressions => this.secondaryExpressions;
@@ -43,29 +44,29 @@ namespace Fluxera.Repository.Query
 		/// <inheritdoc />
 		public IPagingOptions<T> Paging(int pageNumber, int pageSize)
 		{
-			this.pagingOptions = new PagingOptions<T>(pageNumber, pageSize);
-			return this.pagingOptions;
+			this.PagingOptions = new PagingOptions<T>(pageNumber, pageSize);
+			return this.PagingOptions;
 		}
 
 		/// <inheritdoc />
 		public IPagingOptions<T> Paging()
 		{
-			this.pagingOptions = new PagingOptions<T>();
-			return this.pagingOptions;
+			this.PagingOptions = new PagingOptions<T>();
+			return this.PagingOptions;
 		}
 
 		/// <inheritdoc />
 		public ISkipTakeOptions<T> Skip(int skip)
 		{
-			this.skipTakeOptions = new SkipTakeOptions<T>(skip);
-			return this.skipTakeOptions;
+			this.TakeOptions = new SkipTakeOptions<T>(skip);
+			return this.TakeOptions;
 		}
 
 		/// <inheritdoc />
 		public ISkipTakeOptions<T> Take(int take)
 		{
-			this.skipTakeOptions = new SkipTakeOptions<T>(take: take);
-			return this.skipTakeOptions;
+			this.TakeOptions = new SkipTakeOptions<T>(take: take);
+			return this.TakeOptions;
 		}
 
 		/// <inheritdoc />
@@ -78,14 +79,14 @@ namespace Fluxera.Repository.Query
 				queryable = secondaryExpression.ApplyTo(orderedQueryable);
 			}
 
-			if(this.pagingOptions != null)
+			if(this.PagingOptions != null)
 			{
-				queryable = this.pagingOptions.ApplyTo(queryable);
+				queryable = this.PagingOptions.ApplyTo(queryable);
 			}
 
-			if(this.skipTakeOptions != null)
+			if(this.TakeOptions != null)
 			{
-				queryable = this.skipTakeOptions.ApplyTo(queryable);
+				queryable = this.TakeOptions.ApplyTo(queryable);
 			}
 
 			return queryable;
@@ -94,15 +95,15 @@ namespace Fluxera.Repository.Query
 		/// <inheritdoc />
 		public bool TryGetPagingOptions(out IPagingOptions<T>? pagingOptions)
 		{
-			pagingOptions = this.pagingOptions;
-			return this.pagingOptions != null;
+			pagingOptions = this.PagingOptions;
+			return this.PagingOptions != null;
 		}
 
 		/// <inheritdoc />
 		public bool TryGetSkipTakeOptions(out ISkipTakeOptions<T>? skipTakeOptions)
 		{
-			skipTakeOptions = this.skipTakeOptions;
-			return this.skipTakeOptions != null;
+			skipTakeOptions = this.TakeOptions;
+			return this.TakeOptions != null;
 		}
 
 		/// <inheritdoc />
@@ -119,8 +120,8 @@ namespace Fluxera.Repository.Query
 			string thenByString = this.secondaryExpressions.Select(x => x.ToString()).Aggregate((s1, s2) => string.Concat(s1, ", ", s2));
 			string sortingOptionsString = "(OrderBy: {0}, ThenBy: {1})".FormatInvariantWith(orderByString, thenByString);
 
-			string pagingOptionsString = this.pagingOptions != null ? this.pagingOptions.ToString() : "none";
-			string skipTakeOptionsString = this.skipTakeOptions != null ? this.skipTakeOptions.ToString() : "none";
+			string pagingOptionsString = this.PagingOptions != null ? this.PagingOptions.ToString() : "none";
+			string skipTakeOptionsString = this.TakeOptions != null ? this.TakeOptions.ToString() : "none";
 
 			return "QueryOptions<{0}>(Sorting: {1}, Paging: {2}, SkipTake: {3})"
 				.FormatInvariantWith(typeof(T).Name, sortingOptionsString, pagingOptionsString, skipTakeOptionsString);

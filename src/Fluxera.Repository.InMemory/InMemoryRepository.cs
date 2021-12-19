@@ -7,22 +7,12 @@
 	using System.Threading;
 	using System.Threading.Tasks;
 	using Fluxera.Entity;
-	using Fluxera.Guards;
 	using Fluxera.Repository.Specifications;
-	using Microsoft.Extensions.Logging;
 
-	public sealed class InMemoryRepository<TAggregateRoot, TKey> : LinqRepositoryBase<TAggregateRoot, TKey>
+	internal sealed class InMemoryRepository<TAggregateRoot, TKey> : LinqRepositoryBase<TAggregateRoot, TKey>
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 	{
-		private readonly ILogger logger;
 		private readonly ConcurrentDictionary<TKey, TAggregateRoot> store = new ConcurrentDictionary<TKey, TAggregateRoot>();
-
-		public InMemoryRepository(ILoggerFactory loggerFactory)
-		{
-			Guard.Against.Null(loggerFactory, nameof(loggerFactory));
-
-			this.logger = loggerFactory.CreateLogger(Name);
-		}
 
 		private static string Name => "Fluxera.Repository.InMemoryRepository";
 
@@ -36,84 +26,94 @@
 		}
 
 		/// <inheritdoc />
-		protected override async Task<long> LongCountAsync(IQueryable<TAggregateRoot> queryable, CancellationToken cancellationToken)
+		protected override Task<long> LongCountAsync(IQueryable<TAggregateRoot> queryable, CancellationToken cancellationToken)
 		{
-			return queryable.LongCount();
+			return Task.FromResult(queryable.LongCount());
 		}
 
 		/// <inheritdoc />
-		protected override async Task<IReadOnlyCollection<TAggregateRoot>> ToListAsync(IQueryable<TAggregateRoot> queryable, CancellationToken cancellationToken)
+		protected override Task<IReadOnlyCollection<TAggregateRoot>> ToListAsync(IQueryable<TAggregateRoot> queryable, CancellationToken cancellationToken)
 		{
-			return queryable.ToList();
+			return Task.FromResult<IReadOnlyCollection<TAggregateRoot>>(queryable.ToList());
 		}
 
 		/// <inheritdoc />
-		protected override async Task<IReadOnlyCollection<TResult>> ToListAsync<TResult>(IQueryable<TResult> queryable, CancellationToken cancellationToken)
+		protected override Task<IReadOnlyCollection<TResult>> ToListAsync<TResult>(IQueryable<TResult> queryable, CancellationToken cancellationToken)
 		{
-			return queryable.ToList();
+			return Task.FromResult<IReadOnlyCollection<TResult>>(queryable.ToList());
 		}
 
 		/// <inheritdoc />
-		protected override async Task<TAggregateRoot> FirstOrDefaultAsync(IQueryable<TAggregateRoot> queryable, CancellationToken cancellationToken)
+		protected override Task<TAggregateRoot> FirstOrDefaultAsync(IQueryable<TAggregateRoot> queryable, CancellationToken cancellationToken)
 		{
-			return queryable.FirstOrDefault()!;
+			return Task.FromResult(queryable.FirstOrDefault()!);
 		}
 
 		/// <inheritdoc />
-		protected override async Task<TResult> FirstOrDefaultAsync<TResult>(IQueryable<TResult> queryable, CancellationToken cancellationToken)
+		protected override Task<TResult> FirstOrDefaultAsync<TResult>(IQueryable<TResult> queryable, CancellationToken cancellationToken)
 		{
-			return queryable.FirstOrDefault()!;
+			return Task.FromResult(queryable.FirstOrDefault()!);
 		}
 
 		/// <inheritdoc />
-		protected override async Task AddAsync(TAggregateRoot item, CancellationToken cancellationToken)
+		protected override Task AddAsync(TAggregateRoot item, CancellationToken cancellationToken)
 		{
 			item.ID = this.GenerateKey();
 			this.store.TryAdd(item.ID, item);
+			return Task.CompletedTask;
 		}
 
 		/// <inheritdoc />
-		protected override async Task AddRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
+		protected override Task AddRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{
 			foreach(TAggregateRoot item in items)
 			{
 				item.ID = this.GenerateKey();
 				this.store.TryAdd(item.ID, item);
 			}
+
+			return Task.CompletedTask;
 		}
 
 		/// <inheritdoc />
-		protected override async Task RemoveRangeAsync(ISpecification<TAggregateRoot> specification, CancellationToken cancellationToken)
+		protected override Task RemoveRangeAsync(ISpecification<TAggregateRoot> specification, CancellationToken cancellationToken)
 		{
 			IQueryable<TAggregateRoot> items = this.Queryable.Where(specification.Predicate);
 			foreach(TAggregateRoot? item in items)
 			{
-				this.store.TryRemove(item.ID, out _);
+				this.store.TryRemove(item.ID!, out _);
 			}
+
+			return Task.CompletedTask;
 		}
 
 		/// <inheritdoc />
-		protected override async Task RemoveRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
+		protected override Task RemoveRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{
 			foreach(TAggregateRoot item in items)
 			{
-				this.store.TryRemove(item.ID, out _);
+				this.store.TryRemove(item.ID!, out _);
 			}
+
+			return Task.CompletedTask;
 		}
 
 		/// <inheritdoc />
-		protected override async Task UpdateAsync(TAggregateRoot item, CancellationToken cancellationToken)
+		protected override Task UpdateAsync(TAggregateRoot item, CancellationToken cancellationToken)
 		{
-			this.store[item.ID] = item;
+			this.store[item.ID!] = item;
+			return Task.CompletedTask;
 		}
 
 		/// <inheritdoc />
-		protected override async Task UpdateRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
+		protected override Task UpdateRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{
 			foreach(TAggregateRoot item in items)
 			{
-				this.store[item.ID] = item;
+				this.store[item.ID!] = item;
 			}
+
+			return Task.CompletedTask;
 		}
 
 		private TKey GenerateKey()

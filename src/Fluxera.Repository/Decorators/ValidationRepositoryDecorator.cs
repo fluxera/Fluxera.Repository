@@ -2,6 +2,7 @@
 {
 	using System;
 	using System.Collections.Generic;
+	using System.Linq;
 	using System.Linq.Expressions;
 	using System.Threading;
 	using System.Threading.Tasks;
@@ -12,6 +13,11 @@
 	using Fluxera.Repository.Traits;
 	using Fluxera.Repository.Validation;
 
+	/// <summary>
+	///     A repository decorator that controls the validation feature.
+	/// </summary>
+	/// <typeparam name="TAggregateRoot"></typeparam>
+	/// <typeparam name="TKey"></typeparam>
 	public sealed class ValidationRepositoryDecorator<TAggregateRoot, TKey> : IRepository<TAggregateRoot, TKey>
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 	{
@@ -19,6 +25,11 @@
 
 		private readonly IValidationStrategy<TAggregateRoot, TKey> validationStrategy;
 
+		/// <summary>
+		///     Creates a new instance of the <see cref="ValidationRepositoryDecorator{TAggregateRoot,TKey}" /> type.
+		/// </summary>
+		/// <param name="innerRepository"></param>
+		/// <param name="validationStrategyFactory"></param>
 		public ValidationRepositoryDecorator(IRepository<TAggregateRoot, TKey> innerRepository, IValidationStrategyFactory validationStrategyFactory)
 		{
 			Guard.Against.Null(innerRepository, nameof(innerRepository));
@@ -51,7 +62,7 @@
 		}
 
 		/// <inheritdoc />
-		async Task<long> ICanAggregate<TAggregateRoot, TKey>.CountAsync(CancellationToken cancellationToken = default)
+		async Task<long> ICanAggregate<TAggregateRoot, TKey>.CountAsync(CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.CountAsync(cancellationToken).ConfigureAwait(false);
 		}
@@ -67,9 +78,11 @@
 		/// <inheritdoc />
 		async Task ICanAdd<TAggregateRoot, TKey>.AddRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{
-			await this.validationStrategy.ValidateAsync(items);
+			IEnumerable<TAggregateRoot> itemsList = items.ToList();
 
-			await this.innerRepository.AddRangeAsync(items, cancellationToken).ConfigureAwait(false);
+			await this.validationStrategy.ValidateAsync(itemsList);
+
+			await this.innerRepository.AddRangeAsync(itemsList, cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
@@ -83,9 +96,11 @@
 		/// <inheritdoc />
 		async Task ICanUpdate<TAggregateRoot, TKey>.UpdateRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{
-			await this.validationStrategy.ValidateAsync(items);
+			IEnumerable<TAggregateRoot> itemsList = items.ToList();
 
-			await this.innerRepository.UpdateRangeAsync(items, cancellationToken).ConfigureAwait(false);
+			await this.validationStrategy.ValidateAsync(itemsList);
+
+			await this.innerRepository.UpdateRangeAsync(itemsList, cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />

@@ -11,6 +11,11 @@
 	using Fluxera.Repository.Traits;
 	using Microsoft.Extensions.Logging;
 
+	/// <summary>
+	///     A repository decorator that handles unhandled exceptions of the pipeline and logs the errors.
+	/// </summary>
+	/// <typeparam name="TAggregateRoot"></typeparam>
+	/// <typeparam name="TKey"></typeparam>
 	public sealed class ExceptionLoggingRepositoryDecorator<TAggregateRoot, TKey> : IRepository<TAggregateRoot, TKey>
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 	{

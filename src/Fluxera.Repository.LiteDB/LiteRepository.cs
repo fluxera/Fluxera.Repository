@@ -13,27 +13,22 @@
 	using Fluxera.Repository.Specifications;
 	using Fluxera.Utilities.Extensions;
 	using global::LiteDB.Async;
-	using Microsoft.Extensions.Logging;
 
 	internal sealed class LiteRepository<TAggregateRoot, TKey> : RepositoryBase<TAggregateRoot, TKey>
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 	{
 		private readonly ILiteCollectionAsync<TAggregateRoot> collection;
 		private readonly IDatabaseProvider databaseProvider;
-		private readonly ILogger logger;
 		private readonly RepositoryName repositoryName;
 
 		public LiteRepository(
-			ILoggerFactory loggerFactory,
 			IRepositoryRegistry repositoryRegistry,
 			IDatabaseProvider databaseProvider,
 			IDatabaseNameProvider? databaseNameProvider = null)
 		{
-			Guard.Against.Null(loggerFactory, nameof(loggerFactory));
 			Guard.Against.Null(repositoryRegistry, nameof(repositoryRegistry));
 			Guard.Against.Null(databaseProvider, nameof(databaseProvider));
 
-			this.logger = loggerFactory.CreateLogger(Name);
 			this.databaseProvider = databaseProvider;
 
 			this.repositoryName = repositoryRegistry.GetRepositoryNameFor<TAggregateRoot>();
@@ -41,7 +36,7 @@
 
 			LitePersistenceSettings persistenceSettings = new LitePersistenceSettings
 			{
-				Database = (string)options.SettingsValues.GetOrDefault("Lite.Database"),
+				Database = (string)options.SettingsValues.GetOrDefault("Lite.Database")!,
 			};
 
 			string databaseName = persistenceSettings.Database;
@@ -56,11 +51,17 @@
 			Guard.Against.NullOrEmpty(databaseName, nameof(databaseName));
 			Guard.Against.NullOrEmpty(collectionName, nameof(collectionName));
 
-			LiteDatabaseAsync database = this.databaseProvider.GetDatabase(this.repositoryName, databaseName!);
+			LiteDatabaseAsync database = this.databaseProvider.GetDatabase(this.repositoryName, databaseName);
 			this.collection = database.GetCollection<TAggregateRoot>(collectionName);
 		}
 
 		private static string Name => "Fluxera.Repository.LiteRepository";
+
+		/// <inheritdoc />
+		public override string ToString()
+		{
+			return Name;
+		}
 
 		/// <inheritdoc />
 		protected override async Task AddAsync(TAggregateRoot item, CancellationToken cancellationToken)
@@ -88,7 +89,7 @@
 			IList<TAggregateRoot> itemsList = items.ToList();
 			foreach(TAggregateRoot item in itemsList)
 			{
-				specifications.Add(this.CreatePrimaryKeySpecification(item.ID));
+				specifications.Add(this.CreatePrimaryKeySpecification(item.ID!));
 			}
 
 			ManyOrSpecification<TAggregateRoot> specification = new ManyOrSpecification<TAggregateRoot>(specifications);

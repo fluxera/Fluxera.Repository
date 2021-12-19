@@ -3,10 +3,22 @@
 	using System;
 	using JetBrains.Annotations;
 
+	/// <summary>
+	///     The extensions methods to configure an OData repository.
+	/// </summary>
 	[PublicAPI]
 	public static class RepositoryBuilderExtensions
 	{
-		public static IRepositoryBuilder AddODataRepository(this IRepositoryBuilder builder, string repositoryName, Action<IRepositoryOptionsBuilder> configure)
+		/// <summary>
+		///     Adds an OData repository for the given repository name. The repository options
+		///     are configured using the options builder configure action.
+		/// </summary>
+		/// <param name="builder"></param>
+		/// <param name="repositoryName"></param>
+		/// <param name="configure"></param>
+		/// <returns></returns>
+		public static IRepositoryBuilder AddODataRepository(this IRepositoryBuilder builder, string repositoryName,
+			Action<IRepositoryOptionsBuilder> configure)
 		{
 			return builder.AddRepository(repositoryName, typeof(ODataRepository<,>), configure);
 		}

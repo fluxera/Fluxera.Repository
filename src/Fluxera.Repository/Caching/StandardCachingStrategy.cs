@@ -42,7 +42,7 @@
 		/// <inheritdoc />
 		public async Task AddAsync(TAggregateRoot item)
 		{
-			string cacheKey = this.CacheKeyProvider.GetAddCacheKey<TAggregateRoot, TKey>(this.RepositoryName, item.ID);
+			string cacheKey = this.CacheKeyProvider.GetAddCacheKey<TAggregateRoot, TKey>(this.RepositoryName, item.ID!);
 			await this.SetSafeAsync(cacheKey, item).ConfigureAwait(false);
 
 			await this.IncrementGenerationAsync().ConfigureAwait(false);
@@ -60,7 +60,7 @@
 		/// <inheritdoc />
 		public async Task UpdateAsync(TAggregateRoot item)
 		{
-			string cacheKey = this.CacheKeyProvider.GetUpdateCacheKey<TAggregateRoot, TKey>(this.RepositoryName, item.ID);
+			string cacheKey = this.CacheKeyProvider.GetUpdateCacheKey<TAggregateRoot, TKey>(this.RepositoryName, item.ID!);
 			await this.SetSafeAsync(cacheKey, item).ConfigureAwait(false);
 
 			await this.IncrementGenerationAsync().ConfigureAwait(false);
@@ -412,7 +412,7 @@
 			{
 				// Don't let caching errors mess with the repository.
 				this.Logger.LogError(e, e.Message);
-				return default;
+				return default!;
 			}
 		}
 

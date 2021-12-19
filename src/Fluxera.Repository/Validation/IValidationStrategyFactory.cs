@@ -3,6 +3,9 @@
 	using Fluxera.Entity;
 	using JetBrains.Annotations;
 
+	/// <summary>
+	///     A contract for a validation strategy factory.
+	/// </summary>
 	[PublicAPI]
 	public interface IValidationStrategyFactory
 	{

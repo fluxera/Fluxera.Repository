@@ -14,12 +14,22 @@
 	using Fluxera.Repository.Traits;
 	using Fluxera.Utilities.Extensions;
 
+	/// <summary>
+	///     A repository decorator that controls teh caching feature.
+	/// </summary>
+	/// <typeparam name="TAggregateRoot"></typeparam>
+	/// <typeparam name="TKey"></typeparam>
 	public sealed class CachingRepositoryDecorator<TAggregateRoot, TKey> : IRepository<TAggregateRoot, TKey>
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 	{
 		private readonly ICachingStrategy<TAggregateRoot, TKey> cachingStrategy;
 		private readonly IRepository<TAggregateRoot, TKey> innerRepository;
 
+		/// <summary>
+		///     Creates a new instance of the <see cref="CachingRepositoryDecorator{TAggregateRoot,TKey}" /> type.
+		/// </summary>
+		/// <param name="innerRepository"></param>
+		/// <param name="cachingStrategyFactory"></param>
 		public CachingRepositoryDecorator(IRepository<TAggregateRoot, TKey> innerRepository, ICachingStrategyFactory cachingStrategyFactory)
 		{
 			Guard.Against.Null(innerRepository, nameof(innerRepository));
@@ -43,9 +53,11 @@
 		/// <inheritdoc />
 		async Task ICanAdd<TAggregateRoot, TKey>.AddRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{
-			await this.innerRepository.AddRangeAsync(items, cancellationToken).ConfigureAwait(false);
+			IEnumerable<TAggregateRoot> itemsList = items.ToList();
 
-			await this.cachingStrategy.AddAsync(items).ConfigureAwait(false);
+			await this.innerRepository.AddRangeAsync(itemsList, cancellationToken).ConfigureAwait(false);
+
+			await this.cachingStrategy.AddAsync(itemsList).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
@@ -59,15 +71,17 @@
 		/// <inheritdoc />
 		async Task ICanUpdate<TAggregateRoot, TKey>.UpdateRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{
-			await this.innerRepository.UpdateRangeAsync(items, cancellationToken).ConfigureAwait(false);
+			IEnumerable<TAggregateRoot> itemsList = items.ToList();
 
-			await this.cachingStrategy.UpdateAsync(items).ConfigureAwait(false);
+			await this.innerRepository.UpdateRangeAsync(itemsList, cancellationToken).ConfigureAwait(false);
+
+			await this.cachingStrategy.UpdateAsync(itemsList).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
 		async Task ICanRemove<TAggregateRoot, TKey>.RemoveAsync(TAggregateRoot item, CancellationToken cancellationToken)
 		{
-			TKey id = item.ID;
+			TKey id = item.ID!;
 
 			await this.innerRepository.RemoveAsync(item, cancellationToken).ConfigureAwait(false);
 
@@ -86,7 +100,7 @@
 		async Task ICanRemove<TAggregateRoot, TKey>.RemoveRangeAsync(Expression<Func<TAggregateRoot, bool>> predicate, CancellationToken cancellationToken)
 		{
 			IReadOnlyCollection<TAggregateRoot> items = await this.innerRepository.FindManyAsync(predicate, cancellationToken: cancellationToken).ConfigureAwait(false);
-			IReadOnlyCollection<TKey> ids = items.Select(x => x.ID).AsReadOnly();
+			IReadOnlyCollection<TKey> ids = items.Select(x => x.ID).AsReadOnly()!;
 
 			await this.innerRepository.RemoveRangeAsync(predicate, cancellationToken).ConfigureAwait(false);
 
@@ -97,7 +111,7 @@
 		async Task ICanRemove<TAggregateRoot, TKey>.RemoveRangeAsync(ISpecification<TAggregateRoot> specification, CancellationToken cancellationToken)
 		{
 			IReadOnlyCollection<TAggregateRoot> items = await this.innerRepository.FindManyAsync(specification, cancellationToken: cancellationToken).ConfigureAwait(false);
-			IReadOnlyCollection<TKey> ids = items.Select(x => x.ID).AsReadOnly();
+			IReadOnlyCollection<TKey> ids = items.Select(x => x.ID).AsReadOnly()!;
 
 			await this.innerRepository.RemoveRangeAsync(specification, cancellationToken).ConfigureAwait(false);
 
@@ -107,9 +121,11 @@
 		/// <inheritdoc />
 		async Task ICanRemove<TAggregateRoot, TKey>.RemoveRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{
-			IReadOnlyCollection<TKey> ids = items.Select(x => x.ID).AsReadOnly();
+			IEnumerable<TAggregateRoot> itemsList = items.ToList();
 
-			await this.innerRepository.RemoveRangeAsync(items, cancellationToken).ConfigureAwait(false);
+			IReadOnlyCollection<TKey> ids = itemsList.Select(x => x.ID).AsReadOnly()!;
+
+			await this.innerRepository.RemoveRangeAsync(itemsList, cancellationToken).ConfigureAwait(false);
 
 			await this.cachingStrategy.RemoveAsync(ids).ConfigureAwait(false);
 		}
