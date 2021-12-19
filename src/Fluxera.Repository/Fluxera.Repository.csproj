@@ -28,9 +28,7 @@
 		<PackageReference Include="Fluxera.Extensions.DependencyInjection" Version="6.0.14" />
 		<PackageReference Include="Fluxera.Extensions.Validation" Version="6.0.14" />
 		<PackageReference Include="Fluxera.Guards" Version="6.0.7" />
-		<PackageReference Include="Fluxera.Linq.Expressions" Version="6.0.7" />
 		<PackageReference Include="Fluxera.Utilities" Version="6.0.8" />
-		<PackageReference Include="Fluxera.ValueObject" Version="6.0.6" />
 		<PackageReference Include="GitVersion.MsBuild" Version="5.8.1">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
