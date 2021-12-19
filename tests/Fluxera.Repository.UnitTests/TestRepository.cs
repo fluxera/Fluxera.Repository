@@ -20,7 +20,7 @@
 		}
 
 		/// <inheritdoc />
-		async Task ICanAdd<TAggregateRoot, TKey>.AddAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
+		async Task ICanAdd<TAggregateRoot, TKey>.AddRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{
 			throw new NotImplementedException();
 		}
@@ -32,7 +32,7 @@
 		}
 
 		/// <inheritdoc />
-		async Task ICanUpdate<TAggregateRoot, TKey>.UpdateAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
+		async Task ICanUpdate<TAggregateRoot, TKey>.UpdateRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{
 			throw new NotImplementedException();
 		}
@@ -50,19 +50,19 @@
 		}
 
 		/// <inheritdoc />
-		async Task ICanRemove<TAggregateRoot, TKey>.RemoveAsync(Expression<Func<TAggregateRoot, bool>> predicate, CancellationToken cancellationToken)
+		async Task ICanRemove<TAggregateRoot, TKey>.RemoveRangeAsync(Expression<Func<TAggregateRoot, bool>> predicate, CancellationToken cancellationToken)
 		{
 			throw new NotImplementedException();
 		}
 
 		/// <inheritdoc />
-		async Task ICanRemove<TAggregateRoot, TKey>.RemoveAsync(ISpecification<TAggregateRoot> specification, CancellationToken cancellationToken = default)
+		async Task ICanRemove<TAggregateRoot, TKey>.RemoveRangeAsync(ISpecification<TAggregateRoot> specification, CancellationToken cancellationToken = default)
 		{
 			throw new NotImplementedException();
 		}
 
 		/// <inheritdoc />
-		async Task ICanRemove<TAggregateRoot, TKey>.RemoveAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
+		async Task ICanRemove<TAggregateRoot, TKey>.RemoveRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{
 			throw new NotImplementedException();
 		}

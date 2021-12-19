@@ -9,6 +9,7 @@
 	using Fluxera.Guards;
 	using Fluxera.Repository.Caching;
 	using Fluxera.Repository.Decorators;
+	using Fluxera.Repository.Interception;
 	using Fluxera.Repository.Options;
 	using Fluxera.Repository.Validation;
 	using Fluxera.Utilities.Extensions;
@@ -79,10 +80,13 @@
 			// Register the validation strategy factory.
 			services.AddTransient<IValidationStrategyFactory, ValidationStrategyFactory>();
 
+			// Register the interceptor factory.
+			services.AddTransient(typeof(IDecoratingInterceptorFactory<,>), typeof(DecoratingInterceptorFactory<,>));
+
 			return services;
 		}
 
-		private static IServiceCollection DecorateRepository(this IServiceCollection services, Type repositoryType)
+		private static IServiceCollection DecorateRepository(this IServiceCollection services, Type repositoryType, bool isInterceptionEnabled = false)
 		{
 			Guard.Against.Null(services, nameof(services));
 			Guard.Against.Null(repositoryType, nameof(repositoryType));
@@ -91,8 +95,8 @@
 				.Decorate(repositoryType)
 				.With(typeof(CachingRepositoryDecorator<,>))
 				.With(typeof(DomainEventsRepositoryDecorator<,>))
-				// TODO: Add multi-tenancy decorator here.
 				.With(typeof(ValidationRepositoryDecorator<,>))
+				.With(typeof(InterceptionRepositoryDecorator<,>))
 				.With(typeof(GuardRepositoryDecorator<,>))
 				.With(typeof(ExceptionLoggingRepositoryDecorator<,>));
 

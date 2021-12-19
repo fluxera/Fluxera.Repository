@@ -35,7 +35,7 @@
 					Name = "Tester"
 				}
 			};
-			await this.Repository.AddAsync(persons);
+			await this.Repository.AddRangeAsync(persons);
 			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 		}
 	}

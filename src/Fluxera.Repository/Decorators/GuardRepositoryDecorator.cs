@@ -34,13 +34,13 @@
 		}
 
 		/// <inheritdoc />
-		async Task ICanAdd<TAggregateRoot, TKey>.AddAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
+		async Task ICanAdd<TAggregateRoot, TKey>.AddRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{
 			Guard.Against.Disposed(this);
 			Guard.Against.Null(items, nameof(items));
 			Guard.Against.NotTransient<TAggregateRoot, TKey>(items, nameof(items), "A non-transient item can not be added.");
 
-			await this.innerRepository.AddAsync(items, cancellationToken).ConfigureAwait(false);
+			await this.innerRepository.AddRangeAsync(items, cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
@@ -54,13 +54,13 @@
 		}
 
 		/// <inheritdoc />
-		async Task ICanUpdate<TAggregateRoot, TKey>.UpdateAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
+		async Task ICanUpdate<TAggregateRoot, TKey>.UpdateRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{
 			Guard.Against.Disposed(this);
 			Guard.Against.Null(items, nameof(items));
 			Guard.Against.Transient<TAggregateRoot, TKey>(items, nameof(items), "A transient item can not be updated. Add the item first.");
 
-			await this.innerRepository.UpdateAsync(items, cancellationToken).ConfigureAwait(false);
+			await this.innerRepository.UpdateRangeAsync(items, cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
@@ -74,31 +74,31 @@
 		}
 
 		/// <inheritdoc />
-		async Task ICanRemove<TAggregateRoot, TKey>.RemoveAsync(Expression<Func<TAggregateRoot, bool>> predicate, CancellationToken cancellationToken)
+		async Task ICanRemove<TAggregateRoot, TKey>.RemoveRangeAsync(Expression<Func<TAggregateRoot, bool>> predicate, CancellationToken cancellationToken)
 		{
 			Guard.Against.Disposed(this);
 			Guard.Against.Null(predicate, nameof(predicate));
 
-			await this.innerRepository.RemoveAsync(predicate, cancellationToken).ConfigureAwait(false);
+			await this.innerRepository.RemoveRangeAsync(predicate, cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
-		async Task ICanRemove<TAggregateRoot, TKey>.RemoveAsync(ISpecification<TAggregateRoot> specification, CancellationToken cancellationToken)
+		async Task ICanRemove<TAggregateRoot, TKey>.RemoveRangeAsync(ISpecification<TAggregateRoot> specification, CancellationToken cancellationToken)
 		{
 			Guard.Against.Disposed(this);
 			Guard.Against.Null(specification, nameof(specification));
 
-			await this.innerRepository.RemoveAsync(specification, cancellationToken);
+			await this.innerRepository.RemoveRangeAsync(specification, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task ICanRemove<TAggregateRoot, TKey>.RemoveAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
+		async Task ICanRemove<TAggregateRoot, TKey>.RemoveRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{
 			Guard.Against.Disposed(this);
 			Guard.Against.Null(items, nameof(items));
 			Guard.Against.Transient<TAggregateRoot, TKey>(items, nameof(items), "A transient item can not be removed. Add the item first.");
 
-			await this.innerRepository.RemoveAsync(items, cancellationToken).ConfigureAwait(false);
+			await this.innerRepository.RemoveRangeAsync(items, cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />

@@ -21,7 +21,7 @@
 				.RuleFor(x => x.Age, faker => faker.Person.DateOfBirth.CalculateAge())
 				.Generate(250);
 
-			await this.Repository.AddAsync(persons);
+			await this.Repository.AddRangeAsync(persons);
 			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 
 			IQueryOptions<Person> options = QueryOptions<Person>.Paging(5, 10);
@@ -39,7 +39,7 @@
 				.RuleFor(x => x.Age, faker => faker.Person.DateOfBirth.CalculateAge())
 				.Generate(250);
 
-			await this.Repository.AddAsync(persons);
+			await this.Repository.AddRangeAsync(persons);
 			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 
 			IQueryOptions<Person> options = QueryOptions<Person>.Skip(100);
@@ -56,7 +56,7 @@
 				.RuleFor(x => x.Age, faker => faker.Person.DateOfBirth.CalculateAge())
 				.Generate(250);
 
-			await this.Repository.AddAsync(persons);
+			await this.Repository.AddRangeAsync(persons);
 			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 
 			IQueryOptions<Person> options = QueryOptions<Person>.Take(75);
@@ -73,7 +73,7 @@
 				.RuleFor(x => x.Age, faker => faker.Person.DateOfBirth.CalculateAge())
 				.Generate(250);
 
-			await this.Repository.AddAsync(persons);
+			await this.Repository.AddRangeAsync(persons);
 			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 
 			IQueryOptions<Person> options = QueryOptions<Person>.SkipTake(200, 75);
@@ -90,7 +90,7 @@
 				.RuleFor(x => x.Age, faker => faker.Person.DateOfBirth.CalculateAge())
 				.Generate(250);
 
-			await this.Repository.AddAsync(persons);
+			await this.Repository.AddRangeAsync(persons);
 			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 
 			IQueryOptions<Person> options = QueryOptions<Person>.Skip(200).Take(75);

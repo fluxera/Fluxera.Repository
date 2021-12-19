@@ -39,20 +39,20 @@
 		/// </summary>
 		/// <param name="predicate">The predicate to match.</param>
 		/// <param name="cancellationToken">The cancellation token.</param>
-		Task RemoveAsync(Expression<Func<TAggregateRoot, bool>> predicate, CancellationToken cancellationToken = default);
+		Task RemoveRangeAsync(Expression<Func<TAggregateRoot, bool>> predicate, CancellationToken cancellationToken = default);
 
 		/// <summary>
 		///     Deletes all items that match the given specification from the underlying store.
 		/// </summary>
 		/// <param name="specification">The specification to match.</param>
 		/// <param name="cancellationToken">The cancellation token.</param>
-		Task RemoveAsync(ISpecification<TAggregateRoot> specification, CancellationToken cancellationToken = default);
+		Task RemoveRangeAsync(ISpecification<TAggregateRoot> specification, CancellationToken cancellationToken = default);
 
 		/// <summary>
 		///     Removes the given instances from the underlying store.
 		/// </summary>
 		/// <param name="items">The items to remove.</param>
 		/// <param name="cancellationToken">The cancellation token.</param>
-		Task RemoveAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken = default);
+		Task RemoveRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken = default);
 	}
 }

@@ -31,6 +31,6 @@
 		/// </summary>
 		/// <param name="items">The items to add.</param>
 		/// <param name="cancellationToken">The cancellation token.</param>
-		Task AddAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken = default);
+		Task AddRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken = default);
 	}
 }

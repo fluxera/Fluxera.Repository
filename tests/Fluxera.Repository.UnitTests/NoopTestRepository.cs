@@ -17,7 +17,7 @@
 		}
 
 		/// <inheritdoc />
-		public async Task AddAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
+		public async Task AddRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{
 		}
 
@@ -27,7 +27,7 @@
 		}
 
 		/// <inheritdoc />
-		public async Task UpdateAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
+		public async Task UpdateRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{
 		}
 
@@ -42,17 +42,17 @@
 		}
 
 		/// <inheritdoc />
-		public async Task RemoveAsync(Expression<Func<TAggregateRoot, bool>> predicate, CancellationToken cancellationToken)
+		public async Task RemoveRangeAsync(Expression<Func<TAggregateRoot, bool>> predicate, CancellationToken cancellationToken)
 		{
 		}
 
 		/// <inheritdoc />
-		public async Task RemoveAsync(ISpecification<TAggregateRoot> specification, CancellationToken cancellationToken = default)
+		public async Task RemoveRangeAsync(ISpecification<TAggregateRoot> specification, CancellationToken cancellationToken = default)
 		{
 		}
 
 		/// <inheritdoc />
-		public async Task RemoveAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
+		public async Task RemoveRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{
 		}
 

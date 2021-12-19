@@ -34,7 +34,7 @@
 		{
 			if(this.Repository != null!)
 			{
-				await this.Repository.RemoveAsync(x => true);
+				await this.Repository.RemoveRangeAsync(x => true);
 				await this.Repository.DisposeAsync();
 			}
 		}

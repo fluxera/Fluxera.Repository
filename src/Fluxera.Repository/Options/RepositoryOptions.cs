@@ -14,6 +14,7 @@
 			this.ValidationOptions = new ValidationOptions(repositoryName);
 			this.DomainEventsOptions = new DomainEventsOptions(repositoryName);
 			this.CachingOptions = new CachingOptions(repositoryName);
+			this.InterceptionOptions = new InterceptionOptions(repositoryName);
 		}
 
 		public RepositoryName RepositoryName { get; }
@@ -29,5 +30,7 @@
 		public DomainEventsOptions DomainEventsOptions { get; set; }
 
 		public CachingOptions CachingOptions { get; set; }
+
+		public InterceptionOptions InterceptionOptions { get; set; }
 	}
 }

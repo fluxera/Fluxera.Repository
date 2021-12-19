@@ -49,7 +49,7 @@
 					Name = "Tester"
 				}
 			};
-			await this.Repository.AddAsync(persons);
+			await this.Repository.AddRangeAsync(persons);
 
 			this.ShouldHaveUsedStrategy(x => x.AddMultipleWasCalled);
 		}
@@ -161,7 +161,7 @@
 					Name = "Tester"
 				}
 			};
-			await this.Repository.RemoveAsync(persons);
+			await this.Repository.RemoveRangeAsync(persons);
 
 			this.ShouldHaveUsedStrategy(x => x.RemoveMultipleWasCalled);
 		}
@@ -200,7 +200,7 @@
 					Name = "Tester"
 				}
 			};
-			await this.Repository.UpdateAsync(persons);
+			await this.Repository.UpdateRangeAsync(persons);
 
 			this.ShouldHaveUsedStrategy(x => x.UpdateMultipleWasCalled);
 		}

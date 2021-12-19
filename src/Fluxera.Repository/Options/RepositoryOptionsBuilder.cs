@@ -86,6 +86,11 @@
 			return this;
 		}
 
+		public IRepositoryOptionsBuilder UseFor<TAggregateRoot>()
+		{
+			return this.UseFor(typeof(TAggregateRoot));
+		}
+
 		public IRepositoryOptionsBuilder AddSetting<T>(string key, T value)
 		{
 			if(!this.repositoryOptions.SettingsValues.ContainsKey(key))
@@ -156,9 +161,24 @@
 			return this;
 		}
 
-		public IRepositoryOptionsBuilder UseFor<TAggregateRoot>()
+
+		/// <inheritdoc />
+		public IRepositoryOptionsBuilder AddInterception(Action<IInterceptionOptionsBuilder> configure)
 		{
-			return this.UseFor(typeof(TAggregateRoot));
+			Guard.Against.Null(configure, nameof(configure));
+
+			if(this.repositoryOptions.InterceptionOptions.IsEnabled)
+			{
+				throw new InvalidOperationException(
+					$"The interception was already enabled for repository '{this.repositoryOptions.RepositoryName}'.");
+			}
+
+			IInterceptionOptionsBuilder builder = new InterceptionOptionsBuilder(this.services, this.repositoryOptions);
+			configure.Invoke(builder);
+
+			this.repositoryOptions.InterceptionOptions.IsEnabled = true;
+
+			return this;
 		}
 
 		internal RepositoryOptions Build()

@@ -28,7 +28,7 @@
 					Name = "Tester32"
 				}
 			};
-			await this.Repository.AddAsync(persons);
+			await this.Repository.AddRangeAsync(persons);
 			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 
 			long count = await this.Repository.CountAsync();
@@ -53,7 +53,7 @@
 					Name = "Tester32"
 				}
 			};
-			await this.Repository.AddAsync(persons);
+			await this.Repository.AddRangeAsync(persons);
 			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 
 			long count = await this.Repository.CountAsync(x => x.Name.EndsWith("2"));

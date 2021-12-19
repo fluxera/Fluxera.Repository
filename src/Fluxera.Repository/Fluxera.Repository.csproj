@@ -43,4 +43,8 @@
 		<ProjectReference Include="..\Fluxera.Repository.Abstractions\Fluxera.Repository.Abstractions.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Interception\" />
+	</ItemGroup>
+
 </Project>

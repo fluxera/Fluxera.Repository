@@ -45,7 +45,7 @@
 				new Person(),
 				new Person()
 			};
-			this.ShouldGuardAgainstInvalid(async () => await this.Repository.AddAsync(persons));
+			this.ShouldGuardAgainstInvalid(async () => await this.Repository.AddRangeAsync(persons));
 		}
 
 		[Test]
@@ -68,7 +68,7 @@
 					ID = Guid.NewGuid()
 				}
 			};
-			this.ShouldGuardAgainstInvalid(async () => await this.Repository.UpdateAsync(persons));
+			this.ShouldGuardAgainstInvalid(async () => await this.Repository.UpdateRangeAsync(persons));
 		}
 
 		[Test]

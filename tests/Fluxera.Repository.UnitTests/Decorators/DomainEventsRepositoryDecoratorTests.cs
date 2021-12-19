@@ -73,7 +73,7 @@
 					}
 				}
 			};
-			await this.Repository.AddAsync(persons);
+			await this.Repository.AddRangeAsync(persons);
 			await this.ShouldHaveUsedDispatcher();
 		}
 
@@ -164,7 +164,7 @@
 		[Test]
 		public async Task Should_RemoveAsync_Multiple_Predicate()
 		{
-			await this.Repository.RemoveAsync(x => x.Name == "1");
+			await this.Repository.RemoveRangeAsync(x => x.Name == "1");
 
 			// Trace is logged by the decorator.
 			this.loggerMock.VerifyLog().TraceWasCalled();
@@ -227,7 +227,7 @@
 					}
 				}
 			};
-			await this.Repository.UpdateAsync(persons);
+			await this.Repository.UpdateRangeAsync(persons);
 			await this.ShouldHaveUsedDispatcher();
 		}
 

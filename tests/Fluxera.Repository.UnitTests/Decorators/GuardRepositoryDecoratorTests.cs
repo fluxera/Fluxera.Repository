@@ -86,9 +86,9 @@
 					Name = "Tester"
 				}
 			};
-			this.ShouldGuardAgainstNull(async () => await this.Repository.AddAsync((Person[])null));
-			this.ShouldGuardAgainstNotTransient(async () => await this.Repository.AddAsync(persons));
-			this.ShouldGuardAgainstDisposed(async () => await this.Repository.AddAsync(persons));
+			this.ShouldGuardAgainstNull(async () => await this.Repository.AddRangeAsync(null));
+			this.ShouldGuardAgainstNotTransient(async () => await this.Repository.AddRangeAsync(persons));
+			this.ShouldGuardAgainstDisposed(async () => await this.Repository.AddRangeAsync(persons));
 		}
 
 		[Test]
@@ -99,7 +99,7 @@
 				ID = Guid.NewGuid(),
 				Name = "Tester"
 			};
-			this.ShouldGuardAgainstNull(async () => await this.Repository.AddAsync((Person)null));
+			this.ShouldGuardAgainstNull(async () => await this.Repository.AddAsync(null));
 			this.ShouldGuardAgainstNotTransient(async () => await this.Repository.AddAsync(person));
 			this.ShouldGuardAgainstDisposed(async () => await this.Repository.AddAsync(person));
 		}
@@ -227,8 +227,8 @@
 		[Test]
 		public void ShouldGuard_RemoveAsync_Multiple_Predicate()
 		{
-			this.ShouldGuardAgainstNull(async () => await this.Repository.RemoveAsync((Expression<Func<Person, bool>>)null));
-			this.ShouldGuardAgainstDisposed(async () => await this.Repository.RemoveAsync(x => x.ID == Guid.NewGuid()));
+			this.ShouldGuardAgainstNull(async () => await this.Repository.RemoveRangeAsync((Expression<Func<Person, bool>>)null));
+			this.ShouldGuardAgainstDisposed(async () => await this.Repository.RemoveRangeAsync(x => x.ID == Guid.NewGuid()));
 		}
 
 		[Test]
@@ -239,7 +239,7 @@
 				ID = Guid.NewGuid(),
 				Name = "Tester"
 			};
-			this.ShouldGuardAgainstNull(async () => await this.Repository.RemoveAsync((Person)null));
+			this.ShouldGuardAgainstNull(async () => await this.Repository.RemoveAsync(null));
 			this.ShouldGuardAgainstNotTransient(async () => await this.Repository.RemoveAsync(person));
 			this.ShouldGuardAgainstDisposed(async () => await this.Repository.RemoveAsync(person));
 		}
@@ -278,15 +278,15 @@
 					Name = "Tester"
 				}
 			};
-			this.ShouldGuardAgainstNull(async () => await this.Repository.UpdateAsync((Person[])null));
-			this.ShouldGuardAgainstTransient(async () => await this.Repository.UpdateAsync(persons));
-			this.ShouldGuardAgainstDisposed(async () => await this.Repository.UpdateAsync(validPersons));
+			this.ShouldGuardAgainstNull(async () => await this.Repository.UpdateRangeAsync(null));
+			this.ShouldGuardAgainstTransient(async () => await this.Repository.UpdateRangeAsync(persons));
+			this.ShouldGuardAgainstDisposed(async () => await this.Repository.UpdateRangeAsync(validPersons));
 		}
 
 		[Test]
 		public void ShouldGuard_UpdateAsync_Single()
 		{
-			this.ShouldGuardAgainstNull(async () => await this.Repository.UpdateAsync((Person)null));
+			this.ShouldGuardAgainstNull(async () => await this.Repository.UpdateAsync(null));
 			this.ShouldGuardAgainstTransient(async () => await this.Repository.UpdateAsync(new Person
 			{
 				Name = "Tester"

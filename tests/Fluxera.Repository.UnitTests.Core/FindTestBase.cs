@@ -29,7 +29,7 @@
 					Name = "Tester3"
 				}
 			};
-			await this.Repository.AddAsync(persons);
+			await this.Repository.AddRangeAsync(persons);
 			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 
 			Person fromStore = await this.Repository.FindOneAsync(x => x.Name.EndsWith("2"));
@@ -55,7 +55,7 @@
 					Name = "Tester3"
 				}
 			};
-			await this.Repository.AddAsync(persons);
+			await this.Repository.AddRangeAsync(persons);
 			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 
 			string fromStore = await this.Repository.FindOneAsync(x => x.Name.EndsWith("2"), x => x.Name);
@@ -81,7 +81,7 @@
 					Name = "Tester3"
 				}
 			};
-			await this.Repository.AddAsync(persons);
+			await this.Repository.AddRangeAsync(persons);
 			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 
 			bool fromStore = await this.Repository.ExistsAsync(x => x.Name.EndsWith("2"));
@@ -106,7 +106,7 @@
 					Name = "Tester32"
 				}
 			};
-			await this.Repository.AddAsync(persons);
+			await this.Repository.AddRangeAsync(persons);
 			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 
 			Person[] fromStore = (await this.Repository.FindManyAsync(x => x.Name.EndsWith("2"))).ToArray();
@@ -132,7 +132,7 @@
 					Name = "Tester32"
 				}
 			};
-			await this.Repository.AddAsync(persons);
+			await this.Repository.AddRangeAsync(persons);
 			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 
 			string[] fromStore = (await this.Repository.FindManyAsync(x => x.Name.EndsWith("2"), x => x.Name)).ToArray();

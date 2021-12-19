@@ -31,6 +31,6 @@
 		/// </summary>
 		/// <param name="items">The items to update.</param>
 		/// <param name="cancellationToken">The cancellation token.</param>
-		Task UpdateAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken = default);
+		Task UpdateRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken = default);
 	}
 }

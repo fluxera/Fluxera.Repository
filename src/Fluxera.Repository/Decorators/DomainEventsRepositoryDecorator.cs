@@ -49,11 +49,11 @@
 		}
 
 		/// <inheritdoc />
-		async Task ICanAdd<TAggregateRoot, TKey>.AddAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
+		async Task ICanAdd<TAggregateRoot, TKey>.AddRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{
 			await this.DispatchAsync(items).ConfigureAwait(false);
 
-			await this.innerRepository.AddAsync(items, cancellationToken).ConfigureAwait(false);
+			await this.innerRepository.AddRangeAsync(items, cancellationToken).ConfigureAwait(false);
 
 			// Add event to dispatch 'item added' event only to committed event handlers.
 			foreach(TAggregateRoot item in items)
@@ -78,11 +78,11 @@
 		}
 
 		/// <inheritdoc />
-		async Task ICanUpdate<TAggregateRoot, TKey>.UpdateAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
+		async Task ICanUpdate<TAggregateRoot, TKey>.UpdateRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{
 			await this.DispatchAsync(items).ConfigureAwait(false);
 
-			await this.innerRepository.UpdateAsync(items, cancellationToken).ConfigureAwait(false);
+			await this.innerRepository.UpdateRangeAsync(items, cancellationToken).ConfigureAwait(false);
 
 			// Add event to dispatch 'item updated' event only to committed event handlers.
 			foreach(TAggregateRoot item in items)
@@ -109,14 +109,14 @@
 		}
 
 		/// <inheritdoc />
-		async Task ICanRemove<TAggregateRoot, TKey>.RemoveAsync(Expression<Func<TAggregateRoot, bool>> predicate, CancellationToken cancellationToken)
+		async Task ICanRemove<TAggregateRoot, TKey>.RemoveRangeAsync(Expression<Func<TAggregateRoot, bool>> predicate, CancellationToken cancellationToken)
 		{
 			IReadOnlyCollection<TAggregateRoot> items = await this.innerRepository.FindManyAsync(predicate, cancellationToken: cancellationToken).ConfigureAwait(false);
 			IDictionary<TKey?, TAggregateRoot> itemsDict = items.ToDictionary(x => x.ID, x => x);
 
 			await this.DispatchAsync(items).ConfigureAwait(false);
 
-			await this.innerRepository.RemoveAsync(predicate, cancellationToken).ConfigureAwait(false);
+			await this.innerRepository.RemoveRangeAsync(predicate, cancellationToken).ConfigureAwait(false);
 
 			// Add event to dispatch 'item removed' event only to committed event handlers.
 			foreach((TKey? key, TAggregateRoot? value) in itemsDict)
@@ -128,14 +128,14 @@
 		}
 
 		/// <inheritdoc />
-		async Task ICanRemove<TAggregateRoot, TKey>.RemoveAsync(ISpecification<TAggregateRoot> specification, CancellationToken cancellationToken)
+		async Task ICanRemove<TAggregateRoot, TKey>.RemoveRangeAsync(ISpecification<TAggregateRoot> specification, CancellationToken cancellationToken)
 		{
 			IReadOnlyCollection<TAggregateRoot> items = await this.innerRepository.FindManyAsync(specification, cancellationToken: cancellationToken).ConfigureAwait(false);
 			IDictionary<TKey?, TAggregateRoot> itemsDict = items.ToDictionary(x => x.ID, x => x);
 
 			await this.DispatchAsync(items).ConfigureAwait(false);
 
-			await this.innerRepository.RemoveAsync(specification, cancellationToken).ConfigureAwait(false);
+			await this.innerRepository.RemoveRangeAsync(specification, cancellationToken).ConfigureAwait(false);
 
 			// Add event to dispatch 'item removed' event only to committed event handlers.
 			foreach((TKey? key, TAggregateRoot? value) in itemsDict)
@@ -147,13 +147,13 @@
 		}
 
 		/// <inheritdoc />
-		async Task ICanRemove<TAggregateRoot, TKey>.RemoveAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
+		async Task ICanRemove<TAggregateRoot, TKey>.RemoveRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{
 			IDictionary<TKey?, TAggregateRoot> itemsDict = items.ToDictionary(x => x.ID, x => x);
 
 			await this.DispatchAsync(items).ConfigureAwait(false);
 
-			await this.innerRepository.RemoveAsync(items, cancellationToken).ConfigureAwait(false);
+			await this.innerRepository.RemoveRangeAsync(items, cancellationToken).ConfigureAwait(false);
 
 			// Add event to dispatch 'item removed' event only to committed event handlers.
 			foreach((TKey? key, TAggregateRoot? value) in itemsDict)

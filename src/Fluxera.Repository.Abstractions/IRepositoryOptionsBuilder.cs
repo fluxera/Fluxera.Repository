@@ -22,10 +22,10 @@
 
 		IRepositoryOptionsBuilder AddValidation(Action<IValidationOptionsBuilder> configure);
 
-		//IRepositoryOptionsBuilder AddInterception(Action<IInterceptionOptionsBuilder> configure);
-
 		IRepositoryOptionsBuilder AddDomainEventHandling(Action<IDomainEventsOptionsBuilder> configure);
 
 		IRepositoryOptionsBuilder AddCaching(Action<ICachingOptionsBuilder>? configure = null);
+
+		IRepositoryOptionsBuilder AddInterception(Action<IInterceptionOptionsBuilder> configure);
 	}
 }

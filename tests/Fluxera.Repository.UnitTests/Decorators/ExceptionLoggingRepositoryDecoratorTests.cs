@@ -55,7 +55,7 @@
 						Name = "Tester"
 					}
 				};
-				await this.Repository.AddAsync(persons);
+				await this.Repository.AddRangeAsync(persons);
 			});
 		}
 
@@ -166,7 +166,7 @@
 		{
 			await this.ShouldLogException(async () =>
 			{
-				await this.Repository.RemoveAsync(x => x.Name == "Tester");
+				await this.Repository.RemoveRangeAsync(x => x.Name == "Tester");
 			});
 		}
 
@@ -188,7 +188,7 @@
 						Name = "Tester"
 					}
 				};
-				await this.Repository.RemoveAsync(persons);
+				await this.Repository.RemoveRangeAsync(persons);
 			});
 		}
 
@@ -219,7 +219,7 @@
 						Name = "Tester"
 					}
 				};
-				await this.Repository.UpdateAsync(persons);
+				await this.Repository.UpdateRangeAsync(persons);
 			});
 		}
 
