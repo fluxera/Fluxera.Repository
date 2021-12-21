@@ -29,7 +29,8 @@ namespace Fluxera.Repository.Specifications
 		/// </summary>
 		public Specification()
 		{
-			this.Predicate = null!;
+			// ReSharper disable once VirtualMemberCallInConstructor
+			this.Predicate = this.BuildQuery();
 		}
 
 		/// <summary>
@@ -176,6 +177,15 @@ namespace Fluxera.Repository.Specifications
 
 		/// <inheritdoc />
 		public virtual Expression<Func<T, bool>> Predicate { get; private set; }
+
+		/// <summary>
+		///     Use this method build the predicate of your custom specification.
+		/// </summary>
+		/// <exception cref="NotImplementedException"></exception>
+		protected virtual Expression<Func<T, bool>> BuildQuery()
+		{
+			return null!;
+		}
 
 		/// <inheritdoc />
 		public override string ToString()
