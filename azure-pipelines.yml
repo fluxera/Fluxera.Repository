@@ -7,7 +7,7 @@ trigger:
 
 variables:
   BuildConfiguration: Release
-  DotNetCoreVersion: 6.0.200
+  DotNetCoreVersion: 6.0.201
 
 stages:
 - stage: BuildAndTest

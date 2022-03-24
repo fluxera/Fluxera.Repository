@@ -13,6 +13,7 @@
 	using Fluxera.Repository.Specifications;
 	using Fluxera.Utilities.Extensions;
 	using global::MongoDB.Driver;
+	using global::MongoDB.Driver.Core.Extensions.DiagnosticSources;
 	using global::MongoDB.Driver.Linq;
 
 	internal sealed class MongoRepository<TAggregateRoot, TKey> : LinqRepositoryBase<TAggregateRoot, TKey>
@@ -29,8 +30,8 @@
 
 			MongoPersistenceSettings persistenceSettings = new MongoPersistenceSettings
 			{
-				ConnectionString = (string)options.SettingsValues.GetOrDefault("Mongo.ConnectionString")!,
-				Database = (string)options.SettingsValues.GetOrDefault("Mongo.Database")!
+				ConnectionString = (string)(options.SettingsValues.GetOrDefault("Mongo.ConnectionString") ?? "mongodb://localhost:27017"),
+				Database = (string)(options.SettingsValues.GetOrDefault("Mongo.Database") ?? "default")
 			};
 
 			object? settingsUseSsl = options.SettingsValues.GetOrDefault("Mongo.UseSsl");
@@ -51,6 +52,13 @@
 			Guard.Against.NullOrWhiteSpace(collectionName, nameof(collectionName));
 
 			MongoClientSettings settings = MongoClientSettings.FromUrl(new MongoUrl(connectionString));
+
+			object? captureCommandText = options.SettingsValues.GetOrDefault("Mongo.CaptureCommandText");
+			InstrumentationOptions instrumentationOptions = new InstrumentationOptions
+			{
+				CaptureCommandText = (bool)(captureCommandText ?? true)
+			};
+			settings.ClusterConfigurator = clusterBuilder => clusterBuilder.Subscribe(new DiagnosticsActivityEventSubscriber(instrumentationOptions));
 
 			if(persistenceSettings.UseSsl)
 			{

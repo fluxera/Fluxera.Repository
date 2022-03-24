@@ -9,7 +9,7 @@
 	///     mix-ups between other string values and the name of a repository.
 	/// </summary>
 	[PublicAPI]
-	public sealed class RepositoryName : ValueObject<RepositoryName>
+	public sealed class RepositoryName : PrimitiveValueObject<RepositoryName, string>
 	{
 		/// <summary>
 		///     Creates a new instance of the <see cref="RepositoryName" /> type.
@@ -25,7 +25,11 @@
 		/// <summary>
 		///     Gets the name of the repository.
 		/// </summary>
-		public string Name { get; }
+		public string Name
+		{
+			get => this.Value!;
+			set => this.Value = value;
+		}
 
 		/// <summary>
 		///     Converts the given <see cref="RepositoryName" /> to a <see cref="string" />.
@@ -43,12 +47,6 @@
 		public static explicit operator RepositoryName(string repositoryName)
 		{
 			return new RepositoryName(repositoryName);
-		}
-
-		/// <inheritdoc />
-		public override string ToString()
-		{
-			return this.Name;
 		}
 	}
 }

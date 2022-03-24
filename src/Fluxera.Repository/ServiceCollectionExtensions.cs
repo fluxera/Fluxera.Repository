@@ -104,7 +104,8 @@
 				.With(typeof(ValidationRepositoryDecorator<,>))
 				.With(typeof(InterceptionRepositoryDecorator<,>))
 				.With(typeof(GuardRepositoryDecorator<,>))
-				.With(typeof(ExceptionLoggingRepositoryDecorator<,>));
+				.With(typeof(ExceptionLoggingRepositoryDecorator<,>))
+				.With(typeof(DiagnosticRepositoryDecorator<,>));
 
 			return services;
 		}

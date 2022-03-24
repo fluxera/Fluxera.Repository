@@ -31,7 +31,7 @@
 			//}
 			else
 			{
-				throw new InvalidOperationException("The MongoDB repository only supports guid and string for keys.");
+				throw new InvalidOperationException("The MongoDB repository only supports guid or string as type for keys.");
 			}
 
 			idMemberMap.SetSerializer(new StringSerializer(BsonType.ObjectId));
