@@ -23,19 +23,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Fluxera.Entity" Version="6.0.10" />
-		<PackageReference Include="Fluxera.Extensions.Validation.Abstractions" Version="6.0.18" />
-		<PackageReference Include="Fluxera.Linq.Expressions" Version="6.0.8" />
-		<PackageReference Include="Fluxera.ValueObject" Version="6.0.7" />
-		<PackageReference Include="GitVersion.MsBuild" Version="5.8.2">
+		<PackageReference Include="Fluxera.Entity" Version="6.0.11" />
+		<PackageReference Include="Fluxera.Extensions.Validation.Abstractions" Version="6.0.19" />
+		<PackageReference Include="Fluxera.Linq.Expressions" Version="6.0.9" />
+		<PackageReference Include="Fluxera.ValueObject" Version="6.0.8" />
+		<PackageReference Include="GitVersion.MsBuild" Version="5.9.0">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.0" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Interception\" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.1" />
 	</ItemGroup>
 
 </Project>

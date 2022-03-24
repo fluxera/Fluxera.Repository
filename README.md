@@ -157,8 +157,10 @@ paging optiosn that will be applied to the base-query on execution.
 
 The layers of decorators a executed in the following order.
 
-- **Logging**
-  The outermost decorator just catches every exception that may occur then logs the exception
+- **Diagnostics**
+  This decorator produces diagnostic events using ```System.Diagnostic``` that can be instrumented by telemetry systems.
+- **Exception Logging**
+  This decorator just catches every exception that may occur then logs the exception
   and throws it again.
 - **Guards**
   This decorator checks the inputs for sane values and checks if the repository instance was
@@ -183,7 +185,29 @@ The layers of decorators a executed in the following order.
 - LiteDB
 - MongoDB
 
-Coming soon: EntityFramework Core and OData
+**Coming soon:** EntityFramework Core and OData
+
+## OpenTelemetry
+
+The repository produces ```Activity``` events using ```System.Diagnistic```. Those events are used
+my the OpenTelemetry integration to support diagnostic insights. To enable the support for OpenTelemetry
+just add the package ```Fluxera.Repository.OpenTelemetry``` to your OpenTelemetry enabled application
+and add the instrumentation for the Repository shown below.
+
+```C#
+// Configure important OpenTelemetry settings, the console exporter, and automatic instrumentation.
+builder.Services.AddOpenTelemetryTracing(builder =>
+{
+builder
+    .AddConsoleExporter()
+    .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService("WebApplication1", "1.0.0"))
+    .AddHttpClientInstrumentation()
+    .AddAspNetCoreInstrumentation()
+    .AddMongoDBInstrumentation()
+    // Add the instrumentation for the Repository.
+    .AddRepositoryInstrumentation();
+});
+```
 
 ## Usage
 
@@ -229,3 +253,7 @@ services.AddRepository(builder =>
     });
 });
 ```
+
+## References
+
+The [OpenTelemetry](https://opentelemetry.io/) project.
