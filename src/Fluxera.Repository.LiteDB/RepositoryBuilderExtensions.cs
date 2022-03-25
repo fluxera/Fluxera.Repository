@@ -29,6 +29,11 @@
 			Guard.Against.NullOrWhiteSpace(repositoryName, nameof(repositoryName));
 			Guard.Against.Null(configure, nameof(configure));
 
+			// TODO: Configure this.
+			//var mapper = BsonMapper.Global;
+			//mapper.Entity<MyEntity>()
+			//	.Id(x => x.ID) // set your document ID
+
 			configureMapper.Invoke(BsonMapper.Global);
 
 			builder.Services.TryAddSingleton<IDatabaseProvider, DatabaseProvider>();

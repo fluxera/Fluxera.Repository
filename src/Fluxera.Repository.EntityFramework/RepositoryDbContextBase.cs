@@ -39,7 +39,7 @@
 			EntityFrameworkPersistenceSettings settings = new EntityFrameworkPersistenceSettings
 			{
 				ConnectionString = (string)options.SettingsValues.GetOrDefault("EntityFramework.ConnectionString")!,
-				LogSQL = (bool)options.SettingsValues.GetOrDefault("EntityFramework.LogSQL")!,
+				LogSQL = (bool)(options.SettingsValues.GetOrDefault("EntityFramework.LogSQL") ?? false)
 			};
 
 			if(settings.LogSQL)
@@ -48,14 +48,19 @@
 			}
 
 			this.OnConfiguring(optionsBuilder, settings);
+
 			base.OnConfiguring(optionsBuilder);
 		}
 
+		/// <inheritdoc />
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
+		{
+			base.OnModelCreating(modelBuilder);
+		}
+
 		/// <summary>
-		///     Configures the given <see cref="DbContextOptionsBuilder" /> using the given settings.
+		///     Configure the given <see cref="DbContextOptionsBuilder" /> using the given settings.
 		/// </summary>
-		/// <param name="optionsBuilder"></param>
-		/// <param name="settings"></param>
 		protected abstract void OnConfiguring(DbContextOptionsBuilder optionsBuilder, EntityFrameworkPersistenceSettings settings);
 	}
 }
