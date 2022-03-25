@@ -1,6 +1,7 @@
 ﻿namespace Fluxera.Repository.Interception
 {
 	using System.Collections.Generic;
+	using System.Linq;
 	using Fluxera.Entity;
 	using Microsoft.Extensions.Logging;
 
@@ -19,7 +20,7 @@
 		/// <inheritdoc />
 		public IInterceptor<TAggregateRoot, TKey> CreateDecoratingInterceptor()
 		{
-			return new DecoratingInterceptor<TAggregateRoot, TKey>(this.loggerFactory, this.interceptors);
+			return new DecoratingInterceptor<TAggregateRoot, TKey>(this.loggerFactory, this.interceptors.OrderBy(x => x.Order));
 		}
 	}
 }

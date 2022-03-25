@@ -1,5 +1,6 @@
 ﻿namespace Fluxera.Repository.Caching
 {
+	using System;
 	using Fluxera.Entity;
 	using Fluxera.Repository.Options;
 	using JetBrains.Annotations;
@@ -30,16 +31,40 @@
 		{
 			RepositoryName repositoryName = this.repositoryRegistry.GetRepositoryNameFor<TAggregateRoot>();
 			RepositoryOptions repositoryOptions = this.repositoryRegistry.GetRepositoryOptionsFor(repositoryName);
+			CachingOptions cachingOptions = repositoryOptions.CachingOptions;
 
-			bool isEnabled = repositoryOptions.CachingOptions.IsEnabled;
+			ICachingStrategy<TAggregateRoot, TKey> cachingStrategy;
+
+			bool isEnabled = cachingOptions.IsEnabled;
 			if(isEnabled)
 			{
 				ICachingProvider cachingProvider = this.cachingProviderFactory.CreateCachingProvider();
-				return new StandardCachingStrategy<TAggregateRoot, TKey>(repositoryName, cachingProvider,
-					this.cacheKeyProvider, this.loggerFactory);
+
+				string strategyName = cachingOptions.DefaultStrategy;
+				TimeSpan? expiration = cachingOptions.DefaultExpiration;
+
+				// Check for an aggregate override.
+				if(cachingOptions.AggregateStrategies.ContainsKey(typeof(TAggregateRoot)))
+				{
+					AggregateCachingOverrideOptions cachingOverrideOptions = cachingOptions.AggregateStrategies[typeof(TAggregateRoot)];
+					strategyName = cachingOverrideOptions.StrategyName;
+					expiration = cachingOverrideOptions.Expiration;
+				}
+
+				cachingStrategy = strategyName switch
+				{
+					CachingStrategyNames.NoCaching => new NoCachingStrategy<TAggregateRoot, TKey>(),
+					CachingStrategyNames.Standard => new StandardCachingStrategy<TAggregateRoot, TKey>(repositoryName, cachingProvider, this.cacheKeyProvider, this.loggerFactory),
+					CachingStrategyNames.Timeout => new TimeoutCachingStrategy<TAggregateRoot, TKey>(repositoryName, cachingProvider, this.cacheKeyProvider, this.loggerFactory, expiration),
+					_ => new NoCachingStrategy<TAggregateRoot, TKey>()
+				};
+			}
+			else
+			{
+				cachingStrategy = new NoCachingStrategy<TAggregateRoot, TKey>();
 			}
 
-			return new NoCachingStrategy<TAggregateRoot, TKey>();
+			return cachingStrategy;
 		}
 	}
 }

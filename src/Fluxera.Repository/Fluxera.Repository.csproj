@@ -43,6 +43,7 @@
 
 	<ItemGroup>
 	  <Folder Include="Interception\" />
+	  <Folder Include="Properties\" />
 	</ItemGroup>
 
 </Project>
