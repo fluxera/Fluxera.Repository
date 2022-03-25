@@ -20,45 +20,90 @@
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 	{
 		/// <inheritdoc />
-		public abstract Task BeforeAddAsync(TAggregateRoot item, InterceptionEvent e);
+		public virtual int Order => 0;
 
 		/// <inheritdoc />
-		public abstract Task AfterAddAsync(TAggregateRoot item);
+		public virtual Task BeforeAddAsync(TAggregateRoot item, InterceptionEvent e)
+		{
+			return Task.CompletedTask;
+		}
 
 		/// <inheritdoc />
-		public abstract Task BeforeUpdateAsync(TAggregateRoot item, InterceptionEvent e);
+		public virtual Task AfterAddAsync(TAggregateRoot item)
+		{
+			return Task.CompletedTask;
+		}
 
 		/// <inheritdoc />
-		public abstract Task AfterUpdateAsync(TAggregateRoot item);
+		public virtual Task BeforeUpdateAsync(TAggregateRoot item, InterceptionEvent e)
+		{
+			return Task.CompletedTask;
+		}
 
 		/// <inheritdoc />
-		public abstract Task BeforeRemoveAsync(TAggregateRoot item, InterceptionEvent e);
+		public virtual Task AfterUpdateAsync(TAggregateRoot item)
+		{
+			return Task.CompletedTask;
+		}
 
 		/// <inheritdoc />
-		public abstract Task AfterRemoveAsync(TAggregateRoot item);
+		public virtual Task BeforeRemoveAsync(TAggregateRoot item, InterceptionEvent e)
+		{
+			return Task.CompletedTask;
+		}
 
 		/// <inheritdoc />
-		public abstract Task<Expression<Func<TAggregateRoot, bool>>> BeforeRemoveRangeAsync(Expression<Func<TAggregateRoot, bool>> predicate, InterceptionEvent e);
+		public virtual Task AfterRemoveAsync(TAggregateRoot item)
+		{
+			return Task.CompletedTask;
+		}
 
 		/// <inheritdoc />
-		public abstract Task<ISpecification<TAggregateRoot>> BeforeRemoveRangeAsync(ISpecification<TAggregateRoot> specification, InterceptionEvent e);
+		public virtual Task<Expression<Func<TAggregateRoot, bool>>> BeforeRemoveRangeAsync(Expression<Func<TAggregateRoot, bool>> predicate, InterceptionEvent e)
+		{
+			return Task.FromResult(predicate);
+		}
 
 		/// <inheritdoc />
-		public abstract Task<Expression<Func<TAggregateRoot, bool>>> BeforeFindAsync(Expression<Func<TAggregateRoot, bool>> predicate, IQueryOptions<TAggregateRoot> queryOptions);
+		public virtual Task<ISpecification<TAggregateRoot>> BeforeRemoveRangeAsync(ISpecification<TAggregateRoot> specification, InterceptionEvent e)
+		{
+			return Task.FromResult(specification);
+		}
 
 		/// <inheritdoc />
-		public abstract Task<ISpecification<TAggregateRoot>> BeforeFindAsync(ISpecification<TAggregateRoot> specification, IQueryOptions<TAggregateRoot> queryOptions);
+		public virtual Task<Expression<Func<TAggregateRoot, bool>>> BeforeFindAsync(Expression<Func<TAggregateRoot, bool>> predicate, IQueryOptions<TAggregateRoot> queryOptions)
+		{
+			return Task.FromResult(predicate);
+		}
 
 		/// <inheritdoc />
-		public abstract Task AfterFindAsync(TAggregateRoot item);
+		public virtual Task<ISpecification<TAggregateRoot>> BeforeFindAsync(ISpecification<TAggregateRoot> specification, IQueryOptions<TAggregateRoot> queryOptions)
+		{
+			return Task.FromResult(specification);
+		}
 
 		/// <inheritdoc />
-		public abstract Task AfterFindAsync(IReadOnlyCollection<TAggregateRoot> items);
+		public virtual Task AfterFindAsync(TAggregateRoot item)
+		{
+			return Task.CompletedTask;
+		}
 
 		/// <inheritdoc />
-		public abstract Task AfterFindAsync<TResult>(TResult item);
+		public virtual Task AfterFindAsync(IReadOnlyCollection<TAggregateRoot> items)
+		{
+			return Task.CompletedTask;
+		}
 
 		/// <inheritdoc />
-		public abstract Task AfterFindAsync<TResult>(IReadOnlyCollection<TResult> items);
+		public virtual Task AfterFindAsync<TResult>(TResult item)
+		{
+			return Task.CompletedTask;
+		}
+
+		/// <inheritdoc />
+		public virtual Task AfterFindAsync<TResult>(IReadOnlyCollection<TResult> items)
+		{
+			return Task.CompletedTask;
+		}
 	}
 }

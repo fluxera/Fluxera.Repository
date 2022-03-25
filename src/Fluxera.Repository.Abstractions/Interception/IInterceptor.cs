@@ -10,15 +10,29 @@
 	using JetBrains.Annotations;
 
 	/// <summary>
+	///     marker interface for interceptors.
+	/// </summary>
+	[PublicAPI]
+	public interface IInterceptor
+	{
+	}
+
+	/// <summary>
 	///     Contract for a service that is used to intercept calls tot he repository
 	///     before they hit the underlying storage.
 	/// </summary>
 	/// <typeparam name="TAggregateRoot">The type of the aggregate root.</typeparam>
 	/// <typeparam name="TKey">The type of the ID.</typeparam>
 	[PublicAPI]
-	public interface IInterceptor<TAggregateRoot, TKey>
+	public interface IInterceptor<TAggregateRoot, TKey> : IInterceptor
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 	{
+		/// <summary>
+		///     Gets the order of execution for this interceptor. The higher, the later this interceptor executes.
+		///     The default value is 0.
+		/// </summary>
+		int Order => 0;
+
 		/// <summary>
 		///     This method is called before the execution of the repository add operation.
 		/// </summary>

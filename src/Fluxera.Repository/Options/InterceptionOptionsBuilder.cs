@@ -37,20 +37,35 @@
 
 			foreach(Type type in assembly.GetTypes())
 			{
-				bool isInterceptor = type.GetInterfaces().Any(x => x.IsGenericType && (x.GetGenericTypeDefinition() == typeof(IInterceptor<,>)));
-				if(isInterceptor && !type.IsAbstract && !type.IsInterface)
+				this.AddInterceptor(type);
+			}
+
+			return this;
+		}
+
+		/// <inheritdoc />
+		public IInterceptionOptionsBuilder AddInterceptor(Type interceptorType)
+		{
+			bool isInterceptor = interceptorType.GetInterfaces().Any(x => x.IsGenericType && (x.GetGenericTypeDefinition() == typeof(IInterceptor<,>)));
+			if(isInterceptor && !interceptorType.IsAbstract && !interceptorType.IsInterface)
+			{
+				foreach(Type interceptorServiceType in interceptorType.GetInterfaces().Where(x => x.IsGenericType && (x.GetGenericTypeDefinition() == typeof(IInterceptor<,>))))
 				{
-					foreach(Type interceptorServiceType in type.GetInterfaces().Where(x => x.IsGenericType && (x.GetGenericTypeDefinition() == typeof(IInterceptor<,>))))
+					if(this.services.All(x => x.ImplementationType != interceptorType))
 					{
-						if(this.services.All(x => x.ImplementationType != type))
-						{
-							this.services.AddTransient(interceptorServiceType, type);
-						}
+						this.services.AddTransient(interceptorServiceType, interceptorType);
 					}
 				}
 			}
 
 			return this;
+		}
+
+		/// <inheritdoc />
+		public IInterceptionOptionsBuilder AddInterceptor<TInterceptor>()
+			where TInterceptor : IInterceptor
+		{
+			return this.AddInterceptor(typeof(TInterceptor));
 		}
 	}
 }

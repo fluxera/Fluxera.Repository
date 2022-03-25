@@ -32,7 +32,6 @@
 			Type readOnlyRepositoryServiceTemplateType = typeof(IReadOnlyRepository<,>);
 			Type repositoryImplementationTemplateType = repositoryType;
 
-
 			foreach(Type aggregateRootType in repositoryOptions.AggregateRootTypes)
 			{
 				Type? keyType = aggregateRootType.BaseType?.GenericTypeArguments[1];
