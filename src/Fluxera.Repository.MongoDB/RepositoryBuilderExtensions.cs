@@ -27,12 +27,10 @@
 			ConventionPack pack = new ConventionPack
 			{
 				new NamedIdMemberConvention("ID"),
-				new CustomStringObjectIdIdGeneratorConvention(),
+				new IdGeneratorConvention(),
 				new GuidAsStringRepresentationConvention(),
 				new EnumRepresentationConvention(BsonType.String),
 				new CamelCaseElementNameConvention(),
-				//new DateTimeConvention(),
-				//new DateTimeOffsetConvention(),
 				new IgnoreExtraElementsConvention(true),
 				new NamedExtraElementsMemberConvention("ExtraElements")
 			};
