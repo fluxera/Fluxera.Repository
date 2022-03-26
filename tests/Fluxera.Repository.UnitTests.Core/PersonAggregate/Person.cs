@@ -6,9 +6,18 @@
 
 	public class Person : AggregateRoot<Person, Guid>
 	{
+		public Person()
+		{
+			this.Address = new Address();
+		}
+
 		[Required]
 		public string Name { get; set; }
 
 		public int Age { get; set; }
+
+		//public Color Color { get; set; } = Color.Black;
+
+		public Address? Address { get; set; }
 	}
 }
