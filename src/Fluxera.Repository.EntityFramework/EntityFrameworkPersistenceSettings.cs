@@ -1,4 +1,4 @@
-﻿namespace Fluxera.Repository.EntityFramework
+﻿namespace Fluxera.Repository.EntityFrameworkCore
 {
 	using JetBrains.Annotations;
 

@@ -1,5 +1,6 @@
-﻿namespace Fluxera.Repository.EntityFramework
+﻿namespace Fluxera.Repository.EntityFrameworkCore
 {
+	using Fluxera.Enumeration.EntityFrameworkCore;
 	using Fluxera.Repository.Options;
 	using Fluxera.Utilities.Extensions;
 	using JetBrains.Annotations;
@@ -55,6 +56,10 @@
 		/// <inheritdoc />
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
+			//modelBuilder.UseSpatial();
+			//modelBuilder.UseTemporal();
+			modelBuilder.UseEnumeration();
+
 			base.OnModelCreating(modelBuilder);
 		}
 

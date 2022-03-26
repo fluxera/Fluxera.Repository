@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>netstandard2.1</TargetFramework>
+		<TargetFramework>net6.0</TargetFramework>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -23,12 +23,16 @@
 
 	<ItemGroup>
 		<PackageReference Include="Fluxera.Entity" Version="6.0.11" />
+		<PackageReference Include="Fluxera.Enumeration" Version="6.0.10" />
 		<PackageReference Include="Fluxera.Extensions.Caching" Version="6.0.19" />
 		<PackageReference Include="Fluxera.Extensions.Common" Version="6.0.19" />
 		<PackageReference Include="Fluxera.Extensions.DependencyInjection" Version="6.0.19" />
 		<PackageReference Include="Fluxera.Extensions.Validation" Version="6.0.19" />
 		<PackageReference Include="Fluxera.Guards" Version="6.0.11" />
+		<PackageReference Include="Fluxera.Spatial" Version="6.0.4" />
+		<PackageReference Include="Fluxera.Temporal" Version="6.0.1" />
 		<PackageReference Include="Fluxera.Utilities" Version="6.0.12" />
+		<PackageReference Include="Fluxera.ValueObject" Version="6.0.8" />
 		<PackageReference Include="GitVersion.MsBuild" Version="5.9.0">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

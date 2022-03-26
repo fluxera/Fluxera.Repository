@@ -1,4 +1,4 @@
-﻿namespace Fluxera.Repository.UnitTests.Interception
+﻿namespace Fluxera.Repository.UnitTests.Caching
 {
 	using System;
 	using FluentAssertions;
