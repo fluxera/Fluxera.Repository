@@ -94,7 +94,7 @@
 		public IRepositoryOptionsBuilder AddSetting<T>(string key, T value)
 		{
 			Guard.Against.NullOrWhiteSpace(key, nameof(key));
-			Guard.Against.Default(value, nameof(value));
+			Guard.Against.Null(value, nameof(value));
 
 			if(!this.repositoryOptions.SettingsValues.ContainsKey(key))
 			{

@@ -1,25 +1,25 @@
 ﻿namespace Fluxera.Repository.EntityFrameworkCore.IntegrationTests
 {
 	using Fluxera.Repository.UnitTests.Core.PersonAggregate;
+	using JetBrains.Annotations;
 	using Microsoft.EntityFrameworkCore;
-	using Microsoft.Extensions.Logging;
 
+	[PublicAPI]
 	public sealed class RepositoryDbContext : RepositoryDbContextBase
 	{
 		/// <inheritdoc />
-		public RepositoryDbContext(ILoggerFactory loggerFactory, IRepositoryRegistry repositoryRegistry)
-			: base(loggerFactory, repositoryRegistry)
-		{
-		}
-
-		/// <inheritdoc />
 		protected override string RepositoryName => "RepositoryUnderTest";
 
+		public DbSet<Person> People { get; set; }
+
 		/// <inheritdoc />
-		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder, EntityFrameworkPersistenceSettings settings)
+		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
-			// https://entityframeworkcore.com/providers-inmemory
-			optionsBuilder.UseSqlite(settings.ConnectionString);
+			if(!optionsBuilder.IsConfigured)
+			{
+				// https://entityframeworkcore.com/providers-inmemory
+				optionsBuilder.UseSqlite("Filename=test.db");
+			}
 		}
 
 		/// <inheritdoc />
@@ -27,7 +27,10 @@
 		{
 			modelBuilder.Entity<Person>(entity =>
 			{
-				entity.HasKey(p => p.ID);
+				entity.ToTable("People");
+
+				entity.OwnsOne(x => x.Address);
+				//entity.OwnsOne(x => x.Color);
 			});
 		}
 	}

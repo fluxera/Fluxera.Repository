@@ -8,21 +8,18 @@
 	using Fluxera.Utilities.Extensions;
 	using JetBrains.Annotations;
 	using Microsoft.EntityFrameworkCore;
-	using Microsoft.Extensions.Logging;
 
 	[UsedImplicitly]
 	internal sealed class DbContextFactory : IDbContextFactory
 	{
 		private readonly ConcurrentDictionary<RepositoryName, Type> dbContextMap = new ConcurrentDictionary<RepositoryName, Type>();
 
-		private readonly ILoggerFactory loggerFactory;
 		private readonly IRepositoryRegistry repositoryRegistry;
 		private readonly IServiceProvider serviceProvider;
 
-		public DbContextFactory(IServiceProvider serviceProvider, ILoggerFactory loggerFactory, IRepositoryRegistry repositoryRegistry)
+		public DbContextFactory(IServiceProvider serviceProvider, IRepositoryRegistry repositoryRegistry)
 		{
 			this.serviceProvider = serviceProvider;
-			this.loggerFactory = loggerFactory;
 			this.repositoryRegistry = repositoryRegistry;
 		}
 
@@ -54,15 +51,8 @@
 
 		private DbContext CreateContext(Type dbContextType)
 		{
-			DbContext? dbContext = this.serviceProvider.GetService(dbContextType) as DbContext;
-			if(dbContext is null)
-			{
-				dbContext = Activator.CreateInstance(dbContextType, new object[]
-				{
-					this.loggerFactory,
-					this.repositoryRegistry
-				}) as DbContext;
-			}
+			DbContext? dbContext = this.serviceProvider.GetService(dbContextType) as DbContext ??
+				Activator.CreateInstance(dbContextType) as DbContext;
 
 			Guard.Against.Null(dbContext, nameof(dbContext));
 
