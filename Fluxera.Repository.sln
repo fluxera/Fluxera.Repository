@@ -32,7 +32,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fluxera.Repository.InMemory
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fluxera.Repository.Abstractions", "src\Fluxera.Repository.Abstractions\Fluxera.Repository.Abstractions.csproj", "{F6E7830F-A3D7-4535-9B50-1F1BCD885691}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fluxera.Repository.EntityFramework", "src\Fluxera.Repository.EntityFramework\Fluxera.Repository.EntityFramework.csproj", "{0ECA752F-D86F-4AA8-8C8C-2E0219A2100D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fluxera.Repository.EntityFrameworkCore", "src\Fluxera.Repository.EntityFramework\Fluxera.Repository.EntityFrameworkCore.csproj", "{0ECA752F-D86F-4AA8-8C8C-2E0219A2100D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fluxera.Repository.LiteDB", "src\Fluxera.Repository.LiteDB\Fluxera.Repository.LiteDB.csproj", "{4E24EB48-DD12-4779-8507-A552DE84789C}"
 EndProject
@@ -44,7 +44,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fluxera.Repository.InMemory
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fluxera.Repository.UnitTests.Core", "tests\Fluxera.Repository.UnitTests.Core\Fluxera.Repository.UnitTests.Core.csproj", "{4C12619F-7219-4C08-9FA6-1E9985B4151C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fluxera.Repository.EntityFramework.IntegrationTests", "tests\Fluxera.Repository.EntityFramework.IntegrationTests\Fluxera.Repository.EntityFramework.IntegrationTests.csproj", "{799BBB07-1C6A-4F1D-8460-7D45AA40F1C3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fluxera.Repository.EntityFrameworkCore.IntegrationTests", "tests\Fluxera.Repository.EntityFramework.IntegrationTests\Fluxera.Repository.EntityFrameworkCore.IntegrationTests.csproj", "{799BBB07-1C6A-4F1D-8460-7D45AA40F1C3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fluxera.Repository.LiteDB.IntegrationTests", "tests\Fluxera.Repository.LiteDB.IntegrationTests\Fluxera.Repository.LiteDB.IntegrationTests.csproj", "{0377B3AA-79FE-4341-863C-171E6B6CE890}"
 EndProject

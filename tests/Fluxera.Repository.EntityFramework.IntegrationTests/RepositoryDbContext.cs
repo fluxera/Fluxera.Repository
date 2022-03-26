@@ -1,4 +1,4 @@
-﻿namespace Fluxera.Repository.EntityFramework.IntegrationTests
+﻿namespace Fluxera.Repository.EntityFrameworkCore.IntegrationTests
 {
 	using Fluxera.Repository.UnitTests.Core.PersonAggregate;
 	using Microsoft.EntityFrameworkCore;

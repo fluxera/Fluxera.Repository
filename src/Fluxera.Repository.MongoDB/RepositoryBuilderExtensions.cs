@@ -1,6 +1,9 @@
 ﻿namespace Fluxera.Repository.MongoDB
 {
 	using System;
+	using Fluxera.Enumeration.MongoDB;
+	using Fluxera.Spatial.MongoDB;
+	using Fluxera.Temporal.MongoDB;
 	using global::MongoDB.Bson;
 	using global::MongoDB.Bson.Serialization.Conventions;
 	using JetBrains.Annotations;
@@ -34,6 +37,10 @@
 				new IgnoreExtraElementsConvention(true),
 				new NamedExtraElementsMemberConvention("ExtraElements")
 			};
+
+			pack.UseSpatial();
+			pack.UseTemporal();
+			pack.UseEnumeration();
 
 			configureConventions?.Invoke(pack);
 

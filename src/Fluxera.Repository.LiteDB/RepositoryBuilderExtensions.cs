@@ -1,7 +1,9 @@
 ﻿namespace Fluxera.Repository.LiteDB
 {
 	using System;
+	using Fluxera.Enumeration.LiteDB;
 	using Fluxera.Guards;
+	using Fluxera.Spatial.LiteDB;
 	using global::LiteDB;
 	using JetBrains.Annotations;
 	using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -33,6 +35,10 @@
 			//var mapper = BsonMapper.Global;
 			//mapper.Entity<MyEntity>()
 			//	.Id(x => x.ID) // set your document ID
+
+			BsonMapper.Global.UseSpatial();
+			//BsonMapper.Global.UseTemporal();
+			BsonMapper.Global.UseEnumeration();
 
 			configureMapper.Invoke(BsonMapper.Global);
 

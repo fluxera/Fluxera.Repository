@@ -23,6 +23,9 @@
 
 	<ItemGroup>
 		<PackageReference Include="Fluxera.ComponentModel.Annotations" Version="6.0.7" />
+		<PackageReference Include="Fluxera.Enumeration.MongoDB" Version="6.0.10" />
+		<PackageReference Include="Fluxera.Spatial.MongoDB" Version="6.0.4" />
+		<PackageReference Include="Fluxera.Temporal.MongoDB" Version="6.0.1" />
 		<PackageReference Include="GitVersion.MsBuild" Version="5.9.0">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
