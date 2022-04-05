@@ -1,5 +1,6 @@
 ﻿namespace Fluxera.Repository.EntityFrameworkCore.IntegrationTests
 {
+	using Fluxera.Repository.UnitTests.Core.CompanyAggregate;
 	using Fluxera.Repository.UnitTests.Core.PersonAggregate;
 	using JetBrains.Annotations;
 	using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,8 @@
 		protected override string RepositoryName => "RepositoryUnderTest";
 
 		public DbSet<Person> People { get; set; }
+
+		public DbSet<Company> Companies { get; set; }
 
 		/// <inheritdoc />
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -28,10 +31,10 @@
 			modelBuilder.Entity<Person>(entity =>
 			{
 				entity.ToTable("People");
-
 				entity.OwnsOne(x => x.Address);
-				//entity.OwnsOne(x => x.Color);
 			});
+
+			base.OnModelCreating(modelBuilder);
 		}
 	}
 }
