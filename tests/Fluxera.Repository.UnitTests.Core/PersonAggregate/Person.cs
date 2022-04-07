@@ -16,8 +16,6 @@
 
 		public int Age { get; set; }
 
-		//public Color Color { get; set; } = Color.Black;
-
 		public Address? Address { get; set; }
 	}
 }

@@ -16,15 +16,15 @@
 			{
 				Name = "Tester"
 			};
-			await this.Repository.AddAsync(person);
+			await this.PersonRepository.AddAsync(person);
 			person.ID.Should().NotBeEmpty();
 
-			Person fromStore = await this.Repository.GetAsync(person.ID);
+			Person fromStore = await this.PersonRepository.GetAsync(person.ID);
 			fromStore.Name.Should().Be("Tester");
 			fromStore.Name = "John";
-			await this.Repository.UpdateAsync(fromStore);
+			await this.PersonRepository.UpdateAsync(fromStore);
 
-			Person result = await this.Repository.GetAsync(fromStore.ID);
+			Person result = await this.PersonRepository.GetAsync(fromStore.ID);
 			result.Name.Should().Be("John");
 		}
 
@@ -35,15 +35,15 @@
 			{
 				Name = "Tester"
 			};
-			await this.Repository.AddAsync(person);
+			await this.PersonRepository.AddAsync(person);
 			person.ID.Should().NotBeEmpty();
 
-			Person item = await this.Repository.GetAsync(person.ID);
+			Person item = await this.PersonRepository.GetAsync(person.ID);
 			item.Name.Should().Be("Tester");
 			item.Name = "John";
-			await this.Repository.UpdateAsync(item);
+			await this.PersonRepository.UpdateAsync(item);
 
-			Person result = await this.Repository.GetAsync(person.ID);
+			Person result = await this.PersonRepository.GetAsync(person.ID);
 			result.Name.Should().Be("John");
 		}
 	}

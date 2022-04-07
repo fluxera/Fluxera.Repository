@@ -49,11 +49,11 @@
 					Age = 52,
 				},
 			};
-			await this.Repository.AddRangeAsync(persons);
+			await this.PersonRepository.AddRangeAsync(persons);
 			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 
 			IQueryOptions<Person> options = QueryOptions<Person>.OrderBy(x => x.Name);
-			IReadOnlyCollection<Person> result = await this.Repository.FindManyAsync(x => x.Age < 35, options);
+			IReadOnlyCollection<Person> result = await this.PersonRepository.FindManyAsync(x => x.Age < 35, options);
 			IList<Person> resultList = new List<Person>(result);
 
 			resultList.Count.Should().Be(4);
@@ -94,11 +94,11 @@
 					Age = 52,
 				},
 			};
-			await this.Repository.AddRangeAsync(persons);
+			await this.PersonRepository.AddRangeAsync(persons);
 			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 
 			IQueryOptions<Person> options = QueryOptions<Person>.OrderBy(x => x.Name).ThenBy(x => x.Age);
-			IReadOnlyCollection<Person> result = await this.Repository.FindManyAsync(x => x.Age < 35, options);
+			IReadOnlyCollection<Person> result = await this.PersonRepository.FindManyAsync(x => x.Age < 35, options);
 			IList<Person> resultList = new List<Person>(result);
 
 			IOrderedEnumerable<Person> orderedEnumerable = persons.OrderBy(x => x.Name).ThenBy(x => x.Age);
@@ -153,11 +153,11 @@
 					Age = 52,
 				},
 			};
-			await this.Repository.AddRangeAsync(persons);
+			await this.PersonRepository.AddRangeAsync(persons);
 			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 
 			IQueryOptions<Person> options = QueryOptions<Person>.OrderByDescending(x => x.Name);
-			IReadOnlyCollection<Person> result = await this.Repository.FindManyAsync(x => x.Age < 35, options);
+			IReadOnlyCollection<Person> result = await this.PersonRepository.FindManyAsync(x => x.Age < 35, options);
 			IList<Person> resultList = new List<Person>(result);
 
 			resultList.Count.Should().Be(4);
@@ -198,11 +198,11 @@
 					Age = 52,
 				},
 			};
-			await this.Repository.AddRangeAsync(persons);
+			await this.PersonRepository.AddRangeAsync(persons);
 			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 
 			IQueryOptions<Person> options = QueryOptions<Person>.OrderByDescending(x => x.Name).ThenByDescending(x => x.Age);
-			IReadOnlyCollection<Person> result = await this.Repository.FindManyAsync(x => x.Age < 35, options);
+			IReadOnlyCollection<Person> result = await this.PersonRepository.FindManyAsync(x => x.Age < 35, options);
 			IList<Person> resultList = new List<Person>(result);
 
 			IOrderedEnumerable<Person> orderedEnumerable = persons.OrderBy(x => x.Name).ThenBy(x => x.Age);

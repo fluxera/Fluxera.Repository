@@ -5,7 +5,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<Title>Fluxera.Repository.EntityFramework</Title>
+		<Title>Fluxera.Repository.EntityFrameworkCore</Title>
 		<Description>An EntityFramework Core repository implementation.</Description>
 		<PackageTags>fluxera;library;extensions;repository;storage;ef;ec-core;entity-framework</PackageTags>
 	</PropertyGroup>

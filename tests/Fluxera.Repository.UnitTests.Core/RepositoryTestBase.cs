@@ -2,13 +2,16 @@
 {
 	using System;
 	using System.Threading.Tasks;
+	using Fluxera.Repository.UnitTests.Core.CompanyAggregate;
 	using Fluxera.Repository.UnitTests.Core.PersonAggregate;
 	using Microsoft.Extensions.DependencyInjection;
 	using NUnit.Framework;
 
 	public abstract class RepositoryTestBase : TestBase
 	{
-		protected IRepository<Person, Guid> Repository { get; private set; }
+		protected IRepository<Person, Guid> PersonRepository { get; private set; }
+
+		protected IRepository<Company, Guid> CompanyRepository { get; private set; }
 
 		[SetUp]
 		public void SetUp()
@@ -20,22 +23,25 @@
 					this.AddRepositoryUnderTest(rb, "RepositoryUnderTest", rob =>
 					{
 						rob.UseFor<Person>();
+						rob.UseFor<Company>();
 					});
 				});
 
 				services.AddTransient<IPersonRepository, PersonRepository>();
+				services.AddTransient<ICompanyRepository, CompanyRepository>();
 			});
 
-			this.Repository = serviceProvider.GetRequiredService<IPersonRepository>();
+			this.PersonRepository = serviceProvider.GetRequiredService<IPersonRepository>();
+			this.CompanyRepository = serviceProvider.GetRequiredService<ICompanyRepository>();
 		}
 
 		[TearDown]
 		public async Task TearDown()
 		{
-			if(this.Repository != null!)
+			if(this.PersonRepository != null!)
 			{
-				await this.Repository.RemoveRangeAsync(x => true);
-				await this.Repository.DisposeAsync();
+				await this.PersonRepository.RemoveRangeAsync(x => true);
+				await this.PersonRepository.DisposeAsync();
 			}
 		}
 

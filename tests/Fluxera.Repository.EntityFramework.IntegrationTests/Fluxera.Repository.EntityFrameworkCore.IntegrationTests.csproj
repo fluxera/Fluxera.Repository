@@ -8,8 +8,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="test.db" />
     <None Remove="test.db-shm" />
     <None Remove="test.db-wal" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="test.db">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
@@ -38,9 +45,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="test.db">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>

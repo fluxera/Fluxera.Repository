@@ -16,10 +16,10 @@
 			{
 				Name = "Tester"
 			};
-			await this.Repository.AddAsync(person);
+			await this.PersonRepository.AddAsync(person);
 			person.ID.Should().NotBeEmpty();
 
-			Person fromStore = await this.Repository.GetAsync(person.ID);
+			Person fromStore = await this.PersonRepository.GetAsync(person.ID);
 			fromStore.Should().NotBeNull();
 			fromStore.ID.Should().Be(person.ID);
 		}
@@ -31,10 +31,10 @@
 			{
 				Name = "Tester"
 			};
-			await this.Repository.AddAsync(person);
+			await this.PersonRepository.AddAsync(person);
 			person.ID.Should().NotBeEmpty();
 
-			string fromStore = await this.Repository.GetAsync(person.ID, x => x.Name);
+			string fromStore = await this.PersonRepository.GetAsync(person.ID, x => x.Name);
 			fromStore.Should().NotBeNull();
 			fromStore.Should().Be(person.Name);
 		}
@@ -46,10 +46,10 @@
 			{
 				Name = "Tester"
 			};
-			await this.Repository.AddAsync(person);
+			await this.PersonRepository.AddAsync(person);
 			person.ID.Should().NotBeEmpty();
 
-			bool fromStore = await this.Repository.ExistsAsync(person.ID);
+			bool fromStore = await this.PersonRepository.ExistsAsync(person.ID);
 			fromStore.Should().BeTrue();
 		}
 	}

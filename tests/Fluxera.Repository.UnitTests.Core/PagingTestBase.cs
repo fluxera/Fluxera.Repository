@@ -21,11 +21,11 @@
 				.RuleFor(x => x.Age, faker => faker.Person.DateOfBirth.CalculateAge())
 				.Generate(250);
 
-			await this.Repository.AddRangeAsync(persons);
+			await this.PersonRepository.AddRangeAsync(persons);
 			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 
 			IQueryOptions<Person> options = QueryOptions<Person>.Paging(5, 10);
-			IReadOnlyCollection<Person> result = await this.Repository.FindManyAsync(x => x.Age < 40, options);
+			IReadOnlyCollection<Person> result = await this.PersonRepository.FindManyAsync(x => x.Age < 40, options);
 
 			result.Count.Should().Be(10);
 			result.All(x => x.Age < 40).Should().BeTrue();
@@ -39,11 +39,11 @@
 				.RuleFor(x => x.Age, faker => faker.Person.DateOfBirth.CalculateAge())
 				.Generate(250);
 
-			await this.Repository.AddRangeAsync(persons);
+			await this.PersonRepository.AddRangeAsync(persons);
 			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 
 			IQueryOptions<Person> options = QueryOptions<Person>.Skip(100);
-			IReadOnlyCollection<Person> result = await this.Repository.FindManyAsync(x => true, options);
+			IReadOnlyCollection<Person> result = await this.PersonRepository.FindManyAsync(x => true, options);
 
 			result.Count.Should().Be(150);
 		}
@@ -56,11 +56,11 @@
 				.RuleFor(x => x.Age, faker => faker.Person.DateOfBirth.CalculateAge())
 				.Generate(250);
 
-			await this.Repository.AddRangeAsync(persons);
+			await this.PersonRepository.AddRangeAsync(persons);
 			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 
 			IQueryOptions<Person> options = QueryOptions<Person>.Take(75);
-			IReadOnlyCollection<Person> result = await this.Repository.FindManyAsync(x => true, options);
+			IReadOnlyCollection<Person> result = await this.PersonRepository.FindManyAsync(x => true, options);
 
 			result.Count.Should().Be(75);
 		}
@@ -73,11 +73,11 @@
 				.RuleFor(x => x.Age, faker => faker.Person.DateOfBirth.CalculateAge())
 				.Generate(250);
 
-			await this.Repository.AddRangeAsync(persons);
+			await this.PersonRepository.AddRangeAsync(persons);
 			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 
 			IQueryOptions<Person> options = QueryOptions<Person>.SkipTake(200, 75);
-			IReadOnlyCollection<Person> result = await this.Repository.FindManyAsync(x => true, options);
+			IReadOnlyCollection<Person> result = await this.PersonRepository.FindManyAsync(x => true, options);
 
 			result.Count.Should().Be(50);
 		}
@@ -90,11 +90,11 @@
 				.RuleFor(x => x.Age, faker => faker.Person.DateOfBirth.CalculateAge())
 				.Generate(250);
 
-			await this.Repository.AddRangeAsync(persons);
+			await this.PersonRepository.AddRangeAsync(persons);
 			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 
 			IQueryOptions<Person> options = QueryOptions<Person>.Skip(200).Take(75);
-			IReadOnlyCollection<Person> result = await this.Repository.FindManyAsync(x => true, options);
+			IReadOnlyCollection<Person> result = await this.PersonRepository.FindManyAsync(x => true, options);
 
 			result.Count.Should().Be(50);
 		}
