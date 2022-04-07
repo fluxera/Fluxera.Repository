@@ -17,7 +17,7 @@
 			{
 				Name = "Tester"
 			};
-			await this.Repository.AddAsync(person);
+			await this.PersonRepository.AddAsync(person);
 			person.ID.Should().NotBeEmpty();
 		}
 
@@ -35,7 +35,7 @@
 					Name = "Tester"
 				}
 			};
-			await this.Repository.AddRangeAsync(persons);
+			await this.PersonRepository.AddRangeAsync(persons);
 			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 		}
 	}

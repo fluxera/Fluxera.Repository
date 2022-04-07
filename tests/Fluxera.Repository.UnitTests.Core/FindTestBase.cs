@@ -29,10 +29,10 @@
 					Name = "Tester3"
 				}
 			};
-			await this.Repository.AddRangeAsync(persons);
+			await this.PersonRepository.AddRangeAsync(persons);
 			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 
-			Person fromStore = await this.Repository.FindOneAsync(x => x.Name.EndsWith("2"));
+			Person fromStore = await this.PersonRepository.FindOneAsync(x => x.Name.EndsWith("2"));
 			fromStore.Should().NotBeNull();
 			fromStore.Name.Should().Be(persons[1].Name);
 		}
@@ -55,10 +55,10 @@
 					Name = "Tester3"
 				}
 			};
-			await this.Repository.AddRangeAsync(persons);
+			await this.PersonRepository.AddRangeAsync(persons);
 			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 
-			string fromStore = await this.Repository.FindOneAsync(x => x.Name.EndsWith("2"), x => x.Name);
+			string fromStore = await this.PersonRepository.FindOneAsync(x => x.Name.EndsWith("2"), x => x.Name);
 			fromStore.Should().NotBeNullOrWhiteSpace();
 			fromStore.Should().Be(persons[1].Name);
 		}
@@ -81,10 +81,10 @@
 					Name = "Tester3"
 				}
 			};
-			await this.Repository.AddRangeAsync(persons);
+			await this.PersonRepository.AddRangeAsync(persons);
 			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 
-			bool fromStore = await this.Repository.ExistsAsync(x => x.Name.EndsWith("2"));
+			bool fromStore = await this.PersonRepository.ExistsAsync(x => x.Name.EndsWith("2"));
 			fromStore.Should().BeTrue();
 		}
 
@@ -106,10 +106,10 @@
 					Name = "Tester32"
 				}
 			};
-			await this.Repository.AddRangeAsync(persons);
+			await this.PersonRepository.AddRangeAsync(persons);
 			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 
-			Person[] fromStore = (await this.Repository.FindManyAsync(x => x.Name.EndsWith("2"))).ToArray();
+			Person[] fromStore = (await this.PersonRepository.FindManyAsync(x => x.Name.EndsWith("2"))).ToArray();
 			fromStore.ForEach(x => x.ID.Should().NotBeEmpty());
 			fromStore.ForEach(x => x.Name.Should().EndWith("2"));
 		}
@@ -132,10 +132,10 @@
 					Name = "Tester32"
 				}
 			};
-			await this.Repository.AddRangeAsync(persons);
+			await this.PersonRepository.AddRangeAsync(persons);
 			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 
-			string[] fromStore = (await this.Repository.FindManyAsync(x => x.Name.EndsWith("2"), x => x.Name)).ToArray();
+			string[] fromStore = (await this.PersonRepository.FindManyAsync(x => x.Name.EndsWith("2"), x => x.Name)).ToArray();
 			fromStore.ForEach(x => x.Should().NotBeNullOrWhiteSpace());
 			fromStore.ForEach(x => x.Should().EndWith("2"));
 		}

@@ -28,10 +28,10 @@
 					Name = "Tester32"
 				}
 			};
-			await this.Repository.AddRangeAsync(persons);
+			await this.PersonRepository.AddRangeAsync(persons);
 			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 
-			long count = await this.Repository.CountAsync();
+			long count = await this.PersonRepository.CountAsync();
 			count.Should().Be(persons.Length);
 		}
 
@@ -53,10 +53,10 @@
 					Name = "Tester32"
 				}
 			};
-			await this.Repository.AddRangeAsync(persons);
+			await this.PersonRepository.AddRangeAsync(persons);
 			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 
-			long count = await this.Repository.CountAsync(x => x.Name.EndsWith("2"));
+			long count = await this.PersonRepository.CountAsync(x => x.Name.EndsWith("2"));
 			count.Should().Be(2);
 		}
 	}
