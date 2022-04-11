@@ -41,7 +41,7 @@
 		/// <inheritdoc />
 		protected override async Task<T> GetAsync<T>(string key)
 		{
-			T? item = await this.distributedCache
+			T item = await this.distributedCache
 				.GetAsJsonAsync<T>(key)
 				.ConfigureAwait(false);
 

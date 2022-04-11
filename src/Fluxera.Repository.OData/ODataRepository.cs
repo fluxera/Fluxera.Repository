@@ -5,6 +5,7 @@
 	using System.Linq;
 	using System.Linq.Expressions;
 	using System.Net;
+	using System.Net.Http;
 	using System.Reflection;
 	using System.Threading;
 	using System.Threading.Tasks;
@@ -30,38 +31,23 @@
 			V4Adapter.Reference();
 		}
 
-		public ODataRepository(IRepositoryRegistry repositoryRegistry)
+		public ODataRepository(IRepositoryRegistry repositoryRegistry, IHttpClientFactory httpClientFactory)
 		{
 			RepositoryName repositoryName = repositoryRegistry.GetRepositoryNameFor<TAggregateRoot>();
 			RepositoryOptions options = repositoryRegistry.GetRepositoryOptionsFor(repositoryName);
 
 			this.persistenceSettings = new ODataPersistenceSettings
 			{
-				ServiceRoot = (string)options.SettingsValues.GetOrDefault("OData.ServiceRoot")!,
-				UseBatching = (bool)options.SettingsValues.GetOrDefault("OData.UseBatching")!,
+				ServiceRoot = (string)options.SettingsValues.GetOrDefault("OData.ServiceRoot"),
+				UseBatching = (bool)options.SettingsValues.GetOrDefault("OData.UseBatching"),
 			};
 
-			// TODO: Would be nice, if the authentication would work just as in the HttpClient module.
-			ODataClientSettings settings = new ODataClientSettings
+			HttpClient httpClient = httpClientFactory.CreateClient(Microsoft.Extensions.Options.Options.DefaultName);
+			ODataClientSettings settings = new ODataClientSettings(httpClient)
 			{
 				BaseUri = new Uri(this.persistenceSettings.ServiceRoot),
 				IgnoreUnmappedProperties = true,
-				RenewHttpConnection = false,
-				//BeforeRequest = request =>
-				//{
-				//	// TODO: Authentication
-				//},
-				//OnTrace = (message, parameters) =>
-				//{
-				//	if((parameters != null) && (parameters.Length > 0))
-				//	{
-				//		this.logger.LogTrace(string.Format(message, parameters));
-				//	}
-				//	else
-				//	{
-				//		this.logger.LogTrace(message);
-				//	}
-				//},
+				RenewHttpConnection = false
 			};
 
 			this.client = new ODataClient(settings);
@@ -151,7 +137,7 @@
 		}
 
 		/// <inheritdoc />
-		protected override async Task<TAggregateRoot> FindOneAsync(ISpecification<TAggregateRoot> specification, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
+		protected override async Task<TAggregateRoot> FindOneAsync(ISpecification<TAggregateRoot> specification, IQueryOptions<TAggregateRoot> queryOptions, CancellationToken cancellationToken)
 		{
 			try
 			{
@@ -169,7 +155,7 @@
 		}
 
 		/// <inheritdoc />
-		protected override async Task<TResult> FindOneAsync<TResult>(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
+		protected override async Task<TResult> FindOneAsync<TResult>(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot> queryOptions, CancellationToken cancellationToken)
 		{
 			try
 			{
@@ -192,7 +178,7 @@
 		}
 
 		/// <inheritdoc />
-		protected override async Task<IReadOnlyCollection<TAggregateRoot>> FindManyAsync(ISpecification<TAggregateRoot> specification, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
+		protected override async Task<IReadOnlyCollection<TAggregateRoot>> FindManyAsync(ISpecification<TAggregateRoot> specification, IQueryOptions<TAggregateRoot> queryOptions, CancellationToken cancellationToken)
 		{
 			try
 			{
@@ -212,7 +198,7 @@
 		}
 
 		/// <inheritdoc />
-		protected override async Task<IReadOnlyCollection<TResult>> FindManyAsync<TResult>(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
+		protected override async Task<IReadOnlyCollection<TResult>> FindManyAsync<TResult>(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot> queryOptions, CancellationToken cancellationToken)
 		{
 			try
 			{
@@ -275,7 +261,7 @@
 		{
 			Guard.Against.Null(method, nameof(method));
 
-			LambdaExpression? lambda = method as LambdaExpression;
+			LambdaExpression lambda = method as LambdaExpression;
 			MemberExpression memberExpr = null!;
 
 			if((lambda != null) && (lambda.Body.NodeType == ExpressionType.Convert))

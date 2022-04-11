@@ -34,7 +34,7 @@
 
 			foreach(Type aggregateRootType in repositoryOptions.AggregateRootTypes)
 			{
-				Type? keyType = aggregateRootType.BaseType?.GenericTypeArguments[1];
+				Type keyType = aggregateRootType.BaseType?.GenericTypeArguments[1];
 
 				Type repositoryServiceType = repositoryServiceTemplateType.MakeGenericType(aggregateRootType, keyType);
 				Type readOnlyRepositoryServiceType = readOnlyRepositoryServiceTemplateType.MakeGenericType(aggregateRootType, keyType);
@@ -44,7 +44,7 @@
 				this.Services.AddTransient(readOnlyRepositoryServiceType, implementationType);
 			}
 
-			RepositoryOptionsList? repositoryOptionsList = this.Services.GetSingletonInstanceOrDefault<RepositoryOptionsList>();
+			RepositoryOptionsList repositoryOptionsList = this.Services.GetSingletonInstanceOrDefault<RepositoryOptionsList>();
 			if(repositoryOptionsList is null)
 			{
 				repositoryOptionsList = new RepositoryOptionsList();

@@ -12,7 +12,7 @@ namespace Fluxera.Repository
 	[PublicAPI]
 	internal static class GuardExtensions
 	{
-		public static void NotTransient<TAggregateRoot, TKey>(this IGuard guard, TAggregateRoot? input, [InvokerParameterName] string parameterName, string? message = null)
+		public static void NotTransient<TAggregateRoot, TKey>(this IGuard guard, TAggregateRoot input, [InvokerParameterName] string parameterName, string message = null)
 			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 		{
 			Guard.Against.Null(input, nameof(input));
@@ -23,7 +23,7 @@ namespace Fluxera.Repository
 			}
 		}
 
-		public static void NotTransient<TAggregateRoot, TKey>(this IGuard guard, IEnumerable<TAggregateRoot>? input, [InvokerParameterName] string parameterName, string? message = null)
+		public static void NotTransient<TAggregateRoot, TKey>(this IGuard guard, IEnumerable<TAggregateRoot> input, [InvokerParameterName] string parameterName, string message = null)
 			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 		{
 			Guard.Against.Null(input, nameof(input));
@@ -34,7 +34,7 @@ namespace Fluxera.Repository
 			}
 		}
 
-		public static void Transient<TAggregateRoot, TKey>(this IGuard guard, TAggregateRoot? input, [InvokerParameterName] string parameterName, string? message = null)
+		public static void Transient<TAggregateRoot, TKey>(this IGuard guard, TAggregateRoot input, [InvokerParameterName] string parameterName, string message = null)
 			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 		{
 			Guard.Against.Null(input, nameof(input));
@@ -45,7 +45,7 @@ namespace Fluxera.Repository
 			}
 		}
 
-		public static void Transient<TAggregateRoot, TKey>(this IGuard guard, IEnumerable<TAggregateRoot> input, [InvokerParameterName] string parameterName, string? message = null)
+		public static void Transient<TAggregateRoot, TKey>(this IGuard guard, IEnumerable<TAggregateRoot> input, [InvokerParameterName] string parameterName, string message = null)
 			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 		{
 			Guard.Against.Null(input, nameof(input));
@@ -56,7 +56,7 @@ namespace Fluxera.Repository
 			}
 		}
 
-		public static void Disposed<TAggregateRoot, TKey>(this IGuard guard, IRepository<TAggregateRoot, TKey>? input)
+		public static void Disposed<TAggregateRoot, TKey>(this IGuard guard, IRepository<TAggregateRoot, TKey> input)
 			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 		{
 			Guard.Against.Null(input, nameof(input));

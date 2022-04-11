@@ -25,7 +25,7 @@
 		/// <param name="configureConventions"></param>
 		/// <returns></returns>
 		public static IRepositoryBuilder AddMongoRepository(this IRepositoryBuilder builder, string repositoryName,
-			Action<IRepositoryOptionsBuilder> configureOptions, Action<ConventionPack>? configureConventions = null)
+			Action<IRepositoryOptionsBuilder> configureOptions, Action<ConventionPack> configureConventions = null)
 		{
 			ConventionPack pack = new ConventionPack
 			{

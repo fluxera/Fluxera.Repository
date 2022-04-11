@@ -18,7 +18,7 @@
 		}
 
 		/// <inheritdoc />
-		public IInterceptionOptionsBuilder AddInterceptors(IEnumerable<Assembly>? assemblies)
+		public IInterceptionOptionsBuilder AddInterceptors(IEnumerable<Assembly> assemblies)
 		{
 			assemblies ??= Enumerable.Empty<Assembly>();
 

@@ -158,7 +158,7 @@
 		}
 
 		/// <inheritdoc />
-		async Task<TAggregateRoot> ICanFind<TAggregateRoot, TKey>.FindOneAsync(Expression<Func<TAggregateRoot, bool>> predicate, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
+		async Task<TAggregateRoot> ICanFind<TAggregateRoot, TKey>.FindOneAsync(Expression<Func<TAggregateRoot, bool>> predicate, IQueryOptions<TAggregateRoot> queryOptions, CancellationToken cancellationToken)
 		{
 			return await this.cachingStrategy.FindOneAsync(predicate, queryOptions,
 					async () => await this.innerRepository.FindOneAsync(predicate, queryOptions, cancellationToken)
@@ -167,7 +167,7 @@
 		}
 
 		/// <inheritdoc />
-		async Task<TAggregateRoot> ICanFind<TAggregateRoot, TKey>.FindOneAsync(ISpecification<TAggregateRoot> specification, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
+		async Task<TAggregateRoot> ICanFind<TAggregateRoot, TKey>.FindOneAsync(ISpecification<TAggregateRoot> specification, IQueryOptions<TAggregateRoot> queryOptions, CancellationToken cancellationToken)
 		{
 			return await this.cachingStrategy.FindOneAsync(specification.Predicate, queryOptions,
 					async () => await this.innerRepository.FindOneAsync(specification, queryOptions, cancellationToken)
@@ -176,7 +176,7 @@
 		}
 
 		/// <inheritdoc />
-		async Task<TResult> ICanFind<TAggregateRoot, TKey>.FindOneAsync<TResult>(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
+		async Task<TResult> ICanFind<TAggregateRoot, TKey>.FindOneAsync<TResult>(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot> queryOptions, CancellationToken cancellationToken)
 		{
 			return await this.cachingStrategy.FindOneAsync(predicate, selector, queryOptions,
 					async () => await this.innerRepository.FindOneAsync(predicate, selector, queryOptions, cancellationToken)
@@ -185,7 +185,7 @@
 		}
 
 		/// <inheritdoc />
-		async Task<TResult> ICanFind<TAggregateRoot, TKey>.FindOneAsync<TResult>(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
+		async Task<TResult> ICanFind<TAggregateRoot, TKey>.FindOneAsync<TResult>(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot> queryOptions, CancellationToken cancellationToken)
 		{
 			return await this.cachingStrategy.FindOneAsync(specification.Predicate, selector, queryOptions,
 					async () => await this.innerRepository.FindOneAsync(specification, selector, queryOptions, cancellationToken)
@@ -212,7 +212,7 @@
 		}
 
 		/// <inheritdoc />
-		async Task<IReadOnlyCollection<TAggregateRoot>> ICanFind<TAggregateRoot, TKey>.FindManyAsync(Expression<Func<TAggregateRoot, bool>> predicate, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
+		async Task<IReadOnlyCollection<TAggregateRoot>> ICanFind<TAggregateRoot, TKey>.FindManyAsync(Expression<Func<TAggregateRoot, bool>> predicate, IQueryOptions<TAggregateRoot> queryOptions, CancellationToken cancellationToken)
 		{
 			return await this.cachingStrategy.FindManyAsync(predicate, queryOptions,
 					async () => await this.innerRepository.FindManyAsync(predicate, queryOptions, cancellationToken)
@@ -221,7 +221,7 @@
 		}
 
 		/// <inheritdoc />
-		async Task<IReadOnlyCollection<TAggregateRoot>> ICanFind<TAggregateRoot, TKey>.FindManyAsync(ISpecification<TAggregateRoot> specification, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
+		async Task<IReadOnlyCollection<TAggregateRoot>> ICanFind<TAggregateRoot, TKey>.FindManyAsync(ISpecification<TAggregateRoot> specification, IQueryOptions<TAggregateRoot> queryOptions, CancellationToken cancellationToken)
 		{
 			return await this.cachingStrategy.FindManyAsync(specification.Predicate, queryOptions,
 					async () => await this.innerRepository.FindManyAsync(specification, queryOptions, cancellationToken)
@@ -230,7 +230,7 @@
 		}
 
 		/// <inheritdoc />
-		async Task<IReadOnlyCollection<TResult>> ICanFind<TAggregateRoot, TKey>.FindManyAsync<TResult>(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
+		async Task<IReadOnlyCollection<TResult>> ICanFind<TAggregateRoot, TKey>.FindManyAsync<TResult>(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot> queryOptions, CancellationToken cancellationToken)
 		{
 			return await this.cachingStrategy.FindManyAsync(predicate, selector, queryOptions,
 					async () => await this.innerRepository.FindManyAsync(predicate, selector, queryOptions, cancellationToken)
@@ -239,7 +239,7 @@
 		}
 
 		/// <inheritdoc />
-		async Task<IReadOnlyCollection<TResult>> ICanFind<TAggregateRoot, TKey>.FindManyAsync<TResult>(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
+		async Task<IReadOnlyCollection<TResult>> ICanFind<TAggregateRoot, TKey>.FindManyAsync<TResult>(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot> queryOptions, CancellationToken cancellationToken)
 		{
 			return await this.cachingStrategy.FindManyAsync(specification.Predicate, selector, queryOptions,
 					async () => await this.innerRepository.FindManyAsync(specification, selector, queryOptions, cancellationToken)

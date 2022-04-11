@@ -27,7 +27,7 @@
 		{
 			RepositoryName repositoryName = this.repositoryRegistry.GetRepositoryNameFor<TAggregateRoot>();
 
-			DbContext dbContext = this.dbContextMap.TryGetValue(repositoryName, out Type? dbContextType)
+			DbContext dbContext = this.dbContextMap.TryGetValue(repositoryName, out Type dbContextType)
 				? this.CreateContext(dbContextType)
 				: this.RegisterDbContext(repositoryName);
 
@@ -37,7 +37,7 @@
 		private DbContext RegisterDbContext(RepositoryName repositoryName)
 		{
 			RepositoryOptions options = this.repositoryRegistry.GetRepositoryOptionsFor(repositoryName);
-			Type? dbContextType = options.SettingsValues.GetOrDefault("EntityFramework.DbContext") as Type;
+			Type dbContextType = options.SettingsValues.GetOrDefault("EntityFramework.DbContext") as Type;
 
 			Guard.Against.Null(dbContextType, nameof(dbContextType));
 
@@ -51,7 +51,7 @@
 
 		private DbContext CreateContext(Type dbContextType)
 		{
-			DbContext? dbContext = this.serviceProvider.GetService(dbContextType) as DbContext ??
+			DbContext dbContext = this.serviceProvider.GetService(dbContextType) as DbContext ??
 				Activator.CreateInstance(dbContextType) as DbContext;
 
 			Guard.Against.Null(dbContext, nameof(dbContext));

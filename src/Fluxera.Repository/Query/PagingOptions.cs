@@ -45,21 +45,21 @@ namespace Fluxera.Repository.Query
 		}
 
 		/// <inheritdoc />
-		public bool TryGetPagingOptions(out IPagingOptions<T>? pagingOptions)
+		public bool TryGetPagingOptions(out IPagingOptions<T> pagingOptions)
 		{
 			pagingOptions = this;
 			return true;
 		}
 
 		/// <inheritdoc />
-		public bool TryGetSkipTakeOptions(out ISkipTakeOptions<T>? skipTakeOptions)
+		public bool TryGetSkipTakeOptions(out ISkipTakeOptions<T> skipTakeOptions)
 		{
 			skipTakeOptions = null;
 			return false;
 		}
 
 		/// <inheritdoc />
-		public bool TryGetSortingOptions(out ISortingOptions<T>? sortingOptions)
+		public bool TryGetSortingOptions(out ISortingOptions<T> sortingOptions)
 		{
 			sortingOptions = null;
 			return false;

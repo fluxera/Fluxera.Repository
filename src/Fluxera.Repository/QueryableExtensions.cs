@@ -7,7 +7,7 @@
 
 	internal static class QueryableExtensions
 	{
-		public static IQueryable<T> Apply<T>(this IQueryable<T> queryable, ISpecification<T>? specification) where T : class
+		public static IQueryable<T> Apply<T>(this IQueryable<T> queryable, ISpecification<T> specification) where T : class
 		{
 			Guard.Against.Null(queryable, nameof(queryable));
 
@@ -16,7 +16,7 @@
 				: specification.ApplyTo(queryable);
 		}
 
-		public static IQueryable<T> Apply<T>(this IQueryable<T> queryable, IQueryOptions<T>? queryOptions) where T : class
+		public static IQueryable<T> Apply<T>(this IQueryable<T> queryable, IQueryOptions<T> queryOptions) where T : class
 		{
 			Guard.Against.Null(queryable, nameof(queryable));
 

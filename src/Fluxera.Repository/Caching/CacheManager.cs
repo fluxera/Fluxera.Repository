@@ -13,7 +13,7 @@
 		/// <summary>
 		///     Gets or sets the <see cref="ICachePrefixManager" />.
 		/// </summary>
-		public static ICachePrefixManager? CachePrefixManager { get; set; }
+		public static ICachePrefixManager CachePrefixManager { get; set; }
 
 		/// <summary>
 		///     Gets the global cache counter value (generation).

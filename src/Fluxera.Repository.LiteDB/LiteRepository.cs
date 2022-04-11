@@ -24,7 +24,7 @@
 		public LiteRepository(
 			IRepositoryRegistry repositoryRegistry,
 			IDatabaseProvider databaseProvider,
-			IDatabaseNameProvider? databaseNameProvider = null)
+			IDatabaseNameProvider databaseNameProvider = null)
 		{
 			Guard.Against.Null(repositoryRegistry, nameof(repositoryRegistry));
 			Guard.Against.Null(databaseProvider, nameof(databaseProvider));
@@ -109,7 +109,7 @@
 		}
 
 		/// <inheritdoc />
-		protected override async Task<TAggregateRoot> FindOneAsync(ISpecification<TAggregateRoot> specification, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
+		protected override async Task<TAggregateRoot> FindOneAsync(ISpecification<TAggregateRoot> specification, IQueryOptions<TAggregateRoot> queryOptions, CancellationToken cancellationToken)
 		{
 			return await this.collection
 				.Query()
@@ -120,7 +120,7 @@
 		}
 
 		/// <inheritdoc />
-		protected override async Task<TResult> FindOneAsync<TResult>(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
+		protected override async Task<TResult> FindOneAsync<TResult>(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot> queryOptions, CancellationToken cancellationToken)
 		{
 			return await this.collection
 				.Query()
@@ -132,7 +132,7 @@
 		}
 
 		/// <inheritdoc />
-		protected override async Task<IReadOnlyCollection<TAggregateRoot>> FindManyAsync(ISpecification<TAggregateRoot> specification, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
+		protected override async Task<IReadOnlyCollection<TAggregateRoot>> FindManyAsync(ISpecification<TAggregateRoot> specification, IQueryOptions<TAggregateRoot> queryOptions, CancellationToken cancellationToken)
 		{
 			return await this.collection
 				.Query()
@@ -144,7 +144,7 @@
 		}
 
 		/// <inheritdoc />
-		protected override async Task<IReadOnlyCollection<TResult>> FindManyAsync<TResult>(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
+		protected override async Task<IReadOnlyCollection<TResult>> FindManyAsync<TResult>(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot> queryOptions, CancellationToken cancellationToken)
 		{
 			return await this.collection
 				.Query()

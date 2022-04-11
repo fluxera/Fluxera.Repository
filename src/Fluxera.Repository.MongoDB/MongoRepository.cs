@@ -23,7 +23,7 @@
 
 		public MongoRepository(
 			IRepositoryRegistry repositoryRegistry,
-			IDatabaseNameProvider? databaseNameProvider = null)
+			IDatabaseNameProvider databaseNameProvider = null)
 		{
 			RepositoryName repositoryName = repositoryRegistry.GetRepositoryNameFor<TAggregateRoot>();
 			RepositoryOptions options = repositoryRegistry.GetRepositoryOptionsFor(repositoryName);
@@ -34,7 +34,7 @@
 				Database = (string)(options.SettingsValues.GetOrDefault("Mongo.Database") ?? "default")
 			};
 
-			object? settingsUseSsl = options.SettingsValues.GetOrDefault("Mongo.UseSsl");
+			object settingsUseSsl = options.SettingsValues.GetOrDefault("Mongo.UseSsl");
 			persistenceSettings.UseSsl = (bool)(settingsUseSsl ?? false);
 
 			string connectionString = persistenceSettings.ConnectionString;
@@ -53,7 +53,7 @@
 
 			MongoClientSettings settings = MongoClientSettings.FromUrl(new MongoUrl(connectionString));
 
-			object? captureCommandText = options.SettingsValues.GetOrDefault("Mongo.CaptureCommandText");
+			object captureCommandText = options.SettingsValues.GetOrDefault("Mongo.CaptureCommandText");
 			InstrumentationOptions instrumentationOptions = new InstrumentationOptions
 			{
 				CaptureCommandText = (bool)(captureCommandText ?? true)
