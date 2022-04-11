@@ -4,6 +4,7 @@
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Linq.Expressions;
+	using System.Reflection;
 	using System.Threading;
 	using System.Threading.Tasks;
 	using Fluxera.Entity;
@@ -82,10 +83,12 @@
 		{
 			await this.DispatchAsync(item).ConfigureAwait(false);
 
+			TAggregateRoot itemBeforeUpdate = await this.innerRepository.GetAsync(item.ID, cancellationToken);
+
 			await this.innerRepository.UpdateAsync(item, cancellationToken).ConfigureAwait(false);
 
 			// Add event to dispatch 'item updated' event only to committed event handlers.
-			item.DomainEvents.Add(new ItemUpdated<TAggregateRoot, TKey>(item));
+			item.DomainEvents.Add(new ItemUpdated<TAggregateRoot, TKey>(itemBeforeUpdate, item));
 
 			await this.DispatchCommittedAsync(item).ConfigureAwait(false);
 		}
@@ -97,12 +100,17 @@
 
 			await this.DispatchAsync(itemsList).ConfigureAwait(false);
 
+			IEnumerable<ISpecification<TAggregateRoot>> specifications = itemsList.Select(item => this.CreatePrimaryKeySpecification(item.ID));
+			ISpecification<TAggregateRoot> specification = new ManyOrElseSpecification<TAggregateRoot>(specifications);
+			IReadOnlyCollection<TAggregateRoot> itemsBeforeUpdate = await this.innerRepository.FindManyAsync(specification, cancellationToken: cancellationToken);
+
 			await this.innerRepository.UpdateRangeAsync(itemsList, cancellationToken).ConfigureAwait(false);
 
 			// Add event to dispatch 'item updated' event only to committed event handlers.
 			foreach(TAggregateRoot item in itemsList)
 			{
-				item.DomainEvents.Add(new ItemAdded<TAggregateRoot, TKey>(item));
+				TAggregateRoot itemBeforeUpdate = itemsBeforeUpdate?.FirstOrDefault(x => x.ID.Equals(item.ID));
+				item.DomainEvents.Add(new ItemUpdated<TAggregateRoot, TKey>(itemBeforeUpdate, item));
 			}
 
 			await this.DispatchCommittedAsync(itemsList).ConfigureAwait(false);
@@ -354,6 +362,73 @@
 		public override string ToString()
 		{
 			return this.innerRepository.ToString();
+		}
+
+		/// <summary>
+		///     Creates an <see cref="Expression" /> in the form of <c>x => x.ID == id</c> for the given ID value.
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
+		private Expression<Func<TAggregateRoot, bool>> CreatePrimaryKeyPredicate(TKey id)
+		{
+			PropertyInfo primaryKeyProperty = this.GetPrimaryKeyProperty();
+
+			ParameterExpression parameter = Expression.Parameter(typeof(TAggregateRoot), "x");
+			Expression<Func<TAggregateRoot, bool>> predicate = Expression.Lambda<Func<TAggregateRoot, bool>>(
+				Expression.Equal(
+					Expression.PropertyOrField(parameter, primaryKeyProperty.Name),
+					Expression.Constant(id)
+				),
+				parameter);
+
+			return predicate;
+		}
+
+		/// <summary>
+		///     Creates a <see cref="ISpecification{T}" /> in the form of <c>x => x.ID == id</c> for the given ID value.
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
+		private ISpecification<TAggregateRoot> CreatePrimaryKeySpecification(TKey id)
+		{
+			Expression<Func<TAggregateRoot, bool>> predicate = this.CreatePrimaryKeyPredicate(id);
+			ISpecification<TAggregateRoot> specification = new Specification<TAggregateRoot>(predicate);
+			return specification;
+		}
+
+		private PropertyInfo GetPrimaryKeyProperty()
+		{
+			Type type = typeof(TAggregateRoot);
+			Type keyType = typeof(TKey);
+
+			Tuple<Type, Type> key = Tuple.Create(type, keyType);
+
+			// Check the cache for already existing property info instance.
+			if(PropertyInfoCache.PrimaryKeyDict.ContainsKey(key))
+			{
+				return PropertyInfoCache.PrimaryKeyDict[key];
+			}
+
+			string keyPropertyName = nameof(AggregateRoot<TAggregateRoot, TKey>.ID);
+			PropertyInfo propertyInfo = type.GetTypeInfo().GetDeclaredProperty(keyPropertyName);
+			while((propertyInfo == null) && (type.GetTypeInfo().BaseType != null))
+			{
+				type = type.GetTypeInfo().BaseType;
+				propertyInfo = type.GetTypeInfo().GetDeclaredProperty(keyPropertyName);
+			}
+
+			if(propertyInfo == null)
+			{
+				throw new InvalidOperationException($"No property '{keyPropertyName}' found for type '{typeof(TAggregateRoot)}'.");
+			}
+
+			if(propertyInfo.PropertyType != keyType)
+			{
+				throw new InvalidOperationException($"No property '{keyPropertyName}' found for type '{typeof(TAggregateRoot)}' that has the type {typeof(TKey)}.");
+			}
+
+			PropertyInfoCache.PrimaryKeyDict[key] = propertyInfo;
+			return propertyInfo;
 		}
 	}
 }
