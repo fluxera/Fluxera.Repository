@@ -34,16 +34,16 @@
 			}
 		}
 
-		/// <inheritdoc />
-		public async Task AfterAddAsync(TAggregateRoot item)
-		{
-			this.LogTrace($"Intercepting after add: Type = {typeof(TAggregateRoot)}");
+		///// <inheritdoc />
+		//public async Task AfterAddAsync(TAggregateRoot item)
+		//{
+		//	this.LogTrace($"Intercepting after add: Type = {typeof(TAggregateRoot)}");
 
-			foreach(IInterceptor<TAggregateRoot, TKey> interceptor in this.innerInterceptors)
-			{
-				await interceptor.AfterAddAsync(item);
-			}
-		}
+		//	foreach(IInterceptor<TAggregateRoot, TKey> interceptor in this.innerInterceptors)
+		//	{
+		//		await interceptor.AfterAddAsync(item);
+		//	}
+		//}
 
 		/// <inheritdoc />
 		public async Task BeforeUpdateAsync(TAggregateRoot item, InterceptionEvent e)
@@ -56,16 +56,16 @@
 			}
 		}
 
-		/// <inheritdoc />
-		public async Task AfterUpdateAsync(TAggregateRoot item)
-		{
-			this.LogTrace($"Intercepting after update: Type = {typeof(TAggregateRoot)}");
+		///// <inheritdoc />
+		//public async Task AfterUpdateAsync(TAggregateRoot item)
+		//{
+		//	this.LogTrace($"Intercepting after update: Type = {typeof(TAggregateRoot)}");
 
-			foreach(IInterceptor<TAggregateRoot, TKey> interceptor in this.innerInterceptors)
-			{
-				await interceptor.AfterUpdateAsync(item);
-			}
-		}
+		//	foreach(IInterceptor<TAggregateRoot, TKey> interceptor in this.innerInterceptors)
+		//	{
+		//		await interceptor.AfterUpdateAsync(item);
+		//	}
+		//}
 
 		/// <inheritdoc />
 		public async Task BeforeRemoveAsync(TAggregateRoot item, InterceptionEvent e)
@@ -78,16 +78,16 @@
 			}
 		}
 
-		/// <inheritdoc />
-		public async Task AfterRemoveAsync(TAggregateRoot item)
-		{
-			this.LogTrace($"Intercepting after remove: Type = {typeof(TAggregateRoot)}");
+		///// <inheritdoc />
+		//public async Task AfterRemoveAsync(TAggregateRoot item)
+		//{
+		//	this.LogTrace($"Intercepting after remove: Type = {typeof(TAggregateRoot)}");
 
-			foreach(IInterceptor<TAggregateRoot, TKey> interceptor in this.innerInterceptors)
-			{
-				await interceptor.AfterRemoveAsync(item);
-			}
-		}
+		//	foreach(IInterceptor<TAggregateRoot, TKey> interceptor in this.innerInterceptors)
+		//	{
+		//		await interceptor.AfterRemoveAsync(item);
+		//	}
+		//}
 
 		/// <inheritdoc />
 		public async Task<Expression<Func<TAggregateRoot, bool>>> BeforeRemoveRangeAsync(Expression<Func<TAggregateRoot, bool>> predicate, InterceptionEvent e)
@@ -149,49 +149,49 @@
 			return interceptorSpecification;
 		}
 
-		/// <inheritdoc />
-		public async Task AfterFindAsync(TAggregateRoot item)
-		{
-			this.LogTrace($"Intercepting after find (single result): Type = {typeof(TAggregateRoot)}");
+		///// <inheritdoc />
+		//public async Task AfterFindAsync(TAggregateRoot item)
+		//{
+		//	this.LogTrace($"Intercepting after find (single result): Type = {typeof(TAggregateRoot)}");
 
-			foreach(IInterceptor<TAggregateRoot, TKey> interceptor in this.innerInterceptors)
-			{
-				await interceptor.AfterFindAsync(item);
-			}
-		}
+		//	foreach(IInterceptor<TAggregateRoot, TKey> interceptor in this.innerInterceptors)
+		//	{
+		//		await interceptor.AfterFindAsync(item);
+		//	}
+		//}
 
-		/// <inheritdoc />
-		public async Task AfterFindAsync(IReadOnlyCollection<TAggregateRoot> items)
-		{
-			this.LogTrace($"Intercepting after find (multiple results): Type = {typeof(TAggregateRoot)}");
+		///// <inheritdoc />
+		//public async Task AfterFindAsync(IReadOnlyCollection<TAggregateRoot> items)
+		//{
+		//	this.LogTrace($"Intercepting after find (multiple results): Type = {typeof(TAggregateRoot)}");
 
-			foreach(IInterceptor<TAggregateRoot, TKey> interceptor in this.innerInterceptors)
-			{
-				await interceptor.AfterFindAsync(items);
-			}
-		}
+		//	foreach(IInterceptor<TAggregateRoot, TKey> interceptor in this.innerInterceptors)
+		//	{
+		//		await interceptor.AfterFindAsync(items);
+		//	}
+		//}
 
-		/// <inheritdoc />
-		public async Task AfterFindAsync<TResult>(TResult item)
-		{
-			this.LogTrace($"Intercepting after find (single selected result): Type = {typeof(TAggregateRoot)}");
+		///// <inheritdoc />
+		//public async Task AfterFindAsync<TResult>(TResult item)
+		//{
+		//	this.LogTrace($"Intercepting after find (single selected result): Type = {typeof(TAggregateRoot)}");
 
-			foreach(IInterceptor<TAggregateRoot, TKey> interceptor in this.innerInterceptors)
-			{
-				await interceptor.AfterFindAsync(item);
-			}
-		}
+		//	foreach(IInterceptor<TAggregateRoot, TKey> interceptor in this.innerInterceptors)
+		//	{
+		//		await interceptor.AfterFindAsync(item);
+		//	}
+		//}
 
-		/// <inheritdoc />
-		public async Task AfterFindAsync<TResult>(IReadOnlyCollection<TResult> items)
-		{
-			this.LogTrace($"Intercepting after find (multiple selected results): Type = {typeof(TAggregateRoot)}");
+		///// <inheritdoc />
+		//public async Task AfterFindAsync<TResult>(IReadOnlyCollection<TResult> items)
+		//{
+		//	this.LogTrace($"Intercepting after find (multiple selected results): Type = {typeof(TAggregateRoot)}");
 
-			foreach(IInterceptor<TAggregateRoot, TKey> interceptor in this.innerInterceptors)
-			{
-				await interceptor.AfterFindAsync(items);
-			}
-		}
+		//	foreach(IInterceptor<TAggregateRoot, TKey> interceptor in this.innerInterceptors)
+		//	{
+		//		await interceptor.AfterFindAsync(items);
+		//	}
+		//}
 
 		private void LogTrace(string message)
 		{

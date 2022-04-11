@@ -1,7 +1,6 @@
 ﻿namespace Fluxera.Repository.Interception
 {
 	using System;
-	using System.Collections.Generic;
 	using System.Linq.Expressions;
 	using System.Threading.Tasks;
 	using Fluxera.Entity;
@@ -41,12 +40,12 @@
 		/// <returns></returns>
 		Task BeforeAddAsync(TAggregateRoot item, InterceptionEvent e);
 
-		/// <summary>
-		///     This method is called after the execution of the repository add operation.
-		/// </summary>
-		/// <param name="item">The item that was added.</param>
-		/// <returns></returns>
-		Task AfterAddAsync(TAggregateRoot item);
+		///// <summary>
+		/////     This method is called after the execution of the repository add operation.
+		///// </summary>
+		///// <param name="item">The item that was added.</param>
+		///// <returns></returns>
+		//Task AfterAddAsync(TAggregateRoot item);
 
 		/// <summary>
 		///     This method is called before the execution of the repository update operation.
@@ -56,12 +55,12 @@
 		/// <returns></returns>
 		Task BeforeUpdateAsync(TAggregateRoot item, InterceptionEvent e);
 
-		/// <summary>
-		///     This method is called after the execution of the repository update operation.
-		/// </summary>
-		/// <param name="item">The item that was updated.</param>
-		/// <returns></returns>
-		Task AfterUpdateAsync(TAggregateRoot item);
+		///// <summary>
+		/////     This method is called after the execution of the repository update operation.
+		///// </summary>
+		///// <param name="item">The item that was updated.</param>
+		///// <returns></returns>
+		//Task AfterUpdateAsync(TAggregateRoot item);
 
 		/// <summary>
 		///     This method is called before the execution of the repository remove operation.
@@ -71,12 +70,12 @@
 		/// <returns></returns>
 		Task BeforeRemoveAsync(TAggregateRoot item, InterceptionEvent e);
 
-		/// <summary>
-		///     This method is called after the execution of the repository remove operation.
-		/// </summary>
-		/// <param name="item">The item that was deleted.</param>
-		/// <returns></returns>
-		Task AfterRemoveAsync(TAggregateRoot item);
+		///// <summary>
+		/////     This method is called after the execution of the repository remove operation.
+		///// </summary>
+		///// <param name="item">The item that was deleted.</param>
+		///// <returns></returns>
+		//Task AfterRemoveAsync(TAggregateRoot item);
 
 		/// <summary>
 		///     This method is called before the execution of the repository remove operation.
@@ -110,32 +109,32 @@
 		/// <returns></returns>
 		Task<ISpecification<TAggregateRoot>> BeforeFindAsync(ISpecification<TAggregateRoot> specification, IQueryOptions<TAggregateRoot> queryOptions);
 
-		/// <summary>
-		///     This method is called after the execution of the repository find operation.
-		/// </summary>
-		/// <param name="item">The result item.</param>
-		/// <returns></returns>
-		Task AfterFindAsync(TAggregateRoot item);
+		///// <summary>
+		/////     This method is called after the execution of the repository find operation.
+		///// </summary>
+		///// <param name="item">The result item.</param>
+		///// <returns></returns>
+		//Task AfterFindAsync(TAggregateRoot item);
 
-		/// <summary>
-		///     This method is called after the execution of the repository find operation.
-		/// </summary>
-		/// <param name="items">The result items.</param>
-		/// <returns></returns>
-		Task AfterFindAsync(IReadOnlyCollection<TAggregateRoot> items);
+		///// <summary>
+		/////     This method is called after the execution of the repository find operation.
+		///// </summary>
+		///// <param name="items">The result items.</param>
+		///// <returns></returns>
+		//Task AfterFindAsync(IReadOnlyCollection<TAggregateRoot> items);
 
-		/// <summary>
-		///     This method is called after the execution of the repository find operation.
-		/// </summary>
-		/// <param name="item">The result item.</param>
-		/// <returns></returns>
-		Task AfterFindAsync<TResult>(TResult item);
+		///// <summary>
+		/////     This method is called after the execution of the repository find operation.
+		///// </summary>
+		///// <param name="item">The result item.</param>
+		///// <returns></returns>
+		//Task AfterFindAsync<TResult>(TResult item);
 
-		/// <summary>
-		///     This method is called after the execution of the repository find operation.
-		/// </summary>
-		/// <param name="items">The result items.</param>
-		/// <returns></returns>
-		Task AfterFindAsync<TResult>(IReadOnlyCollection<TResult> items);
+		///// <summary>
+		/////     This method is called after the execution of the repository find operation.
+		///// </summary>
+		///// <param name="items">The result items.</param>
+		///// <returns></returns>
+		//Task AfterFindAsync<TResult>(IReadOnlyCollection<TResult> items);
 	}
 }

@@ -95,7 +95,7 @@
 				if(!e.CancelOperation)
 				{
 					await this.innerRepository.AddAsync(item, cancellationToken).ConfigureAwait(false);
-					await this.interceptor.AfterAddAsync(item).ConfigureAwait(false);
+					//await this.interceptor.AfterAddAsync(item).ConfigureAwait(false);
 				}
 				else
 				{
@@ -131,10 +131,10 @@
 				{
 					await this.innerRepository.AddRangeAsync(itemsList, cancellationToken).ConfigureAwait(false);
 
-					foreach(TAggregateRoot item in itemsList)
-					{
-						await this.interceptor.AfterAddAsync(item).ConfigureAwait(false);
-					}
+					//foreach(TAggregateRoot item in itemsList)
+					//{
+					//	await this.interceptor.AfterAddAsync(item).ConfigureAwait(false);
+					//}
 				}
 				else
 				{
@@ -164,7 +164,7 @@
 				if(!e.CancelOperation)
 				{
 					await this.innerRepository.UpdateAsync(item, cancellationToken).ConfigureAwait(false);
-					await this.interceptor.AfterUpdateAsync(item).ConfigureAwait(false);
+					//await this.interceptor.AfterUpdateAsync(item).ConfigureAwait(false);
 				}
 				else
 				{
@@ -200,10 +200,10 @@
 				{
 					await this.innerRepository.UpdateRangeAsync(itemsList, cancellationToken).ConfigureAwait(false);
 
-					foreach(TAggregateRoot item in itemsList)
-					{
-						await this.interceptor.AfterUpdateAsync(item).ConfigureAwait(false);
-					}
+					//foreach(TAggregateRoot item in itemsList)
+					//{
+					//	await this.interceptor.AfterUpdateAsync(item).ConfigureAwait(false);
+					//}
 				}
 				else
 				{
@@ -268,7 +268,7 @@
 				if(!e.CancelOperation)
 				{
 					await this.innerRepository.RemoveAsync(item, cancellationToken).ConfigureAwait(false);
-					await this.interceptor.AfterRemoveAsync(item).ConfigureAwait(false);
+					//await this.interceptor.AfterRemoveAsync(item).ConfigureAwait(false);
 				}
 				else
 				{
@@ -372,10 +372,10 @@
 				{
 					await this.innerRepository.RemoveRangeAsync(itemsList, cancellationToken).ConfigureAwait(false);
 
-					foreach(TAggregateRoot item in itemsList)
-					{
-						await this.interceptor.AfterRemoveAsync(item).ConfigureAwait(false);
-					}
+					//foreach(TAggregateRoot item in itemsList)
+					//{
+					//	await this.interceptor.AfterRemoveAsync(item).ConfigureAwait(false);
+					//}
 				}
 				else
 				{
@@ -402,10 +402,10 @@
 
 			TAggregateRoot result = await this.innerRepository.FindOneAsync(predicate, queryOptions, cancellationToken).ConfigureAwait(false);
 
-			if(this.repositoryOptions.InterceptionOptions.IsEnabled)
-			{
-				await this.interceptor.AfterFindAsync(result).ConfigureAwait(false);
-			}
+			//if(this.repositoryOptions.InterceptionOptions.IsEnabled)
+			//{
+			//	await this.interceptor.AfterFindAsync(result).ConfigureAwait(false);
+			//}
 
 			return result;
 		}
@@ -422,10 +422,10 @@
 
 			TAggregateRoot result = await this.innerRepository.FindOneAsync(specification, queryOptions, cancellationToken).ConfigureAwait(false);
 
-			if(this.repositoryOptions.InterceptionOptions.IsEnabled)
-			{
-				await this.interceptor.AfterFindAsync(result).ConfigureAwait(false);
-			}
+			//if(this.repositoryOptions.InterceptionOptions.IsEnabled)
+			//{
+			//	await this.interceptor.AfterFindAsync(result).ConfigureAwait(false);
+			//}
 
 			return result;
 		}
@@ -442,10 +442,10 @@
 
 			TResult result = await this.innerRepository.FindOneAsync(predicate, selector, queryOptions, cancellationToken).ConfigureAwait(false);
 
-			if(this.repositoryOptions.InterceptionOptions.IsEnabled)
-			{
-				await this.interceptor.AfterFindAsync(result).ConfigureAwait(false);
-			}
+			//if(this.repositoryOptions.InterceptionOptions.IsEnabled)
+			//{
+			//	await this.interceptor.AfterFindAsync(result).ConfigureAwait(false);
+			//}
 
 			return result;
 		}
@@ -462,10 +462,10 @@
 
 			TResult result = await this.innerRepository.FindOneAsync(specification, selector, queryOptions, cancellationToken).ConfigureAwait(false);
 
-			if(this.repositoryOptions.InterceptionOptions.IsEnabled)
-			{
-				await this.interceptor.AfterFindAsync(result).ConfigureAwait(false);
-			}
+			//if(this.repositoryOptions.InterceptionOptions.IsEnabled)
+			//{
+			//	await this.interceptor.AfterFindAsync(result).ConfigureAwait(false);
+			//}
 
 			return result;
 		}
@@ -484,7 +484,7 @@
 
 				result = await this.innerRepository.ExistsAsync(predicate, cancellationToken).ConfigureAwait(false);
 
-				await this.interceptor.AfterFindAsync(result);
+				//await this.interceptor.AfterFindAsync(result);
 			}
 			else
 			{
@@ -508,10 +508,10 @@
 
 			bool result = await this.innerRepository.ExistsAsync(predicate, cancellationToken).ConfigureAwait(false);
 
-			if(this.repositoryOptions.InterceptionOptions.IsEnabled)
-			{
-				await this.interceptor.AfterFindAsync(result);
-			}
+			//if(this.repositoryOptions.InterceptionOptions.IsEnabled)
+			//{
+			//	await this.interceptor.AfterFindAsync(result);
+			//}
 
 			return result;
 		}
@@ -528,10 +528,10 @@
 
 			bool result = await this.innerRepository.ExistsAsync(specification, cancellationToken).ConfigureAwait(false);
 
-			if(this.repositoryOptions.InterceptionOptions.IsEnabled)
-			{
-				await this.interceptor.AfterFindAsync(result);
-			}
+			//if(this.repositoryOptions.InterceptionOptions.IsEnabled)
+			//{
+			//	await this.interceptor.AfterFindAsync(result);
+			//}
 
 			return result;
 		}
@@ -548,10 +548,10 @@
 
 			IReadOnlyCollection<TAggregateRoot> result = await this.innerRepository.FindManyAsync(predicate, queryOptions, cancellationToken).ConfigureAwait(false);
 
-			if(this.repositoryOptions.InterceptionOptions.IsEnabled)
-			{
-				await this.interceptor.AfterFindAsync(result);
-			}
+			//if(this.repositoryOptions.InterceptionOptions.IsEnabled)
+			//{
+			//	await this.interceptor.AfterFindAsync(result);
+			//}
 
 			return result;
 		}
@@ -568,10 +568,10 @@
 
 			IReadOnlyCollection<TAggregateRoot> result = await this.innerRepository.FindManyAsync(specification, queryOptions, cancellationToken).ConfigureAwait(false);
 
-			if(this.repositoryOptions.InterceptionOptions.IsEnabled)
-			{
-				await this.interceptor.AfterFindAsync(result);
-			}
+			//if(this.repositoryOptions.InterceptionOptions.IsEnabled)
+			//{
+			//	await this.interceptor.AfterFindAsync(result);
+			//}
 
 			return result;
 		}
@@ -588,10 +588,10 @@
 
 			IReadOnlyCollection<TResult> result = await this.innerRepository.FindManyAsync(predicate, selector, queryOptions, cancellationToken).ConfigureAwait(false);
 
-			if(this.repositoryOptions.InterceptionOptions.IsEnabled)
-			{
-				await this.interceptor.AfterFindAsync(result);
-			}
+			//if(this.repositoryOptions.InterceptionOptions.IsEnabled)
+			//{
+			//	await this.interceptor.AfterFindAsync(result);
+			//}
 
 			return result;
 		}
@@ -608,10 +608,10 @@
 
 			IReadOnlyCollection<TResult> result = await this.innerRepository.FindManyAsync(specification, selector, queryOptions, cancellationToken).ConfigureAwait(false);
 
-			if(this.repositoryOptions.InterceptionOptions.IsEnabled)
-			{
-				await this.interceptor.AfterFindAsync(result);
-			}
+			//if(this.repositoryOptions.InterceptionOptions.IsEnabled)
+			//{
+			//	await this.interceptor.AfterFindAsync(result);
+			//}
 
 			return result;
 		}
@@ -630,7 +630,7 @@
 
 				result = await this.innerRepository.CountAsync(predicate, cancellationToken).ConfigureAwait(false);
 
-				await this.interceptor.AfterFindAsync(result);
+				//await this.interceptor.AfterFindAsync(result);
 			}
 			else
 			{
@@ -654,10 +654,10 @@
 
 			long result = await this.innerRepository.CountAsync(predicate, cancellationToken).ConfigureAwait(false);
 
-			if(this.repositoryOptions.InterceptionOptions.IsEnabled)
-			{
-				await this.interceptor.AfterFindAsync(result);
-			}
+			//if(this.repositoryOptions.InterceptionOptions.IsEnabled)
+			//{
+			//	await this.interceptor.AfterFindAsync(result);
+			//}
 
 			return result;
 		}
@@ -674,10 +674,10 @@
 
 			long result = await this.innerRepository.CountAsync(specification, cancellationToken).ConfigureAwait(false);
 
-			if(this.repositoryOptions.InterceptionOptions.IsEnabled)
-			{
-				await this.interceptor.AfterFindAsync(result);
-			}
+			//if(this.repositoryOptions.InterceptionOptions.IsEnabled)
+			//{
+			//	await this.interceptor.AfterFindAsync(result);
+			//}
 
 			return result;
 		}
@@ -696,7 +696,7 @@
 
 				result = await this.innerRepository.FindOneAsync(predicate, QueryOptions<TAggregateRoot>.Empty(), cancellationToken).ConfigureAwait(false);
 
-				await this.interceptor.AfterFindAsync(result);
+				//await this.interceptor.AfterFindAsync(result);
 			}
 			else
 			{
@@ -722,7 +722,7 @@
 
 				result = await this.innerRepository.FindOneAsync(predicate, selector, QueryOptions<TAggregateRoot>.Empty(), cancellationToken).ConfigureAwait(false);
 
-				await this.interceptor.AfterFindAsync(result);
+				//await this.interceptor.AfterFindAsync(result);
 			}
 			else
 			{

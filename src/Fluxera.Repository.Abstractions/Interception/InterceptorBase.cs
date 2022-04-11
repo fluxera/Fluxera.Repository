@@ -1,7 +1,6 @@
 ﻿namespace Fluxera.Repository.Interception
 {
 	using System;
-	using System.Collections.Generic;
 	using System.Linq.Expressions;
 	using System.Threading.Tasks;
 	using Fluxera.Entity;
@@ -28,11 +27,11 @@
 			return Task.CompletedTask;
 		}
 
-		/// <inheritdoc />
-		public virtual Task AfterAddAsync(TAggregateRoot item)
-		{
-			return Task.CompletedTask;
-		}
+		///// <inheritdoc />
+		//public virtual Task AfterAddAsync(TAggregateRoot item)
+		//{
+		//	return Task.CompletedTask;
+		//}
 
 		/// <inheritdoc />
 		public virtual Task BeforeUpdateAsync(TAggregateRoot item, InterceptionEvent e)
@@ -40,11 +39,11 @@
 			return Task.CompletedTask;
 		}
 
-		/// <inheritdoc />
-		public virtual Task AfterUpdateAsync(TAggregateRoot item)
-		{
-			return Task.CompletedTask;
-		}
+		///// <inheritdoc />
+		//public virtual Task AfterUpdateAsync(TAggregateRoot item)
+		//{
+		//	return Task.CompletedTask;
+		//}
 
 		/// <inheritdoc />
 		public virtual Task BeforeRemoveAsync(TAggregateRoot item, InterceptionEvent e)
@@ -53,10 +52,10 @@
 		}
 
 		/// <inheritdoc />
-		public virtual Task AfterRemoveAsync(TAggregateRoot item)
-		{
-			return Task.CompletedTask;
-		}
+		//public virtual Task AfterRemoveAsync(TAggregateRoot item)
+		//{
+		//	return Task.CompletedTask;
+		//}
 
 		/// <inheritdoc />
 		public virtual Task<Expression<Func<TAggregateRoot, bool>>> BeforeRemoveRangeAsync(Expression<Func<TAggregateRoot, bool>> predicate, InterceptionEvent e)
@@ -82,28 +81,28 @@
 			return Task.FromResult(specification);
 		}
 
-		/// <inheritdoc />
-		public virtual Task AfterFindAsync(TAggregateRoot item)
-		{
-			return Task.CompletedTask;
-		}
+		///// <inheritdoc />
+		//public virtual Task AfterFindAsync(TAggregateRoot item)
+		//{
+		//	return Task.CompletedTask;
+		//}
 
-		/// <inheritdoc />
-		public virtual Task AfterFindAsync(IReadOnlyCollection<TAggregateRoot> items)
-		{
-			return Task.CompletedTask;
-		}
+		///// <inheritdoc />
+		//public virtual Task AfterFindAsync(IReadOnlyCollection<TAggregateRoot> items)
+		//{
+		//	return Task.CompletedTask;
+		//}
 
-		/// <inheritdoc />
-		public virtual Task AfterFindAsync<TResult>(TResult item)
-		{
-			return Task.CompletedTask;
-		}
+		///// <inheritdoc />
+		//public virtual Task AfterFindAsync<TResult>(TResult item)
+		//{
+		//	return Task.CompletedTask;
+		//}
 
-		/// <inheritdoc />
-		public virtual Task AfterFindAsync<TResult>(IReadOnlyCollection<TResult> items)
-		{
-			return Task.CompletedTask;
-		}
+		///// <inheritdoc />
+		//public virtual Task AfterFindAsync<TResult>(IReadOnlyCollection<TResult> items)
+		//{
+		//	return Task.CompletedTask;
+		//}
 	}
 }
