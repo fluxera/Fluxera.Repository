@@ -15,7 +15,7 @@
 		/// </summary>
 		/// <param name="assemblies"></param>
 		/// <returns></returns>
-		IDomainEventsOptionsBuilder AddEventHandlers(IEnumerable<Assembly>? assemblies);
+		IDomainEventsOptionsBuilder AddEventHandlers(IEnumerable<Assembly> assemblies);
 
 		/// <summary>
 		///     Adds the domain event handlers available in the given assembly.

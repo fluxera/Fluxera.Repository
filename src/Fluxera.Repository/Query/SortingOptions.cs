@@ -15,9 +15,9 @@ namespace Fluxera.Repository.Query
 			this.PrimaryExpression = new SortExpression<T>(sortExpression, isDescending);
 		}
 
-		private IPagingOptions<T>? PagingOptions { get; set; }
+		private IPagingOptions<T> PagingOptions { get; set; }
 
-		private ISkipTakeOptions<T>? TakeOptions { get; set; }
+		private ISkipTakeOptions<T> TakeOptions { get; set; }
 
 		/// <inheritdoc />
 		public IEnumerable<ISortExpression<T>> SecondaryExpressions => this.secondaryExpressions;
@@ -93,21 +93,21 @@ namespace Fluxera.Repository.Query
 		}
 
 		/// <inheritdoc />
-		public bool TryGetPagingOptions(out IPagingOptions<T>? pagingOptions)
+		public bool TryGetPagingOptions(out IPagingOptions<T> pagingOptions)
 		{
 			pagingOptions = this.PagingOptions;
 			return this.PagingOptions != null;
 		}
 
 		/// <inheritdoc />
-		public bool TryGetSkipTakeOptions(out ISkipTakeOptions<T>? skipTakeOptions)
+		public bool TryGetSkipTakeOptions(out ISkipTakeOptions<T> skipTakeOptions)
 		{
 			skipTakeOptions = this.TakeOptions;
 			return this.TakeOptions != null;
 		}
 
 		/// <inheritdoc />
-		public bool TryGetSortingOptions(out ISortingOptions<T>? sortingOptions)
+		public bool TryGetSortingOptions(out ISortingOptions<T> sortingOptions)
 		{
 			sortingOptions = this;
 			return true;

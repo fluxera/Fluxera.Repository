@@ -32,7 +32,7 @@
 		/// <returns>The result item, or <c>null</c> if no item was found.</returns>
 		Task<TAggregateRoot> FindOneAsync(
 			Expression<Func<TAggregateRoot, bool>> predicate,
-			IQueryOptions<TAggregateRoot>? queryOptions = null,
+			IQueryOptions<TAggregateRoot> queryOptions = null,
 			CancellationToken cancellationToken = default);
 
 		/// <summary>
@@ -44,7 +44,7 @@
 		/// <returns>The result item, or <c>null</c> if no item was found.</returns>
 		Task<TAggregateRoot> FindOneAsync(
 			ISpecification<TAggregateRoot> specification,
-			IQueryOptions<TAggregateRoot>? queryOptions = null,
+			IQueryOptions<TAggregateRoot> queryOptions = null,
 			CancellationToken cancellationToken = default);
 
 		/// <summary>
@@ -59,7 +59,7 @@
 		Task<TResult> FindOneAsync<TResult>(
 			Expression<Func<TAggregateRoot, bool>> predicate,
 			Expression<Func<TAggregateRoot, TResult>> selector,
-			IQueryOptions<TAggregateRoot>? queryOptions = null,
+			IQueryOptions<TAggregateRoot> queryOptions = null,
 			CancellationToken cancellationToken = default);
 
 		/// <summary>
@@ -74,7 +74,7 @@
 		Task<TResult> FindOneAsync<TResult>(
 			ISpecification<TAggregateRoot> specification,
 			Expression<Func<TAggregateRoot, TResult>> selector,
-			IQueryOptions<TAggregateRoot>? queryOptions = null,
+			IQueryOptions<TAggregateRoot> queryOptions = null,
 			CancellationToken cancellationToken = default);
 
 		/// <summary>
@@ -106,7 +106,7 @@
 		/// <returns>The result items, or an empty enumerable if no item was found.</returns>
 		Task<IReadOnlyCollection<TAggregateRoot>> FindManyAsync(
 			Expression<Func<TAggregateRoot, bool>> predicate,
-			IQueryOptions<TAggregateRoot>? queryOptions = null,
+			IQueryOptions<TAggregateRoot> queryOptions = null,
 			CancellationToken cancellationToken = default);
 
 		/// <summary>
@@ -118,7 +118,7 @@
 		/// <returns>The result items, or an empty enumerable if no item was found.</returns>
 		Task<IReadOnlyCollection<TAggregateRoot>> FindManyAsync(
 			ISpecification<TAggregateRoot> specification,
-			IQueryOptions<TAggregateRoot>? queryOptions = null,
+			IQueryOptions<TAggregateRoot> queryOptions = null,
 			CancellationToken cancellationToken = default);
 
 		/// <summary>
@@ -133,7 +133,7 @@
 		Task<IReadOnlyCollection<TResult>> FindManyAsync<TResult>(
 			Expression<Func<TAggregateRoot, bool>> predicate,
 			Expression<Func<TAggregateRoot, TResult>> selector,
-			IQueryOptions<TAggregateRoot>? queryOptions = null,
+			IQueryOptions<TAggregateRoot> queryOptions = null,
 			CancellationToken cancellationToken = default);
 
 		/// <summary>
@@ -148,7 +148,7 @@
 		Task<IReadOnlyCollection<TResult>> FindManyAsync<TResult>(
 			ISpecification<TAggregateRoot> specification,
 			Expression<Func<TAggregateRoot, TResult>> selector,
-			IQueryOptions<TAggregateRoot>? queryOptions = null,
+			IQueryOptions<TAggregateRoot> queryOptions = null,
 			CancellationToken cancellationToken = default);
 	}
 }

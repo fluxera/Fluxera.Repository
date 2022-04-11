@@ -128,25 +128,25 @@
 		}
 
 		/// <inheritdoc />
-		async Task<TAggregateRoot> ICanFind<TAggregateRoot, TKey>.FindOneAsync(Expression<Func<TAggregateRoot, bool>> predicate, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
+		async Task<TAggregateRoot> ICanFind<TAggregateRoot, TKey>.FindOneAsync(Expression<Func<TAggregateRoot, bool>> predicate, IQueryOptions<TAggregateRoot> queryOptions, CancellationToken cancellationToken)
 		{
 			return await this.RunDiagnosticAsync(async () => await this.innerRepository.FindOneAsync(predicate, queryOptions, cancellationToken));
 		}
 
 		/// <inheritdoc />
-		async Task<TAggregateRoot> ICanFind<TAggregateRoot, TKey>.FindOneAsync(ISpecification<TAggregateRoot> specification, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
+		async Task<TAggregateRoot> ICanFind<TAggregateRoot, TKey>.FindOneAsync(ISpecification<TAggregateRoot> specification, IQueryOptions<TAggregateRoot> queryOptions, CancellationToken cancellationToken)
 		{
 			return await this.RunDiagnosticAsync(async () => await this.innerRepository.FindOneAsync(specification, queryOptions, cancellationToken));
 		}
 
 		/// <inheritdoc />
-		async Task<TResult> ICanFind<TAggregateRoot, TKey>.FindOneAsync<TResult>(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
+		async Task<TResult> ICanFind<TAggregateRoot, TKey>.FindOneAsync<TResult>(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot> queryOptions, CancellationToken cancellationToken)
 		{
 			return await this.RunDiagnosticAsync(async () => await this.innerRepository.FindOneAsync(predicate, selector, queryOptions, cancellationToken));
 		}
 
 		/// <inheritdoc />
-		async Task<TResult> ICanFind<TAggregateRoot, TKey>.FindOneAsync<TResult>(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
+		async Task<TResult> ICanFind<TAggregateRoot, TKey>.FindOneAsync<TResult>(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot> queryOptions, CancellationToken cancellationToken)
 		{
 			return await this.RunDiagnosticAsync(async () => await this.innerRepository.FindOneAsync(specification, selector, queryOptions, cancellationToken));
 		}
@@ -164,25 +164,25 @@
 		}
 
 		/// <inheritdoc />
-		async Task<IReadOnlyCollection<TAggregateRoot>> ICanFind<TAggregateRoot, TKey>.FindManyAsync(Expression<Func<TAggregateRoot, bool>> predicate, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
+		async Task<IReadOnlyCollection<TAggregateRoot>> ICanFind<TAggregateRoot, TKey>.FindManyAsync(Expression<Func<TAggregateRoot, bool>> predicate, IQueryOptions<TAggregateRoot> queryOptions, CancellationToken cancellationToken)
 		{
 			return await this.RunDiagnosticAsync(async () => await this.innerRepository.FindManyAsync(predicate, queryOptions, cancellationToken));
 		}
 
 		/// <inheritdoc />
-		async Task<IReadOnlyCollection<TAggregateRoot>> ICanFind<TAggregateRoot, TKey>.FindManyAsync(ISpecification<TAggregateRoot> specification, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
+		async Task<IReadOnlyCollection<TAggregateRoot>> ICanFind<TAggregateRoot, TKey>.FindManyAsync(ISpecification<TAggregateRoot> specification, IQueryOptions<TAggregateRoot> queryOptions, CancellationToken cancellationToken)
 		{
 			return await this.RunDiagnosticAsync(async () => await this.innerRepository.FindManyAsync(specification, queryOptions, cancellationToken));
 		}
 
 		/// <inheritdoc />
-		async Task<IReadOnlyCollection<TResult>> ICanFind<TAggregateRoot, TKey>.FindManyAsync<TResult>(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
+		async Task<IReadOnlyCollection<TResult>> ICanFind<TAggregateRoot, TKey>.FindManyAsync<TResult>(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot> queryOptions, CancellationToken cancellationToken)
 		{
 			return await this.RunDiagnosticAsync(async () => await this.innerRepository.FindManyAsync(predicate, selector, queryOptions, cancellationToken));
 		}
 
 		/// <inheritdoc />
-		async Task<IReadOnlyCollection<TResult>> ICanFind<TAggregateRoot, TKey>.FindManyAsync<TResult>(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
+		async Task<IReadOnlyCollection<TResult>> ICanFind<TAggregateRoot, TKey>.FindManyAsync<TResult>(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot> queryOptions, CancellationToken cancellationToken)
 		{
 			return await this.RunDiagnosticAsync(async () => await this.innerRepository.FindManyAsync(specification, selector, queryOptions, cancellationToken));
 		}
@@ -231,7 +231,7 @@
 			string commandName = callerMemberName.RemovePostFix("Async") ?? callerMemberName;
 			string storageName = this.ToString().RemovePreFix("Fluxera.Repository.") ?? this.ToString();
 
-			Activity? activity = StartActivity(commandName, storageName, this.repositoryOptions);
+			Activity activity = StartActivity(commandName, storageName, this.repositoryOptions);
 			try
 			{
 				TResult result = await func.Invoke();
@@ -254,7 +254,7 @@
 			string commandName = callerMemberName.RemovePostFix("Async") ?? callerMemberName;
 			string storageName = this.ToString().RemovePreFix("Fluxera.Repository.") ?? this.ToString();
 
-			Activity? activity = StartActivity(commandName, storageName, this.repositoryOptions);
+			Activity activity = StartActivity(commandName, storageName, this.repositoryOptions);
 			try
 			{
 				await func.Invoke();
@@ -271,9 +271,9 @@
 			}
 		}
 
-		private static Activity? StartActivity(string commandName, string storageName, RepositoryOptions repositoryOptions)
+		private static Activity StartActivity(string commandName, string storageName, RepositoryOptions repositoryOptions)
 		{
-			Activity? activity = ActivitySource.StartActivity(ActivityName);
+			Activity activity = ActivitySource.StartActivity(ActivityName);
 			if(activity != null)
 			{
 				activity.DisplayName = $"{commandName} for {AggregateRootName}";
@@ -295,17 +295,17 @@
 			return activity;
 		}
 
-		private static void StopActivity(Activity? activity)
+		private static void StopActivity(Activity activity)
 		{
 			activity?.Stop();
 		}
 
-		private static void HandleSuccess(Activity? activity)
+		private static void HandleSuccess(Activity activity)
 		{
 			activity?.AddTag("otel.status_code", "Ok");
 		}
 
-		private static void HandleFailure(Activity? activity, Exception exception)
+		private static void HandleFailure(Activity activity, Exception exception)
 		{
 			if(activity?.IsAllDataRequested == true)
 			{

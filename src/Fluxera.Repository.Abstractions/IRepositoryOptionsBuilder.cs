@@ -80,7 +80,7 @@
 		/// </summary>
 		/// <param name="configure"></param>
 		/// <returns></returns>
-		IRepositoryOptionsBuilder AddCaching(Action<ICachingOptionsBuilder>? configure = null);
+		IRepositoryOptionsBuilder AddCaching(Action<ICachingOptionsBuilder> configure = null);
 
 		/// <summary>
 		///     Adds the interception feature to the repository.

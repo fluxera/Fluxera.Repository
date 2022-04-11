@@ -27,7 +27,7 @@
 		protected abstract IQueryable<TAggregateRoot> Queryable { get; }
 
 		/// <inheritdoc />
-		protected sealed override async Task<TAggregateRoot> FindOneAsync(ISpecification<TAggregateRoot> specification, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
+		protected sealed override async Task<TAggregateRoot> FindOneAsync(ISpecification<TAggregateRoot> specification, IQueryOptions<TAggregateRoot> queryOptions, CancellationToken cancellationToken)
 		{
 			IQueryable<TAggregateRoot> queryable = this.Queryable
 				.Apply(specification)
@@ -37,7 +37,7 @@
 		}
 
 		/// <inheritdoc />
-		protected sealed override async Task<TResult> FindOneAsync<TResult>(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
+		protected sealed override async Task<TResult> FindOneAsync<TResult>(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot> queryOptions, CancellationToken cancellationToken)
 		{
 			IQueryable<TResult> queryable = this.Queryable
 				.Apply(specification)
@@ -48,7 +48,7 @@
 		}
 
 		/// <inheritdoc />
-		protected sealed override async Task<IReadOnlyCollection<TAggregateRoot>> FindManyAsync(ISpecification<TAggregateRoot> specification, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
+		protected sealed override async Task<IReadOnlyCollection<TAggregateRoot>> FindManyAsync(ISpecification<TAggregateRoot> specification, IQueryOptions<TAggregateRoot> queryOptions, CancellationToken cancellationToken)
 		{
 			IQueryable<TAggregateRoot> queryable = this.Queryable
 				.Apply(specification)
@@ -58,7 +58,7 @@
 		}
 
 		/// <inheritdoc />
-		protected sealed override async Task<IReadOnlyCollection<TResult>> FindManyAsync<TResult>(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
+		protected sealed override async Task<IReadOnlyCollection<TResult>> FindManyAsync<TResult>(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot> queryOptions, CancellationToken cancellationToken)
 		{
 			IQueryable<TResult> queryable = this.Queryable
 				.Apply(specification)

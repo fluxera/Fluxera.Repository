@@ -142,7 +142,7 @@
 					// attached value instead of changing the State to modified since it will throw a duplicate key
 					// exception specifically: "An object with the same key already exists in the ObjectStateManager.
 					// The ObjectStateManager cannot track multiple objects with the same key."
-					TAggregateRoot? attachedEntity = await this.dbSet.FindAsync(key).ConfigureAwait(false);
+					TAggregateRoot attachedEntity = await this.dbSet.FindAsync(key).ConfigureAwait(false);
 					if(attachedEntity is not null)
 					{
 						this.dbContext.Entry(attachedEntity).CurrentValues.SetValues(item);

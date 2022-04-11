@@ -94,7 +94,7 @@
 		/// <inheritdoc />
 		public string GetFindOneCacheKey<TAggregateRoot, TKey>(RepositoryName repositoryName, in long generation,
 			Expression<Func<TAggregateRoot, bool>> predicate,
-			IQueryOptions<TAggregateRoot>? queryOptions)
+			IQueryOptions<TAggregateRoot> queryOptions)
 			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 		{
 			// Repositories/Books/Acme.Books.Domain.Model.Book/{Generation}/FindOne/{Predicate}
@@ -114,7 +114,7 @@
 		public string GetFindOneCacheKey<TAggregateRoot, TKey, TResult>(RepositoryName repositoryName, in long generation,
 			Expression<Func<TAggregateRoot, bool>> predicate,
 			Expression<Func<TAggregateRoot, TResult>> selector,
-			IQueryOptions<TAggregateRoot>? queryOptions)
+			IQueryOptions<TAggregateRoot> queryOptions)
 			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 		{
 			// Repositories/Books/Acme.Books.Domain.Model.Book/{Generation}/FindOne/{Predicate}/{Selector}
@@ -132,7 +132,7 @@
 
 		/// <inheritdoc />
 		public string GetFindManyCacheKey<TAggregateRoot, TKey>(RepositoryName repositoryName, in long generation,
-			Expression<Func<TAggregateRoot, bool>> predicate, IQueryOptions<TAggregateRoot>? queryOptions)
+			Expression<Func<TAggregateRoot, bool>> predicate, IQueryOptions<TAggregateRoot> queryOptions)
 			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 		{
 			// Repositories/Books/Acme.Books.Domain.Model.Book/{Generation}/FindMany/{Predicate}
@@ -151,7 +151,7 @@
 		/// <inheritdoc />
 		public string GetFindManyCacheKey<TAggregateRoot, TKey, TResult>(RepositoryName repositoryName, in long generation,
 			Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, TResult>> selector,
-			IQueryOptions<TAggregateRoot>? queryOptions)
+			IQueryOptions<TAggregateRoot> queryOptions)
 			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 		{
 			// Repositories/Books/Acme.Books.Domain.Model.Book/{Generation}/FindMany/{Predicate}/{Selector}

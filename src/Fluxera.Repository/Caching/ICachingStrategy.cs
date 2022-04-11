@@ -105,7 +105,7 @@
 		/// <returns></returns>
 		Task<TAggregateRoot> FindOneAsync(
 			Expression<Func<TAggregateRoot, bool>> predicate,
-			IQueryOptions<TAggregateRoot>? queryOptions,
+			IQueryOptions<TAggregateRoot> queryOptions,
 			Func<Task<TAggregateRoot>> setter);
 
 		/// <summary>
@@ -120,7 +120,7 @@
 		Task<TResult> FindOneAsync<TResult>(
 			Expression<Func<TAggregateRoot, bool>> predicate,
 			Expression<Func<TAggregateRoot, TResult>> selector,
-			IQueryOptions<TAggregateRoot>? queryOptions,
+			IQueryOptions<TAggregateRoot> queryOptions,
 			Func<Task<TResult>> setter);
 
 		/// <summary>
@@ -132,7 +132,7 @@
 		/// <returns></returns>
 		Task<IReadOnlyCollection<TAggregateRoot>> FindManyAsync(
 			Expression<Func<TAggregateRoot, bool>> predicate,
-			IQueryOptions<TAggregateRoot>? queryOptions,
+			IQueryOptions<TAggregateRoot> queryOptions,
 			Func<Task<IReadOnlyCollection<TAggregateRoot>>> setter);
 
 		/// <summary>
@@ -147,7 +147,7 @@
 		Task<IReadOnlyCollection<TResult>> FindManyAsync<TResult>(
 			Expression<Func<TAggregateRoot, bool>> predicate,
 			Expression<Func<TAggregateRoot, TResult>> selector,
-			IQueryOptions<TAggregateRoot>? queryOptions,
+			IQueryOptions<TAggregateRoot> queryOptions,
 			Func<Task<IReadOnlyCollection<TResult>>> setter);
 
 		/// <summary>

@@ -79,7 +79,7 @@
 		protected override Task RemoveRangeAsync(ISpecification<TAggregateRoot> specification, CancellationToken cancellationToken)
 		{
 			IQueryable<TAggregateRoot> items = this.Queryable.Where(specification.Predicate);
-			foreach(TAggregateRoot? item in items)
+			foreach(TAggregateRoot item in items)
 			{
 				this.store.TryRemove(item.ID!, out _);
 			}
@@ -130,7 +130,7 @@
 
 			if(typeof(TKey) == typeof(int))
 			{
-				TKey? pkValue = this.store.Keys.LastOrDefault();
+				TKey pkValue = this.store.Keys.LastOrDefault();
 
 				int nextInt = Convert.ToInt32(pkValue) + 1;
 				return (TKey)Convert.ChangeType(nextInt, typeof(TKey));
@@ -138,7 +138,7 @@
 
 			if(typeof(TKey) == typeof(long))
 			{
-				TKey? pkValue = this.store.Keys.LastOrDefault();
+				TKey pkValue = this.store.Keys.LastOrDefault();
 
 				int nextInt = Convert.ToInt32(pkValue) + 1;
 				return (TKey)Convert.ChangeType(nextInt, typeof(TKey));

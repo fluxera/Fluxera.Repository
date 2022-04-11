@@ -160,7 +160,7 @@
 
 		/// <inheritdoc />
 		public async Task<TAggregateRoot> FindOneAsync(Expression<Func<TAggregateRoot, bool>> predicate,
-			IQueryOptions<TAggregateRoot>? queryOptions, Func<Task<TAggregateRoot>> setter)
+			IQueryOptions<TAggregateRoot> queryOptions, Func<Task<TAggregateRoot>> setter)
 		{
 			try
 			{
@@ -189,7 +189,7 @@
 		}
 
 		public async Task<TResult> FindOneAsync<TResult>(Expression<Func<TAggregateRoot, bool>> predicate,
-			Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot>? queryOptions,
+			Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot> queryOptions,
 			Func<Task<TResult>> setter)
 		{
 			try
@@ -219,7 +219,7 @@
 		}
 
 		public async Task<IReadOnlyCollection<TAggregateRoot>> FindManyAsync(Expression<Func<TAggregateRoot, bool>> predicate,
-			IQueryOptions<TAggregateRoot>? queryOptions, Func<Task<IReadOnlyCollection<TAggregateRoot>>> setter)
+			IQueryOptions<TAggregateRoot> queryOptions, Func<Task<IReadOnlyCollection<TAggregateRoot>>> setter)
 		{
 			try
 			{
@@ -249,7 +249,7 @@
 
 		public async Task<IReadOnlyCollection<TResult>> FindManyAsync<TResult>(
 			Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, TResult>> selector,
-			IQueryOptions<TAggregateRoot>? queryOptions, Func<Task<IReadOnlyCollection<TResult>>> setter)
+			IQueryOptions<TAggregateRoot> queryOptions, Func<Task<IReadOnlyCollection<TResult>>> setter)
 		{
 			try
 			{

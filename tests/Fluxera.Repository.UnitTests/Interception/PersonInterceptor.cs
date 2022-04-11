@@ -22,13 +22,13 @@
 			return base.BeforeAddAsync(item, e);
 		}
 
-		/// <inheritdoc />
-		public override Task AfterAddAsync(Person item)
-		{
-			this.interceptorCounter.AfterAddCalled++;
+		///// <inheritdoc />
+		//public override Task AfterAddAsync(Person item)
+		//{
+		//	this.interceptorCounter.AfterAddCalled++;
 
-			return base.AfterAddAsync(item);
-		}
+		//	return base.AfterAddAsync(item);
+		//}
 
 		/// <inheritdoc />
 		public override Task BeforeUpdateAsync(Person item, InterceptionEvent e)
@@ -38,13 +38,13 @@
 			return base.BeforeUpdateAsync(item, e);
 		}
 
-		/// <inheritdoc />
-		public override Task AfterUpdateAsync(Person item)
-		{
-			this.interceptorCounter.AfterUpdateCalled++;
+		///// <inheritdoc />
+		//public override Task AfterUpdateAsync(Person item)
+		//{
+		//	this.interceptorCounter.AfterUpdateCalled++;
 
-			return base.AfterUpdateAsync(item);
-		}
+		//	return base.AfterUpdateAsync(item);
+		//}
 
 		/// <inheritdoc />
 		public override Task BeforeRemoveAsync(Person item, InterceptionEvent e)
@@ -54,12 +54,12 @@
 			return base.BeforeRemoveAsync(item, e);
 		}
 
-		/// <inheritdoc />
-		public override Task AfterRemoveAsync(Person item)
-		{
-			this.interceptorCounter.AfterRemoveCalled++;
+		///// <inheritdoc />
+		//public override Task AfterRemoveAsync(Person item)
+		//{
+		//	this.interceptorCounter.AfterRemoveCalled++;
 
-			return base.AfterRemoveAsync(item);
-		}
+		//	return base.AfterRemoveAsync(item);
+		//}
 	}
 }

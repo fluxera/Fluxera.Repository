@@ -26,7 +26,7 @@
 			this.repositoryOptions = new RepositoryOptions((RepositoryName)repositoryName, repositoryType);
 		}
 
-		public IRepositoryOptionsBuilder UseFor(IEnumerable<Assembly>? assemblies)
+		public IRepositoryOptionsBuilder UseFor(IEnumerable<Assembly> assemblies)
 		{
 			assemblies ??= Enumerable.Empty<Assembly>();
 
@@ -53,7 +53,7 @@
 			return this;
 		}
 
-		public IRepositoryOptionsBuilder UseFor(IEnumerable<Type>? types)
+		public IRepositoryOptionsBuilder UseFor(IEnumerable<Type> types)
 		{
 			types ??= Enumerable.Empty<Type>();
 
@@ -148,7 +148,7 @@
 			return this;
 		}
 
-		public IRepositoryOptionsBuilder AddCaching(Action<ICachingOptionsBuilder>? configure = null)
+		public IRepositoryOptionsBuilder AddCaching(Action<ICachingOptionsBuilder> configure = null)
 		{
 			if(this.repositoryOptions.CachingOptions.IsEnabled)
 			{

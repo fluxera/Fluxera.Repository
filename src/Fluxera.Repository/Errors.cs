@@ -10,7 +10,7 @@
 	[PublicAPI]
 	internal static class Errors
 	{
-		public static Exception ItemNotValid(IEnumerable<ValidationError> errors, Exception? innerException = null)
+		public static Exception ItemNotValid(IEnumerable<ValidationError> errors, Exception innerException = null)
 		{
 			const string message = "The item is not valid. See validation errors for details.";
 			ValidationException exception = new ValidationException(message, innerException);
@@ -36,7 +36,7 @@
 			return new InvalidOperationException(message);
 		}
 
-		public static Exception ConfigurationMethodAlreadyUsed([CallerMemberName] string? methodName = null)
+		public static Exception ConfigurationMethodAlreadyUsed([CallerMemberName] string methodName = null)
 		{
 			string message = $"The configuration method '{methodName}' can only be used once.";
 			return new InvalidOperationException(message);

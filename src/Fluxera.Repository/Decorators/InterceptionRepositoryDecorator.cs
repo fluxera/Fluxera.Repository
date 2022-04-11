@@ -95,7 +95,7 @@
 				if(!e.CancelOperation)
 				{
 					await this.innerRepository.AddAsync(item, cancellationToken).ConfigureAwait(false);
-					await this.interceptor.AfterAddAsync(item).ConfigureAwait(false);
+					//await this.interceptor.AfterAddAsync(item).ConfigureAwait(false);
 				}
 				else
 				{
@@ -131,10 +131,10 @@
 				{
 					await this.innerRepository.AddRangeAsync(itemsList, cancellationToken).ConfigureAwait(false);
 
-					foreach(TAggregateRoot item in itemsList)
-					{
-						await this.interceptor.AfterAddAsync(item).ConfigureAwait(false);
-					}
+					//foreach(TAggregateRoot item in itemsList)
+					//{
+					//	await this.interceptor.AfterAddAsync(item).ConfigureAwait(false);
+					//}
 				}
 				else
 				{
@@ -164,7 +164,7 @@
 				if(!e.CancelOperation)
 				{
 					await this.innerRepository.UpdateAsync(item, cancellationToken).ConfigureAwait(false);
-					await this.interceptor.AfterUpdateAsync(item).ConfigureAwait(false);
+					//await this.interceptor.AfterUpdateAsync(item).ConfigureAwait(false);
 				}
 				else
 				{
@@ -200,10 +200,10 @@
 				{
 					await this.innerRepository.UpdateRangeAsync(itemsList, cancellationToken).ConfigureAwait(false);
 
-					foreach(TAggregateRoot item in itemsList)
-					{
-						await this.interceptor.AfterUpdateAsync(item).ConfigureAwait(false);
-					}
+					//foreach(TAggregateRoot item in itemsList)
+					//{
+					//	await this.interceptor.AfterUpdateAsync(item).ConfigureAwait(false);
+					//}
 				}
 				else
 				{
@@ -268,7 +268,7 @@
 				if(!e.CancelOperation)
 				{
 					await this.innerRepository.RemoveAsync(item, cancellationToken).ConfigureAwait(false);
-					await this.interceptor.AfterRemoveAsync(item).ConfigureAwait(false);
+					//await this.interceptor.AfterRemoveAsync(item).ConfigureAwait(false);
 				}
 				else
 				{
@@ -372,10 +372,10 @@
 				{
 					await this.innerRepository.RemoveRangeAsync(itemsList, cancellationToken).ConfigureAwait(false);
 
-					foreach(TAggregateRoot item in itemsList)
-					{
-						await this.interceptor.AfterRemoveAsync(item).ConfigureAwait(false);
-					}
+					//foreach(TAggregateRoot item in itemsList)
+					//{
+					//	await this.interceptor.AfterRemoveAsync(item).ConfigureAwait(false);
+					//}
 				}
 				else
 				{
@@ -391,7 +391,7 @@
 		}
 
 		/// <inheritdoc />
-		async Task<TAggregateRoot> ICanFind<TAggregateRoot, TKey>.FindOneAsync(Expression<Func<TAggregateRoot, bool>> predicate, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
+		async Task<TAggregateRoot> ICanFind<TAggregateRoot, TKey>.FindOneAsync(Expression<Func<TAggregateRoot, bool>> predicate, IQueryOptions<TAggregateRoot> queryOptions, CancellationToken cancellationToken)
 		{
 			if(this.repositoryOptions.InterceptionOptions.IsEnabled)
 			{
@@ -402,16 +402,16 @@
 
 			TAggregateRoot result = await this.innerRepository.FindOneAsync(predicate, queryOptions, cancellationToken).ConfigureAwait(false);
 
-			if(this.repositoryOptions.InterceptionOptions.IsEnabled)
-			{
-				await this.interceptor.AfterFindAsync(result).ConfigureAwait(false);
-			}
+			//if(this.repositoryOptions.InterceptionOptions.IsEnabled)
+			//{
+			//	await this.interceptor.AfterFindAsync(result).ConfigureAwait(false);
+			//}
 
 			return result;
 		}
 
 		/// <inheritdoc />
-		async Task<TAggregateRoot> ICanFind<TAggregateRoot, TKey>.FindOneAsync(ISpecification<TAggregateRoot> specification, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
+		async Task<TAggregateRoot> ICanFind<TAggregateRoot, TKey>.FindOneAsync(ISpecification<TAggregateRoot> specification, IQueryOptions<TAggregateRoot> queryOptions, CancellationToken cancellationToken)
 		{
 			if(this.repositoryOptions.InterceptionOptions.IsEnabled)
 			{
@@ -422,16 +422,16 @@
 
 			TAggregateRoot result = await this.innerRepository.FindOneAsync(specification, queryOptions, cancellationToken).ConfigureAwait(false);
 
-			if(this.repositoryOptions.InterceptionOptions.IsEnabled)
-			{
-				await this.interceptor.AfterFindAsync(result).ConfigureAwait(false);
-			}
+			//if(this.repositoryOptions.InterceptionOptions.IsEnabled)
+			//{
+			//	await this.interceptor.AfterFindAsync(result).ConfigureAwait(false);
+			//}
 
 			return result;
 		}
 
 		/// <inheritdoc />
-		async Task<TResult> ICanFind<TAggregateRoot, TKey>.FindOneAsync<TResult>(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
+		async Task<TResult> ICanFind<TAggregateRoot, TKey>.FindOneAsync<TResult>(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot> queryOptions, CancellationToken cancellationToken)
 		{
 			if(this.repositoryOptions.InterceptionOptions.IsEnabled)
 			{
@@ -442,16 +442,16 @@
 
 			TResult result = await this.innerRepository.FindOneAsync(predicate, selector, queryOptions, cancellationToken).ConfigureAwait(false);
 
-			if(this.repositoryOptions.InterceptionOptions.IsEnabled)
-			{
-				await this.interceptor.AfterFindAsync(result).ConfigureAwait(false);
-			}
+			//if(this.repositoryOptions.InterceptionOptions.IsEnabled)
+			//{
+			//	await this.interceptor.AfterFindAsync(result).ConfigureAwait(false);
+			//}
 
 			return result;
 		}
 
 		/// <inheritdoc />
-		async Task<TResult> ICanFind<TAggregateRoot, TKey>.FindOneAsync<TResult>(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
+		async Task<TResult> ICanFind<TAggregateRoot, TKey>.FindOneAsync<TResult>(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot> queryOptions, CancellationToken cancellationToken)
 		{
 			if(this.repositoryOptions.InterceptionOptions.IsEnabled)
 			{
@@ -462,10 +462,10 @@
 
 			TResult result = await this.innerRepository.FindOneAsync(specification, selector, queryOptions, cancellationToken).ConfigureAwait(false);
 
-			if(this.repositoryOptions.InterceptionOptions.IsEnabled)
-			{
-				await this.interceptor.AfterFindAsync(result).ConfigureAwait(false);
-			}
+			//if(this.repositoryOptions.InterceptionOptions.IsEnabled)
+			//{
+			//	await this.interceptor.AfterFindAsync(result).ConfigureAwait(false);
+			//}
 
 			return result;
 		}
@@ -484,7 +484,7 @@
 
 				result = await this.innerRepository.ExistsAsync(predicate, cancellationToken).ConfigureAwait(false);
 
-				await this.interceptor.AfterFindAsync(result);
+				//await this.interceptor.AfterFindAsync(result);
 			}
 			else
 			{
@@ -508,10 +508,10 @@
 
 			bool result = await this.innerRepository.ExistsAsync(predicate, cancellationToken).ConfigureAwait(false);
 
-			if(this.repositoryOptions.InterceptionOptions.IsEnabled)
-			{
-				await this.interceptor.AfterFindAsync(result);
-			}
+			//if(this.repositoryOptions.InterceptionOptions.IsEnabled)
+			//{
+			//	await this.interceptor.AfterFindAsync(result);
+			//}
 
 			return result;
 		}
@@ -528,16 +528,16 @@
 
 			bool result = await this.innerRepository.ExistsAsync(specification, cancellationToken).ConfigureAwait(false);
 
-			if(this.repositoryOptions.InterceptionOptions.IsEnabled)
-			{
-				await this.interceptor.AfterFindAsync(result);
-			}
+			//if(this.repositoryOptions.InterceptionOptions.IsEnabled)
+			//{
+			//	await this.interceptor.AfterFindAsync(result);
+			//}
 
 			return result;
 		}
 
 		/// <inheritdoc />
-		async Task<IReadOnlyCollection<TAggregateRoot>> ICanFind<TAggregateRoot, TKey>.FindManyAsync(Expression<Func<TAggregateRoot, bool>> predicate, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
+		async Task<IReadOnlyCollection<TAggregateRoot>> ICanFind<TAggregateRoot, TKey>.FindManyAsync(Expression<Func<TAggregateRoot, bool>> predicate, IQueryOptions<TAggregateRoot> queryOptions, CancellationToken cancellationToken)
 		{
 			if(this.repositoryOptions.InterceptionOptions.IsEnabled)
 			{
@@ -548,16 +548,16 @@
 
 			IReadOnlyCollection<TAggregateRoot> result = await this.innerRepository.FindManyAsync(predicate, queryOptions, cancellationToken).ConfigureAwait(false);
 
-			if(this.repositoryOptions.InterceptionOptions.IsEnabled)
-			{
-				await this.interceptor.AfterFindAsync(result);
-			}
+			//if(this.repositoryOptions.InterceptionOptions.IsEnabled)
+			//{
+			//	await this.interceptor.AfterFindAsync(result);
+			//}
 
 			return result;
 		}
 
 		/// <inheritdoc />
-		async Task<IReadOnlyCollection<TAggregateRoot>> ICanFind<TAggregateRoot, TKey>.FindManyAsync(ISpecification<TAggregateRoot> specification, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
+		async Task<IReadOnlyCollection<TAggregateRoot>> ICanFind<TAggregateRoot, TKey>.FindManyAsync(ISpecification<TAggregateRoot> specification, IQueryOptions<TAggregateRoot> queryOptions, CancellationToken cancellationToken)
 		{
 			if(this.repositoryOptions.InterceptionOptions.IsEnabled)
 			{
@@ -568,16 +568,16 @@
 
 			IReadOnlyCollection<TAggregateRoot> result = await this.innerRepository.FindManyAsync(specification, queryOptions, cancellationToken).ConfigureAwait(false);
 
-			if(this.repositoryOptions.InterceptionOptions.IsEnabled)
-			{
-				await this.interceptor.AfterFindAsync(result);
-			}
+			//if(this.repositoryOptions.InterceptionOptions.IsEnabled)
+			//{
+			//	await this.interceptor.AfterFindAsync(result);
+			//}
 
 			return result;
 		}
 
 		/// <inheritdoc />
-		async Task<IReadOnlyCollection<TResult>> ICanFind<TAggregateRoot, TKey>.FindManyAsync<TResult>(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
+		async Task<IReadOnlyCollection<TResult>> ICanFind<TAggregateRoot, TKey>.FindManyAsync<TResult>(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot> queryOptions, CancellationToken cancellationToken)
 		{
 			if(this.repositoryOptions.InterceptionOptions.IsEnabled)
 			{
@@ -588,16 +588,16 @@
 
 			IReadOnlyCollection<TResult> result = await this.innerRepository.FindManyAsync(predicate, selector, queryOptions, cancellationToken).ConfigureAwait(false);
 
-			if(this.repositoryOptions.InterceptionOptions.IsEnabled)
-			{
-				await this.interceptor.AfterFindAsync(result);
-			}
+			//if(this.repositoryOptions.InterceptionOptions.IsEnabled)
+			//{
+			//	await this.interceptor.AfterFindAsync(result);
+			//}
 
 			return result;
 		}
 
 		/// <inheritdoc />
-		async Task<IReadOnlyCollection<TResult>> ICanFind<TAggregateRoot, TKey>.FindManyAsync<TResult>(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot>? queryOptions, CancellationToken cancellationToken)
+		async Task<IReadOnlyCollection<TResult>> ICanFind<TAggregateRoot, TKey>.FindManyAsync<TResult>(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot> queryOptions, CancellationToken cancellationToken)
 		{
 			if(this.repositoryOptions.InterceptionOptions.IsEnabled)
 			{
@@ -608,10 +608,10 @@
 
 			IReadOnlyCollection<TResult> result = await this.innerRepository.FindManyAsync(specification, selector, queryOptions, cancellationToken).ConfigureAwait(false);
 
-			if(this.repositoryOptions.InterceptionOptions.IsEnabled)
-			{
-				await this.interceptor.AfterFindAsync(result);
-			}
+			//if(this.repositoryOptions.InterceptionOptions.IsEnabled)
+			//{
+			//	await this.interceptor.AfterFindAsync(result);
+			//}
 
 			return result;
 		}
@@ -630,7 +630,7 @@
 
 				result = await this.innerRepository.CountAsync(predicate, cancellationToken).ConfigureAwait(false);
 
-				await this.interceptor.AfterFindAsync(result);
+				//await this.interceptor.AfterFindAsync(result);
 			}
 			else
 			{
@@ -654,10 +654,10 @@
 
 			long result = await this.innerRepository.CountAsync(predicate, cancellationToken).ConfigureAwait(false);
 
-			if(this.repositoryOptions.InterceptionOptions.IsEnabled)
-			{
-				await this.interceptor.AfterFindAsync(result);
-			}
+			//if(this.repositoryOptions.InterceptionOptions.IsEnabled)
+			//{
+			//	await this.interceptor.AfterFindAsync(result);
+			//}
 
 			return result;
 		}
@@ -674,10 +674,10 @@
 
 			long result = await this.innerRepository.CountAsync(specification, cancellationToken).ConfigureAwait(false);
 
-			if(this.repositoryOptions.InterceptionOptions.IsEnabled)
-			{
-				await this.interceptor.AfterFindAsync(result);
-			}
+			//if(this.repositoryOptions.InterceptionOptions.IsEnabled)
+			//{
+			//	await this.interceptor.AfterFindAsync(result);
+			//}
 
 			return result;
 		}
@@ -696,7 +696,7 @@
 
 				result = await this.innerRepository.FindOneAsync(predicate, QueryOptions<TAggregateRoot>.Empty(), cancellationToken).ConfigureAwait(false);
 
-				await this.interceptor.AfterFindAsync(result);
+				//await this.interceptor.AfterFindAsync(result);
 			}
 			else
 			{
@@ -722,7 +722,7 @@
 
 				result = await this.innerRepository.FindOneAsync(predicate, selector, QueryOptions<TAggregateRoot>.Empty(), cancellationToken).ConfigureAwait(false);
 
-				await this.interceptor.AfterFindAsync(result);
+				//await this.interceptor.AfterFindAsync(result);
 			}
 			else
 			{
@@ -736,7 +736,7 @@
 
 		private static void RecordCancellation(string cancellationMessage)
 		{
-			Activity? activity = Activity.Current;
+			Activity activity = Activity.Current;
 
 			if((activity?.IsAllDataRequested == true) && !string.IsNullOrWhiteSpace(cancellationMessage))
 			{
@@ -776,7 +776,7 @@
 			}
 		}
 
-		private static void RecordStatement<TResult>(string? predicate, Expression<Func<TAggregateRoot, TResult>> selector)
+		private static void RecordStatement<TResult>(string predicate, Expression<Func<TAggregateRoot, TResult>> selector)
 		{
 			if(Activity.Current != null)
 			{
@@ -784,9 +784,9 @@
 			}
 		}
 
-		private static void RecordStatement(string? predicate, string? selector = "" /*, string? queryOptions = ""*/)
+		private static void RecordStatement(string predicate, string selector = "" /*, string? queryOptions = ""*/)
 		{
-			Activity? activity = Activity.Current;
+			Activity activity = Activity.Current;
 
 			if((activity != null) && activity.IsAllDataRequested && !string.IsNullOrWhiteSpace(predicate))
 			{

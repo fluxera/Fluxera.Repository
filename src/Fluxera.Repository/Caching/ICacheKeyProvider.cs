@@ -117,7 +117,7 @@
 		/// <returns></returns>
 		string GetFindOneCacheKey<TAggregateRoot, TKey>(RepositoryName repositoryName, in long generation,
 			Expression<Func<TAggregateRoot, bool>> predicate,
-			IQueryOptions<TAggregateRoot>? queryOptions)
+			IQueryOptions<TAggregateRoot> queryOptions)
 			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>;
 
 		/// <summary>
@@ -135,7 +135,7 @@
 		string GetFindOneCacheKey<TAggregateRoot, TKey, TResult>(RepositoryName repositoryName, in long generation,
 			Expression<Func<TAggregateRoot, bool>> predicate,
 			Expression<Func<TAggregateRoot, TResult>> selector,
-			IQueryOptions<TAggregateRoot>? queryOptions)
+			IQueryOptions<TAggregateRoot> queryOptions)
 			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>;
 
 		/// <summary>
@@ -150,7 +150,7 @@
 		/// <returns></returns>
 		string GetFindManyCacheKey<TAggregateRoot, TKey>(RepositoryName repositoryName, in long generation,
 			Expression<Func<TAggregateRoot, bool>> predicate,
-			IQueryOptions<TAggregateRoot>? queryOptions)
+			IQueryOptions<TAggregateRoot> queryOptions)
 			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>;
 
 		/// <summary>
@@ -168,7 +168,7 @@
 		string GetFindManyCacheKey<TAggregateRoot, TKey, TResult>(RepositoryName repositoryName, in long generation,
 			Expression<Func<TAggregateRoot, bool>> predicate,
 			Expression<Func<TAggregateRoot, TResult>> selector,
-			IQueryOptions<TAggregateRoot>? queryOptions)
+			IQueryOptions<TAggregateRoot> queryOptions)
 			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>;
 
 		/// <summary>

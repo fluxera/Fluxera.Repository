@@ -32,7 +32,7 @@
 		{
 			this.EnsureInitialized();
 
-			RepositoryName? repositoryName = this.repositoryMappings.GetOrDefault(repositoryType);
+			RepositoryName repositoryName = this.repositoryMappings.GetOrDefault(repositoryType);
 			if(repositoryName is null)
 			{
 				throw Errors.NoRepositoryNameAvailable(repositoryType);
@@ -52,7 +52,7 @@
 		{
 			this.EnsureInitialized();
 
-			RepositoryOptions? repositoryOptions = this.repositories.GetOrDefault(repositoryName);
+			RepositoryOptions repositoryOptions = this.repositories.GetOrDefault(repositoryName);
 			if(repositoryOptions is null)
 			{
 				throw Errors.NoRepositoryOptionsAvailable(repositoryName);
