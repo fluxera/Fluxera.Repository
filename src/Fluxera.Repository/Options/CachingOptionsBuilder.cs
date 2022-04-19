@@ -55,6 +55,13 @@ namespace Fluxera.Repository.Options
 		}
 
 		/// <inheritdoc />
+		public IAggregateCachingOptionsBuilder UseNoCachingFor(Type type)
+		{
+			this.AddAggregateStrategyMapping(type, CachingStrategyNames.NoCaching);
+			return this;
+		}
+
+		/// <inheritdoc />
 		public IAggregateCachingOptionsBuilder UseStandardFor<TAggregateRoot>()
 		{
 			Type type = typeof(TAggregateRoot);
@@ -63,9 +70,23 @@ namespace Fluxera.Repository.Options
 		}
 
 		/// <inheritdoc />
+		public IAggregateCachingOptionsBuilder UseStandardFor(Type type)
+		{
+			this.AddAggregateStrategyMapping(type, CachingStrategyNames.Standard);
+			return this;
+		}
+
+		/// <inheritdoc />
 		public IAggregateCachingOptionsBuilder UseTimeoutFor<TAggregateRoot>(TimeSpan expiration)
 		{
 			Type type = typeof(TAggregateRoot);
+			this.AddAggregateStrategyMapping(type, CachingStrategyNames.Timeout, expiration);
+			return this;
+		}
+
+		/// <inheritdoc />
+		public IAggregateCachingOptionsBuilder UseTimeoutFor(Type type, TimeSpan expiration)
+		{
 			this.AddAggregateStrategyMapping(type, CachingStrategyNames.Timeout, expiration);
 			return this;
 		}

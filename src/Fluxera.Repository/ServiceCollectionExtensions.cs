@@ -2,7 +2,6 @@
 {
 	using System;
 	using System.Collections.Generic;
-	using System.Reflection;
 	using Fluxera.Entity.DomainEvents;
 	using Fluxera.Extensions.Common;
 	using Fluxera.Extensions.DependencyInjection;
@@ -62,9 +61,10 @@
 				builder.AddDomainEventHandlers(() =>
 				{
 					RepositoryOptionsList repositoryOptionsList = services.GetSingletonInstance<RepositoryOptionsList>();
-					IList<Assembly> domainEventHandlerAssemblies = new List<Assembly>();
-					repositoryOptionsList.ForEach(x => domainEventHandlerAssemblies.AddRange(x.DomainEventsOptions.DomainEventHandlersAssemblies));
-					return domainEventHandlerAssemblies.AsReadOnly();
+					IList<Type> domainEventHandlerTypes = new List<Type>();
+					repositoryOptionsList.ForEach(x => domainEventHandlerTypes.AddRange(x.DomainEventsOptions.DomainEventHandlerTypes));
+
+					return domainEventHandlerTypes.AsReadOnly();
 				});
 			});
 

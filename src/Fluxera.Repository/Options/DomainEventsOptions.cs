@@ -1,7 +1,7 @@
 ﻿namespace Fluxera.Repository.Options
 {
+	using System;
 	using System.Collections.Generic;
-	using System.Reflection;
 	using JetBrains.Annotations;
 
 	/// <summary>
@@ -30,8 +30,8 @@
 		public bool IsEnabled { get; set; }
 
 		/// <summary>
-		///     Gets the assemblies containing the event handlers.
+		///     Gets the event handler types.
 		/// </summary>
-		public IList<Assembly> DomainEventHandlersAssemblies { get; } = new List<Assembly>();
+		public IList<Type> DomainEventHandlerTypes { get; } = new List<Type>();
 	}
 }

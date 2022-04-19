@@ -44,6 +44,19 @@
 		}
 
 		/// <inheritdoc />
+		public IInterceptionOptionsBuilder AddInterceptors(IEnumerable<Type> types)
+		{
+			types ??= Enumerable.Empty<Type>();
+
+			foreach(Type type in types)
+			{
+				this.AddInterceptor(type);
+			}
+
+			return this;
+		}
+
+		/// <inheritdoc />
 		public IInterceptionOptionsBuilder AddInterceptor(Type interceptorType)
 		{
 			bool isInterceptor = interceptorType.GetInterfaces().Any(x => x.IsGenericType && (x.GetGenericTypeDefinition() == typeof(IInterceptor<,>)));
