@@ -246,7 +246,7 @@ services.AddRepository(builder =>
                 .UseTimeoutFor<Person>(TimeSpan.FromSeconds(20));
         });
 
-        // Configure the interceoptors (optional).
+        // Configure the interceptors (optional).
         options.AddInterception(interception =>
         {
             interception.AddInterceptors(typeof(Person).Assembly);
