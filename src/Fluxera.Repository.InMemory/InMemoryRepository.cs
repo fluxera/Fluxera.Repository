@@ -12,12 +12,12 @@
 	internal sealed class InMemoryRepository<TAggregateRoot, TKey> : LinqRepositoryBase<TAggregateRoot, TKey>
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 	{
-		private readonly ConcurrentDictionary<TKey, TAggregateRoot> store = new ConcurrentDictionary<TKey, TAggregateRoot>();
+		private static readonly ConcurrentDictionary<TKey, TAggregateRoot> store = new ConcurrentDictionary<TKey, TAggregateRoot>();
 
 		private static string Name => "Fluxera.Repository.InMemoryRepository";
 
 		/// <inheritdoc />
-		protected override IQueryable<TAggregateRoot> Queryable => this.store.Values.AsQueryable();
+		protected override IQueryable<TAggregateRoot> Queryable => store.Values.AsQueryable();
 
 		/// <inheritdoc />
 		public override string ToString()
@@ -58,8 +58,8 @@
 		/// <inheritdoc />
 		protected override Task AddAsync(TAggregateRoot item, CancellationToken cancellationToken)
 		{
-			item.ID = this.GenerateKey();
-			this.store.TryAdd(item.ID, item);
+			item.ID = GenerateKey();
+			store.TryAdd(item.ID, item);
 			return Task.CompletedTask;
 		}
 
@@ -68,8 +68,8 @@
 		{
 			foreach(TAggregateRoot item in items)
 			{
-				item.ID = this.GenerateKey();
-				this.store.TryAdd(item.ID, item);
+				item.ID = GenerateKey();
+				store.TryAdd(item.ID, item);
 			}
 
 			return Task.CompletedTask;
@@ -81,7 +81,7 @@
 			IQueryable<TAggregateRoot> items = this.Queryable.Where(specification.Predicate);
 			foreach(TAggregateRoot item in items)
 			{
-				this.store.TryRemove(item.ID!, out _);
+				store.TryRemove(item.ID, out _);
 			}
 
 			return Task.CompletedTask;
@@ -92,7 +92,7 @@
 		{
 			foreach(TAggregateRoot item in items)
 			{
-				this.store.TryRemove(item.ID!, out _);
+				store.TryRemove(item.ID, out _);
 			}
 
 			return Task.CompletedTask;
@@ -101,7 +101,7 @@
 		/// <inheritdoc />
 		protected override Task UpdateAsync(TAggregateRoot item, CancellationToken cancellationToken)
 		{
-			this.store[item.ID!] = item;
+			store[item.ID] = item;
 			return Task.CompletedTask;
 		}
 
@@ -110,13 +110,13 @@
 		{
 			foreach(TAggregateRoot item in items)
 			{
-				this.store[item.ID!] = item;
+				store[item.ID] = item;
 			}
 
 			return Task.CompletedTask;
 		}
 
-		private TKey GenerateKey()
+		private static TKey GenerateKey()
 		{
 			if(typeof(TKey) == typeof(string))
 			{
@@ -130,7 +130,7 @@
 
 			if(typeof(TKey) == typeof(int))
 			{
-				TKey pkValue = this.store.Keys.LastOrDefault();
+				TKey pkValue = store.Keys.LastOrDefault();
 
 				int nextInt = Convert.ToInt32(pkValue) + 1;
 				return (TKey)Convert.ChangeType(nextInt, typeof(TKey));
@@ -138,7 +138,7 @@
 
 			if(typeof(TKey) == typeof(long))
 			{
-				TKey pkValue = this.store.Keys.LastOrDefault();
+				TKey pkValue = store.Keys.LastOrDefault();
 
 				int nextInt = Convert.ToInt32(pkValue) + 1;
 				return (TKey)Convert.ChangeType(nextInt, typeof(TKey));
