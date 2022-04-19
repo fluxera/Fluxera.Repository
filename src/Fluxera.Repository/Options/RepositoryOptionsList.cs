@@ -5,7 +5,7 @@
 	/// <summary>
 	///     A helper list for holding the repository options.
 	/// </summary>
-	public sealed class RepositoryOptionsList : List<RepositoryOptions>
+	internal sealed class RepositoryOptionsList : List<RepositoryOptions>
 	{
 	}
 }

@@ -220,7 +220,7 @@ services.AddRepository(builder =>
     // Add default services and the repositories.
     builder.AddMongoRepository("MongoDB", options =>
     {
-        // Confiure for what aggregate root types this repository is used.
+        // Configure for what aggregate root types this repository uses.
         options.UseFor<Person>();
 
         // Configure the domain events (optional).
@@ -239,7 +239,12 @@ services.AddRepository(builder =>
         });
 
         // Configure caching (optional).
-        options.AddCaching();
+        options.AddCaching((caching =>
+        {
+            caching
+                .UseStandard()
+                .UseTimeoutFor<Person>(TimeSpan.FromSeconds(20));
+        });
 
         // Configure the interceoptors (optional).
         options.AddInterception(interception =>

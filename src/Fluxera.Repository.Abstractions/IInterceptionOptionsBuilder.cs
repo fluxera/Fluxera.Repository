@@ -27,6 +27,13 @@
 		IInterceptionOptionsBuilder AddInterceptors(Assembly assembly);
 
 		/// <summary>
+		///     Adds the given interceptors to the service collection.
+		/// </summary>
+		/// <param name="types"></param>
+		/// <returns>The interception options builder.</returns>
+		IInterceptionOptionsBuilder AddInterceptors(IEnumerable<Type> types);
+
+		/// <summary>
 		///     Adds the given interceptor to the service collection.
 		/// </summary>
 		/// <param name="interceptorType"></param>
