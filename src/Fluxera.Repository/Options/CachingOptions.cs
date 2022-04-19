@@ -18,7 +18,7 @@ namespace Fluxera.Repository.Options
 		public CachingOptions(RepositoryName repositoryName)
 		{
 			this.RepositoryName = repositoryName;
-			this.DefaultStrategy = CachingStrategyNames.Standard;
+			this.DefaultStrategy = CachingStrategyNames.NoCaching;
 		}
 
 		/// <summary>
