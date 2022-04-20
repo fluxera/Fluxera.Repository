@@ -22,10 +22,9 @@
 		/// <param name="builder"></param>
 		/// <param name="repositoryName"></param>
 		/// <param name="configure"></param>
-		/// <param name="configureMapper"></param>
 		/// <returns></returns>
-		public static IRepositoryBuilder AddLiteRepository(this IRepositoryBuilder builder, string repositoryName,
-			Action<IRepositoryOptionsBuilder> configure, Action<BsonMapper> configureMapper)
+		public static IRepositoryBuilder AddLiteRepository(this IRepositoryBuilder builder,
+			string repositoryName, Action<IRepositoryOptionsBuilder> configure)
 		{
 			Guard.Against.Null(builder, nameof(builder));
 			Guard.Against.NullOrWhiteSpace(repositoryName, nameof(repositoryName));
@@ -40,7 +39,7 @@
 			//BsonMapper.Global.UseTemporal();
 			BsonMapper.Global.UseEnumeration();
 
-			configureMapper.Invoke(BsonMapper.Global);
+			//configureMapper.Invoke(BsonMapper.Global);
 
 			builder.Services.TryAddSingleton<IDatabaseProvider, DatabaseProvider>();
 			return builder.AddRepository(repositoryName, typeof(LiteRepository<,>), configure);

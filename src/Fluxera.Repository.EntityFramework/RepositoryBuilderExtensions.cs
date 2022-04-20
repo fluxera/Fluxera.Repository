@@ -28,7 +28,7 @@
 
 			builder.Services.AddSingleton<IDbContextFactory, DbContextFactory>();
 
-			return builder.AddRepository(repositoryName, typeof(EntityFrameworkRepository<,>), configure);
+			return builder.AddRepository(repositoryName, typeof(EntityFrameworkCoreRepository<,>), configure);
 		}
 	}
 }

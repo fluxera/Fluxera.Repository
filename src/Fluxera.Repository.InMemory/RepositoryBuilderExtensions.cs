@@ -18,7 +18,8 @@
 		/// <param name="repositoryName"></param>
 		/// <param name="configure"></param>
 		/// <returns></returns>
-		public static IRepositoryBuilder AddInMemoryRepository(this IRepositoryBuilder builder, string repositoryName, Action<IRepositoryOptionsBuilder> configure)
+		public static IRepositoryBuilder AddInMemoryRepository(this IRepositoryBuilder builder,
+			string repositoryName, Action<IRepositoryOptionsBuilder> configure)
 		{
 			Guard.Against.Null(builder, nameof(builder));
 			Guard.Against.NullOrWhiteSpace(repositoryName, nameof(repositoryName));

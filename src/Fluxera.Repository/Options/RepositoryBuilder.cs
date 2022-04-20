@@ -30,7 +30,6 @@
 			// Add the repositories for the registered aggregates.
 			Type repositoryServiceTemplateType = typeof(IRepository<,>);
 			Type readOnlyRepositoryServiceTemplateType = typeof(IReadOnlyRepository<,>);
-			Type repositoryImplementationTemplateType = repositoryType;
 
 			foreach(Type aggregateRootType in repositoryOptions.AggregateRootTypes)
 			{
@@ -38,7 +37,7 @@
 
 				Type repositoryServiceType = repositoryServiceTemplateType.MakeGenericType(aggregateRootType, keyType);
 				Type readOnlyRepositoryServiceType = readOnlyRepositoryServiceTemplateType.MakeGenericType(aggregateRootType, keyType);
-				Type implementationType = repositoryImplementationTemplateType.MakeGenericType(aggregateRootType, keyType);
+				Type implementationType = repositoryType.MakeGenericType(aggregateRootType, keyType);
 
 				this.Services.AddTransient(repositoryServiceType, implementationType);
 				this.Services.AddTransient(readOnlyRepositoryServiceType, implementationType);

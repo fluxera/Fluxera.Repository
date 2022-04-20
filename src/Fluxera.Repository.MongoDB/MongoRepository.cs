@@ -30,11 +30,11 @@
 
 			MongoPersistenceSettings persistenceSettings = new MongoPersistenceSettings
 			{
-				ConnectionString = (string)(options.SettingsValues.GetOrDefault("Mongo.ConnectionString") ?? "mongodb://localhost:27017"),
-				Database = (string)(options.SettingsValues.GetOrDefault("Mongo.Database") ?? "default")
+				ConnectionString = (string)(options.Settings.GetOrDefault("Mongo.ConnectionString") ?? "mongodb://localhost:27017"),
+				Database = (string)(options.Settings.GetOrDefault("Mongo.Database") ?? "default")
 			};
 
-			object settingsUseSsl = options.SettingsValues.GetOrDefault("Mongo.UseSsl");
+			object settingsUseSsl = options.Settings.GetOrDefault("Mongo.UseSsl");
 			persistenceSettings.UseSsl = (bool)(settingsUseSsl ?? false);
 
 			string connectionString = persistenceSettings.ConnectionString;
@@ -53,7 +53,7 @@
 
 			MongoClientSettings settings = MongoClientSettings.FromUrl(new MongoUrl(connectionString));
 
-			object captureCommandText = options.SettingsValues.GetOrDefault("Mongo.CaptureCommandText");
+			object captureCommandText = options.Settings.GetOrDefault("Mongo.CaptureCommandText");
 			InstrumentationOptions instrumentationOptions = new InstrumentationOptions
 			{
 				CaptureCommandText = (bool)(captureCommandText ?? true)

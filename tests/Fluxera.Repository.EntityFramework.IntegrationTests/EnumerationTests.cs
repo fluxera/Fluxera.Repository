@@ -15,9 +15,9 @@
 			{
 				configureOptions.Invoke(builder);
 
-				builder.AddSetting("EntityFramework.DbContext", typeof(RepositoryDbContext));
-				builder.AddSetting("EntityFramework.ConnectionString", "Filename=test.db");
-				builder.AddSetting("EntityFramework.LogSQL", false);
+				builder.AddSetting("EntityFrameworkCore.DbContext", typeof(RepositoryDbContext));
+				builder.AddSetting("EntityFrameworkCore.ConnectionString", "Filename=test.db");
+				builder.AddSetting("EntityFrameworkCore.LogSQL", false);
 			});
 		}
 	}

@@ -43,7 +43,7 @@
 		/// <summary>
 		///     Gets the raw settings vales.
 		/// </summary>
-		public IDictionary<string, object> SettingsValues { get; } = new Dictionary<string, object>();
+		public IDictionary<string, object> Settings { get; } = new Dictionary<string, object>();
 
 		/// <summary>
 		///     Gets the validation options.

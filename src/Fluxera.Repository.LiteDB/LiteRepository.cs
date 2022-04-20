@@ -36,7 +36,7 @@
 
 			LitePersistenceSettings persistenceSettings = new LitePersistenceSettings
 			{
-				Database = (string)options.SettingsValues.GetOrDefault("Lite.Database")!,
+				Database = (string)options.Settings.GetOrDefault("Lite.Database")
 			};
 
 			string databaseName = persistenceSettings.Database;
