@@ -11,6 +11,6 @@
 		/// <summary>
 		///     Gets or sets the filename of the database to use.
 		/// </summary>
-		public string Database { get; set; } = null!;
+		public string Database { get; set; }
 	}
 }

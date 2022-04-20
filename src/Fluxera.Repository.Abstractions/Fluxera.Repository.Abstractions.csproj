@@ -23,11 +23,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Fluxera.Entity" Version="6.0.13" />
-		<PackageReference Include="Fluxera.Extensions.Validation.Abstractions" Version="6.0.23" />
-		<PackageReference Include="Fluxera.Linq.Expressions" Version="6.0.9" />
-		<PackageReference Include="Fluxera.ValueObject" Version="6.0.8" />
-		<PackageReference Include="GitVersion.MsBuild" Version="5.9.0">
+		<PackageReference Include="Fluxera.Entity" Version="6.0.14" />
+		<PackageReference Include="Fluxera.Extensions.Validation.Abstractions" Version="6.0.26" />
+		<PackageReference Include="Fluxera.Linq.Expressions" Version="6.0.10" />
+		<PackageReference Include="Fluxera.ValueObject" Version="6.0.9" />
+		<PackageReference Include="GitVersion.MsBuild" Version="5.10.1">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>

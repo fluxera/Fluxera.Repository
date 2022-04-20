@@ -38,8 +38,8 @@
 
 			this.persistenceSettings = new ODataPersistenceSettings
 			{
-				ServiceRoot = (string)options.SettingsValues.GetOrDefault("OData.ServiceRoot"),
-				UseBatching = (bool)options.SettingsValues.GetOrDefault("OData.UseBatching"),
+				ServiceRoot = (string)options.Settings.GetOrDefault("OData.ServiceRoot"),
+				UseBatching = (bool)options.Settings.GetOrDefault("OData.UseBatching"),
 			};
 
 			HttpClient httpClient = httpClientFactory.CreateClient(Microsoft.Extensions.Options.Options.DefaultName);

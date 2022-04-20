@@ -10,13 +10,13 @@
 	using Microsoft.EntityFrameworkCore;
 	using Microsoft.EntityFrameworkCore.ChangeTracking;
 
-	internal sealed class EntityFrameworkRepository<TAggregateRoot, TKey> : LinqRepositoryBase<TAggregateRoot, TKey>
+	internal sealed class EntityFrameworkCoreRepository<TAggregateRoot, TKey> : LinqRepositoryBase<TAggregateRoot, TKey>
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 	{
 		private readonly DbContext dbContext;
 		private readonly DbSet<TAggregateRoot> dbSet;
 
-		public EntityFrameworkRepository(IDbContextFactory dbContextFactory)
+		public EntityFrameworkCoreRepository(IDbContextFactory dbContextFactory)
 		{
 			Guard.Against.Null(dbContextFactory, nameof(dbContextFactory));
 
@@ -24,7 +24,7 @@
 			this.dbSet = this.dbContext.Set<TAggregateRoot>();
 		}
 
-		private static string Name => "Fluxera.Repository.EntityFrameworkRepository";
+		private static string Name => "Fluxera.Repository.EntityFrameworkCoreRepository";
 
 		/// <inheritdoc />
 		protected override IQueryable<TAggregateRoot> Queryable => this.dbSet.AsQueryable();

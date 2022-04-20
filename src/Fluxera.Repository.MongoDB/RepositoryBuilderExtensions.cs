@@ -22,10 +22,9 @@
 		/// <param name="builder"></param>
 		/// <param name="repositoryName"></param>
 		/// <param name="configureOptions"></param>
-		/// <param name="configureConventions"></param>
 		/// <returns></returns>
-		public static IRepositoryBuilder AddMongoRepository(this IRepositoryBuilder builder, string repositoryName,
-			Action<IRepositoryOptionsBuilder> configureOptions, Action<ConventionPack> configureConventions = null)
+		public static IRepositoryBuilder AddMongoRepository(this IRepositoryBuilder builder,
+			string repositoryName, Action<IRepositoryOptionsBuilder> configureOptions)
 		{
 			ConventionPack pack = new ConventionPack
 			{
@@ -42,7 +41,7 @@
 			pack.UseTemporal();
 			pack.UseEnumeration();
 
-			configureConventions?.Invoke(pack);
+			//configureConventions?.Invoke(pack);
 
 			ConventionRegistry.Register("ConventionPack", pack, _ => true);
 

@@ -9,8 +9,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Fluxera.Utilities" Version="6.0.12" />
-		<PackageReference Include="Microsoft.AspNetCore.OData" Version="8.0.8" />
+		<PackageReference Include="Fluxera.Utilities" Version="6.0.14" />
+		<PackageReference Include="Microsoft.AspNetCore.OData" Version="8.0.9" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.0" />
 	</ItemGroup>
 

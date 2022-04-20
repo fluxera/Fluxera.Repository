@@ -27,7 +27,7 @@
 		/// </summary>
 		public string Name
 		{
-			get => this.Value!;
+			get => this.Value;
 			set => this.Value = value;
 		}
 

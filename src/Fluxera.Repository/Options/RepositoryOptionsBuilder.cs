@@ -96,9 +96,9 @@
 			Guard.Against.NullOrWhiteSpace(key, nameof(key));
 			Guard.Against.Null(value, nameof(value));
 
-			if(!this.repositoryOptions.SettingsValues.ContainsKey(key))
+			if(!this.repositoryOptions.Settings.ContainsKey(key))
 			{
-				this.repositoryOptions.SettingsValues.Add(key, value!);
+				this.repositoryOptions.Settings.Add(key, value!);
 			}
 			else
 			{
