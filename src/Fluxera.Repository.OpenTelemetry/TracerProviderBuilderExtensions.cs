@@ -5,7 +5,7 @@ namespace OpenTelemetry.Trace
 	using JetBrains.Annotations;
 
 	/// <summary>
-	///     Provides extension methods to enabled the instrumentation for the Repository.
+	///     Provides extension methods to enable the trace instrumentation for the Repository.
 	/// </summary>
 	[PublicAPI]
 	public static class TracerProviderBuilderExtensions
