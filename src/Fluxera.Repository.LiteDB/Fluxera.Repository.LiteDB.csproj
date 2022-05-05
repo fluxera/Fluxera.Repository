@@ -22,8 +22,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Fluxera.Enumeration.LiteDB" Version="6.0.11" />
-		<PackageReference Include="Fluxera.Spatial.LiteDB" Version="6.0.5" />
+		<PackageReference Include="Fluxera.Enumeration.LiteDB" Version="6.0.12" />
+		<PackageReference Include="Fluxera.Spatial.LiteDB" Version="6.0.7" />
 		<PackageReference Include="GitVersion.MsBuild" Version="5.10.1">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
