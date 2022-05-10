@@ -24,10 +24,10 @@
 	<ItemGroup>
 		<PackageReference Include="Fluxera.Entity" Version="6.0.15" />
 		<PackageReference Include="Fluxera.Enumeration" Version="6.0.12" />
-		<PackageReference Include="Fluxera.Extensions.Caching" Version="6.0.28" />
-		<PackageReference Include="Fluxera.Extensions.Common" Version="6.0.28" />
-		<PackageReference Include="Fluxera.Extensions.DependencyInjection" Version="6.0.28" />
-		<PackageReference Include="Fluxera.Extensions.Validation" Version="6.0.28" />
+		<PackageReference Include="Fluxera.Extensions.Caching" Version="6.0.29" />
+		<PackageReference Include="Fluxera.Extensions.Common" Version="6.0.29" />
+		<PackageReference Include="Fluxera.Extensions.DependencyInjection" Version="6.0.29" />
+		<PackageReference Include="Fluxera.Extensions.Validation" Version="6.0.29" />
 		<PackageReference Include="Fluxera.Guards" Version="6.0.22" />
 		<PackageReference Include="Fluxera.Spatial" Version="6.0.7" />
 		<PackageReference Include="Fluxera.Temporal" Version="6.0.3" />
