@@ -34,7 +34,7 @@
 
 			services.AddDomainEvents(builder =>
 			{
-				builder.AddDomainEventHandler<PersonDomainEvent>();
+				builder.AddDomainEventHandler<PersonDomainEventHandler>();
 				builder.AddDomainEventHandler<PersonCommittedDomainEventHandler>();
 			});
 		}

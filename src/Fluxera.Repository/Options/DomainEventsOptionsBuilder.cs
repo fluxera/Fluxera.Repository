@@ -3,6 +3,9 @@
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
+	using System.Reflection;
+	using Fluxera.Entity.DomainEvents;
+	using Fluxera.Utilities.Extensions;
 	using JetBrains.Annotations;
 
 	[PublicAPI]
@@ -15,48 +18,53 @@
 
 		private DomainEventsOptions DomainEventsOptions { get; }
 
-		//public IDomainEventsOptionsBuilder AddEventHandlers(IEnumerable<Assembly> assemblies)
-		//{
-		//	assemblies ??= Enumerable.Empty<Assembly>();
+		public IDomainEventsOptionsBuilder AddDomainEventHandlers(IEnumerable<Assembly> assemblies)
+		{
+			assemblies ??= Enumerable.Empty<Assembly>();
 
-		//	foreach(Assembly assembly in assemblies)
-		//	{
-		//		this.AddEventHandlers(assembly);
-		//	}
+			foreach(Assembly assembly in assemblies)
+			{
+				this.AddDomainEventHandlers(assembly);
+			}
 
-		//	return this;
-		//}
+			return this;
+		}
 
-		//public IDomainEventsOptionsBuilder AddEventHandlers(Assembly assembly)
-		//{
-		//	assembly.GetTypes().Where(x => x.IsAssignableTo<I>())
+		public IDomainEventsOptionsBuilder AddDomainEventHandlers(Assembly assembly)
+		{
+			IEnumerable<Type> types = assembly.GetTypes().Where(x => x.Implements<IDomainEventHandler>());
 
-		//	this.DomainEventsOptions.DomainEventHandlerTypes.Add(assembly);
+			this.AddDomainEventHandlers(types);
 
-		//	return this;
-		//}
+			return this;
+		}
 
 		/// <inheritdoc />
-		public IDomainEventsOptionsBuilder AddEventHandlers(IEnumerable<Type> types)
+		public IDomainEventsOptionsBuilder AddDomainEventHandlers(IEnumerable<Type> types)
 		{
 			types ??= Enumerable.Empty<Type>();
 			foreach(Type type in types)
 			{
-				this.AddEventHandler(type);
+				this.AddDomainEventHandler(type);
 			}
 
 			return this;
 		}
 
 		/// <inheritdoc />
-		public IDomainEventsOptionsBuilder AddEventHandler<T>()
+		public IDomainEventsOptionsBuilder AddDomainEventHandler<T>() where T : IDomainEventHandler
 		{
-			return this.AddEventHandler(typeof(T));
+			return this.AddDomainEventHandler(typeof(T));
 		}
 
 		/// <inheritdoc />
-		public IDomainEventsOptionsBuilder AddEventHandler(Type type)
+		public IDomainEventsOptionsBuilder AddDomainEventHandler(Type type)
 		{
+			if(!type.Implements<IDomainEventHandler>())
+			{
+				throw new ArgumentException("The given type was no domain event handler.", nameof(type));
+			}
+
 			this.DomainEventsOptions.DomainEventHandlerTypes.Add(type);
 			return this;
 		}
