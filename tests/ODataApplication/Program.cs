@@ -46,5 +46,3 @@ IEdmModel GetModel()
 
 	return model;
 }
-
-;

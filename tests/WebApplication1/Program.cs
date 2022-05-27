@@ -12,9 +12,9 @@ using WebApplication1;
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 // Configure important OpenTelemetry settings, the console exporter, and automatic instrumentation
-builder.Services.AddOpenTelemetryTracing(builder =>
+builder.Services.AddOpenTelemetryTracing(providerBuilder =>
 {
-	builder
+	providerBuilder
 		.AddConsoleExporter()
 		.SetResourceBuilder(ResourceBuilder.CreateDefault().AddService("WebApplication1", "1.0.0"))
 		.AddHttpClientInstrumentation()
