@@ -63,5 +63,13 @@ namespace Fluxera.Repository.Query
 		/// <param name="take"></param>
 		/// <returns></returns>
 		ISkipTakeOptions<T> Take(int take);
+
+		/// <summary>
+		///     Configures an optional skip/take amount.
+		/// </summary>
+		/// <param name="skip"></param>
+		/// <param name="take"></param>
+		/// <returns></returns>
+		ISkipTakeOptions<T> SkipTake(int skip, int take);
 	}
 }

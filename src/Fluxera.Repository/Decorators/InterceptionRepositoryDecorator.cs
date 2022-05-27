@@ -738,7 +738,7 @@
 		{
 			Activity activity = Activity.Current;
 
-			if((activity?.IsAllDataRequested == true) && !string.IsNullOrWhiteSpace(cancellationMessage))
+			if(activity?.IsAllDataRequested == true && !string.IsNullOrWhiteSpace(cancellationMessage))
 			{
 				activity.AddTag("db.repository.cancellation", cancellationMessage);
 			}
@@ -788,7 +788,7 @@
 		{
 			Activity activity = Activity.Current;
 
-			if((activity != null) && activity.IsAllDataRequested && !string.IsNullOrWhiteSpace(predicate))
+			if(activity != null && activity.IsAllDataRequested && !string.IsNullOrWhiteSpace(predicate))
 			{
 				string statement = predicate;
 
@@ -856,7 +856,7 @@
 
 			string keyPropertyName = nameof(AggregateRoot<TAggregateRoot, TKey>.ID);
 			PropertyInfo propertyInfo = type.GetTypeInfo().GetDeclaredProperty(keyPropertyName);
-			while((propertyInfo == null) && (type.GetTypeInfo().BaseType != null))
+			while(propertyInfo == null && type.GetTypeInfo().BaseType != null)
 			{
 				type = type.GetTypeInfo().BaseType;
 				propertyInfo = type.GetTypeInfo().GetDeclaredProperty(keyPropertyName);

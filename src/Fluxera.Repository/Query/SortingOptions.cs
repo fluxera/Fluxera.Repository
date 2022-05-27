@@ -8,16 +8,16 @@ namespace Fluxera.Repository.Query
 
 	internal sealed class SortingOptions<T> : ISortingOptions<T> where T : class
 	{
+		private readonly QueryOptionsImpl<T> queryOptions;
+
 		private readonly IList<ISortExpression<T>> secondaryExpressions = new List<ISortExpression<T>>();
 
-		public SortingOptions(Expression<Func<T, object>> sortExpression, bool isDescending = false)
+		public SortingOptions(QueryOptionsImpl<T> queryOptions, Expression<Func<T, object>> sortExpression, bool isDescending = false)
 		{
+			this.queryOptions = queryOptions;
+
 			this.PrimaryExpression = new SortExpression<T>(sortExpression, isDescending);
 		}
-
-		private IPagingOptions<T> PagingOptions { get; set; }
-
-		private ISkipTakeOptions<T> TakeOptions { get; set; }
 
 		/// <inheritdoc />
 		public IEnumerable<ISortExpression<T>> SecondaryExpressions => this.secondaryExpressions;
@@ -44,29 +44,36 @@ namespace Fluxera.Repository.Query
 		/// <inheritdoc />
 		public IPagingOptions<T> Paging(int pageNumber, int pageSize)
 		{
-			this.PagingOptions = new PagingOptions<T>(pageNumber, pageSize);
-			return this.PagingOptions;
+			this.queryOptions.PagingOptions ??= new PagingOptions<T>(this.queryOptions, pageNumber, pageSize);
+			return this.queryOptions.PagingOptions;
 		}
 
 		/// <inheritdoc />
 		public IPagingOptions<T> Paging()
 		{
-			this.PagingOptions = new PagingOptions<T>();
-			return this.PagingOptions;
+			this.queryOptions.PagingOptions ??= new PagingOptions<T>(this.queryOptions);
+			return this.queryOptions.PagingOptions;
 		}
 
 		/// <inheritdoc />
 		public ISkipTakeOptions<T> Skip(int skip)
 		{
-			this.TakeOptions = new SkipTakeOptions<T>(skip);
-			return this.TakeOptions;
+			this.queryOptions.SkipTakeOptions ??= new SkipTakeOptions<T>(this.queryOptions, skip);
+			return this.queryOptions.SkipTakeOptions;
 		}
 
 		/// <inheritdoc />
 		public ISkipTakeOptions<T> Take(int take)
 		{
-			this.TakeOptions = new SkipTakeOptions<T>(take: take);
-			return this.TakeOptions;
+			this.queryOptions.SkipTakeOptions ??= new SkipTakeOptions<T>(this.queryOptions, take: take);
+			return this.queryOptions.SkipTakeOptions;
+		}
+
+		/// <inheritdoc />
+		public ISkipTakeOptions<T> SkipTake(int skip, int take)
+		{
+			this.queryOptions.SkipTakeOptions ??= new SkipTakeOptions<T>(this.queryOptions, skip, take);
+			return this.queryOptions.SkipTakeOptions;
 		}
 
 		/// <inheritdoc />
@@ -79,38 +86,31 @@ namespace Fluxera.Repository.Query
 				queryable = secondaryExpression.ApplyTo(orderedQueryable);
 			}
 
-			if(this.PagingOptions != null)
-			{
-				queryable = this.PagingOptions.ApplyTo(queryable);
-			}
-
-			if(this.TakeOptions != null)
-			{
-				queryable = this.TakeOptions.ApplyTo(queryable);
-			}
-
 			return queryable;
 		}
 
 		/// <inheritdoc />
-		public bool TryGetPagingOptions(out IPagingOptions<T> pagingOptions)
+		public bool IsEmpty()
 		{
-			pagingOptions = this.PagingOptions;
-			return this.PagingOptions != null;
+			return this.queryOptions.IsEmpty();
 		}
 
 		/// <inheritdoc />
-		public bool TryGetSkipTakeOptions(out ISkipTakeOptions<T> skipTakeOptions)
+		public bool TryGetPagingOptions(out IPagingOptions<T> options)
 		{
-			skipTakeOptions = this.TakeOptions;
-			return this.TakeOptions != null;
+			return this.queryOptions.TryGetPagingOptions(out options);
 		}
 
 		/// <inheritdoc />
-		public bool TryGetSortingOptions(out ISortingOptions<T> sortingOptions)
+		public bool TryGetSkipTakeOptions(out ISkipTakeOptions<T> options)
 		{
-			sortingOptions = this;
-			return true;
+			return this.queryOptions.TryGetSkipTakeOptions(out options);
+		}
+
+		/// <inheritdoc />
+		public bool TryGetSortingOptions(out ISortingOptions<T> options)
+		{
+			return this.queryOptions.TryGetSortingOptions(out options);
 		}
 
 		/// <inheritdoc />
@@ -120,8 +120,8 @@ namespace Fluxera.Repository.Query
 			string thenByString = this.secondaryExpressions.Select(x => x.ToString()).Aggregate((s1, s2) => string.Concat(s1, ", ", s2));
 			string sortingOptionsString = "(OrderBy: {0}, ThenBy: {1})".FormatInvariantWith(orderByString, thenByString);
 
-			string pagingOptionsString = this.PagingOptions != null ? this.PagingOptions.ToString() : "none";
-			string skipTakeOptionsString = this.TakeOptions != null ? this.TakeOptions.ToString() : "none";
+			string pagingOptionsString = this.queryOptions.PagingOptions != null ? this.queryOptions.PagingOptions.ToString() : "none";
+			string skipTakeOptionsString = this.queryOptions.SkipTakeOptions != null ? this.queryOptions.SkipTakeOptions.ToString() : "none";
 
 			return "QueryOptions<{0}>(Sorting: {1}, Paging: {2}, SkipTake: {3})"
 				.FormatInvariantWith(typeof(T).Name, sortingOptionsString, pagingOptionsString, skipTakeOptionsString);
