@@ -3,86 +3,90 @@ namespace Fluxera.Repository.Query
 	using System.Linq;
 	using Fluxera.Utilities.Extensions;
 
-	internal sealed class PagingOptions<T> : IPagingOptions<T>
-		where T : class
+	internal sealed class PagingOptions<T> : IPagingOptions<T> where T : class
 	{
-		public PagingOptions() : this(1, 25)
-		{
-		}
+		private readonly QueryOptionsImpl<T> queryOptions;
 
-		public PagingOptions(int pageNumber, int pageSize)
+		public PagingOptions(QueryOptionsImpl<T> queryOptions, int pageNumber = 1, int pageSize = 25)
 		{
-			this.PageNumber = pageNumber;
-			this.PageSize = pageSize;
+			this.queryOptions = queryOptions;
+
+			this.PageNumberAmount = pageNumber;
+			this.PageSizeAmount = pageSize;
 		}
 
 		/// <inheritdoc />
 		public int TotalItemCount { get; private set; }
 
 		/// <inheritdoc />
-		public int PageNumber { get; private set; }
+		public IPagingOptions<T> PageNumber(int pageNumberAmount)
+		{
+			this.PageNumberAmount = pageNumberAmount;
+
+			return this;
+		}
 
 		/// <inheritdoc />
-		public int PageSize { get; private set; }
+		public IPagingOptions<T> PageSize(int pageSizeAmount)
+		{
+			this.PageSizeAmount = pageSizeAmount;
+
+			return this;
+		}
 
 		/// <inheritdoc />
-		public int Skip => (this.PageNumber - 1) * this.PageSize;
+		public int PageNumberAmount { get; private set; }
 
 		/// <inheritdoc />
-		public int Take => this.PageSize;
+		public int PageSizeAmount { get; private set; }
+
+		/// <inheritdoc />
+		public int SkipAmount => (this.PageNumberAmount - 1) * this.PageSizeAmount;
+
+		/// <inheritdoc />
+		public int TakeAmount => this.PageSizeAmount;
 
 		/// <inheritdoc />
 		public IQueryable<T> ApplyTo(IQueryable<T> queryable)
 		{
 			this.TotalItemCount = queryable.Count();
 
-			if((this.Skip > 0) || (this.Take > 0))
+			if(this.SkipAmount > 0 || this.TakeAmount > 0)
 			{
-				return queryable.Skip(this.Skip).Take(this.Take);
+				return queryable.Skip(this.SkipAmount).Take(this.TakeAmount);
 			}
 
 			return queryable;
 		}
 
 		/// <inheritdoc />
-		public bool TryGetPagingOptions(out IPagingOptions<T> pagingOptions)
+		public bool IsEmpty()
 		{
-			pagingOptions = this;
-			return true;
+			return this.queryOptions.IsEmpty();
 		}
 
 		/// <inheritdoc />
-		public bool TryGetSkipTakeOptions(out ISkipTakeOptions<T> skipTakeOptions)
+		public bool TryGetPagingOptions(out IPagingOptions<T> options)
 		{
-			skipTakeOptions = null;
-			return false;
+			return this.queryOptions.TryGetPagingOptions(out options);
 		}
 
 		/// <inheritdoc />
-		public bool TryGetSortingOptions(out ISortingOptions<T> sortingOptions)
+		public bool TryGetSkipTakeOptions(out ISkipTakeOptions<T> options)
 		{
-			sortingOptions = null;
-			return false;
+			return this.queryOptions.TryGetSkipTakeOptions(out options);
 		}
 
-		public IPagingOptions<T> Number(int pageNumber)
+		/// <inheritdoc />
+		public bool TryGetSortingOptions(out ISortingOptions<T> options)
 		{
-			this.PageNumber = pageNumber;
-
-			return this;
-		}
-
-		public IPagingOptions<T> Size(int pageSize)
-		{
-			this.PageSize = pageSize;
-
-			return this;
+			return this.queryOptions.TryGetSortingOptions(out options);
 		}
 
 		/// <inheritdoc />
 		public override string ToString()
 		{
-			return "(PageSize: {0}, PageNumber: {1})".FormatInvariantWith(this.PageSize, this.PageNumber);
+			return "(PageSize: {0}, PageNumber: {1})".FormatInvariantWith(this.PageSizeAmount, this.PageNumberAmount);
 		}
 	}
 }

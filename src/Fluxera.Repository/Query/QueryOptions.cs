@@ -27,7 +27,8 @@ namespace Fluxera.Repository.Query
 		/// <returns></returns>
 		public static ISortingOptions<T> OrderBy(Expression<Func<T, object>> sortExpression)
 		{
-			return new SortingOptions<T>(sortExpression);
+			QueryOptionsImpl<T> queryOptions = new QueryOptionsImpl<T>();
+			return queryOptions.OrderBy(sortExpression);
 		}
 
 		/// <summary>
@@ -37,7 +38,8 @@ namespace Fluxera.Repository.Query
 		/// <returns></returns>
 		public static ISortingOptions<T> OrderByDescending(Expression<Func<T, object>> sortExpression)
 		{
-			return new SortingOptions<T>(sortExpression, true);
+			QueryOptionsImpl<T> queryOptions = new QueryOptionsImpl<T>();
+			return queryOptions.OrderByDescending(sortExpression);
 		}
 
 		/// <summary>
@@ -47,7 +49,8 @@ namespace Fluxera.Repository.Query
 		/// <returns></returns>
 		public static ISkipTakeOptions<T> Skip(int skipAmount)
 		{
-			return new SkipTakeOptions<T>(skipAmount);
+			QueryOptionsImpl<T> queryOptions = new QueryOptionsImpl<T>();
+			return queryOptions.Skip(skipAmount);
 		}
 
 		/// <summary>
@@ -57,7 +60,8 @@ namespace Fluxera.Repository.Query
 		/// <returns></returns>
 		public static ISkipTakeOptions<T> Take(int takeAmount)
 		{
-			return new SkipTakeOptions<T>(take: takeAmount);
+			QueryOptionsImpl<T> queryOptions = new QueryOptionsImpl<T>();
+			return queryOptions.Take(takeAmount);
 		}
 
 		/// <summary>
@@ -68,7 +72,8 @@ namespace Fluxera.Repository.Query
 		/// <returns></returns>
 		public static ISkipTakeOptions<T> SkipTake(int skipAmount, int takeAmount)
 		{
-			return new SkipTakeOptions<T>(skipAmount, takeAmount);
+			QueryOptionsImpl<T> queryOptions = new QueryOptionsImpl<T>();
+			return queryOptions.SkipTake(skipAmount, takeAmount);
 		}
 
 		/// <summary>
@@ -79,7 +84,8 @@ namespace Fluxera.Repository.Query
 		/// <returns></returns>
 		public static IPagingOptions<T> Paging(int pageNumber, int pageSize)
 		{
-			return new PagingOptions<T>(pageNumber, pageSize);
+			QueryOptionsImpl<T> queryOptions = new QueryOptionsImpl<T>();
+			return queryOptions.Paging(pageNumber, pageSize);
 		}
 
 		/// <summary>
@@ -88,7 +94,8 @@ namespace Fluxera.Repository.Query
 		/// <returns></returns>
 		public static IPagingOptions<T> Paging()
 		{
-			return new PagingOptions<T>();
+			QueryOptionsImpl<T> queryOptions = new QueryOptionsImpl<T>();
+			return queryOptions.Paging();
 		}
 	}
 }

@@ -16,8 +16,8 @@
 			if(options.TryGetPagingOptions(out IPagingOptions<T> pagingOptions))
 			{
 				queryable = (ILiteQueryableAsync<T>)queryable
-					.Skip(pagingOptions!.Skip)
-					.Limit(pagingOptions.Take);
+					.Skip(pagingOptions!.SkipAmount)
+					.Limit(pagingOptions.TakeAmount);
 			}
 
 			if(options.TryGetSkipTakeOptions(out ISkipTakeOptions<T> skipTakeOptions))

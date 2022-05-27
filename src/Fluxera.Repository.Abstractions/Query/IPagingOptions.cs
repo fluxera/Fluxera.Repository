@@ -12,27 +12,40 @@ namespace Fluxera.Repository.Query
 		/// <summary>
 		///     The page size.
 		/// </summary>
-		int PageSize { get; }
+		int PageSizeAmount { get; }
 
 		/// <summary>
 		///     The page number to request.
 		/// </summary>
-		int PageNumber { get; }
+		int PageNumberAmount { get; }
 
 		/// <summary>
 		///     The total value to skip to get to the beginning of the page..
 		/// </summary>
-		int Skip { get; }
+		int SkipAmount { get; }
 
 		/// <summary>
 		///     The amount of items to take (page size).
 		/// </summary>
-		int Take { get; }
+		int TakeAmount { get; }
 
 		/// <summary>
 		///     The total amount of items of the query.
-		///     TODO: At the moment this only works with LINQ, but not very nice.
 		/// </summary>
 		int TotalItemCount { get; }
+
+		/// <summary>
+		///     Set the page number.
+		/// </summary>
+		/// <param name="pageNumberAmount"></param>
+		/// <returns></returns>
+		IPagingOptions<T> PageNumber(int pageNumberAmount);
+
+		/// <summary>
+		///     Sets the page size.
+		/// </summary>
+		/// <param name="pageSizeAmount"></param>
+		/// <returns></returns>
+		IPagingOptions<T> PageSize(int pageSizeAmount);
 	}
 }
