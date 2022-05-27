@@ -101,7 +101,7 @@
 			IReadOnlyCollection<Person> result = await this.PersonRepository.FindManyAsync(x => x.Age < 35, options);
 			IList<Person> resultList = new List<Person>(result);
 
-			IOrderedEnumerable<Person> orderedEnumerable = persons.OrderBy(x => x.Name).ThenBy(x => x.Age);
+			IOrderedEnumerable<Person> _ = persons.OrderBy(x => x.Name).ThenBy(x => x.Age);
 
 			resultList.Count.Should().Be(4);
 			resultList[0].Name.Should().Be("Arnold");
@@ -205,7 +205,7 @@
 			IReadOnlyCollection<Person> result = await this.PersonRepository.FindManyAsync(x => x.Age < 35, options);
 			IList<Person> resultList = new List<Person>(result);
 
-			IOrderedEnumerable<Person> orderedEnumerable = persons.OrderBy(x => x.Name).ThenBy(x => x.Age);
+			IOrderedEnumerable<Person> _ = persons.OrderBy(x => x.Name).ThenBy(x => x.Age);
 
 			resultList.Count.Should().Be(4);
 			resultList[3].Name.Should().Be("Arnold");

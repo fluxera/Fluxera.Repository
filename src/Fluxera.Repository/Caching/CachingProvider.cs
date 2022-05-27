@@ -12,7 +12,8 @@
 	{
 		// Instantiate a Singleton of the Semaphore with a value of 1.
 		// This means that only 1 thread can be granted access at a time.
-		private static readonly SemaphoreSlim semaphore = new SemaphoreSlim(1, 1);
+		private static readonly SemaphoreSlim Semaphore = new SemaphoreSlim(1, 1);
+
 		private readonly IDistributedCache distributedCache;
 
 		public CachingProvider(
@@ -75,7 +76,7 @@
 			// Asynchronously wait to enter the Semaphore.
 			// If no-one has been granted access to the Semaphore, code execution will proceed,
 			// otherwise this thread waits here until the semaphore is released.
-			await semaphore.WaitAsync();
+			await Semaphore.WaitAsync();
 			try
 			{
 				long value = await this.GetAsync<long>(key).ConfigureAwait(false);
@@ -91,7 +92,7 @@
 				// end up with a Semaphore that is forever locked. This is why it is important to
 				// do the Release within a try...finally clause; program execution may crash or
 				// take a different path, this way you are guaranteed execution.
-				semaphore.Release();
+				Semaphore.Release();
 			}
 		}
 	}
