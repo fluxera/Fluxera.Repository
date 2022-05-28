@@ -1,5 +1,6 @@
 ﻿namespace Fluxera.Repository.Validation
 {
+	using System;
 	using Fluxera.Entity;
 	using JetBrains.Annotations;
 
@@ -16,6 +17,7 @@
 		/// <typeparam name="TKey">The type of the ID.</typeparam>
 		/// <returns></returns>
 		IValidationStrategy<TAggregateRoot, TKey> CreateStrategy<TAggregateRoot, TKey>()
-			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>;
+			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+			where TKey : IComparable<TKey>, IEquatable<TKey>;
 	}
 }

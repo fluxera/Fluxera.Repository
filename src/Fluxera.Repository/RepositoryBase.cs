@@ -24,6 +24,7 @@
 	[PublicAPI]
 	public abstract class RepositoryBase<TAggregateRoot, TKey> : Disposable, IRepository<TAggregateRoot, TKey>
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+		where TKey : IComparable<TKey>, IEquatable<TKey>
 	{
 		/// <inheritdoc />
 		bool IDisposableRepository.IsDisposed => base.IsDisposed;
@@ -329,7 +330,7 @@
 
 			string keyPropertyName = nameof(AggregateRoot<TAggregateRoot, TKey>.ID);
 			PropertyInfo propertyInfo = type.GetTypeInfo().GetDeclaredProperty(keyPropertyName);
-			while((propertyInfo == null) && (type.GetTypeInfo().BaseType != null))
+			while(propertyInfo == null && type.GetTypeInfo().BaseType != null)
 			{
 				type = type.GetTypeInfo().BaseType;
 				propertyInfo = type.GetTypeInfo().GetDeclaredProperty(keyPropertyName);

@@ -10,6 +10,7 @@
 
 	public class TestCachingStrategy<TAggregateRoot, TKey> : ICachingStrategy<TAggregateRoot, TKey>
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+		where TKey : IComparable<TKey>, IEquatable<TKey>
 	{
 		public bool AddMultipleWasCalled;
 		public bool AddSingleWasCalled;

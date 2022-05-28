@@ -16,6 +16,7 @@
 	[PublicAPI]
 	public interface ICachingStrategy<TAggregateRoot, in TKey>
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+		where TKey : IComparable<TKey>, IEquatable<TKey>
 	{
 		/// <summary>
 		///     The strategy method is called when a new item is added.

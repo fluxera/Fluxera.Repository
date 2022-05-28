@@ -1,5 +1,6 @@
 ﻿namespace Fluxera.Repository
 {
+	using System;
 	using Fluxera.Entity;
 	using Fluxera.Repository.Traits;
 	using JetBrains.Annotations;
@@ -20,6 +21,7 @@
 		ICanRemove<TAggregateRoot, TKey>,
 		IReadOnlyRepository<TAggregateRoot, TKey>
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+		where TKey : IComparable<TKey>, IEquatable<TKey>
 	{
 	}
 }

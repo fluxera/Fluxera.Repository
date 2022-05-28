@@ -17,6 +17,7 @@
 	[PublicAPI]
 	public abstract class InterceptorBase<TAggregateRoot, TKey> : IInterceptor<TAggregateRoot, TKey>
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+		where TKey : IComparable<TKey>, IEquatable<TKey>
 	{
 		/// <inheritdoc />
 		public virtual int Order => 0;
@@ -27,35 +28,17 @@
 			return Task.CompletedTask;
 		}
 
-		///// <inheritdoc />
-		//public virtual Task AfterAddAsync(TAggregateRoot item)
-		//{
-		//	return Task.CompletedTask;
-		//}
-
 		/// <inheritdoc />
 		public virtual Task BeforeUpdateAsync(TAggregateRoot item, InterceptionEvent e)
 		{
 			return Task.CompletedTask;
 		}
 
-		///// <inheritdoc />
-		//public virtual Task AfterUpdateAsync(TAggregateRoot item)
-		//{
-		//	return Task.CompletedTask;
-		//}
-
 		/// <inheritdoc />
 		public virtual Task BeforeRemoveAsync(TAggregateRoot item, InterceptionEvent e)
 		{
 			return Task.CompletedTask;
 		}
-
-		/// <inheritdoc />
-		//public virtual Task AfterRemoveAsync(TAggregateRoot item)
-		//{
-		//	return Task.CompletedTask;
-		//}
 
 		/// <inheritdoc />
 		public virtual Task<Expression<Func<TAggregateRoot, bool>>> BeforeRemoveRangeAsync(Expression<Func<TAggregateRoot, bool>> predicate, InterceptionEvent e)
@@ -80,29 +63,5 @@
 		{
 			return Task.FromResult(specification);
 		}
-
-		///// <inheritdoc />
-		//public virtual Task AfterFindAsync(TAggregateRoot item)
-		//{
-		//	return Task.CompletedTask;
-		//}
-
-		///// <inheritdoc />
-		//public virtual Task AfterFindAsync(IReadOnlyCollection<TAggregateRoot> items)
-		//{
-		//	return Task.CompletedTask;
-		//}
-
-		///// <inheritdoc />
-		//public virtual Task AfterFindAsync<TResult>(TResult item)
-		//{
-		//	return Task.CompletedTask;
-		//}
-
-		///// <inheritdoc />
-		//public virtual Task AfterFindAsync<TResult>(IReadOnlyCollection<TResult> items)
-		//{
-		//	return Task.CompletedTask;
-		//}
 	}
 }

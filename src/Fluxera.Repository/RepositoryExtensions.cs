@@ -1,5 +1,6 @@
 ﻿namespace Fluxera.Repository
 {
+	using System;
 	using System.Collections.Generic;
 	using System.Threading.Tasks;
 	using Fluxera.Entity;
@@ -21,9 +22,10 @@
 		/// <param name="item">The item.</param>
 		public static async Task AddOrUpdate<TAggregateRoot, TKey>(this IRepository<TAggregateRoot, TKey> repository, TAggregateRoot item)
 			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+			where TKey : IComparable<TKey>, IEquatable<TKey>
 		{
-			Guard.Against.Null(repository, nameof(repository));
-			Guard.Against.Null(item, nameof(item));
+			Guard.Against.Null(repository);
+			Guard.Against.Null(item);
 
 			if(item.IsTransient)
 			{
@@ -44,10 +46,11 @@
 		/// <param name="items">The items.</param>
 		public static async Task AddOrUpdate<TAggregateRoot, TKey>(this IRepository<TAggregateRoot, TKey> repository, IEnumerable<TAggregateRoot> items)
 			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+			where TKey : IComparable<TKey>, IEquatable<TKey>
 		{
 			// ReSharper disable PossibleMultipleEnumeration
-			Guard.Against.Null(repository, nameof(repository));
-			Guard.Against.Null(items, nameof(items));
+			Guard.Against.Null(repository);
+			Guard.Against.Null(items);
 
 			foreach(TAggregateRoot item in items)
 			{

@@ -21,7 +21,8 @@
 		/// <param name="repositoryName"></param>
 		/// <returns></returns>
 		string GetGenerationCacheKey<TAggregateRoot, TKey>(RepositoryName repositoryName)
-			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>;
+			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+			where TKey : IComparable<TKey>, IEquatable<TKey>;
 
 		/// <summary>
 		///     Creates a cache key for a single added entity key.
@@ -32,7 +33,8 @@
 		/// <param name="id"></param>
 		/// <returns></returns>
 		string GetAddCacheKey<TAggregateRoot, TKey>(RepositoryName repositoryName, TKey id)
-			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>;
+			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+			where TKey : IComparable<TKey>, IEquatable<TKey>;
 
 		/// <summary>
 		///     Creates a cache key for a single updated entity key.
@@ -43,7 +45,8 @@
 		/// <param name="id"></param>
 		/// <returns></returns>
 		string GetUpdateCacheKey<TAggregateRoot, TKey>(RepositoryName repositoryName, TKey id)
-			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>;
+			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+			where TKey : IComparable<TKey>, IEquatable<TKey>;
 
 		/// <summary>
 		///     Creates a cache key for a single removed entity key.
@@ -54,7 +57,8 @@
 		/// <param name="id"></param>
 		/// <returns></returns>
 		string GetDeleteCacheKey<TAggregateRoot, TKey>(RepositoryName repositoryName, TKey id)
-			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>;
+			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+			where TKey : IComparable<TKey>, IEquatable<TKey>;
 
 		/// <summary>
 		///     Creates a cache key for a single get-by-id operation.
@@ -65,7 +69,8 @@
 		/// <param name="id"></param>
 		/// <returns></returns>
 		string GetGetCacheKey<TAggregateRoot, TKey>(RepositoryName repositoryName, TKey id)
-			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>;
+			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+			where TKey : IComparable<TKey>, IEquatable<TKey>;
 
 		/// <summary>
 		///     Creates a cache key for a single get-by-id with selector operation.
@@ -79,7 +84,8 @@
 		/// <returns></returns>
 		string GetGetCacheKey<TAggregateRoot, TKey, TResult>(RepositoryName repositoryName, TKey id,
 			Expression<Func<TAggregateRoot, TResult>> selector)
-			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>;
+			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+			where TKey : IComparable<TKey>, IEquatable<TKey>;
 
 		/// <summary>
 		///     Creates a cache key for a count-all operation.
@@ -90,7 +96,8 @@
 		/// <param name="generation"></param>
 		/// <returns></returns>
 		string GetCountCacheKey<TAggregateRoot, TKey>(RepositoryName repositoryName, in long generation)
-			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>;
+			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+			where TKey : IComparable<TKey>, IEquatable<TKey>;
 
 		/// <summary>
 		///     Creates a cache key for a count with predicate operation.
@@ -103,7 +110,8 @@
 		/// <returns></returns>
 		string GetCountCacheKey<TAggregateRoot, TKey>(RepositoryName repositoryName, in long generation,
 			Expression<Func<TAggregateRoot, bool>> predicate)
-			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>;
+			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+			where TKey : IComparable<TKey>, IEquatable<TKey>;
 
 		/// <summary>
 		///     Creates a cache key for a find-one with predicate operation.
@@ -118,7 +126,8 @@
 		string GetFindOneCacheKey<TAggregateRoot, TKey>(RepositoryName repositoryName, in long generation,
 			Expression<Func<TAggregateRoot, bool>> predicate,
 			IQueryOptions<TAggregateRoot> queryOptions)
-			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>;
+			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+			where TKey : IComparable<TKey>, IEquatable<TKey>;
 
 		/// <summary>
 		///     Creates a cache key for a find-one with predicate and selector operation.
@@ -136,7 +145,8 @@
 			Expression<Func<TAggregateRoot, bool>> predicate,
 			Expression<Func<TAggregateRoot, TResult>> selector,
 			IQueryOptions<TAggregateRoot> queryOptions)
-			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>;
+			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+			where TKey : IComparable<TKey>, IEquatable<TKey>;
 
 		/// <summary>
 		///     Creates a cache key for a find-many with predicate operation.
@@ -151,7 +161,8 @@
 		string GetFindManyCacheKey<TAggregateRoot, TKey>(RepositoryName repositoryName, in long generation,
 			Expression<Func<TAggregateRoot, bool>> predicate,
 			IQueryOptions<TAggregateRoot> queryOptions)
-			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>;
+			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+			where TKey : IComparable<TKey>, IEquatable<TKey>;
 
 		/// <summary>
 		///     Creates a cache key for a find-many with predicate and selector operation.
@@ -169,7 +180,8 @@
 			Expression<Func<TAggregateRoot, bool>> predicate,
 			Expression<Func<TAggregateRoot, TResult>> selector,
 			IQueryOptions<TAggregateRoot> queryOptions)
-			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>;
+			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+			where TKey : IComparable<TKey>, IEquatable<TKey>;
 
 		/// <summary>
 		///     Creates a cache key for an exists with ID operation.
@@ -181,7 +193,8 @@
 		/// <param name="id"></param>
 		/// <returns></returns>
 		string GetExistsCacheKey<TAggregateRoot, TKey>(RepositoryName repositoryName, in long generation, TKey id)
-			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>;
+			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+			where TKey : IComparable<TKey>, IEquatable<TKey>;
 
 		/// <summary>
 		///     Creates a cache key for an exists with predicate operation.
@@ -194,6 +207,7 @@
 		/// <returns></returns>
 		string GetExistsCacheKey<TAggregateRoot, TKey>(RepositoryName repositoryName, in long generation,
 			Expression<Func<TAggregateRoot, bool>> predicate)
-			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>;
+			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+			where TKey : IComparable<TKey>, IEquatable<TKey>;
 	}
 }

@@ -15,21 +15,15 @@
 		///     Creates a new instance of the <see cref="RepositoryName" /> type.
 		/// </summary>
 		/// <param name="name"></param>
-		public RepositoryName(string name)
+		public RepositoryName(string name) : base(name)
 		{
-			Guard.Against.NullOrWhiteSpace(name, nameof(name));
-
-			this.Name = name;
+			Guard.Against.NullOrWhiteSpace(name);
 		}
 
 		/// <summary>
 		///     Gets the name of the repository.
 		/// </summary>
-		public string Name
-		{
-			get => this.Value;
-			set => this.Value = value;
-		}
+		public string Name => this.Value;
 
 		/// <summary>
 		///     Converts the given <see cref="RepositoryName" /> to a <see cref="string" />.

@@ -22,6 +22,7 @@
 	/// <typeparam name="TKey"></typeparam>
 	public sealed class DomainEventsRepositoryDecorator<TAggregateRoot, TKey> : IRepository<TAggregateRoot, TKey>
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+		where TKey : IComparable<TKey>, IEquatable<TKey>
 	{
 		private readonly IDomainEventDispatcher domainEventDispatcher;
 		private readonly IRepository<TAggregateRoot, TKey> innerRepository;
@@ -411,7 +412,7 @@
 
 			string keyPropertyName = nameof(AggregateRoot<TAggregateRoot, TKey>.ID);
 			PropertyInfo propertyInfo = type.GetTypeInfo().GetDeclaredProperty(keyPropertyName);
-			while((propertyInfo == null) && (type.GetTypeInfo().BaseType != null))
+			while(propertyInfo == null && type.GetTypeInfo().BaseType != null)
 			{
 				type = type.GetTypeInfo().BaseType;
 				propertyInfo = type.GetTypeInfo().GetDeclaredProperty(keyPropertyName);

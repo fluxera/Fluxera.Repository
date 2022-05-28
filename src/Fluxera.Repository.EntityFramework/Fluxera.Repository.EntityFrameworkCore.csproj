@@ -7,7 +7,7 @@
 	<PropertyGroup>
 		<Title>Fluxera.Repository.EntityFrameworkCore</Title>
 		<Description>An EntityFramework Core repository implementation.</Description>
-		<PackageTags>fluxera;library;extensions;repository;storage;ef;ec-core;entity-framework</PackageTags>
+		<PackageTags>fluxera;library;extensions;repository;storage;ef;ef-core;entity-framework</PackageTags>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -22,12 +22,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Fluxera.Enumeration.EntityFrameworkCore" Version="6.0.12" />
+		<PackageReference Include="Fluxera.Enumeration.EntityFrameworkCore" Version="6.0.13" />
 		<PackageReference Include="GitVersion.MsBuild" Version="5.10.1">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.4" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.5" />
 	</ItemGroup>
 
 	<ItemGroup>

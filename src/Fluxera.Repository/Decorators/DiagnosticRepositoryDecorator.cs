@@ -1,4 +1,6 @@
-﻿namespace Fluxera.Repository.Decorators
+﻿// ReSharper disable StaticMemberInGenericType
+
+namespace Fluxera.Repository.Decorators
 {
 	using System;
 	using System.Collections.Generic;
@@ -23,10 +25,11 @@
 	/// <typeparam name="TKey"></typeparam>
 	public sealed class DiagnosticRepositoryDecorator<TAggregateRoot, TKey> : IRepository<TAggregateRoot, TKey>
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+		where TKey : IComparable<TKey>, IEquatable<TKey>
 	{
-		private static readonly AssemblyName assemblyName = Assembly.GetExecutingAssembly().GetName();
-		private static readonly string activitySourceName = assemblyName.Name;
-		private static readonly Version version = assemblyName.Version;
+		private static readonly AssemblyName AssemblyName = Assembly.GetExecutingAssembly().GetName();
+		private static readonly string ActivitySourceName = AssemblyName.Name;
+		private static readonly Version Version = AssemblyName.Version;
 
 		private readonly IRepository<TAggregateRoot, TKey> innerRepository;
 		private readonly RepositoryOptions repositoryOptions;
@@ -49,9 +52,9 @@
 			this.repositoryOptions = repositoryRegistry.GetRepositoryOptionsFor(repositoryName);
 		}
 
-		private static ActivitySource ActivitySource { get; } = new ActivitySource(activitySourceName, version.ToString());
+		private static ActivitySource ActivitySource { get; } = new ActivitySource(ActivitySourceName, Version.ToString());
 
-		private static string ActivityName { get; } = $"{activitySourceName}.Diagnostic";
+		private static string ActivityName { get; } = $"{ActivitySourceName}.Diagnostic";
 
 		private static string AggregateRootName { get; } = typeof(TAggregateRoot).Name;
 

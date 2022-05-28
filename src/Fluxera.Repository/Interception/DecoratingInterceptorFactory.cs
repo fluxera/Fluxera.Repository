@@ -1,5 +1,6 @@
 ﻿namespace Fluxera.Repository.Interception
 {
+	using System;
 	using System.Collections.Generic;
 	using System.Linq;
 	using Fluxera.Entity;
@@ -7,6 +8,7 @@
 
 	internal sealed class DecoratingInterceptorFactory<TAggregateRoot, TKey> : IDecoratingInterceptorFactory<TAggregateRoot, TKey>
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+		where TKey : IComparable<TKey>, IEquatable<TKey>
 	{
 		private readonly IEnumerable<IInterceptor<TAggregateRoot, TKey>> interceptors;
 		private readonly ILoggerFactory loggerFactory;

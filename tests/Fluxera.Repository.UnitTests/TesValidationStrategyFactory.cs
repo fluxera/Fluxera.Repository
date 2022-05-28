@@ -20,6 +20,7 @@
 		/// <inheritdoc />
 		public IValidationStrategy<TAggregateRoot, TKey> CreateStrategy<TAggregateRoot, TKey>()
 			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+			where TKey : IComparable<TKey>, IEquatable<TKey>
 		{
 			return new TestValidationStrategy<TAggregateRoot, TKey>(this.GetValidators());
 		}

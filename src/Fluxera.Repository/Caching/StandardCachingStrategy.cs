@@ -25,6 +25,7 @@
 	[UsedImplicitly]
 	internal sealed class StandardCachingStrategy<TAggregateRoot, TKey> : ICachingStrategy<TAggregateRoot, TKey>
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+		where TKey : IComparable<TKey>, IEquatable<TKey>
 	{
 		public StandardCachingStrategy(
 			RepositoryName repositoryName,

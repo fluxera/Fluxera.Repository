@@ -34,6 +34,7 @@
 	/// <typeparam name="TKey"></typeparam>
 	public abstract class ReadOnlyRepository<TAggregateRoot, TKey> : IReadOnlyRepository<TAggregateRoot, TKey>
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+		where TKey : IComparable<TKey>, IEquatable<TKey>
 	{
 		private readonly IReadOnlyRepository<TAggregateRoot, TKey> innerRepository;
 
