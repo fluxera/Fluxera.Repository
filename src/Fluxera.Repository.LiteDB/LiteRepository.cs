@@ -16,6 +16,7 @@
 
 	internal sealed class LiteRepository<TAggregateRoot, TKey> : RepositoryBase<TAggregateRoot, TKey>
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+		where TKey : IComparable<TKey>, IEquatable<TKey>
 	{
 		private readonly ILiteCollectionAsync<TAggregateRoot> collection;
 		private readonly IDatabaseProvider databaseProvider;

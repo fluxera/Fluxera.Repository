@@ -18,6 +18,7 @@
 	/// <typeparam name="TKey"></typeparam>
 	public sealed class ExceptionLoggingRepositoryDecorator<TAggregateRoot, TKey> : IRepository<TAggregateRoot, TKey>
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+		where TKey : IComparable<TKey>, IEquatable<TKey>
 	{
 		private readonly IRepository<TAggregateRoot, TKey> innerRepository;
 		private readonly ILogger logger;

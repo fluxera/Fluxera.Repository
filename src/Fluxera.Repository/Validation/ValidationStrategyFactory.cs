@@ -28,6 +28,7 @@
 		/// <inheritdoc />
 		public IValidationStrategy<TAggregateRoot, TKey> CreateStrategy<TAggregateRoot, TKey>()
 			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+			where TKey : IComparable<TKey>, IEquatable<TKey>
 		{
 			RepositoryName repositoryName = this.repositoryRegistry.GetRepositoryNameFor<TAggregateRoot>();
 			RepositoryOptions repositoryOptions = this.repositoryRegistry.GetRepositoryOptionsFor(repositoryName);

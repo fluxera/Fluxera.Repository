@@ -20,6 +20,7 @@
 	[PublicAPI]
 	public abstract class LinqRepositoryBase<TAggregateRoot, TKey> : RepositoryBase<TAggregateRoot, TKey>
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+		where TKey : IComparable<TKey>, IEquatable<TKey>
 	{
 		/// <summary>
 		///     Gets the underlying <see cref="IQueryable{T}" />

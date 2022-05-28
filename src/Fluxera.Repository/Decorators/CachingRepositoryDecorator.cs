@@ -21,6 +21,7 @@
 	/// <typeparam name="TKey"></typeparam>
 	public sealed class CachingRepositoryDecorator<TAggregateRoot, TKey> : IRepository<TAggregateRoot, TKey>
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+		where TKey : IComparable<TKey>, IEquatable<TKey>
 	{
 		private readonly ICachingStrategy<TAggregateRoot, TKey> cachingStrategy;
 		private readonly IRepository<TAggregateRoot, TKey> innerRepository;

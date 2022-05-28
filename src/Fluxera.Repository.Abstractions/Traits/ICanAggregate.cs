@@ -20,6 +20,7 @@ namespace Fluxera.Repository.Traits
 	[PublicAPI]
 	public interface ICanAggregate<TAggregateRoot, TKey>
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+		where TKey : IComparable<TKey>, IEquatable<TKey>
 	{
 		/// <summary>
 		///     Gets the count of existing items of the underlying store.

@@ -23,7 +23,9 @@
 			this.repositoryRegistry = repositoryRegistry;
 		}
 
-		public DbContext CreateDbContext<TAggregateRoot, TKey>() where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+		public DbContext CreateDbContext<TAggregateRoot, TKey>()
+			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+			where TKey : IComparable<TKey>, IEquatable<TKey>
 		{
 			RepositoryName repositoryName = this.repositoryRegistry.GetRepositoryNameFor<TAggregateRoot>();
 

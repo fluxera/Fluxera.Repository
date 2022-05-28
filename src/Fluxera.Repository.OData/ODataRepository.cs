@@ -22,6 +22,7 @@
 	/// </summary>
 	internal class ODataRepository<TAggregateRoot, TKey> : RepositoryBase<TAggregateRoot, TKey>
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+		where TKey : IComparable<TKey>, IEquatable<TKey>
 	{
 		private readonly ODataClient client;
 		private readonly ODataPersistenceSettings persistenceSettings;
@@ -264,11 +265,11 @@
 			LambdaExpression lambda = method as LambdaExpression;
 			MemberExpression memberExpr = null!;
 
-			if((lambda != null) && (lambda.Body.NodeType == ExpressionType.Convert))
+			if(lambda != null && lambda.Body.NodeType == ExpressionType.Convert)
 			{
 				memberExpr = (((UnaryExpression)lambda.Body).Operand as MemberExpression)!;
 			}
-			else if((lambda != null) && (lambda.Body.NodeType == ExpressionType.MemberAccess))
+			else if(lambda != null && lambda.Body.NodeType == ExpressionType.MemberAccess)
 			{
 				memberExpr = (lambda.Body as MemberExpression)!;
 			}
@@ -308,7 +309,7 @@
 						await converter.Invoke(batchClient, item);
 					};
 
-					if(((entryCount % batchSize) == 0) || (entryCount == itemsList.Count))
+					if(entryCount % batchSize == 0 || entryCount == itemsList.Count)
 					{
 						await batch.ExecuteAsync(cancellationToken).ConfigureAwait(false);
 						batch = new ODataBatch(this.client);

@@ -1,5 +1,6 @@
 ﻿namespace Fluxera.Repository.EntityFrameworkCore
 {
+	using System;
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Threading;
@@ -12,6 +13,7 @@
 
 	internal sealed class EntityFrameworkCoreRepository<TAggregateRoot, TKey> : LinqRepositoryBase<TAggregateRoot, TKey>
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+		where TKey : IComparable<TKey>, IEquatable<TKey>
 	{
 		private readonly DbContext dbContext;
 		private readonly DbSet<TAggregateRoot> dbSet;

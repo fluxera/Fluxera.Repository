@@ -9,7 +9,9 @@
 	using Fluxera.Repository.Query;
 	using Fluxera.Repository.Specifications;
 
-	public class NoopTestRepository<TAggregateRoot, TKey> : IRepository<TAggregateRoot, TKey> where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+	public class NoopTestRepository<TAggregateRoot, TKey> : IRepository<TAggregateRoot, TKey>
+		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+		where TKey : IComparable<TKey>, IEquatable<TKey>
 	{
 		/// <inheritdoc />
 		public async Task AddAsync(TAggregateRoot item, CancellationToken cancellationToken)

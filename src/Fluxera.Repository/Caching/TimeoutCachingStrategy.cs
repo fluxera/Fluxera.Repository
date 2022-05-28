@@ -12,6 +12,7 @@
 	[UsedImplicitly]
 	internal sealed class TimeoutCachingStrategy<TAggregateRoot, TKey> : ICachingStrategy<TAggregateRoot, TKey>
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+		where TKey : IComparable<TKey>, IEquatable<TKey>
 	{
 		private readonly TimeSpan expiration;
 
