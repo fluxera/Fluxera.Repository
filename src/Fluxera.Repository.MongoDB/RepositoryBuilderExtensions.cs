@@ -3,6 +3,7 @@
 	using System;
 	using Fluxera.Enumeration.MongoDB;
 	using Fluxera.Spatial.MongoDB;
+	using Fluxera.StronglyTypedId.MongoDB;
 	using Fluxera.Temporal.MongoDB;
 	using Fluxera.ValueObject.MongoDB;
 	using global::MongoDB.Bson;
@@ -42,6 +43,7 @@
 			pack.UseTemporal();
 			pack.UseEnumeration();
 			pack.UsePrimitiveValueObject();
+			pack.UseStronglyTypedId();
 
 			//configureConventions?.Invoke(pack);
 
