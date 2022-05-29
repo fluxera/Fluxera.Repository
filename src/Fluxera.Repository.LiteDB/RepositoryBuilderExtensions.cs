@@ -4,6 +4,7 @@
 	using Fluxera.Enumeration.LiteDB;
 	using Fluxera.Guards;
 	using Fluxera.Spatial.LiteDB;
+	using Fluxera.ValueObject.LiteDB;
 	using global::LiteDB;
 	using JetBrains.Annotations;
 	using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -38,6 +39,7 @@
 			BsonMapper.Global.UseSpatial();
 			//BsonMapper.Global.UseTemporal();
 			BsonMapper.Global.UseEnumeration();
+			BsonMapper.Global.UsePrimitiveValueObject();
 
 			//configureMapper.Invoke(BsonMapper.Global);
 

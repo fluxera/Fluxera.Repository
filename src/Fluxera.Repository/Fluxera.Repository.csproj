@@ -36,7 +36,7 @@
 		<PackageReference Include="Fluxera.Spatial" Version="6.0.9" />
 		<PackageReference Include="Fluxera.Temporal" Version="6.0.3" />
 		<PackageReference Include="Fluxera.Utilities" Version="6.0.16" />
-		<PackageReference Include="Fluxera.ValueObject" Version="6.1.0" />
+		<PackageReference Include="Fluxera.ValueObject" Version="6.1.1" />
 		<PackageReference Include="GitVersion.MsBuild" Version="5.10.1">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

@@ -4,6 +4,7 @@
 	using Fluxera.Enumeration.MongoDB;
 	using Fluxera.Spatial.MongoDB;
 	using Fluxera.Temporal.MongoDB;
+	using Fluxera.ValueObject.MongoDB;
 	using global::MongoDB.Bson;
 	using global::MongoDB.Bson.Serialization.Conventions;
 	using JetBrains.Annotations;
@@ -40,6 +41,7 @@
 			pack.UseSpatial();
 			pack.UseTemporal();
 			pack.UseEnumeration();
+			pack.UsePrimitiveValueObject();
 
 			//configureConventions?.Invoke(pack);
 

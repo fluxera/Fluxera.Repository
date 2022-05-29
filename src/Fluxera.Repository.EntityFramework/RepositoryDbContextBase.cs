@@ -1,6 +1,7 @@
 ﻿namespace Fluxera.Repository.EntityFrameworkCore
 {
 	using Fluxera.Enumeration.EntityFrameworkCore;
+	using Fluxera.ValueObject.EntityFrameworkCore;
 	using JetBrains.Annotations;
 	using Microsoft.EntityFrameworkCore;
 
@@ -27,6 +28,7 @@
 			//modelBuilder.UseSpatial();
 			//modelBuilder.UseTemporal();
 			modelBuilder.UseEnumeration();
+			modelBuilder.UsePrimitiveValueObject();
 
 			base.OnModelCreating(modelBuilder);
 		}
