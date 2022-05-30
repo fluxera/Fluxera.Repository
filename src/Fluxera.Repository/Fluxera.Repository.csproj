@@ -26,7 +26,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Fluxera.Entity" Version="6.1.1" />
+		<PackageReference Include="Fluxera.Entity" Version="6.1.2" />
 		<PackageReference Include="Fluxera.Enumeration" Version="6.0.13" />
 		<PackageReference Include="Fluxera.Extensions.Caching" Version="6.0.33" />
 		<PackageReference Include="Fluxera.Extensions.Common" Version="6.0.33" />
