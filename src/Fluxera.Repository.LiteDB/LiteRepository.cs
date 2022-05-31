@@ -68,8 +68,7 @@
 		/// <inheritdoc />
 		protected override async Task AddAsync(TAggregateRoot item, CancellationToken cancellationToken)
 		{
-			TKey key = this.GenerateKey();
-			item.ID = key;
+			item.ID = this.GenerateKey();
 
 			await this.collection.InsertAsync(item).ConfigureAwait(false);
 		}
@@ -81,8 +80,7 @@
 
 			foreach(TAggregateRoot item in itemList)
 			{
-				TKey key = this.GenerateKey();
-				item.ID = key;
+				item.ID = this.GenerateKey();
 			}
 
 			await this.collection.InsertBulkAsync(itemList).ConfigureAwait(false);
@@ -177,19 +175,18 @@
 
 		private TKey GenerateKey()
 		{
-			Guid key = this.sequentialGuidGenerator.Generate();
-
 			Type keyType = typeof(TKey);
-			if(keyType == typeof(Guid))
-			{
-				object guidKey = key;
-				return (TKey)guidKey;
-			}
 
 			if(keyType == typeof(string))
 			{
-				object stringKey = key.ToString("D");
-				return (TKey)stringKey;
+				Guid key = this.sequentialGuidGenerator.Generate();
+				return (TKey)Convert.ChangeType(key.ToString("D"), keyType);
+			}
+
+			if(keyType == typeof(Guid))
+			{
+				Guid key = this.sequentialGuidGenerator.Generate();
+				return (TKey)Convert.ChangeType(key, keyType);
 			}
 
 			if(keyType.IsStronglyTypedId())
@@ -199,22 +196,24 @@
 				Type valueType = keyType.GetValueType();
 				if(valueType == typeof(Guid))
 				{
+					Guid key = this.sequentialGuidGenerator.Generate();
 					keyValue = key;
 				}
 				else if(valueType == typeof(string))
 				{
+					Guid key = this.sequentialGuidGenerator.Generate();
 					keyValue = key.ToString("D");
 				}
 				else
 				{
-					throw new InvalidOperationException("The LiteDB repository only supports guid or string as type for strongly-typed keys.");
+					throw new InvalidOperationException("A key could not be generated. The LiteDB repository only supports guid or string as type for strongly-typed keys.");
 				}
 
 				object instance = Activator.CreateInstance(keyType, new object[] { keyValue });
 				return (TKey)instance;
 			}
 
-			throw new InvalidOperationException("The LiteDB repository only supports guid or string as type for keys.");
+			throw new InvalidOperationException("A key could not be generated. The LiteDB repository only supports guid or string as type for keys.");
 		}
 	}
 }

@@ -4,10 +4,11 @@
 	using System.Collections.Concurrent;
 	using System.Collections.Generic;
 	using System.Linq;
-	using System.Reflection;
 	using System.Threading;
 	using System.Threading.Tasks;
 	using Fluxera.Entity;
+	using Fluxera.Guards;
+	using Fluxera.Repository.LiteDB;
 	using Fluxera.Repository.Specifications;
 	using Fluxera.StronglyTypedId;
 
@@ -16,6 +17,13 @@
 		where TKey : IComparable<TKey>, IEquatable<TKey>
 	{
 		private static readonly ConcurrentDictionary<TKey, TAggregateRoot> Store = new ConcurrentDictionary<TKey, TAggregateRoot>();
+
+		private readonly SequentialGuidGenerator sequentialGuidGenerator;
+
+		public InMemoryRepository(SequentialGuidGenerator sequentialGuidGenerator)
+		{
+			this.sequentialGuidGenerator = Guard.Against.Null(sequentialGuidGenerator);
+		}
 
 		private static string Name => "Fluxera.Repository.InMemoryRepository";
 
@@ -61,7 +69,7 @@
 		/// <inheritdoc />
 		protected override Task AddAsync(TAggregateRoot item, CancellationToken cancellationToken)
 		{
-			item.ID = GenerateKey();
+			item.ID = this.GenerateKey();
 			Store.TryAdd(item.ID, item);
 			return Task.CompletedTask;
 		}
@@ -71,7 +79,7 @@
 		{
 			foreach(TAggregateRoot item in items)
 			{
-				item.ID = GenerateKey();
+				item.ID = this.GenerateKey();
 				Store.TryAdd(item.ID, item);
 			}
 
@@ -119,26 +127,20 @@
 			return Task.CompletedTask;
 		}
 
-		private static TKey GenerateKey()
+		private TKey GenerateKey()
 		{
 			Type keyType = typeof(TKey);
 
-			if(keyType.IsStronglyTypedId())
-			{
-				keyType = keyType.GetValueType();
-				object value = GenerateKey(keyType);
-				object key = Activator.CreateInstance(typeof(TKey), BindingFlags.Public | BindingFlags.Instance, null, new object[] { value }, null);
-				return (TKey)key;
-			}
-
 			if(keyType == typeof(string))
 			{
-				return (TKey)Convert.ChangeType(Guid.NewGuid().ToString("N"), keyType);
+				Guid key = this.sequentialGuidGenerator.Generate();
+				return (TKey)Convert.ChangeType(key.ToString("D"), keyType);
 			}
 
 			if(keyType == typeof(Guid))
 			{
-				return (TKey)Convert.ChangeType(Guid.NewGuid(), keyType);
+				Guid key = this.sequentialGuidGenerator.Generate();
+				return (TKey)Convert.ChangeType(key, keyType);
 			}
 
 			if(keyType == typeof(int))
@@ -157,19 +159,28 @@
 				return (TKey)Convert.ChangeType(nextInt, keyType);
 			}
 
+			if(keyType.IsStronglyTypedId())
+			{
+				Type valueType = keyType.GetValueType();
+				object value = this.GenerateKey(valueType);
+				object key = Activator.CreateInstance(typeof(TKey), new object[] { value });
+				return (TKey)key;
+			}
+
 			throw new InvalidOperationException("A key could not be generated. The in-memory repository only supports guid, string, int and long for keys.");
 		}
 
-		private static object GenerateKey(Type keyType)
+		private object GenerateKey(Type keyType)
 		{
 			if(keyType == typeof(string))
 			{
-				return Guid.NewGuid().ToString("N");
+				Guid key = this.sequentialGuidGenerator.Generate();
+				return key.ToString("D");
 			}
 
 			if(keyType == typeof(Guid))
 			{
-				return Guid.NewGuid();
+				return this.sequentialGuidGenerator.Generate();
 			}
 
 			if(keyType == typeof(int))
