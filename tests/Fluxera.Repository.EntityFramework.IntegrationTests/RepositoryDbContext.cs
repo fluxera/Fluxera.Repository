@@ -1,6 +1,7 @@
 ﻿namespace Fluxera.Repository.EntityFrameworkCore.IntegrationTests
 {
 	using Fluxera.Repository.UnitTests.Core.CompanyAggregate;
+	using Fluxera.Repository.UnitTests.Core.EmployeeAggregate;
 	using Fluxera.Repository.UnitTests.Core.PersonAggregate;
 	using JetBrains.Annotations;
 	using Microsoft.EntityFrameworkCore;
@@ -14,6 +15,8 @@
 		public DbSet<Person> People { get; set; }
 
 		public DbSet<Company> Companies { get; set; }
+
+		public DbSet<Employee> Employees { get; set; }
 
 		/// <inheritdoc />
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

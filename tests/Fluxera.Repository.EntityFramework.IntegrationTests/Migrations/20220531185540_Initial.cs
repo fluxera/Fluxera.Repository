@@ -13,13 +13,25 @@ namespace Fluxera.Repository.EntityFrameworkCore.IntegrationTests.Migrations
                 name: "Companies",
                 columns: table => new
                 {
-                    ID = table.Column<Guid>(type: "TEXT", nullable: false),
+                    ID = table.Column<string>(type: "TEXT", nullable: false),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     LegalType = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Companies", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Employees",
+                columns: table => new
+                {
+                    ID = table.Column<string>(type: "TEXT", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Employees", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
@@ -44,6 +56,9 @@ namespace Fluxera.Repository.EntityFrameworkCore.IntegrationTests.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Companies");
+
+            migrationBuilder.DropTable(
+                name: "Employees");
 
             migrationBuilder.DropTable(
                 name: "People");

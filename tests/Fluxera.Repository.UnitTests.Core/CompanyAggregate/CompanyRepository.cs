@@ -1,11 +1,9 @@
 ﻿namespace Fluxera.Repository.UnitTests.Core.CompanyAggregate
 {
-	using System;
-
-	public class CompanyRepository : Repository<Company, Guid>, ICompanyRepository
+	public class CompanyRepository : Repository<Company, string>, ICompanyRepository
 	{
 		/// <inheritdoc />
-		public CompanyRepository(IRepository<Company, Guid> innerRepository)
+		public CompanyRepository(IRepository<Company, string> innerRepository)
 			: base(innerRepository)
 		{
 		}

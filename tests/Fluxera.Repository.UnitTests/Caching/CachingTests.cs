@@ -57,9 +57,9 @@
 
 			ICachingStrategyFactory cachingStrategyFactory = this.serviceProvider.GetRequiredService<ICachingStrategyFactory>();
 
-			ICachingStrategy<Company, Guid> companyStrategy = cachingStrategyFactory.CreateStrategy<Company, Guid>();
+			ICachingStrategy<Company, string> companyStrategy = cachingStrategyFactory.CreateStrategy<Company, string>();
 			companyStrategy.Should().NotBeNull();
-			companyStrategy.Should().BeOfType<StandardCachingStrategy<Company, Guid>>();
+			companyStrategy.Should().BeOfType<StandardCachingStrategy<Company, string>>();
 
 			ICachingStrategy<Person, Guid> personStrategy = cachingStrategyFactory.CreateStrategy<Person, Guid>();
 			personStrategy.Should().NotBeNull();

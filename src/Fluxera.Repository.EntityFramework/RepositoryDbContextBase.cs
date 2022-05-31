@@ -20,6 +20,8 @@
 		/// <inheritdoc />
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
+			optionsBuilder.UseStronglyTypedId();
+
 			base.OnConfiguring(optionsBuilder);
 		}
 
@@ -31,6 +33,8 @@
 			modelBuilder.UseEnumeration();
 			modelBuilder.UsePrimitiveValueObject();
 			modelBuilder.UseStronglyTypedId();
+			modelBuilder.UseStronglyTypedIdValueGenerator();
+			modelBuilder.UseSequentialGuidStringIdValueGenerator();
 
 			base.OnModelCreating(modelBuilder);
 		}

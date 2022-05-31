@@ -11,6 +11,7 @@
 	using Fluxera.Repository.Options;
 	using Fluxera.Repository.Query;
 	using Fluxera.Repository.Specifications;
+	using Fluxera.StronglyTypedId;
 	using Fluxera.Utilities.Extensions;
 	using global::LiteDB.Async;
 
@@ -19,21 +20,21 @@
 		where TKey : IComparable<TKey>, IEquatable<TKey>
 	{
 		private readonly ILiteCollectionAsync<TAggregateRoot> collection;
-		private readonly IDatabaseProvider databaseProvider;
-		private readonly RepositoryName repositoryName;
+		private readonly SequentialGuidGenerator sequentialGuidGenerator;
 
 		public LiteRepository(
 			IRepositoryRegistry repositoryRegistry,
 			IDatabaseProvider databaseProvider,
+			SequentialGuidGenerator sequentialGuidGenerator,
 			IDatabaseNameProvider databaseNameProvider = null)
 		{
-			Guard.Against.Null(repositoryRegistry, nameof(repositoryRegistry));
-			Guard.Against.Null(databaseProvider, nameof(databaseProvider));
+			Guard.Against.Null(repositoryRegistry);
+			Guard.Against.Null(databaseProvider);
 
-			this.databaseProvider = databaseProvider;
+			this.sequentialGuidGenerator = Guard.Against.Null(sequentialGuidGenerator);
 
-			this.repositoryName = repositoryRegistry.GetRepositoryNameFor<TAggregateRoot>();
-			RepositoryOptions options = repositoryRegistry.GetRepositoryOptionsFor(this.repositoryName);
+			RepositoryName repositoryName = repositoryRegistry.GetRepositoryNameFor<TAggregateRoot>();
+			RepositoryOptions options = repositoryRegistry.GetRepositoryOptionsFor(repositoryName);
 
 			LitePersistenceSettings persistenceSettings = new LitePersistenceSettings
 			{
@@ -52,7 +53,7 @@
 			Guard.Against.NullOrEmpty(databaseName, nameof(databaseName));
 			Guard.Against.NullOrEmpty(collectionName, nameof(collectionName));
 
-			LiteDatabaseAsync database = this.databaseProvider.GetDatabase(this.repositoryName, databaseName);
+			LiteDatabaseAsync database = databaseProvider.GetDatabase(repositoryName, databaseName);
 			this.collection = database.GetCollection<TAggregateRoot>(collectionName);
 		}
 
@@ -67,13 +68,24 @@
 		/// <inheritdoc />
 		protected override async Task AddAsync(TAggregateRoot item, CancellationToken cancellationToken)
 		{
+			TKey key = this.GenerateKey();
+			item.ID = key;
+
 			await this.collection.InsertAsync(item).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
 		protected override async Task AddRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{
-			await this.collection.InsertBulkAsync(items).ConfigureAwait(false);
+			IList<TAggregateRoot> itemList = items.ToList();
+
+			foreach(TAggregateRoot item in itemList)
+			{
+				TKey key = this.GenerateKey();
+				item.ID = key;
+			}
+
+			await this.collection.InsertBulkAsync(itemList).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
@@ -163,10 +175,46 @@
 			return await this.collection.LongCountAsync(specification.Predicate);
 		}
 
-		/// <inheritdoc />
-		protected override void DisposeManaged()
+		private TKey GenerateKey()
 		{
-			this.databaseProvider.Dispose(this.repositoryName);
+			Guid key = this.sequentialGuidGenerator.Generate();
+
+			Type keyType = typeof(TKey);
+			if(keyType == typeof(Guid))
+			{
+				object guidKey = key;
+				return (TKey)guidKey;
+			}
+
+			if(keyType == typeof(string))
+			{
+				object stringKey = key.ToString("D");
+				return (TKey)stringKey;
+			}
+
+			if(keyType.IsStronglyTypedId())
+			{
+				object keyValue;
+
+				Type valueType = keyType.GetValueType();
+				if(valueType == typeof(Guid))
+				{
+					keyValue = key;
+				}
+				else if(valueType == typeof(string))
+				{
+					keyValue = key.ToString("D");
+				}
+				else
+				{
+					throw new InvalidOperationException("The LiteDB repository only supports guid or string as type for strongly-typed keys.");
+				}
+
+				object instance = Activator.CreateInstance(keyType, new object[] { keyValue });
+				return (TKey)instance;
+			}
+
+			throw new InvalidOperationException("The LiteDB repository only supports guid or string as type for keys.");
 		}
 	}
 }

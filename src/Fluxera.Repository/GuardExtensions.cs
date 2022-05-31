@@ -18,7 +18,7 @@ namespace Fluxera.Repository
 		{
 			Guard.Against.Null(input);
 
-			if(!input!.IsTransient)
+			if(!input.IsTransient)
 			{
 				throw CreateArgumentException(parameterName, message);
 			}
@@ -42,7 +42,7 @@ namespace Fluxera.Repository
 		{
 			Guard.Against.Null(input);
 
-			if(input!.IsTransient)
+			if(input.IsTransient)
 			{
 				throw CreateArgumentException(parameterName, message);
 			}
@@ -66,7 +66,7 @@ namespace Fluxera.Repository
 		{
 			Guard.Against.Null(input);
 
-			if(input!.IsDisposed)
+			if(input.IsDisposed)
 			{
 				throw new ObjectDisposedException(input.ToString(), "The repository instance was already disposed.");
 			}

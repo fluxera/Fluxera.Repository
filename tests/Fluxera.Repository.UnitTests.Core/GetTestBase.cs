@@ -2,6 +2,7 @@
 {
 	using System.Threading.Tasks;
 	using FluentAssertions;
+	using Fluxera.Repository.UnitTests.Core.EmployeeAggregate;
 	using Fluxera.Repository.UnitTests.Core.PersonAggregate;
 	using JetBrains.Annotations;
 	using NUnit.Framework;
@@ -50,6 +51,53 @@
 			person.ID.Should().NotBeEmpty();
 
 			bool fromStore = await this.PersonRepository.ExistsAsync(person.ID);
+			fromStore.Should().BeTrue();
+		}
+
+		[Test]
+		public async Task ShouldGetByIdWithStronglyTypedId()
+		{
+			Employee employee = new Employee
+			{
+				Name = "Tester"
+			};
+			await this.EmployeeRepository.AddAsync(employee);
+			employee.ID.Should().NotBeNull();
+			employee.ID.Value.Should().NotBeEmpty();
+
+			Employee fromStore = await this.EmployeeRepository.GetAsync(employee.ID);
+			fromStore.Should().NotBeNull();
+			fromStore.ID.Should().Be(employee.ID);
+		}
+
+		[Test]
+		public async Task ShouldGetByIdWithSelectorWithStronglyTypedId()
+		{
+			Employee employee = new Employee
+			{
+				Name = "Tester"
+			};
+			await this.EmployeeRepository.AddAsync(employee);
+			employee.ID.Should().NotBeNull();
+			employee.ID.Value.Should().NotBeEmpty();
+
+			string fromStore = await this.EmployeeRepository.GetAsync(employee.ID, x => x.Name);
+			fromStore.Should().NotBeNull();
+			fromStore.Should().Be(employee.Name);
+		}
+
+		[Test]
+		public async Task ShouldExistsByIdWithStronglyTypedId()
+		{
+			Employee employee = new Employee
+			{
+				Name = "Tester"
+			};
+			await this.EmployeeRepository.AddAsync(employee);
+			employee.ID.Should().NotBeNull();
+			employee.ID.Value.Should().NotBeEmpty();
+
+			bool fromStore = await this.EmployeeRepository.ExistsAsync(employee.ID);
 			fromStore.Should().BeTrue();
 		}
 	}

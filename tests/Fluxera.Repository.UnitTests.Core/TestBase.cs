@@ -6,7 +6,7 @@
 
 	public abstract class TestBase
 	{
-		protected static IServiceProvider BuildServiceProvider(Action<IServiceCollection> configure)
+		protected static ServiceProvider BuildServiceProvider(Action<IServiceCollection> configure)
 		{
 			IServiceCollection services = new ServiceCollection();
 
