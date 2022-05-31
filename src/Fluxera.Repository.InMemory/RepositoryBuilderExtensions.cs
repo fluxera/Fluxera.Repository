@@ -2,7 +2,9 @@
 {
 	using System;
 	using Fluxera.Guards;
+	using Fluxera.Repository.LiteDB;
 	using JetBrains.Annotations;
+	using Microsoft.Extensions.DependencyInjection;
 
 	/// <summary>
 	///     The extension methods to configure an in-memory repository.
@@ -24,6 +26,8 @@
 			Guard.Against.Null(builder, nameof(builder));
 			Guard.Against.NullOrWhiteSpace(repositoryName, nameof(repositoryName));
 			Guard.Against.Null(configure, nameof(configure));
+
+			builder.Services.AddSingleton<SequentialGuidGenerator>();
 
 			return builder.AddRepository(repositoryName, typeof(InMemoryRepository<,>), configure);
 		}
