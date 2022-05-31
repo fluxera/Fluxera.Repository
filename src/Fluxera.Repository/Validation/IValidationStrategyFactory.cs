@@ -11,7 +11,7 @@
 	public interface IValidationStrategyFactory
 	{
 		/// <summary>
-		///     Creates the validation strategy to use for the repository and <see cref="TAggregateRoot" />.
+		///     Creates the validation strategy to use for the repository and aggregate root.
 		/// </summary>
 		/// <typeparam name="TAggregateRoot"></typeparam>
 		/// <typeparam name="TKey">The type of the ID.</typeparam>

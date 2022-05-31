@@ -46,7 +46,7 @@
 		{
 			IQueryOptions<Customer> queryOptions = QueryOptions<Customer>.OrderBy(x => x.Name).Paging(1, 10);
 			queryOptions.TryGetSortingOptions(out _).Should().BeTrue();
-			queryOptions.TryGetPagingOptions(out IPagingOptions<Customer>? pagingOptions).Should().BeTrue();
+			queryOptions.TryGetPagingOptions(out IPagingOptions<Customer> pagingOptions).Should().BeTrue();
 			queryOptions.Should().BeSameAs(pagingOptions);
 		}
 
@@ -55,7 +55,7 @@
 		{
 			IQueryOptions<Customer> queryOptions = QueryOptions<Customer>.OrderBy(x => x.Name).Take(10);
 			queryOptions.TryGetSortingOptions(out _).Should().BeTrue();
-			queryOptions.TryGetSkipTakeOptions(out ISkipTakeOptions<Customer>? skipTakeOptions).Should().BeTrue();
+			queryOptions.TryGetSkipTakeOptions(out ISkipTakeOptions<Customer> skipTakeOptions).Should().BeTrue();
 			queryOptions.Should().BeSameAs(skipTakeOptions);
 		}
 

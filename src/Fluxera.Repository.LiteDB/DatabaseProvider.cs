@@ -1,11 +1,9 @@
 ﻿namespace Fluxera.Repository.LiteDB
 {
 	using System.Collections.Concurrent;
-	using System.Collections.Generic;
 	using Fluxera.Utilities.Extensions;
 	using global::LiteDB.Async;
 	using JetBrains.Annotations;
-	using Microsoft.Extensions.Logging;
 
 	/// <summary>
 	///     https://github.com/mlockett42/litedb-async
@@ -17,36 +15,26 @@
 	[UsedImplicitly]
 	internal sealed class DatabaseProvider : IDatabaseProvider
 	{
-		private readonly IDictionary<RepositoryName, LiteDatabaseAsync> databases = new ConcurrentDictionary<RepositoryName, LiteDatabaseAsync>();
-		private readonly ILogger<DatabaseProvider> logger;
-
-		public DatabaseProvider(ILogger<DatabaseProvider> logger)
-		{
-			this.logger = logger;
-		}
+		private readonly ConcurrentDictionary<RepositoryName, LiteDatabaseAsync> databases = new ConcurrentDictionary<RepositoryName, LiteDatabaseAsync>();
 
 		/// <inheritdoc />
 		public LiteDatabaseAsync GetDatabase(RepositoryName repositoryName, string databaseName)
 		{
-			if(!this.databases.ContainsKey(repositoryName))
-			{
-				LiteDatabaseAsync database = new LiteDatabaseAsync(databaseName.EnsureEndsWith(".db"));
-				this.databases.Add(repositoryName, database);
-			}
+			LiteDatabaseAsync database = this.databases.GetOrAdd(repositoryName,
+				_ => new LiteDatabaseAsync(databaseName.EnsureEndsWith(".db")));
 
-			return this.databases[repositoryName];
+			return database;
 		}
 
 		/// <inheritdoc />
-		public void Dispose(RepositoryName repositoryName)
+		public void Dispose()
 		{
-			if(this.databases.ContainsKey(repositoryName))
+			foreach(LiteDatabaseAsync database in this.databases.Values)
 			{
-				this.logger.LogDebug($"Disposed LiteDB database for repository '{repositoryName}'.");
-
-				this.databases[repositoryName].Dispose();
-				this.databases.Remove(repositoryName);
+				database.Dispose();
 			}
+
+			this.databases.Clear();
 		}
 	}
 }

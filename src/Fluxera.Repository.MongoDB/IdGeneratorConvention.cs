@@ -1,6 +1,7 @@
 ﻿namespace Fluxera.Repository.MongoDB
 {
 	using System;
+	using Fluxera.StronglyTypedId;
 	using global::MongoDB.Bson;
 	using global::MongoDB.Bson.Serialization;
 	using global::MongoDB.Bson.Serialization.Conventions;
@@ -12,7 +13,7 @@
 		public void PostProcess(BsonClassMap classMap)
 		{
 			BsonMemberMap idMemberMap = classMap.IdMemberMap;
-			if((idMemberMap == null) || (idMemberMap.IdGenerator != null))
+			if(idMemberMap == null || idMemberMap.IdGenerator != null)
 			{
 				return;
 			}
@@ -20,17 +21,21 @@
 			if(idMemberMap.MemberType == typeof(string))
 			{
 				idMemberMap.SetIdGenerator(StringObjectIdGenerator.Instance);
+				idMemberMap.SetSerializer(new StringSerializer(BsonType.ObjectId));
 			}
 			else if(idMemberMap.MemberType == typeof(Guid))
 			{
 				idMemberMap.SetIdGenerator(CombGuidGenerator.Instance);
+				idMemberMap.SetSerializer(new StringSerializer(BsonType.ObjectId));
+			}
+			else if(idMemberMap.MemberType.IsStronglyTypedId())
+			{
+				idMemberMap.SetIdGenerator(new StronglyTypedIdGenerator(idMemberMap.MemberType));
 			}
 			else
 			{
 				throw new InvalidOperationException("The MongoDB repository only supports guid or string as type for keys.");
 			}
-
-			idMemberMap.SetSerializer(new StringSerializer(BsonType.ObjectId));
 		}
 	}
 }

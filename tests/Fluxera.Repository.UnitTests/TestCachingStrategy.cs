@@ -98,7 +98,7 @@
 		}
 
 		/// <inheritdoc />
-		async Task<TAggregateRoot> ICachingStrategy<TAggregateRoot, TKey>.FindOneAsync(Expression<Func<TAggregateRoot, bool>> predicate, IQueryOptions<TAggregateRoot>? queryOptions, Func<Task<TAggregateRoot>> setter)
+		async Task<TAggregateRoot> ICachingStrategy<TAggregateRoot, TKey>.FindOneAsync(Expression<Func<TAggregateRoot, bool>> predicate, IQueryOptions<TAggregateRoot> queryOptions, Func<Task<TAggregateRoot>> setter)
 		{
 			this.FindOneWithPredicateWasCalled = true;
 
@@ -106,7 +106,7 @@
 		}
 
 		/// <inheritdoc />
-		async Task<TResult> ICachingStrategy<TAggregateRoot, TKey>.FindOneAsync<TResult>(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot>? queryOptions, Func<Task<TResult>> setter)
+		async Task<TResult> ICachingStrategy<TAggregateRoot, TKey>.FindOneAsync<TResult>(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot> queryOptions, Func<Task<TResult>> setter)
 		{
 			this.FindOneWithPredicateAndSelectorWasCalled = true;
 
@@ -114,7 +114,7 @@
 		}
 
 		/// <inheritdoc />
-		async Task<IReadOnlyCollection<TAggregateRoot>> ICachingStrategy<TAggregateRoot, TKey>.FindManyAsync(Expression<Func<TAggregateRoot, bool>> predicate, IQueryOptions<TAggregateRoot>? queryOptions, Func<Task<IReadOnlyCollection<TAggregateRoot>>> setter)
+		async Task<IReadOnlyCollection<TAggregateRoot>> ICachingStrategy<TAggregateRoot, TKey>.FindManyAsync(Expression<Func<TAggregateRoot, bool>> predicate, IQueryOptions<TAggregateRoot> queryOptions, Func<Task<IReadOnlyCollection<TAggregateRoot>>> setter)
 		{
 			this.FindManyWithPredicateWasCalled = true;
 
@@ -122,7 +122,7 @@
 		}
 
 		/// <inheritdoc />
-		async Task<IReadOnlyCollection<TResult>> ICachingStrategy<TAggregateRoot, TKey>.FindManyAsync<TResult>(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot>? queryOptions, Func<Task<IReadOnlyCollection<TResult>>> setter)
+		async Task<IReadOnlyCollection<TResult>> ICachingStrategy<TAggregateRoot, TKey>.FindManyAsync<TResult>(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot> queryOptions, Func<Task<IReadOnlyCollection<TResult>>> setter)
 		{
 			this.FindManyWithPredicateAndSelectorWasCalled = true;
 

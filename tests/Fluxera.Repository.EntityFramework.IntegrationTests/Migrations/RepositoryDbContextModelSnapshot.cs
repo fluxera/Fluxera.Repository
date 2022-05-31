@@ -15,12 +15,11 @@ namespace Fluxera.Repository.EntityFrameworkCore.IntegrationTests.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "6.0.3");
+            modelBuilder.HasAnnotation("ProductVersion", "6.0.5");
 
             modelBuilder.Entity("Fluxera.Repository.UnitTests.Core.CompanyAggregate.Company", b =>
                 {
-                    b.Property<Guid>("ID")
-                        .ValueGeneratedOnAdd()
+                    b.Property<string>("ID")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("LegalType")
@@ -34,6 +33,19 @@ namespace Fluxera.Repository.EntityFrameworkCore.IntegrationTests.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Companies");
+                });
+
+            modelBuilder.Entity("Fluxera.Repository.UnitTests.Core.EmployeeAggregate.Employee", b =>
+                {
+                    b.Property<string>("ID")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Employees");
                 });
 
             modelBuilder.Entity("Fluxera.Repository.UnitTests.Core.PersonAggregate.Person", b =>
@@ -62,19 +74,15 @@ namespace Fluxera.Repository.EntityFrameworkCore.IntegrationTests.Migrations
                                 .HasColumnType("TEXT");
 
                             b1.Property<string>("City")
-                                .IsRequired()
                                 .HasColumnType("TEXT");
 
                             b1.Property<string>("Number")
-                                .IsRequired()
                                 .HasColumnType("TEXT");
 
                             b1.Property<string>("PostCode")
-                                .IsRequired()
                                 .HasColumnType("TEXT");
 
                             b1.Property<string>("Street")
-                                .IsRequired()
                                 .HasColumnType("TEXT");
 
                             b1.HasKey("PersonID");

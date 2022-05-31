@@ -11,7 +11,7 @@
 	public interface ICachingStrategyFactory
 	{
 		/// <summary>
-		///     Creates the cache strategy to use for the repository and <see cref="TAggregateRoot" />.
+		///     Creates the cache strategy to use for the repository and aggregate root.
 		/// </summary>
 		/// <typeparam name="TAggregateRoot"></typeparam>
 		/// <typeparam name="TKey">The type if the keys.</typeparam>

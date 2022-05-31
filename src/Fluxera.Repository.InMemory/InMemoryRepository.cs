@@ -4,10 +4,12 @@
 	using System.Collections.Concurrent;
 	using System.Collections.Generic;
 	using System.Linq;
+	using System.Reflection;
 	using System.Threading;
 	using System.Threading.Tasks;
 	using Fluxera.Entity;
 	using Fluxera.Repository.Specifications;
+	using Fluxera.StronglyTypedId;
 
 	internal sealed class InMemoryRepository<TAggregateRoot, TKey> : LinqRepositoryBase<TAggregateRoot, TKey>
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
@@ -119,30 +121,71 @@
 
 		private static TKey GenerateKey()
 		{
-			if(typeof(TKey) == typeof(string))
+			Type keyType = typeof(TKey);
+
+			if(keyType.IsStronglyTypedId())
 			{
-				return (TKey)Convert.ChangeType(Guid.NewGuid().ToString("N"), typeof(TKey));
+				keyType = keyType.GetValueType();
+				object value = GenerateKey(keyType);
+				object key = Activator.CreateInstance(typeof(TKey), BindingFlags.Public | BindingFlags.Instance, null, new object[] { value }, null);
+				return (TKey)key;
 			}
 
-			if(typeof(TKey) == typeof(Guid))
+			if(keyType == typeof(string))
 			{
-				return (TKey)Convert.ChangeType(Guid.NewGuid(), typeof(TKey));
+				return (TKey)Convert.ChangeType(Guid.NewGuid().ToString("N"), keyType);
 			}
 
-			if(typeof(TKey) == typeof(int))
+			if(keyType == typeof(Guid))
+			{
+				return (TKey)Convert.ChangeType(Guid.NewGuid(), keyType);
+			}
+
+			if(keyType == typeof(int))
 			{
 				TKey pkValue = Store.Keys.LastOrDefault();
 
 				int nextInt = Convert.ToInt32(pkValue) + 1;
-				return (TKey)Convert.ChangeType(nextInt, typeof(TKey));
+				return (TKey)Convert.ChangeType(nextInt, keyType);
 			}
 
-			if(typeof(TKey) == typeof(long))
+			if(keyType == typeof(long))
 			{
 				TKey pkValue = Store.Keys.LastOrDefault();
 
 				int nextInt = Convert.ToInt32(pkValue) + 1;
-				return (TKey)Convert.ChangeType(nextInt, typeof(TKey));
+				return (TKey)Convert.ChangeType(nextInt, keyType);
+			}
+
+			throw new InvalidOperationException("A key could not be generated. The in-memory repository only supports guid, string, int and long for keys.");
+		}
+
+		private static object GenerateKey(Type keyType)
+		{
+			if(keyType == typeof(string))
+			{
+				return Guid.NewGuid().ToString("N");
+			}
+
+			if(keyType == typeof(Guid))
+			{
+				return Guid.NewGuid();
+			}
+
+			if(keyType == typeof(int))
+			{
+				IStronglyTypedId<TKey, int> pkValue = Store.Keys.LastOrDefault() as IStronglyTypedId<TKey, int>;
+
+				int nextInt = (pkValue?.Value ?? 0) + 1;
+				return nextInt;
+			}
+
+			if(keyType == typeof(long))
+			{
+				IStronglyTypedId<TKey, long> pkValue = Store.Keys.LastOrDefault() as IStronglyTypedId<TKey, long>;
+
+				long nextInt = (pkValue?.Value ?? 0) + 1;
+				return nextInt;
 			}
 
 			throw new InvalidOperationException("A key could not be generated. The in-memory repository only supports guid, string, int and long for keys.");
