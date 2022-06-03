@@ -19,7 +19,7 @@
 	[PublicAPI]
 	public interface ICanAdd<in TAggregateRoot, TKey>
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
-		where TKey : IComparable<TKey>, IEquatable<TKey>
+		where TKey : notnull, IComparable<TKey>, IEquatable<TKey>
 	{
 		/// <summary>
 		///     Adds the given instance to the underlying store.

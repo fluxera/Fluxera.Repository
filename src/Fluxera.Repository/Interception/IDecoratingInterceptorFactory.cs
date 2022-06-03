@@ -10,7 +10,7 @@
 	/// <typeparam name="TKey"></typeparam>
 	public interface IDecoratingInterceptorFactory<TAggregateRoot, TKey>
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
-		where TKey : IComparable<TKey>, IEquatable<TKey>
+		where TKey : notnull, IComparable<TKey>, IEquatable<TKey>
 	{
 		/// <summary>
 		///     Creates a new instance of the <see cref="DecoratingInterceptor{TAggregateRoot,TKey}" /> type.

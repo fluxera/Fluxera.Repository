@@ -25,7 +25,7 @@ namespace Fluxera.Repository.Decorators
 	/// <typeparam name="TKey"></typeparam>
 	public sealed class DiagnosticRepositoryDecorator<TAggregateRoot, TKey> : IRepository<TAggregateRoot, TKey>
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
-		where TKey : IComparable<TKey>, IEquatable<TKey>
+		where TKey : notnull, IComparable<TKey>, IEquatable<TKey>
 	{
 		private static readonly AssemblyName AssemblyName = Assembly.GetExecutingAssembly().GetName();
 		private static readonly string ActivitySourceName = AssemblyName.Name;

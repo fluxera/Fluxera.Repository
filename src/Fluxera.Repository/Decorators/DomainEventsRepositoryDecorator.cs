@@ -22,7 +22,7 @@
 	/// <typeparam name="TKey"></typeparam>
 	public sealed class DomainEventsRepositoryDecorator<TAggregateRoot, TKey> : IRepository<TAggregateRoot, TKey>
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
-		where TKey : IComparable<TKey>, IEquatable<TKey>
+		where TKey : notnull, IComparable<TKey>, IEquatable<TKey>
 	{
 		private readonly IDomainEventDispatcher domainEventDispatcher;
 		private readonly IRepository<TAggregateRoot, TKey> innerRepository;

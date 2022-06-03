@@ -19,7 +19,7 @@
 	[PublicAPI]
 	public interface ICanRemove<TAggregateRoot, in TKey>
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
-		where TKey : IComparable<TKey>, IEquatable<TKey>
+		where TKey : notnull, IComparable<TKey>, IEquatable<TKey>
 	{
 		/// <summary>
 		///     Deletes the given instance from the underlying store.

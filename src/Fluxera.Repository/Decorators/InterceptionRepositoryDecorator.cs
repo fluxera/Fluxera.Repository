@@ -25,7 +25,7 @@
 	/// <typeparam name="TKey"></typeparam>
 	public sealed class InterceptionRepositoryDecorator<TAggregateRoot, TKey> : IRepository<TAggregateRoot, TKey>
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
-		where TKey : IComparable<TKey>, IEquatable<TKey>
+		where TKey : notnull, IComparable<TKey>, IEquatable<TKey>
 	{
 		private readonly IRepository<TAggregateRoot, TKey> innerRepository;
 		private readonly IInterceptor<TAggregateRoot, TKey> interceptor;

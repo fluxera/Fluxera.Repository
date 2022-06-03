@@ -24,7 +24,7 @@
 	[PublicAPI]
 	public abstract class RepositoryBase<TAggregateRoot, TKey> : Disposable, IRepository<TAggregateRoot, TKey>
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
-		where TKey : IComparable<TKey>, IEquatable<TKey>
+		where TKey : notnull, IComparable<TKey>, IEquatable<TKey>
 	{
 		/// <inheritdoc />
 		bool IDisposableRepository.IsDisposed => base.IsDisposed;
@@ -44,7 +44,7 @@
 		/// <inheritdoc />
 		async Task ICanRemove<TAggregateRoot, TKey>.RemoveAsync(TAggregateRoot item, CancellationToken cancellationToken)
 		{
-			await this.RemoveRangeAsync(this.CreatePrimaryKeySpecification(item.ID!), cancellationToken).ConfigureAwait(false);
+			await this.RemoveRangeAsync(this.CreatePrimaryKeySpecification(item.ID), cancellationToken).ConfigureAwait(false);
 			// ReSharper disable once ArrangeDefaultValueWhenTypeNotEvident
 			item.ID = default(TKey);
 		}
@@ -142,13 +142,13 @@
 		/// <inheritdoc />
 		async Task<TAggregateRoot> ICanGet<TAggregateRoot, TKey>.GetAsync(TKey id, CancellationToken cancellationToken)
 		{
-			return await this.FindOneAsync(this.CreatePrimaryKeySpecification(id), null, cancellationToken);
+			return await this.FindOneAsync(this.CreatePrimaryKeySpecification(id), QueryOptions<TAggregateRoot>.Empty(), cancellationToken);
 		}
 
 		/// <inheritdoc />
 		async Task<TResult> ICanGet<TAggregateRoot, TKey>.GetAsync<TResult>(TKey id, Expression<Func<TAggregateRoot, TResult>> selector, CancellationToken cancellationToken)
 		{
-			return await this.FindOneAsync(this.CreatePrimaryKeySpecification(id), selector, null, cancellationToken);
+			return await this.FindOneAsync(this.CreatePrimaryKeySpecification(id), selector, QueryOptions<TAggregateRoot>.Empty(), cancellationToken);
 		}
 
 		/// <inheritdoc />
@@ -288,7 +288,7 @@
 		/// </summary>
 		/// <param name="id"></param>
 		/// <returns></returns>
-		protected Expression<Func<TAggregateRoot, bool>> CreatePrimaryKeyPredicate(TKey id)
+		protected virtual Expression<Func<TAggregateRoot, bool>> CreatePrimaryKeyPredicate(TKey id)
 		{
 			PropertyInfo primaryKeyProperty = this.GetPrimaryKeyProperty();
 
