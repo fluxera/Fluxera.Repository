@@ -270,6 +270,36 @@
 			throw new NotSupportedException("The sum aggregate is not supported.");
 		}
 
+		/// <inheritdoc />
+		protected override Task<double> AverageAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, int>> selector, CancellationToken cancellationToken)
+		{
+			throw new NotSupportedException("The average aggregate is not supported.");
+		}
+
+		/// <inheritdoc />
+		protected override Task<double> AverageAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, long>> selector, CancellationToken cancellationToken)
+		{
+			throw new NotSupportedException("The average aggregate is not supported.");
+		}
+
+		/// <inheritdoc />
+		protected override Task<decimal> AverageAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, decimal>> selector, CancellationToken cancellationToken)
+		{
+			throw new NotSupportedException("The average aggregate is not supported.");
+		}
+
+		/// <inheritdoc />
+		protected override Task<float> AverageAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, float>> selector, CancellationToken cancellationToken)
+		{
+			throw new NotSupportedException("The average aggregate is not supported.");
+		}
+
+		/// <inheritdoc />
+		protected override Task<double> AverageAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, double>> selector, CancellationToken cancellationToken)
+		{
+			throw new NotSupportedException("The average aggregate is not supported.");
+		}
+
 		private static Expression<Func<TAggregateRoot, object>> ConvertSelector<TResult>(
 			Expression<Func<TAggregateRoot, TResult>> selector)
 		{

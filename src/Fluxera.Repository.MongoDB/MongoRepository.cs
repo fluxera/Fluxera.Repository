@@ -215,6 +215,46 @@
 		}
 
 		/// <inheritdoc />
+		protected override async Task<double> AverageAsync(IQueryable<int> queryable, CancellationToken cancellationToken)
+		{
+			return await queryable
+				.ToMongoQueryable()
+				.AverageAsync(cancellationToken);
+		}
+
+		/// <inheritdoc />
+		protected override async Task<double> AverageAsync(IQueryable<long> queryable, CancellationToken cancellationToken)
+		{
+			return await queryable
+				.ToMongoQueryable()
+				.AverageAsync(cancellationToken);
+		}
+
+		/// <inheritdoc />
+		protected override async Task<decimal> AverageAsync(IQueryable<decimal> queryable, CancellationToken cancellationToken)
+		{
+			return await queryable
+				.ToMongoQueryable()
+				.AverageAsync(cancellationToken);
+		}
+
+		/// <inheritdoc />
+		protected override async Task<float> AverageAsync(IQueryable<float> queryable, CancellationToken cancellationToken)
+		{
+			return await queryable
+				.ToMongoQueryable()
+				.AverageAsync(cancellationToken);
+		}
+
+		/// <inheritdoc />
+		protected override async Task<double> AverageAsync(IQueryable<double> queryable, CancellationToken cancellationToken)
+		{
+			return await queryable
+				.ToMongoQueryable()
+				.AverageAsync(cancellationToken);
+		}
+
+		/// <inheritdoc />
 		protected override async Task<IReadOnlyCollection<TAggregateRoot>> ToListAsync(IQueryable<TAggregateRoot> queryable, CancellationToken cancellationToken)
 		{
 			return await queryable

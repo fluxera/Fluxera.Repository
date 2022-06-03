@@ -1,4 +1,5 @@
-﻿namespace Fluxera.Repository.UnitTests
+﻿#pragma warning disable CS1998
+namespace Fluxera.Repository.UnitTests
 {
 	using System;
 	using System.Collections.Generic;
@@ -14,6 +15,8 @@
 	{
 		public bool AddMultipleWasCalled;
 		public bool AddSingleWasCalled;
+		public bool AverageWasCalled;
+		public bool AverageWithPredicateWasCalled;
 		public bool CountWasCalled;
 		public bool CountWithPredicateWasCalled;
 		public bool ExistsWasCalled;
@@ -111,6 +114,22 @@
 		async Task<TResult> ICachingStrategy<TAggregateRoot, TKey>.SumAsync<TResult>(Expression<Func<TAggregateRoot, bool>> predicate, Func<Task<TResult>> setter)
 		{
 			this.SumWithPredicateWasCalled = true;
+
+			return default;
+		}
+
+		/// <inheritdoc />
+		async Task<TResult> ICachingStrategy<TAggregateRoot, TKey>.AverageAsync<TResult>(Func<Task<TResult>> setter)
+		{
+			this.AverageWasCalled = true;
+
+			return default;
+		}
+
+		/// <inheritdoc />
+		async Task<TResult> ICachingStrategy<TAggregateRoot, TKey>.AverageAsync<TResult>(Expression<Func<TAggregateRoot, bool>> predicate, Func<Task<TResult>> setter)
+		{
+			this.AverageWithPredicateWasCalled = true;
 
 			return default;
 		}

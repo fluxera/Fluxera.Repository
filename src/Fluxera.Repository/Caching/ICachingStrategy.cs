@@ -117,6 +117,25 @@
 			where TResult : notnull, IComparable, IConvertible, IFormattable, IComparable<TResult>, IEquatable<TResult>;
 
 		/// <summary>
+		///     The strategy method is called when an average is executed.
+		/// </summary>
+		/// <param name="setter">A setter function that gets called when no item was found in the cache.</param>
+		/// <returns></returns>
+		Task<TResult> AverageAsync<TResult>(Func<Task<TResult>> setter)
+			where TResult : notnull, IComparable, IConvertible, IFormattable, IComparable<TResult>, IEquatable<TResult>;
+
+		/// <summary>
+		///     The strategy method is called when an average with a predicate is executed.
+		/// </summary>
+		/// <param name="predicate"></param>
+		/// <param name="setter">A setter function that gets called when no item was found in the cache.</param>
+		/// <returns></returns>
+		Task<TResult> AverageAsync<TResult>(
+			Expression<Func<TAggregateRoot, bool>> predicate,
+			Func<Task<TResult>> setter)
+			where TResult : notnull, IComparable, IConvertible, IFormattable, IComparable<TResult>, IEquatable<TResult>;
+
+		/// <summary>
 		///     The strategy method is called when a find-one with a predicate is executed.
 		/// </summary>
 		/// <param name="predicate"></param>

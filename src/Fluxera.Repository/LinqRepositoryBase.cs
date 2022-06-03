@@ -128,6 +128,56 @@
 			return await this.SumAsync(queryable, cancellationToken);
 		}
 
+		/// <inheritdoc />
+		protected sealed override async Task<double> AverageAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, int>> selector, CancellationToken cancellationToken)
+		{
+			IQueryable<int> queryable = this.Queryable
+				.Apply(specification)
+				.Select(selector);
+
+			return await this.AverageAsync(queryable, cancellationToken);
+		}
+
+		/// <inheritdoc />
+		protected sealed override async Task<double> AverageAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, long>> selector, CancellationToken cancellationToken)
+		{
+			IQueryable<long> queryable = this.Queryable
+				.Apply(specification)
+				.Select(selector);
+
+			return await this.AverageAsync(queryable, cancellationToken);
+		}
+
+		/// <inheritdoc />
+		protected sealed override async Task<decimal> AverageAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, decimal>> selector, CancellationToken cancellationToken)
+		{
+			IQueryable<decimal> queryable = this.Queryable
+				.Apply(specification)
+				.Select(selector);
+
+			return await this.AverageAsync(queryable, cancellationToken);
+		}
+
+		/// <inheritdoc />
+		protected sealed override async Task<float> AverageAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, float>> selector, CancellationToken cancellationToken)
+		{
+			IQueryable<float> queryable = this.Queryable
+				.Apply(specification)
+				.Select(selector);
+
+			return await this.AverageAsync(queryable, cancellationToken);
+		}
+
+		/// <inheritdoc />
+		protected sealed override async Task<double> AverageAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, double>> selector, CancellationToken cancellationToken)
+		{
+			IQueryable<double> queryable = this.Queryable
+				.Apply(specification)
+				.Select(selector);
+
+			return await this.AverageAsync(queryable, cancellationToken);
+		}
+
 		/// <summary>
 		///     Executes the <see cref="IQueryable{T}" /> using a FirstOrDefaultAsync type of extension method.
 		/// </summary>
@@ -209,5 +259,45 @@
 		/// <param name="cancellationToken"></param>
 		/// <returns></returns>
 		protected abstract Task<double> SumAsync(IQueryable<double> queryable, CancellationToken cancellationToken);
+
+		/// <summary>
+		///     Executes the <see cref="IQueryable{T}" /> using a AverageAsync type of extension method.
+		/// </summary>
+		/// <param name="queryable"></param>
+		/// <param name="cancellationToken"></param>
+		/// <returns></returns>
+		protected abstract Task<double> AverageAsync(IQueryable<int> queryable, CancellationToken cancellationToken);
+
+		/// <summary>
+		///     Executes the <see cref="IQueryable{T}" /> using a AverageAsync type of extension method.
+		/// </summary>
+		/// <param name="queryable"></param>
+		/// <param name="cancellationToken"></param>
+		/// <returns></returns>
+		protected abstract Task<double> AverageAsync(IQueryable<long> queryable, CancellationToken cancellationToken);
+
+		/// <summary>
+		///     Executes the <see cref="IQueryable{T}" /> using a AverageAsync type of extension method.
+		/// </summary>
+		/// <param name="queryable"></param>
+		/// <param name="cancellationToken"></param>
+		/// <returns></returns>
+		protected abstract Task<decimal> AverageAsync(IQueryable<decimal> queryable, CancellationToken cancellationToken);
+
+		/// <summary>
+		///     Executes the <see cref="IQueryable{T}" /> using a AverageAsync type of extension method.
+		/// </summary>
+		/// <param name="queryable"></param>
+		/// <param name="cancellationToken"></param>
+		/// <returns></returns>
+		protected abstract Task<float> AverageAsync(IQueryable<float> queryable, CancellationToken cancellationToken);
+
+		/// <summary>
+		///     Executes the <see cref="IQueryable{T}" /> using a AverageAsync type of extension method.
+		/// </summary>
+		/// <param name="queryable"></param>
+		/// <param name="cancellationToken"></param>
+		/// <returns></returns>
+		protected abstract Task<double> AverageAsync(IQueryable<double> queryable, CancellationToken cancellationToken);
 	}
 }
