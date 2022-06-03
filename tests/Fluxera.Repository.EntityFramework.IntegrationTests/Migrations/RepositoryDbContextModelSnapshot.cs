@@ -22,12 +22,18 @@ namespace Fluxera.Repository.EntityFrameworkCore.IntegrationTests.Migrations
                     b.Property<string>("ID")
                         .HasColumnType("TEXT");
 
+                    b.Property<Guid>("Guid")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("LegalType")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
                         .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid?>("NullableGuid")
                         .HasColumnType("TEXT");
 
                     b.HasKey("ID");

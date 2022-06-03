@@ -22,4 +22,8 @@
     <ProjectReference Include="..\..\src\Fluxera.Repository\Fluxera.Repository.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ReferenceAggregate\" />
+  </ItemGroup>
+
 </Project>

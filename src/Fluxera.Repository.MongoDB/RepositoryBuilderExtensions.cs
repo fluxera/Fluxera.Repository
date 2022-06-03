@@ -7,6 +7,7 @@
 	using Fluxera.Temporal.MongoDB;
 	using Fluxera.ValueObject.MongoDB;
 	using global::MongoDB.Bson;
+	using global::MongoDB.Bson.Serialization;
 	using global::MongoDB.Bson.Serialization.Conventions;
 	using JetBrains.Annotations;
 
@@ -16,6 +17,8 @@
 	[PublicAPI]
 	public static class RepositoryBuilderExtensions
 	{
+		private static GuidSerializationProvider serializationProvider;
+
 		/// <summary>
 		///     Adds a MongoDb repository for the given repository name. The repository options
 		///     are configured using the options builder config action. Additional MongoDB related
@@ -28,11 +31,18 @@
 		public static IRepositoryBuilder AddMongoRepository(this IRepositoryBuilder builder,
 			string repositoryName, Action<IRepositoryOptionsBuilder> configureOptions)
 		{
+			if(serializationProvider != null)
+			{
+				serializationProvider = new GuidSerializationProvider();
+
+				BsonDefaults.GuidRepresentationMode = GuidRepresentationMode.V3;
+				BsonSerializer.RegisterSerializationProvider(serializationProvider);
+			}
+
 			ConventionPack pack = new ConventionPack
 			{
 				new NamedIdMemberConvention("ID"),
 				new IdGeneratorConvention(),
-				new GuidAsStringRepresentationConvention(),
 				new EnumRepresentationConvention(BsonType.String),
 				new CamelCaseElementNameConvention(),
 				new IgnoreExtraElementsConvention(true),
@@ -44,8 +54,6 @@
 			pack.UseEnumeration();
 			pack.UsePrimitiveValueObject();
 			pack.UseStronglyTypedId();
-
-			//configureConventions?.Invoke(pack);
 
 			ConventionRegistry.Register("ConventionPack", pack, _ => true);
 

@@ -20,13 +20,15 @@
 
 			if(idMemberMap.MemberType == typeof(string))
 			{
-				idMemberMap.SetIdGenerator(StringObjectIdGenerator.Instance);
-				idMemberMap.SetSerializer(new StringSerializer(BsonType.ObjectId));
+				idMemberMap
+					.SetIdGenerator(StringObjectIdGenerator.Instance)
+					.SetSerializer(new StringSerializer(BsonType.ObjectId));
 			}
 			else if(idMemberMap.MemberType == typeof(Guid))
 			{
-				idMemberMap.SetIdGenerator(CombGuidGenerator.Instance);
-				idMemberMap.SetSerializer(new StringSerializer(BsonType.ObjectId));
+				idMemberMap
+					.SetIdGenerator(CombGuidGenerator.Instance)
+					.SetSerializer(new GuidSerializer(GuidRepresentation.Standard));
 			}
 			else if(idMemberMap.MemberType.IsStronglyTypedId())
 			{
@@ -34,7 +36,7 @@
 			}
 			else
 			{
-				throw new InvalidOperationException("The MongoDB repository only supports guid or string as type for keys.");
+				throw new InvalidOperationException("The MongoDB repository only supports Guid or string as type for keys.");
 			}
 		}
 	}
