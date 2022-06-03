@@ -276,10 +276,34 @@
 		}
 
 		/// <inheritdoc />
+		protected override async Task<double> AverageAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, int?>> selector, CancellationToken cancellationToken)
+		{
+			IList<TAggregateRoot> values = await this.collection
+				.Query()
+				.Where(specification.Predicate)
+				.ToListAsync()
+				.ConfigureAwait(false);
+
+			return values.AsQueryable().Average(selector).GetValueOrDefault();
+		}
+
+		/// <inheritdoc />
 		protected override async Task<double> AverageAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, long>> selector, CancellationToken cancellationToken)
 		{
 			IReadOnlyCollection<long> values = await this.FindManyAsync(specification, selector, QueryOptions<TAggregateRoot>.Empty(), cancellationToken);
 			return values.Average();
+		}
+
+		/// <inheritdoc />
+		protected override async Task<double> AverageAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, long?>> selector, CancellationToken cancellationToken)
+		{
+			IList<TAggregateRoot> values = await this.collection
+				.Query()
+				.Where(specification.Predicate)
+				.ToListAsync()
+				.ConfigureAwait(false);
+
+			return values.AsQueryable().Average(selector).GetValueOrDefault();
 		}
 
 		/// <inheritdoc />
@@ -290,6 +314,18 @@
 		}
 
 		/// <inheritdoc />
+		protected override async Task<decimal> AverageAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, decimal?>> selector, CancellationToken cancellationToken)
+		{
+			IList<TAggregateRoot> values = await this.collection
+				.Query()
+				.Where(specification.Predicate)
+				.ToListAsync()
+				.ConfigureAwait(false);
+
+			return values.AsQueryable().Average(selector).GetValueOrDefault();
+		}
+
+		/// <inheritdoc />
 		protected override async Task<float> AverageAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, float>> selector, CancellationToken cancellationToken)
 		{
 			IReadOnlyCollection<float> values = await this.FindManyAsync(specification, selector, QueryOptions<TAggregateRoot>.Empty(), cancellationToken);
@@ -297,10 +333,34 @@
 		}
 
 		/// <inheritdoc />
+		protected override async Task<float> AverageAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, float?>> selector, CancellationToken cancellationToken)
+		{
+			IList<TAggregateRoot> values = await this.collection
+				.Query()
+				.Where(specification.Predicate)
+				.ToListAsync()
+				.ConfigureAwait(false);
+
+			return values.AsQueryable().Average(selector).GetValueOrDefault();
+		}
+
+		/// <inheritdoc />
 		protected override async Task<double> AverageAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, double>> selector, CancellationToken cancellationToken)
 		{
 			IReadOnlyCollection<double> values = await this.FindManyAsync(specification, selector, QueryOptions<TAggregateRoot>.Empty(), cancellationToken);
 			return values.Average();
+		}
+
+		/// <inheritdoc />
+		protected override async Task<double> AverageAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, double?>> selector, CancellationToken cancellationToken)
+		{
+			IList<TAggregateRoot> values = await this.collection
+				.Query()
+				.Where(specification.Predicate)
+				.ToListAsync()
+				.ConfigureAwait(false);
+
+			return values.AsQueryable().Average(selector).GetValueOrDefault();
 		}
 
 		private TKey GenerateKey()

@@ -280,12 +280,32 @@
 		}
 
 		/// <inheritdoc />
+		protected override async Task<double> AverageAsync(IQueryable<int?> queryable, CancellationToken cancellationToken)
+		{
+			return await queryable
+				.ToMongoQueryable()
+				.AverageAsync(cancellationToken)
+				.ConfigureAwait(false)
+				.GetValueOrDefault();
+		}
+
+		/// <inheritdoc />
 		protected override async Task<double> AverageAsync(IQueryable<long> queryable, CancellationToken cancellationToken)
 		{
 			return await queryable
 				.ToMongoQueryable()
 				.AverageAsync(cancellationToken)
 				.ConfigureAwait(false);
+		}
+
+		/// <inheritdoc />
+		protected override async Task<double> AverageAsync(IQueryable<long?> queryable, CancellationToken cancellationToken)
+		{
+			return await queryable
+				.ToMongoQueryable()
+				.AverageAsync(cancellationToken)
+				.ConfigureAwait(false)
+				.GetValueOrDefault();
 		}
 
 		/// <inheritdoc />
@@ -298,6 +318,16 @@
 		}
 
 		/// <inheritdoc />
+		protected override async Task<decimal> AverageAsync(IQueryable<decimal?> queryable, CancellationToken cancellationToken)
+		{
+			return await queryable
+				.ToMongoQueryable()
+				.AverageAsync(cancellationToken)
+				.ConfigureAwait(false)
+				.GetValueOrDefault();
+		}
+
+		/// <inheritdoc />
 		protected override async Task<float> AverageAsync(IQueryable<float> queryable, CancellationToken cancellationToken)
 		{
 			return await queryable
@@ -307,12 +337,32 @@
 		}
 
 		/// <inheritdoc />
+		protected override async Task<float> AverageAsync(IQueryable<float?> queryable, CancellationToken cancellationToken)
+		{
+			return await queryable
+				.ToMongoQueryable()
+				.AverageAsync(cancellationToken)
+				.ConfigureAwait(false)
+				.GetValueOrDefault();
+		}
+
+		/// <inheritdoc />
 		protected override async Task<double> AverageAsync(IQueryable<double> queryable, CancellationToken cancellationToken)
 		{
 			return await queryable
 				.ToMongoQueryable()
 				.AverageAsync(cancellationToken)
 				.ConfigureAwait(false);
+		}
+
+		/// <inheritdoc />
+		protected override async Task<double> AverageAsync(IQueryable<double?> queryable, CancellationToken cancellationToken)
+		{
+			return await queryable
+				.ToMongoQueryable()
+				.AverageAsync(cancellationToken)
+				.ConfigureAwait(false)
+				.GetValueOrDefault();
 		}
 
 		/// <inheritdoc />

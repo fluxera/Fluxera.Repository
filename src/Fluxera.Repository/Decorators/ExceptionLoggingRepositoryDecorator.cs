@@ -819,7 +819,35 @@
 		}
 
 		/// <inheritdoc />
+		async Task<double> ICanAggregate<TAggregateRoot, TKey>.AverageAsync(Expression<Func<TAggregateRoot, int?>> selector, CancellationToken cancellationToken)
+		{
+			try
+			{
+				return await this.innerRepository.AverageAsync(selector, cancellationToken);
+			}
+			catch(Exception ex)
+			{
+				this.logger.LogCritical(ex, "A critical error occurred trying to perform average: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				throw;
+			}
+		}
+
+		/// <inheritdoc />
 		async Task<double> ICanAggregate<TAggregateRoot, TKey>.AverageAsync(Expression<Func<TAggregateRoot, long>> selector, CancellationToken cancellationToken)
+		{
+			try
+			{
+				return await this.innerRepository.AverageAsync(selector, cancellationToken);
+			}
+			catch(Exception ex)
+			{
+				this.logger.LogCritical(ex, "A critical error occurred trying to perform average: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				throw;
+			}
+		}
+
+		/// <inheritdoc />
+		async Task<double> ICanAggregate<TAggregateRoot, TKey>.AverageAsync(Expression<Func<TAggregateRoot, long?>> selector, CancellationToken cancellationToken)
 		{
 			try
 			{
@@ -847,7 +875,35 @@
 		}
 
 		/// <inheritdoc />
+		async Task<decimal> ICanAggregate<TAggregateRoot, TKey>.AverageAsync(Expression<Func<TAggregateRoot, decimal?>> selector, CancellationToken cancellationToken)
+		{
+			try
+			{
+				return await this.innerRepository.AverageAsync(selector, cancellationToken);
+			}
+			catch(Exception ex)
+			{
+				this.logger.LogCritical(ex, "A critical error occurred trying to perform average: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				throw;
+			}
+		}
+
+		/// <inheritdoc />
 		async Task<float> ICanAggregate<TAggregateRoot, TKey>.AverageAsync(Expression<Func<TAggregateRoot, float>> selector, CancellationToken cancellationToken)
+		{
+			try
+			{
+				return await this.innerRepository.AverageAsync(selector, cancellationToken);
+			}
+			catch(Exception ex)
+			{
+				this.logger.LogCritical(ex, "A critical error occurred trying to perform average: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				throw;
+			}
+		}
+
+		/// <inheritdoc />
+		async Task<float> ICanAggregate<TAggregateRoot, TKey>.AverageAsync(Expression<Func<TAggregateRoot, float?>> selector, CancellationToken cancellationToken)
 		{
 			try
 			{
@@ -875,7 +931,35 @@
 		}
 
 		/// <inheritdoc />
+		async Task<double> ICanAggregate<TAggregateRoot, TKey>.AverageAsync(Expression<Func<TAggregateRoot, double?>> selector, CancellationToken cancellationToken)
+		{
+			try
+			{
+				return await this.innerRepository.AverageAsync(selector, cancellationToken);
+			}
+			catch(Exception ex)
+			{
+				this.logger.LogCritical(ex, "A critical error occurred trying to perform average: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				throw;
+			}
+		}
+
+		/// <inheritdoc />
 		async Task<double> ICanAggregate<TAggregateRoot, TKey>.AverageAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, int>> selector, CancellationToken cancellationToken)
+		{
+			try
+			{
+				return await this.innerRepository.AverageAsync(predicate, selector, cancellationToken);
+			}
+			catch(Exception ex)
+			{
+				this.logger.LogCritical(ex, "A critical error occurred trying to perform average: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				throw;
+			}
+		}
+
+		/// <inheritdoc />
+		async Task<double> ICanAggregate<TAggregateRoot, TKey>.AverageAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, int?>> selector, CancellationToken cancellationToken)
 		{
 			try
 			{
@@ -903,7 +987,35 @@
 		}
 
 		/// <inheritdoc />
+		async Task<double> ICanAggregate<TAggregateRoot, TKey>.AverageAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, long?>> selector, CancellationToken cancellationToken)
+		{
+			try
+			{
+				return await this.innerRepository.AverageAsync(predicate, selector, cancellationToken);
+			}
+			catch(Exception ex)
+			{
+				this.logger.LogCritical(ex, "A critical error occurred trying to perform average: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				throw;
+			}
+		}
+
+		/// <inheritdoc />
 		async Task<decimal> ICanAggregate<TAggregateRoot, TKey>.AverageAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, decimal>> selector, CancellationToken cancellationToken)
+		{
+			try
+			{
+				return await this.innerRepository.AverageAsync(predicate, selector, cancellationToken);
+			}
+			catch(Exception ex)
+			{
+				this.logger.LogCritical(ex, "A critical error occurred trying to perform average: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				throw;
+			}
+		}
+
+		/// <inheritdoc />
+		async Task<decimal> ICanAggregate<TAggregateRoot, TKey>.AverageAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, decimal?>> selector, CancellationToken cancellationToken)
 		{
 			try
 			{
@@ -931,7 +1043,35 @@
 		}
 
 		/// <inheritdoc />
+		async Task<float> ICanAggregate<TAggregateRoot, TKey>.AverageAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, float?>> selector, CancellationToken cancellationToken)
+		{
+			try
+			{
+				return await this.innerRepository.AverageAsync(predicate, selector, cancellationToken);
+			}
+			catch(Exception ex)
+			{
+				this.logger.LogCritical(ex, "A critical error occurred trying to perform average: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				throw;
+			}
+		}
+
+		/// <inheritdoc />
 		async Task<double> ICanAggregate<TAggregateRoot, TKey>.AverageAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, double>> selector, CancellationToken cancellationToken)
+		{
+			try
+			{
+				return await this.innerRepository.AverageAsync(predicate, selector, cancellationToken);
+			}
+			catch(Exception ex)
+			{
+				this.logger.LogCritical(ex, "A critical error occurred trying to perform average: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				throw;
+			}
+		}
+
+		/// <inheritdoc />
+		async Task<double> ICanAggregate<TAggregateRoot, TKey>.AverageAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, double?>> selector, CancellationToken cancellationToken)
 		{
 			try
 			{
@@ -959,7 +1099,35 @@
 		}
 
 		/// <inheritdoc />
+		async Task<double> ICanAggregate<TAggregateRoot, TKey>.AverageAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, int?>> selector, CancellationToken cancellationToken)
+		{
+			try
+			{
+				return await this.innerRepository.AverageAsync(specification, selector, cancellationToken);
+			}
+			catch(Exception ex)
+			{
+				this.logger.LogCritical(ex, "A critical error occurred trying to perform average: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				throw;
+			}
+		}
+
+		/// <inheritdoc />
 		async Task<double> ICanAggregate<TAggregateRoot, TKey>.AverageAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, long>> selector, CancellationToken cancellationToken)
+		{
+			try
+			{
+				return await this.innerRepository.AverageAsync(specification, selector, cancellationToken);
+			}
+			catch(Exception ex)
+			{
+				this.logger.LogCritical(ex, "A critical error occurred trying to perform average: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				throw;
+			}
+		}
+
+		/// <inheritdoc />
+		async Task<double> ICanAggregate<TAggregateRoot, TKey>.AverageAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, long?>> selector, CancellationToken cancellationToken)
 		{
 			try
 			{
@@ -987,6 +1155,20 @@
 		}
 
 		/// <inheritdoc />
+		async Task<decimal> ICanAggregate<TAggregateRoot, TKey>.AverageAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, decimal?>> selector, CancellationToken cancellationToken)
+		{
+			try
+			{
+				return await this.innerRepository.AverageAsync(specification, selector, cancellationToken);
+			}
+			catch(Exception ex)
+			{
+				this.logger.LogCritical(ex, "A critical error occurred trying to perform average: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				throw;
+			}
+		}
+
+		/// <inheritdoc />
 		async Task<float> ICanAggregate<TAggregateRoot, TKey>.AverageAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, float>> selector, CancellationToken cancellationToken)
 		{
 			try
@@ -1001,7 +1183,35 @@
 		}
 
 		/// <inheritdoc />
+		async Task<float> ICanAggregate<TAggregateRoot, TKey>.AverageAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, float?>> selector, CancellationToken cancellationToken)
+		{
+			try
+			{
+				return await this.innerRepository.AverageAsync(specification, selector, cancellationToken);
+			}
+			catch(Exception ex)
+			{
+				this.logger.LogCritical(ex, "A critical error occurred trying to perform average: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				throw;
+			}
+		}
+
+		/// <inheritdoc />
 		async Task<double> ICanAggregate<TAggregateRoot, TKey>.AverageAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, double>> selector, CancellationToken cancellationToken)
+		{
+			try
+			{
+				return await this.innerRepository.AverageAsync(specification, selector, cancellationToken);
+			}
+			catch(Exception ex)
+			{
+				this.logger.LogCritical(ex, "A critical error occurred trying to perform average: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				throw;
+			}
+		}
+
+		/// <inheritdoc />
+		async Task<double> ICanAggregate<TAggregateRoot, TKey>.AverageAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, double?>> selector, CancellationToken cancellationToken)
 		{
 			try
 			{

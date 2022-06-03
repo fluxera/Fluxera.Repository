@@ -110,9 +110,21 @@
 		}
 
 		/// <inheritdoc />
+		protected override Task<double> AverageAsync(IQueryable<int?> queryable, CancellationToken cancellationToken)
+		{
+			return Task.FromResult(queryable.Average().GetValueOrDefault());
+		}
+
+		/// <inheritdoc />
 		protected override Task<double> AverageAsync(IQueryable<long> queryable, CancellationToken cancellationToken)
 		{
 			return Task.FromResult(queryable.Average());
+		}
+
+		/// <inheritdoc />
+		protected override Task<double> AverageAsync(IQueryable<long?> queryable, CancellationToken cancellationToken)
+		{
+			return Task.FromResult(queryable.Average().GetValueOrDefault());
 		}
 
 		/// <inheritdoc />
@@ -122,15 +134,33 @@
 		}
 
 		/// <inheritdoc />
+		protected override Task<decimal> AverageAsync(IQueryable<decimal?> queryable, CancellationToken cancellationToken)
+		{
+			return Task.FromResult(queryable.Average().GetValueOrDefault());
+		}
+
+		/// <inheritdoc />
 		protected override Task<float> AverageAsync(IQueryable<float> queryable, CancellationToken cancellationToken)
 		{
 			return Task.FromResult(queryable.Average());
 		}
 
 		/// <inheritdoc />
+		protected override Task<float> AverageAsync(IQueryable<float?> queryable, CancellationToken cancellationToken)
+		{
+			return Task.FromResult(queryable.Average().GetValueOrDefault());
+		}
+
+		/// <inheritdoc />
 		protected override Task<double> AverageAsync(IQueryable<double> queryable, CancellationToken cancellationToken)
 		{
 			return Task.FromResult(queryable.Average());
+		}
+
+		/// <inheritdoc />
+		protected override Task<double> AverageAsync(IQueryable<double?> queryable, CancellationToken cancellationToken)
+		{
+			return Task.FromResult(queryable.Average().GetValueOrDefault());
 		}
 
 		/// <inheritdoc />
