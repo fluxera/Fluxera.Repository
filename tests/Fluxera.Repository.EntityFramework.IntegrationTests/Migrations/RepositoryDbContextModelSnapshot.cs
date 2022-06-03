@@ -49,8 +49,8 @@ namespace Fluxera.Repository.EntityFrameworkCore.IntegrationTests.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
-                    b.Property<decimal>("SalaryDecimal")
-                        .HasColumnType("TEXT");
+                    b.Property<double>("SalaryDecimal")
+                        .HasColumnType("REAL");
 
                     b.Property<double>("SalaryDouble")
                         .HasColumnType("REAL");
