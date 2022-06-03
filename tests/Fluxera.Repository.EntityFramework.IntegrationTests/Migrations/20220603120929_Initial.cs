@@ -15,7 +15,9 @@ namespace Fluxera.Repository.EntityFrameworkCore.IntegrationTests.Migrations
                 {
                     ID = table.Column<string>(type: "TEXT", nullable: false),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
-                    LegalType = table.Column<string>(type: "TEXT", nullable: false)
+                    LegalType = table.Column<string>(type: "TEXT", nullable: false),
+                    Guid = table.Column<Guid>(type: "TEXT", nullable: false),
+                    NullableGuid = table.Column<Guid>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {

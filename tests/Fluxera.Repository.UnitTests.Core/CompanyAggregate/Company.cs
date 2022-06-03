@@ -1,5 +1,6 @@
 ﻿namespace Fluxera.Repository.UnitTests.Core.CompanyAggregate
 {
+	using System;
 	using System.ComponentModel.DataAnnotations;
 	using Fluxera.Entity;
 
@@ -10,5 +11,9 @@
 
 		[Required]
 		public LegalType LegalType { get; set; }
+
+		public Guid Guid { get; set; } = Guid.NewGuid();
+
+		public Guid? NullableGuid { get; set; } = Guid.NewGuid();
 	}
 }
