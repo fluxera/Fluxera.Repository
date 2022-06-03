@@ -44,6 +44,36 @@
 		}
 
 		/// <inheritdoc />
+		protected override Task<int> SumAsync(IQueryable<int> queryable, CancellationToken cancellationToken)
+		{
+			return Task.FromResult(queryable.Sum());
+		}
+
+		/// <inheritdoc />
+		protected override Task<long> SumAsync(IQueryable<long> queryable, CancellationToken cancellationToken)
+		{
+			return Task.FromResult(queryable.Sum());
+		}
+
+		/// <inheritdoc />
+		protected override Task<decimal> SumAsync(IQueryable<decimal> queryable, CancellationToken cancellationToken)
+		{
+			return Task.FromResult(queryable.Sum());
+		}
+
+		/// <inheritdoc />
+		protected override Task<float> SumAsync(IQueryable<float> queryable, CancellationToken cancellationToken)
+		{
+			return Task.FromResult(queryable.Sum());
+		}
+
+		/// <inheritdoc />
+		protected override Task<double> SumAsync(IQueryable<double> queryable, CancellationToken cancellationToken)
+		{
+			return Task.FromResult(queryable.Sum());
+		}
+
+		/// <inheritdoc />
 		protected override Task<IReadOnlyCollection<TAggregateRoot>> ToListAsync(IQueryable<TAggregateRoot> queryable, CancellationToken cancellationToken)
 		{
 			return Task.FromResult<IReadOnlyCollection<TAggregateRoot>>(queryable.ToList());
@@ -64,7 +94,7 @@
 		/// <inheritdoc />
 		protected override Task<TResult> FirstOrDefaultAsync<TResult>(IQueryable<TResult> queryable, CancellationToken cancellationToken)
 		{
-			return Task.FromResult(queryable.FirstOrDefault()!);
+			return Task.FromResult(queryable.FirstOrDefault());
 		}
 
 		/// <inheritdoc />

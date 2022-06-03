@@ -43,21 +43,22 @@
 
 			Guard.Against.Null(dbContextType, nameof(dbContextType));
 
-			if(!this.dbContextMap.TryAdd(repositoryName, dbContextType!))
+			if(!this.dbContextMap.TryAdd(repositoryName, dbContextType))
 			{
 				throw new InvalidOperationException($"Could not add DbContext type for repository '{repositoryName}'.");
 			}
 
-			return this.CreateContext(dbContextType!);
+			return this.CreateContext(dbContextType);
 		}
 
 		private DbContext CreateContext(Type dbContextType)
 		{
 			DbContext dbContext = this.serviceProvider.GetService(dbContextType) as DbContext ?? Activator.CreateInstance(dbContextType) as DbContext;
 
-			Guard.Against.Null(dbContext, nameof(dbContext));
+			// TODO: Use PostCondition with InvalidOperationException.
+			Guard.Against.Null(dbContext);
 
-			return dbContext!;
+			return dbContext;
 		}
 	}
 }

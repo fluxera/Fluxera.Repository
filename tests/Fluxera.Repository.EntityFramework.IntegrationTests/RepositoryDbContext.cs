@@ -37,6 +37,13 @@
 				entity.OwnsOne(x => x.Address);
 			});
 
+			modelBuilder.Entity<Employee>(entity =>
+			{
+				entity
+					.Property(e => e.SalaryDecimal)
+					.HasConversion<double>();
+			});
+
 			base.OnModelCreating(modelBuilder);
 		}
 	}

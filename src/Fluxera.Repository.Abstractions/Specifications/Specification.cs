@@ -60,7 +60,7 @@ namespace Fluxera.Repository.Specifications
 		{
 			Guard.Against.Null(item, nameof(item));
 
-			return (this.Predicate == null!) || new T[] { item }.AsQueryable().Any(this.Predicate);
+			return this.Predicate == null || new T[] { item }.AsQueryable().Any(this.Predicate);
 		}
 
 		/// <inheritdoc />
@@ -68,7 +68,7 @@ namespace Fluxera.Repository.Specifications
 		{
 			Guard.Against.Null(queryable, nameof(queryable));
 
-			return this.Predicate == null!
+			return this.Predicate == null
 				? queryable
 				: queryable.Where(this.Predicate);
 		}
@@ -184,7 +184,7 @@ namespace Fluxera.Repository.Specifications
 		/// <exception cref="NotImplementedException"></exception>
 		protected virtual Expression<Func<T, bool>> BuildQuery()
 		{
-			return null!;
+			return null;
 		}
 
 		/// <inheritdoc />

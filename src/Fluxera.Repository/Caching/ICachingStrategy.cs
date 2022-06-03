@@ -98,6 +98,25 @@
 			Func<Task<long>> setter);
 
 		/// <summary>
+		///     The strategy method is called when a sum is executed.
+		/// </summary>
+		/// <param name="setter">A setter function that gets called when no item was found in the cache.</param>
+		/// <returns></returns>
+		Task<TResult> SumAsync<TResult>(Func<Task<TResult>> setter)
+			where TResult : notnull, IComparable, IConvertible, IFormattable, IComparable<TResult>, IEquatable<TResult>;
+
+		/// <summary>
+		///     The strategy method is called when a count with a predicate is executed.
+		/// </summary>
+		/// <param name="predicate"></param>
+		/// <param name="setter">A setter function that gets called when no item was found in the cache.</param>
+		/// <returns></returns>
+		Task<TResult> SumAsync<TResult>(
+			Expression<Func<TAggregateRoot, bool>> predicate,
+			Func<Task<TResult>> setter)
+			where TResult : notnull, IComparable, IConvertible, IFormattable, IComparable<TResult>, IEquatable<TResult>;
+
+		/// <summary>
 		///     The strategy method is called when a find-one with a predicate is executed.
 		/// </summary>
 		/// <param name="predicate"></param>

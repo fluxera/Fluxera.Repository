@@ -36,7 +36,7 @@
 			Guard.Against.Null(CachePrefixManager, nameof(CachePrefixManager),
 				"Configure the CacheManager.CachePrefixManager in order to handle invalidating the global cache.");
 
-			await CachePrefixManager!.IncrementGlobalCounterAsync().ConfigureAwait(false);
+			await CachePrefixManager.IncrementGlobalCounterAsync().ConfigureAwait(false);
 		}
 	}
 }

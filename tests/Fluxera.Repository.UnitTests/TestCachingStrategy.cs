@@ -26,6 +26,8 @@
 		public bool GetWithSelectorWasCalled;
 		public bool RemoveMultipleWasCalled;
 		public bool RemoveSingleWasCalled;
+		public bool SumWasCalled;
+		public bool SumWithPredicateWasCalled;
 		public bool UpdateMultipleWasCalled;
 		public bool UpdateSingleWasCalled;
 
@@ -93,6 +95,22 @@
 		async Task<long> ICachingStrategy<TAggregateRoot, TKey>.CountAsync(Expression<Func<TAggregateRoot, bool>> predicate, Func<Task<long>> setter)
 		{
 			this.CountWithPredicateWasCalled = true;
+
+			return default;
+		}
+
+		/// <inheritdoc />
+		async Task<TResult> ICachingStrategy<TAggregateRoot, TKey>.SumAsync<TResult>(Func<Task<TResult>> setter)
+		{
+			this.SumWasCalled = true;
+
+			return default;
+		}
+
+		/// <inheritdoc />
+		async Task<TResult> ICachingStrategy<TAggregateRoot, TKey>.SumAsync<TResult>(Expression<Func<TAggregateRoot, bool>> predicate, Func<Task<TResult>> setter)
+		{
+			this.SumWithPredicateWasCalled = true;
 
 			return default;
 		}

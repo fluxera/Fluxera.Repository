@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Fluxera.Repository.EntityFrameworkCore.IntegrationTests.Migrations
 {
     [DbContext(typeof(RepositoryDbContext))]
-    [Migration("20220603120929_Initial")]
+    [Migration("20220603135738_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -50,6 +50,21 @@ namespace Fluxera.Repository.EntityFrameworkCore.IntegrationTests.Migrations
 
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");
+
+                    b.Property<decimal>("SalaryDecimal")
+                        .HasColumnType("TEXT");
+
+                    b.Property<double>("SalaryDouble")
+                        .HasColumnType("REAL");
+
+                    b.Property<float>("SalaryFloat")
+                        .HasColumnType("REAL");
+
+                    b.Property<int>("SalaryInt")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<long>("SalaryLong")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("ID");
 

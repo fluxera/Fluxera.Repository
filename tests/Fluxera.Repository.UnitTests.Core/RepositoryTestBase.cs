@@ -48,19 +48,19 @@
 		{
 			try
 			{
-				if(this.PersonRepository != null!)
+				if(this.PersonRepository != null)
 				{
 					await this.PersonRepository.RemoveRangeAsync(x => true);
 					await this.PersonRepository.DisposeAsync();
 				}
 
-				if(this.CompanyRepository != null!)
+				if(this.CompanyRepository != null)
 				{
 					await this.CompanyRepository.RemoveRangeAsync(x => true);
 					await this.CompanyRepository.DisposeAsync();
 				}
 
-				if(this.EmployeeRepository != null!)
+				if(this.EmployeeRepository != null)
 				{
 					await this.EmployeeRepository.RemoveRangeAsync(x => true);
 					await this.EmployeeRepository.DisposeAsync();

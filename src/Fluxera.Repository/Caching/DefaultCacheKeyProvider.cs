@@ -51,6 +51,30 @@
 		}
 
 		/// <inheritdoc />
+		public string GetSumCacheKey<TAggregateRoot, TKey>(RepositoryName repositoryName, in long generation)
+			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+			where TKey : notnull, IComparable<TKey>, IEquatable<TKey>
+		{
+			// Repositories/Books/Acme.Books.Domain.Model.Book/{Generation}/Sum
+			string cacheKey = $"{this.GetCachePrefix(repositoryName, typeof(TAggregateRoot))}/{generation}/Sum";
+
+			return cacheKey;
+		}
+
+		/// <inheritdoc />
+		public string GetSumCacheKey<TAggregateRoot, TKey>(RepositoryName repositoryName, in long generation,
+			Expression<Func<TAggregateRoot, bool>> predicate)
+			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+			where TKey : notnull, IComparable<TKey>, IEquatable<TKey>
+		{
+			// Repositories/Books/Acme.Books.Domain.Model.Book/{Generation}/Sum/{Predicate}
+			string cacheKey = $"{this.GetCachePrefix(repositoryName, typeof(TAggregateRoot))}/{generation}/Sum";
+			cacheKey = $"{cacheKey}/{predicate.ToExpressionString()}";
+
+			return cacheKey;
+		}
+
+		/// <inheritdoc />
 		public string GetAddCacheKey<TAggregateRoot, TKey>(RepositoryName repositoryName, TKey id)
 			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 			where TKey : IComparable<TKey>, IEquatable<TKey>

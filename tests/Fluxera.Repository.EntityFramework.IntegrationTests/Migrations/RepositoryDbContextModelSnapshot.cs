@@ -49,6 +49,21 @@ namespace Fluxera.Repository.EntityFrameworkCore.IntegrationTests.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
+                    b.Property<decimal>("SalaryDecimal")
+                        .HasColumnType("TEXT");
+
+                    b.Property<double>("SalaryDouble")
+                        .HasColumnType("REAL");
+
+                    b.Property<float>("SalaryFloat")
+                        .HasColumnType("REAL");
+
+                    b.Property<int>("SalaryInt")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<long>("SalaryLong")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("ID");
 
                     b.ToTable("Employees");

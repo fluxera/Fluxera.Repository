@@ -29,8 +29,8 @@
 		/// <returns></returns>
 		public static IServiceCollection AddRepository(this IServiceCollection services, Action<IRepositoryBuilder> configure)
 		{
-			Guard.Against.Null(services, nameof(services));
-			Guard.Against.Null(configure, nameof(configure));
+			Guard.Against.Null(services);
+			Guard.Against.Null(configure);
 
 			// Add the repository registry singleton.
 			services.AddSingleton<IRepositoryRegistry, RepositoryRegistry>();
@@ -94,8 +94,8 @@
 
 		private static IServiceCollection DecorateRepository(this IServiceCollection services, Type repositoryType, bool isInterceptionEnabled = false)
 		{
-			Guard.Against.Null(services, nameof(services));
-			Guard.Against.Null(repositoryType, nameof(repositoryType));
+			Guard.Against.Null(services);
+			Guard.Against.Null(repositoryType);
 
 			services
 				.Decorate(repositoryType)

@@ -11,12 +11,12 @@
 		/// <summary>
 		///     Gets or sets the connection string.
 		/// </summary>
-		public string ConnectionString { get; set; } = null!;
+		public string ConnectionString { get; set; }
 
 		/// <summary>
 		///     Gets or sets the database name.
 		/// </summary>
-		public string Database { get; set; } = null!;
+		public string Database { get; set; }
 
 		/// <summary>
 		///     Flag, if the connection uses SSL.
