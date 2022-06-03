@@ -11,7 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Fluxera.Repository.EntityFrameworkCore.IntegrationTests.Migrations
 {
     [DbContext(typeof(RepositoryDbContext))]
+<<<<<<<< HEAD:tests/Fluxera.Repository.EntityFramework.IntegrationTests/Migrations/20220603135738_Initial.Designer.cs
     [Migration("20220603135738_Initial")]
+========
+    [Migration("20220603120929_Initial")]
+>>>>>>>> 38342c0efa6caaec1e8f3889a119cbb3b5ebc7b4:tests/Fluxera.Repository.EntityFramework.IntegrationTests/Migrations/20220603120929_Initial.Designer.cs
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
