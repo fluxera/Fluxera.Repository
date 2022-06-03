@@ -71,6 +71,24 @@
 		}
 
 		[Test]
+		public async Task ShouldGetByIdWithStronglyTypedId_NewIdCopy()
+		{
+			Employee employee = new Employee
+			{
+				Name = "Tester"
+			};
+			await this.EmployeeRepository.AddAsync(employee);
+			employee.ID.Should().NotBeNull();
+			employee.ID.Value.Should().NotBeEmpty();
+
+			EmployeeId newId = new EmployeeId(employee.ID.Value);
+			Employee fromStore = await this.EmployeeRepository.GetAsync(newId);
+
+			fromStore.Should().NotBeNull();
+			fromStore.ID.Should().Be(employee.ID);
+		}
+
+		[Test]
 		public async Task ShouldGetByIdWithSelectorWithStronglyTypedId()
 		{
 			Employee employee = new Employee

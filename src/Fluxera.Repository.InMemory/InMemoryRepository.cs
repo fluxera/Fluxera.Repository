@@ -4,6 +4,7 @@
 	using System.Collections.Concurrent;
 	using System.Collections.Generic;
 	using System.Linq;
+	using System.Linq.Expressions;
 	using System.Threading;
 	using System.Threading.Tasks;
 	using Fluxera.Entity;
@@ -57,7 +58,7 @@
 		/// <inheritdoc />
 		protected override Task<TAggregateRoot> FirstOrDefaultAsync(IQueryable<TAggregateRoot> queryable, CancellationToken cancellationToken)
 		{
-			return Task.FromResult(queryable.FirstOrDefault()!);
+			return Task.FromResult(queryable.FirstOrDefault());
 		}
 
 		/// <inheritdoc />
@@ -125,6 +126,17 @@
 			}
 
 			return Task.CompletedTask;
+		}
+
+		/// <summary>
+		///     Creates an <see cref="Expression" /> in the form of <c>x => x.ID.Equals(id)</c> for the given ID value.
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
+		protected override Expression<Func<TAggregateRoot, bool>> CreatePrimaryKeyPredicate(TKey id)
+		{
+			Expression<Func<TAggregateRoot, bool>> predicate = x => x.ID.Equals(id);
+			return predicate;
 		}
 
 		private TKey GenerateKey()

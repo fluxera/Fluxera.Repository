@@ -25,7 +25,7 @@
 	[PublicAPI]
 	public interface IInterceptor<TAggregateRoot, TKey> : IInterceptor
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
-		where TKey : IComparable<TKey>, IEquatable<TKey>
+		where TKey : notnull, IComparable<TKey>, IEquatable<TKey>
 	{
 		/// <summary>
 		///     Gets the order of execution for this interceptor. The higher, the later this interceptor executes.

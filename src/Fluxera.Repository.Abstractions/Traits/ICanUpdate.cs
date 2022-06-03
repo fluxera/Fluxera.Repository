@@ -19,7 +19,7 @@
 	[PublicAPI]
 	public interface ICanUpdate<in TAggregateRoot, TKey>
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
-		where TKey : IComparable<TKey>, IEquatable<TKey>
+		where TKey : notnull, IComparable<TKey>, IEquatable<TKey>
 	{
 		/// <summary>
 		///     Updates the given instance in the underlying store.

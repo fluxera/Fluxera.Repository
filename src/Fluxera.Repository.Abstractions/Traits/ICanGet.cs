@@ -19,7 +19,7 @@
 	[PublicAPI]
 	public interface ICanGet<TAggregateRoot, in TKey>
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
-		where TKey : IComparable<TKey>, IEquatable<TKey>
+		where TKey : notnull, IComparable<TKey>, IEquatable<TKey>
 	{
 		/// <summary>
 		///     Gets the instance from the underlying store for the given id.

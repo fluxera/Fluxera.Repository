@@ -11,7 +11,7 @@
 
 	internal sealed class DecoratingInterceptor<TAggregateRoot, TKey> : IInterceptor<TAggregateRoot, TKey>
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
-		where TKey : IComparable<TKey>, IEquatable<TKey>
+		where TKey : notnull, IComparable<TKey>, IEquatable<TKey>
 	{
 		private readonly IEnumerable<IInterceptor<TAggregateRoot, TKey>> innerInterceptors;
 		private readonly ILogger logger;
