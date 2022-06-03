@@ -126,6 +126,32 @@
 			where TKey : notnull, IComparable<TKey>, IEquatable<TKey>;
 
 		/// <summary>
+		///     Creates a cache key for a average with predicate operation.
+		/// </summary>
+		/// <typeparam name="TAggregateRoot"></typeparam>
+		/// <typeparam name="TKey"></typeparam>
+		/// <param name="repositoryName"></param>
+		/// <param name="generation"></param>
+		/// <param name="predicate"></param>
+		/// <returns></returns>
+		string GetAverageCacheKey<TAggregateRoot, TKey>(RepositoryName repositoryName, in long generation,
+			Expression<Func<TAggregateRoot, bool>> predicate)
+			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+			where TKey : notnull, IComparable<TKey>, IEquatable<TKey>;
+
+		/// <summary>
+		///     Creates a cache key for a average-all operation.
+		/// </summary>
+		/// <typeparam name="TAggregateRoot"></typeparam>
+		/// <typeparam name="TKey"></typeparam>
+		/// <param name="repositoryName"></param>
+		/// <param name="generation"></param>
+		/// <returns></returns>
+		string GetAverageCacheKey<TAggregateRoot, TKey>(RepositoryName repositoryName, in long generation)
+			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+			where TKey : notnull, IComparable<TKey>, IEquatable<TKey>;
+
+		/// <summary>
 		///     Creates a cache key for a sum with predicate operation.
 		/// </summary>
 		/// <typeparam name="TAggregateRoot"></typeparam>

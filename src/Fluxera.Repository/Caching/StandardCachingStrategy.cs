@@ -218,6 +218,64 @@
 		}
 
 		/// <inheritdoc />
+		public async Task<TResult> AverageAsync<TResult>(Func<Task<TResult>> setter) where TResult : notnull, IComparable, IConvertible, IFormattable, IComparable<TResult>, IEquatable<TResult>
+		{
+			try
+			{
+				long generation = await this.GetGenerationAsync().ConfigureAwait(false);
+				string cacheKey = this.CacheKeyProvider.GetAverageCacheKey<TAggregateRoot, TKey>(this.RepositoryName, generation);
+				bool exists = await this.ExistsSafeAsync(cacheKey).ConfigureAwait(false);
+
+				TResult average;
+				if(exists)
+				{
+					average = await this.GetSafeAsync<TResult>(cacheKey).ConfigureAwait(true);
+				}
+				else
+				{
+					average = await setter.Invoke().ConfigureAwait(false);
+					await this.SetSafeAsync(cacheKey, average).ConfigureAwait(false);
+				}
+
+				return average;
+			}
+			catch(Exception e)
+			{
+				this.Logger.LogError(e, e.Message);
+				throw;
+			}
+		}
+
+		/// <inheritdoc />
+		public async Task<TResult> AverageAsync<TResult>(Expression<Func<TAggregateRoot, bool>> predicate, Func<Task<TResult>> setter) where TResult : notnull, IComparable, IConvertible, IFormattable, IComparable<TResult>, IEquatable<TResult>
+		{
+			try
+			{
+				long generation = await this.GetGenerationAsync().ConfigureAwait(false);
+				string cacheKey = this.CacheKeyProvider.GetAverageCacheKey<TAggregateRoot, TKey>(this.RepositoryName, generation, predicate);
+				bool exists = await this.ExistsSafeAsync(cacheKey).ConfigureAwait(false);
+
+				TResult average;
+				if(exists)
+				{
+					average = await this.GetSafeAsync<TResult>(cacheKey).ConfigureAwait(true);
+				}
+				else
+				{
+					average = await setter.Invoke().ConfigureAwait(false);
+					await this.SetSafeAsync(cacheKey, average).ConfigureAwait(false);
+				}
+
+				return average;
+			}
+			catch(Exception e)
+			{
+				this.Logger.LogError(e, e.Message);
+				throw;
+			}
+		}
+
+		/// <inheritdoc />
 		public async Task<TAggregateRoot> FindOneAsync(Expression<Func<TAggregateRoot, bool>> predicate,
 			IQueryOptions<TAggregateRoot> queryOptions, Func<Task<TAggregateRoot>> setter)
 		{

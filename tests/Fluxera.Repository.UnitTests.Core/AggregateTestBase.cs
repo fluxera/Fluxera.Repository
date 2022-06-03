@@ -334,6 +334,201 @@
 			sumDouble.Should().Be(9_000);
 		}
 
+		[Test]
+		public async Task ShouldAverageInt()
+		{
+			Employee[] employees = this.GetSumEmployees();
+
+			await this.EmployeeRepository.AddRangeAsync(employees);
+			employees.ForEach(x => x.ID.Should().NotBeNull());
+			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
+
+			double average = await this.EmployeeRepository.AverageAsync(x => x.SalaryInt);
+			average.Should().Be(4_000);
+		}
+
+		[Test]
+		public async Task ShouldAverageLong()
+		{
+			Employee[] employees = this.GetSumEmployees();
+
+			await this.EmployeeRepository.AddRangeAsync(employees);
+			employees.ForEach(x => x.ID.Should().NotBeNull());
+			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
+
+			double average = await this.EmployeeRepository.AverageAsync(x => x.SalaryLong);
+			average.Should().Be(4_000);
+		}
+
+		[Test]
+		public async Task ShouldAverageDecimal()
+		{
+			Employee[] employees = this.GetSumEmployees();
+
+			await this.EmployeeRepository.AddRangeAsync(employees);
+			employees.ForEach(x => x.ID.Should().NotBeNull());
+			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
+
+			decimal average = await this.EmployeeRepository.AverageAsync(x => x.SalaryDecimal);
+			average.Should().Be(4_000);
+		}
+
+		[Test]
+		public async Task ShouldAverageFloat()
+		{
+			Employee[] employees = this.GetSumEmployees();
+
+			await this.EmployeeRepository.AddRangeAsync(employees);
+			employees.ForEach(x => x.ID.Should().NotBeNull());
+			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
+
+			float average = await this.EmployeeRepository.AverageAsync(x => x.SalaryFloat);
+			average.Should().Be(4_000);
+		}
+
+		[Test]
+		public async Task ShouldAverageDouble()
+		{
+			Employee[] employees = this.GetSumEmployees();
+
+			await this.EmployeeRepository.AddRangeAsync(employees);
+			employees.ForEach(x => x.ID.Should().NotBeNull());
+			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
+
+			double average = await this.EmployeeRepository.AverageAsync(x => x.SalaryDouble);
+			average.Should().Be(4_000);
+		}
+
+		[Test]
+		public async Task ShouldAverageIntWithPredicate()
+		{
+			Employee[] employees = this.GetSumEmployees();
+
+			await this.EmployeeRepository.AddRangeAsync(employees);
+			employees.ForEach(x => x.ID.Should().NotBeNull());
+			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
+
+			double average = await this.EmployeeRepository.AverageAsync(x => x.Name.EndsWith("2"), x => x.SalaryInt);
+			average.Should().Be(4_500);
+		}
+
+		[Test]
+		public async Task ShouldAverageLongWithPredicate()
+		{
+			Employee[] employees = this.GetSumEmployees();
+
+			await this.EmployeeRepository.AddRangeAsync(employees);
+			employees.ForEach(x => x.ID.Should().NotBeNull());
+			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
+
+			double average = await this.EmployeeRepository.AverageAsync(x => x.Name.EndsWith("2"), x => x.SalaryLong);
+			average.Should().Be(4_500);
+		}
+
+		[Test]
+		public async Task ShouldAverageDecimalWithPredicate()
+		{
+			Employee[] employees = this.GetSumEmployees();
+
+			await this.EmployeeRepository.AddRangeAsync(employees);
+			employees.ForEach(x => x.ID.Should().NotBeNull());
+			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
+
+			decimal average = await this.EmployeeRepository.AverageAsync(x => x.Name.EndsWith("2"), x => x.SalaryDecimal);
+			average.Should().Be(4_500);
+		}
+
+		[Test]
+		public async Task ShouldAverageFloatWithPredicate()
+		{
+			Employee[] employees = this.GetSumEmployees();
+
+			await this.EmployeeRepository.AddRangeAsync(employees);
+			employees.ForEach(x => x.ID.Should().NotBeNull());
+			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
+
+			float average = await this.EmployeeRepository.AverageAsync(x => x.Name.EndsWith("2"), x => x.SalaryFloat);
+			average.Should().Be(4_500);
+		}
+
+		[Test]
+		public async Task ShouldAverageDoubleWithPredicate()
+		{
+			Employee[] employees = this.GetSumEmployees();
+
+			await this.EmployeeRepository.AddRangeAsync(employees);
+			employees.ForEach(x => x.ID.Should().NotBeNull());
+			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
+
+			double average = await this.EmployeeRepository.AverageAsync(x => x.Name.EndsWith("2"), x => x.SalaryDouble);
+			average.Should().Be(4_500);
+		}
+
+		[Test]
+		public async Task ShouldAverageIntWithSpecification()
+		{
+			Employee[] employees = this.GetSumEmployees();
+
+			await this.EmployeeRepository.AddRangeAsync(employees);
+			employees.ForEach(x => x.ID.Should().NotBeNull());
+			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
+
+			double average = await this.EmployeeRepository.AverageAsync(new Specification<Employee>(x => x.Name.EndsWith("2")), x => x.SalaryInt);
+			average.Should().Be(4_500);
+		}
+
+		[Test]
+		public async Task ShouldAverageLongWithSpecification()
+		{
+			Employee[] employees = this.GetSumEmployees();
+
+			await this.EmployeeRepository.AddRangeAsync(employees);
+			employees.ForEach(x => x.ID.Should().NotBeNull());
+			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
+
+			double average = await this.EmployeeRepository.AverageAsync(new Specification<Employee>(x => x.Name.EndsWith("2")), x => x.SalaryLong);
+			average.Should().Be(4_500);
+		}
+
+		[Test]
+		public async Task ShouldAverageDecimalWithSpecification()
+		{
+			Employee[] employees = this.GetSumEmployees();
+
+			await this.EmployeeRepository.AddRangeAsync(employees);
+			employees.ForEach(x => x.ID.Should().NotBeNull());
+			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
+
+			decimal average = await this.EmployeeRepository.AverageAsync(new Specification<Employee>(x => x.Name.EndsWith("2")), x => x.SalaryDecimal);
+			average.Should().Be(4_500);
+		}
+
+		[Test]
+		public async Task ShouldAverageFloatWithSpecification()
+		{
+			Employee[] employees = this.GetSumEmployees();
+
+			await this.EmployeeRepository.AddRangeAsync(employees);
+			employees.ForEach(x => x.ID.Should().NotBeNull());
+			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
+
+			float average = await this.EmployeeRepository.AverageAsync(new Specification<Employee>(x => x.Name.EndsWith("2")), x => x.SalaryFloat);
+			average.Should().Be(4_500);
+		}
+
+		[Test]
+		public async Task ShouldAverageDoubleWithSpecification()
+		{
+			Employee[] employees = this.GetSumEmployees();
+
+			await this.EmployeeRepository.AddRangeAsync(employees);
+			employees.ForEach(x => x.ID.Should().NotBeNull());
+			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
+
+			double average = await this.EmployeeRepository.AverageAsync(new Specification<Employee>(x => x.Name.EndsWith("2")), x => x.SalaryDouble);
+			average.Should().Be(4_500);
+		}
+
 		private Employee[] GetSumEmployees()
 		{
 			Employee[] employees =
@@ -368,6 +563,11 @@
 			};
 
 			return employees;
+		}
+
+		private Employee[] GetAverageEmployees()
+		{
+			return this.GetSumEmployees();
 		}
 	}
 }

@@ -62,6 +62,30 @@
 		}
 
 		/// <inheritdoc />
+		public string GetAverageCacheKey<TAggregateRoot, TKey>(RepositoryName repositoryName, in long generation,
+			Expression<Func<TAggregateRoot, bool>> predicate)
+			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+			where TKey : notnull, IComparable<TKey>, IEquatable<TKey>
+		{
+			// Repositories/Books/Acme.Books.Domain.Model.Book/{Generation}/Average/{Predicate}
+			string cacheKey = $"{this.GetCachePrefix(repositoryName, typeof(TAggregateRoot))}/{generation}/Average";
+			cacheKey = $"{cacheKey}/{predicate.ToExpressionString()}";
+
+			return cacheKey;
+		}
+
+		/// <inheritdoc />
+		public string GetAverageCacheKey<TAggregateRoot, TKey>(RepositoryName repositoryName, in long generation)
+			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+			where TKey : notnull, IComparable<TKey>, IEquatable<TKey>
+		{
+			// Repositories/Books/Acme.Books.Domain.Model.Book/{Generation}/Average
+			string cacheKey = $"{this.GetCachePrefix(repositoryName, typeof(TAggregateRoot))}/{generation}/Average";
+
+			return cacheKey;
+		}
+
+		/// <inheritdoc />
 		public string GetSumCacheKey<TAggregateRoot, TKey>(RepositoryName repositoryName, in long generation,
 			Expression<Func<TAggregateRoot, bool>> predicate)
 			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
