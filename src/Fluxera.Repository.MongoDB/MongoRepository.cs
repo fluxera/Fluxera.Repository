@@ -162,7 +162,8 @@
 		{
 			return await queryable
 				.ToMongoQueryable()
-				.FirstOrDefaultAsync(cancellationToken);
+				.FirstOrDefaultAsync(cancellationToken)
+				.ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
@@ -170,7 +171,8 @@
 		{
 			return await queryable
 				.ToMongoQueryable()
-				.LongCountAsync(cancellationToken);
+				.LongCountAsync(cancellationToken)
+				.ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
@@ -178,7 +180,18 @@
 		{
 			return await queryable
 				.ToMongoQueryable()
-				.SumAsync(cancellationToken);
+				.SumAsync(cancellationToken)
+				.ConfigureAwait(false);
+		}
+
+		/// <inheritdoc />
+		protected override async Task<int> SumAsync(IQueryable<int?> queryable, CancellationToken cancellationToken)
+		{
+			return await queryable
+				.ToMongoQueryable()
+				.SumAsync(cancellationToken)
+				.ConfigureAwait(false)
+				.GetValueOrDefault();
 		}
 
 		/// <inheritdoc />
@@ -186,16 +199,37 @@
 		{
 			return await queryable
 				.ToMongoQueryable()
-				.SumAsync(cancellationToken);
+				.SumAsync(cancellationToken)
+				.ConfigureAwait(false);
+		}
+
+		/// <inheritdoc />
+		protected override async Task<long> SumAsync(IQueryable<long?> queryable, CancellationToken cancellationToken)
+		{
+			return await queryable
+				.ToMongoQueryable()
+				.SumAsync(cancellationToken)
+				.ConfigureAwait(false)
+				.GetValueOrDefault();
 		}
 
 		/// <inheritdoc />
 		protected override async Task<decimal> SumAsync(IQueryable<decimal> queryable, CancellationToken cancellationToken)
 		{
-			decimal sumAsync = await queryable
+			return await queryable
 				.ToMongoQueryable()
-				.SumAsync(cancellationToken);
-			return sumAsync;
+				.SumAsync(cancellationToken)
+				.ConfigureAwait(false);
+		}
+
+		/// <inheritdoc />
+		protected override async Task<decimal> SumAsync(IQueryable<decimal?> queryable, CancellationToken cancellationToken)
+		{
+			return await queryable
+				.ToMongoQueryable()
+				.SumAsync(cancellationToken)
+				.ConfigureAwait(false)
+				.GetValueOrDefault();
 		}
 
 		/// <inheritdoc />
@@ -203,7 +237,18 @@
 		{
 			return await queryable
 				.ToMongoQueryable()
-				.SumAsync(cancellationToken);
+				.SumAsync(cancellationToken)
+				.ConfigureAwait(false);
+		}
+
+		/// <inheritdoc />
+		protected override async Task<float> SumAsync(IQueryable<float?> queryable, CancellationToken cancellationToken)
+		{
+			return await queryable
+				.ToMongoQueryable()
+				.SumAsync(cancellationToken)
+				.ConfigureAwait(false)
+				.GetValueOrDefault();
 		}
 
 		/// <inheritdoc />
@@ -211,7 +256,18 @@
 		{
 			return await queryable
 				.ToMongoQueryable()
-				.SumAsync(cancellationToken);
+				.SumAsync(cancellationToken)
+				.ConfigureAwait(false);
+		}
+
+		/// <inheritdoc />
+		protected override async Task<double> SumAsync(IQueryable<double?> queryable, CancellationToken cancellationToken)
+		{
+			return await queryable
+				.ToMongoQueryable()
+				.SumAsync(cancellationToken)
+				.ConfigureAwait(false)
+				.GetValueOrDefault();
 		}
 
 		/// <inheritdoc />
@@ -219,7 +275,18 @@
 		{
 			return await queryable
 				.ToMongoQueryable()
-				.AverageAsync(cancellationToken);
+				.AverageAsync(cancellationToken)
+				.ConfigureAwait(false);
+		}
+
+		/// <inheritdoc />
+		protected override async Task<double> AverageAsync(IQueryable<int?> queryable, CancellationToken cancellationToken)
+		{
+			return await queryable
+				.ToMongoQueryable()
+				.AverageAsync(cancellationToken)
+				.ConfigureAwait(false)
+				.GetValueOrDefault();
 		}
 
 		/// <inheritdoc />
@@ -227,7 +294,18 @@
 		{
 			return await queryable
 				.ToMongoQueryable()
-				.AverageAsync(cancellationToken);
+				.AverageAsync(cancellationToken)
+				.ConfigureAwait(false);
+		}
+
+		/// <inheritdoc />
+		protected override async Task<double> AverageAsync(IQueryable<long?> queryable, CancellationToken cancellationToken)
+		{
+			return await queryable
+				.ToMongoQueryable()
+				.AverageAsync(cancellationToken)
+				.ConfigureAwait(false)
+				.GetValueOrDefault();
 		}
 
 		/// <inheritdoc />
@@ -235,7 +313,18 @@
 		{
 			return await queryable
 				.ToMongoQueryable()
-				.AverageAsync(cancellationToken);
+				.AverageAsync(cancellationToken)
+				.ConfigureAwait(false);
+		}
+
+		/// <inheritdoc />
+		protected override async Task<decimal> AverageAsync(IQueryable<decimal?> queryable, CancellationToken cancellationToken)
+		{
+			return await queryable
+				.ToMongoQueryable()
+				.AverageAsync(cancellationToken)
+				.ConfigureAwait(false)
+				.GetValueOrDefault();
 		}
 
 		/// <inheritdoc />
@@ -243,7 +332,18 @@
 		{
 			return await queryable
 				.ToMongoQueryable()
-				.AverageAsync(cancellationToken);
+				.AverageAsync(cancellationToken)
+				.ConfigureAwait(false);
+		}
+
+		/// <inheritdoc />
+		protected override async Task<float> AverageAsync(IQueryable<float?> queryable, CancellationToken cancellationToken)
+		{
+			return await queryable
+				.ToMongoQueryable()
+				.AverageAsync(cancellationToken)
+				.ConfigureAwait(false)
+				.GetValueOrDefault();
 		}
 
 		/// <inheritdoc />
@@ -251,7 +351,18 @@
 		{
 			return await queryable
 				.ToMongoQueryable()
-				.AverageAsync(cancellationToken);
+				.AverageAsync(cancellationToken)
+				.ConfigureAwait(false);
+		}
+
+		/// <inheritdoc />
+		protected override async Task<double> AverageAsync(IQueryable<double?> queryable, CancellationToken cancellationToken)
+		{
+			return await queryable
+				.ToMongoQueryable()
+				.AverageAsync(cancellationToken)
+				.ConfigureAwait(false)
+				.GetValueOrDefault();
 		}
 
 		/// <inheritdoc />
@@ -259,7 +370,8 @@
 		{
 			return await queryable
 				.ToMongoQueryable()
-				.ToListAsync(cancellationToken);
+				.ToListAsync(cancellationToken)
+				.ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
@@ -267,7 +379,8 @@
 		{
 			return await queryable
 				.ToMongoQueryable()
-				.ToListAsync(cancellationToken);
+				.ToListAsync(cancellationToken)
+				.ConfigureAwait(false);
 		}
 	}
 }

@@ -15,5 +15,15 @@
 		public float SalaryFloat { get; set; }
 
 		public double SalaryDouble { get; set; }
+
+		public int? SalaryNullableInt { get; set; }
+
+		public long? SalaryNullableLong { get; set; }
+
+		public decimal? SalaryNullableDecimal { get; set; }
+
+		public float? SalaryNullableFloat { get; set; }
+
+		public double? SalaryNullableDouble { get; set; }
 	}
 }

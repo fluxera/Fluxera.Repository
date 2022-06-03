@@ -103,7 +103,7 @@
 		/// <param name="setter">A setter function that gets called when no item was found in the cache.</param>
 		/// <returns></returns>
 		Task<TResult> SumAsync<TResult>(Func<Task<TResult>> setter)
-			where TResult : notnull, IComparable, IConvertible, IFormattable, IComparable<TResult>, IEquatable<TResult>;
+			where TResult : IComparable, IConvertible, IFormattable, IComparable<TResult>, IEquatable<TResult>;
 
 		/// <summary>
 		///     The strategy method is called when a count with a predicate is executed.
@@ -114,7 +114,7 @@
 		Task<TResult> SumAsync<TResult>(
 			Expression<Func<TAggregateRoot, bool>> predicate,
 			Func<Task<TResult>> setter)
-			where TResult : notnull, IComparable, IConvertible, IFormattable, IComparable<TResult>, IEquatable<TResult>;
+			where TResult : IComparable, IConvertible, IFormattable, IComparable<TResult>, IEquatable<TResult>;
 
 		/// <summary>
 		///     The strategy method is called when an average is executed.
@@ -122,7 +122,7 @@
 		/// <param name="setter">A setter function that gets called when no item was found in the cache.</param>
 		/// <returns></returns>
 		Task<TResult> AverageAsync<TResult>(Func<Task<TResult>> setter)
-			where TResult : notnull, IComparable, IConvertible, IFormattable, IComparable<TResult>, IEquatable<TResult>;
+			where TResult : IComparable, IConvertible, IFormattable, IComparable<TResult>, IEquatable<TResult>;
 
 		/// <summary>
 		///     The strategy method is called when an average with a predicate is executed.
@@ -133,7 +133,7 @@
 		Task<TResult> AverageAsync<TResult>(
 			Expression<Func<TAggregateRoot, bool>> predicate,
 			Func<Task<TResult>> setter)
-			where TResult : notnull, IComparable, IConvertible, IFormattable, IComparable<TResult>, IEquatable<TResult>;
+			where TResult : IComparable, IConvertible, IFormattable, IComparable<TResult>, IEquatable<TResult>;
 
 		/// <summary>
 		///     The strategy method is called when a find-one with a predicate is executed.

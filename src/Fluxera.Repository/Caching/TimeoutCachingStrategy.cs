@@ -202,7 +202,7 @@
 		}
 
 		/// <inheritdoc />
-		public async Task<TResult> SumAsync<TResult>(Func<Task<TResult>> setter) where TResult : notnull, IComparable, IConvertible, IFormattable, IComparable<TResult>, IEquatable<TResult>
+		public async Task<TResult> SumAsync<TResult>(Func<Task<TResult>> setter) where TResult : IComparable, IConvertible, IFormattable, IComparable<TResult>, IEquatable<TResult>
 		{
 			try
 			{
@@ -231,7 +231,7 @@
 		}
 
 		/// <inheritdoc />
-		public async Task<TResult> SumAsync<TResult>(Expression<Func<TAggregateRoot, bool>> predicate, Func<Task<TResult>> setter) where TResult : notnull, IComparable, IConvertible, IFormattable, IComparable<TResult>, IEquatable<TResult>
+		public async Task<TResult> SumAsync<TResult>(Expression<Func<TAggregateRoot, bool>> predicate, Func<Task<TResult>> setter) where TResult : IComparable, IConvertible, IFormattable, IComparable<TResult>, IEquatable<TResult>
 		{
 			try
 			{
@@ -260,7 +260,7 @@
 		}
 
 		/// <inheritdoc />
-		public async Task<TResult> AverageAsync<TResult>(Func<Task<TResult>> setter) where TResult : notnull, IComparable, IConvertible, IFormattable, IComparable<TResult>, IEquatable<TResult>
+		public async Task<TResult> AverageAsync<TResult>(Func<Task<TResult>> setter) where TResult : IComparable, IConvertible, IFormattable, IComparable<TResult>, IEquatable<TResult>
 		{
 			try
 			{
@@ -289,7 +289,7 @@
 		}
 
 		/// <inheritdoc />
-		public async Task<TResult> AverageAsync<TResult>(Expression<Func<TAggregateRoot, bool>> predicate, Func<Task<TResult>> setter) where TResult : notnull, IComparable, IConvertible, IFormattable, IComparable<TResult>, IEquatable<TResult>
+		public async Task<TResult> AverageAsync<TResult>(Expression<Func<TAggregateRoot, bool>> predicate, Func<Task<TResult>> setter) where TResult : IComparable, IConvertible, IFormattable, IComparable<TResult>, IEquatable<TResult>
 		{
 			try
 			{

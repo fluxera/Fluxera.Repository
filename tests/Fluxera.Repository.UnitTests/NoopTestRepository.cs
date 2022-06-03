@@ -167,7 +167,19 @@ namespace Fluxera.Repository.UnitTests
 		}
 
 		/// <inheritdoc />
+		public async Task<int> SumAsync(Expression<Func<TAggregateRoot, int?>> selector, CancellationToken cancellationToken = default)
+		{
+			return default;
+		}
+
+		/// <inheritdoc />
 		public async Task<long> SumAsync(Expression<Func<TAggregateRoot, long>> selector, CancellationToken cancellationToken = default)
+		{
+			return default;
+		}
+
+		/// <inheritdoc />
+		public async Task<long> SumAsync(Expression<Func<TAggregateRoot, long?>> selector, CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
@@ -179,7 +191,19 @@ namespace Fluxera.Repository.UnitTests
 		}
 
 		/// <inheritdoc />
+		public async Task<decimal> SumAsync(Expression<Func<TAggregateRoot, decimal?>> selector, CancellationToken cancellationToken = default)
+		{
+			return default;
+		}
+
+		/// <inheritdoc />
 		public async Task<float> SumAsync(Expression<Func<TAggregateRoot, float>> selector, CancellationToken cancellationToken = default)
+		{
+			return default;
+		}
+
+		/// <inheritdoc />
+		public async Task<float> SumAsync(Expression<Func<TAggregateRoot, float?>> selector, CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
@@ -191,7 +215,19 @@ namespace Fluxera.Repository.UnitTests
 		}
 
 		/// <inheritdoc />
+		public async Task<double> SumAsync(Expression<Func<TAggregateRoot, double?>> selector, CancellationToken cancellationToken = default)
+		{
+			return default;
+		}
+
+		/// <inheritdoc />
 		public async Task<int> SumAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, int>> selector, CancellationToken cancellationToken = default)
+		{
+			return default;
+		}
+
+		/// <inheritdoc />
+		public async Task<int> SumAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, int?>> selector, CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
@@ -203,9 +239,21 @@ namespace Fluxera.Repository.UnitTests
 		}
 
 		/// <inheritdoc />
+		public async Task<long> SumAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, long?>> selector, CancellationToken cancellationToken = default)
+		{
+			return default;
+		}
+
+		/// <inheritdoc />
 		public async Task<decimal> SumAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, decimal>> selector, CancellationToken cancellationToken = default)
 		{
 			return default;
+		}
+
+		/// <inheritdoc />
+		public async Task<decimal> SumAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, decimal?>> selector, CancellationToken cancellationToken = default)
+		{
+			throw new NotImplementedException();
 		}
 
 		/// <inheritdoc />
@@ -215,9 +263,21 @@ namespace Fluxera.Repository.UnitTests
 		}
 
 		/// <inheritdoc />
+		public async Task<float> SumAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, float?>> selector, CancellationToken cancellationToken = default)
+		{
+			throw new NotImplementedException();
+		}
+
+		/// <inheritdoc />
 		public async Task<double> SumAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, double>> selector, CancellationToken cancellationToken = default)
 		{
 			return default;
+		}
+
+		/// <inheritdoc />
+		public async Task<double> SumAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, double?>> selector, CancellationToken cancellationToken = default)
+		{
+			throw new NotImplementedException();
 		}
 
 		/// <inheritdoc />
@@ -227,9 +287,21 @@ namespace Fluxera.Repository.UnitTests
 		}
 
 		/// <inheritdoc />
+		public async Task<int> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, int?>> selector, CancellationToken cancellationToken = default)
+		{
+			throw new NotImplementedException();
+		}
+
+		/// <inheritdoc />
 		public async Task<long> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, long>> selector, CancellationToken cancellationToken = default)
 		{
 			return default;
+		}
+
+		/// <inheritdoc />
+		public async Task<long> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, long?>> selector, CancellationToken cancellationToken = default)
+		{
+			throw new NotImplementedException();
 		}
 
 		/// <inheritdoc />
@@ -239,9 +311,21 @@ namespace Fluxera.Repository.UnitTests
 		}
 
 		/// <inheritdoc />
+		public async Task<decimal> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, decimal?>> selector, CancellationToken cancellationToken = default)
+		{
+			throw new NotImplementedException();
+		}
+
+		/// <inheritdoc />
 		public async Task<float> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, float>> selector, CancellationToken cancellationToken = default)
 		{
 			return default;
+		}
+
+		/// <inheritdoc />
+		public async Task<float> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, float?>> selector, CancellationToken cancellationToken = default)
+		{
+			throw new NotImplementedException();
 		}
 
 		/// <inheritdoc />
@@ -251,7 +335,19 @@ namespace Fluxera.Repository.UnitTests
 		}
 
 		/// <inheritdoc />
+		public async Task<double> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, double?>> selector, CancellationToken cancellationToken = default)
+		{
+			throw new NotImplementedException();
+		}
+
+		/// <inheritdoc />
 		public async Task<double> AverageAsync(Expression<Func<TAggregateRoot, int>> selector, CancellationToken cancellationToken = default)
+		{
+			return default;
+		}
+
+		/// <inheritdoc />
+		public async Task<double> AverageAsync(Expression<Func<TAggregateRoot, int?>> selector, CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
@@ -263,7 +359,19 @@ namespace Fluxera.Repository.UnitTests
 		}
 
 		/// <inheritdoc />
+		public async Task<double> AverageAsync(Expression<Func<TAggregateRoot, long?>> selector, CancellationToken cancellationToken = default)
+		{
+			return default;
+		}
+
+		/// <inheritdoc />
 		public async Task<decimal> AverageAsync(Expression<Func<TAggregateRoot, decimal>> selector, CancellationToken cancellationToken = default)
+		{
+			return default;
+		}
+
+		/// <inheritdoc />
+		public async Task<decimal> AverageAsync(Expression<Func<TAggregateRoot, decimal?>> selector, CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
@@ -275,7 +383,19 @@ namespace Fluxera.Repository.UnitTests
 		}
 
 		/// <inheritdoc />
+		public async Task<float> AverageAsync(Expression<Func<TAggregateRoot, float?>> selector, CancellationToken cancellationToken = default)
+		{
+			return default;
+		}
+
+		/// <inheritdoc />
 		public async Task<double> AverageAsync(Expression<Func<TAggregateRoot, double>> selector, CancellationToken cancellationToken = default)
+		{
+			return default;
+		}
+
+		/// <inheritdoc />
+		public async Task<double> AverageAsync(Expression<Func<TAggregateRoot, double?>> selector, CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
@@ -287,9 +407,21 @@ namespace Fluxera.Repository.UnitTests
 		}
 
 		/// <inheritdoc />
+		public async Task<double> AverageAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, int?>> selector, CancellationToken cancellationToken = default)
+		{
+			throw new NotImplementedException();
+		}
+
+		/// <inheritdoc />
 		public async Task<double> AverageAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, long>> selector, CancellationToken cancellationToken = default)
 		{
 			return default;
+		}
+
+		/// <inheritdoc />
+		public async Task<double> AverageAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, long?>> selector, CancellationToken cancellationToken = default)
+		{
+			throw new NotImplementedException();
 		}
 
 		/// <inheritdoc />
@@ -299,9 +431,21 @@ namespace Fluxera.Repository.UnitTests
 		}
 
 		/// <inheritdoc />
+		public async Task<decimal> AverageAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, decimal?>> selector, CancellationToken cancellationToken = default)
+		{
+			throw new NotImplementedException();
+		}
+
+		/// <inheritdoc />
 		public async Task<float> AverageAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, float>> selector, CancellationToken cancellationToken = default)
 		{
 			return default;
+		}
+
+		/// <inheritdoc />
+		public async Task<float> AverageAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, float?>> selector, CancellationToken cancellationToken = default)
+		{
+			throw new NotImplementedException();
 		}
 
 		/// <inheritdoc />
@@ -311,9 +455,21 @@ namespace Fluxera.Repository.UnitTests
 		}
 
 		/// <inheritdoc />
+		public async Task<double> AverageAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, double?>> selector, CancellationToken cancellationToken = default)
+		{
+			throw new NotImplementedException();
+		}
+
+		/// <inheritdoc />
 		public async Task<double> AverageAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, int>> selector, CancellationToken cancellationToken = default)
 		{
 			return default;
+		}
+
+		/// <inheritdoc />
+		public async Task<double> AverageAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, int?>> selector, CancellationToken cancellationToken = default)
+		{
+			throw new NotImplementedException();
 		}
 
 		/// <inheritdoc />
@@ -323,9 +479,21 @@ namespace Fluxera.Repository.UnitTests
 		}
 
 		/// <inheritdoc />
+		public async Task<double> AverageAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, long?>> selector, CancellationToken cancellationToken = default)
+		{
+			throw new NotImplementedException();
+		}
+
+		/// <inheritdoc />
 		public async Task<decimal> AverageAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, decimal>> selector, CancellationToken cancellationToken = default)
 		{
 			return default;
+		}
+
+		/// <inheritdoc />
+		public async Task<decimal> AverageAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, decimal?>> selector, CancellationToken cancellationToken = default)
+		{
+			throw new NotImplementedException();
 		}
 
 		/// <inheritdoc />
@@ -335,9 +503,21 @@ namespace Fluxera.Repository.UnitTests
 		}
 
 		/// <inheritdoc />
+		public async Task<float> AverageAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, float?>> selector, CancellationToken cancellationToken = default)
+		{
+			throw new NotImplementedException();
+		}
+
+		/// <inheritdoc />
 		public async Task<double> AverageAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, double>> selector, CancellationToken cancellationToken = default)
 		{
 			return default;
+		}
+
+		/// <inheritdoc />
+		public async Task<double> AverageAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, double?>> selector, CancellationToken cancellationToken = default)
+		{
+			throw new NotImplementedException();
 		}
 
 		/// <inheritdoc />

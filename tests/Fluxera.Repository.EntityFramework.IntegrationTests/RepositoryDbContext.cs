@@ -40,8 +40,12 @@
 			modelBuilder.Entity<Employee>(entity =>
 			{
 				entity
-					.Property(e => e.SalaryDecimal)
+					.Property(x => x.SalaryDecimal)
 					.HasConversion<double>();
+
+				entity
+					.Property(x => x.SalaryNullableDecimal)
+					.HasConversion<double?>();
 			});
 
 			base.OnModelCreating(modelBuilder);
