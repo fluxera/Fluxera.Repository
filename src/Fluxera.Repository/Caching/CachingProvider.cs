@@ -46,7 +46,7 @@
 				.GetAsJsonAsync<T>(key)
 				.ConfigureAwait(false);
 
-			return item!;
+			return item;
 		}
 
 		/// <inheritdoc />

@@ -96,7 +96,6 @@
 				if(!e.CancelOperation)
 				{
 					await this.innerRepository.AddAsync(item, cancellationToken).ConfigureAwait(false);
-					//await this.interceptor.AfterAddAsync(item).ConfigureAwait(false);
 				}
 				else
 				{
@@ -131,11 +130,6 @@
 				if(!e.CancelOperation)
 				{
 					await this.innerRepository.AddRangeAsync(itemsList, cancellationToken).ConfigureAwait(false);
-
-					//foreach(TAggregateRoot item in itemsList)
-					//{
-					//	await this.interceptor.AfterAddAsync(item).ConfigureAwait(false);
-					//}
 				}
 				else
 				{
@@ -165,7 +159,6 @@
 				if(!e.CancelOperation)
 				{
 					await this.innerRepository.UpdateAsync(item, cancellationToken).ConfigureAwait(false);
-					//await this.interceptor.AfterUpdateAsync(item).ConfigureAwait(false);
 				}
 				else
 				{
@@ -200,11 +193,6 @@
 				if(!e.CancelOperation)
 				{
 					await this.innerRepository.UpdateRangeAsync(itemsList, cancellationToken).ConfigureAwait(false);
-
-					//foreach(TAggregateRoot item in itemsList)
-					//{
-					//	await this.interceptor.AfterUpdateAsync(item).ConfigureAwait(false);
-					//}
 				}
 				else
 				{
@@ -237,7 +225,6 @@
 					RecordStatement(predicate);
 
 					await this.innerRepository.RemoveRangeAsync(predicate, cancellationToken).ConfigureAwait(false);
-					//await this.interceptor.AfterRemoveRangeAsync().ConfigureAwait(false);
 				}
 				else
 				{
@@ -269,7 +256,6 @@
 				if(!e.CancelOperation)
 				{
 					await this.innerRepository.RemoveAsync(item, cancellationToken).ConfigureAwait(false);
-					//await this.interceptor.AfterRemoveAsync(item).ConfigureAwait(false);
 				}
 				else
 				{
@@ -301,7 +287,6 @@
 					RecordStatement(predicate);
 
 					await this.innerRepository.RemoveRangeAsync(predicate, cancellationToken).ConfigureAwait(false);
-					//await this.interceptor.AfterRemoveRangeAsync().ConfigureAwait(false);
 				}
 				else
 				{
@@ -335,7 +320,6 @@
 					RecordStatement(specification);
 
 					await this.innerRepository.RemoveRangeAsync(specification, cancellationToken).ConfigureAwait(false);
-					//await this.interceptor.AfterRemoveRangeAsync().ConfigureAwait(false);
 				}
 				else
 				{
@@ -372,11 +356,6 @@
 				if(!e.CancelOperation)
 				{
 					await this.innerRepository.RemoveRangeAsync(itemsList, cancellationToken).ConfigureAwait(false);
-
-					//foreach(TAggregateRoot item in itemsList)
-					//{
-					//	await this.interceptor.AfterRemoveAsync(item).ConfigureAwait(false);
-					//}
 				}
 				else
 				{
@@ -396,17 +375,12 @@
 		{
 			if(this.repositoryOptions.InterceptionOptions.IsEnabled)
 			{
-				predicate = await this.interceptor.BeforeFindAsync(predicate, queryOptions!).ConfigureAwait(false);
+				predicate = await this.interceptor.BeforeFindAsync(predicate, queryOptions).ConfigureAwait(false);
 			}
 
 			RecordStatement(predicate);
 
 			TAggregateRoot result = await this.innerRepository.FindOneAsync(predicate, queryOptions, cancellationToken).ConfigureAwait(false);
-
-			//if(this.repositoryOptions.InterceptionOptions.IsEnabled)
-			//{
-			//	await this.interceptor.AfterFindAsync(result).ConfigureAwait(false);
-			//}
 
 			return result;
 		}
@@ -416,17 +390,12 @@
 		{
 			if(this.repositoryOptions.InterceptionOptions.IsEnabled)
 			{
-				specification = await this.interceptor.BeforeFindAsync(specification, queryOptions!).ConfigureAwait(false);
+				specification = await this.interceptor.BeforeFindAsync(specification, queryOptions).ConfigureAwait(false);
 			}
 
 			RecordStatement(specification);
 
 			TAggregateRoot result = await this.innerRepository.FindOneAsync(specification, queryOptions, cancellationToken).ConfigureAwait(false);
-
-			//if(this.repositoryOptions.InterceptionOptions.IsEnabled)
-			//{
-			//	await this.interceptor.AfterFindAsync(result).ConfigureAwait(false);
-			//}
 
 			return result;
 		}
@@ -436,17 +405,12 @@
 		{
 			if(this.repositoryOptions.InterceptionOptions.IsEnabled)
 			{
-				predicate = await this.interceptor.BeforeFindAsync(predicate, queryOptions!).ConfigureAwait(false);
+				predicate = await this.interceptor.BeforeFindAsync(predicate, queryOptions).ConfigureAwait(false);
 			}
 
 			RecordStatement(predicate, selector);
 
 			TResult result = await this.innerRepository.FindOneAsync(predicate, selector, queryOptions, cancellationToken).ConfigureAwait(false);
-
-			//if(this.repositoryOptions.InterceptionOptions.IsEnabled)
-			//{
-			//	await this.interceptor.AfterFindAsync(result).ConfigureAwait(false);
-			//}
 
 			return result;
 		}
@@ -456,17 +420,12 @@
 		{
 			if(this.repositoryOptions.InterceptionOptions.IsEnabled)
 			{
-				specification = await this.interceptor.BeforeFindAsync(specification, queryOptions!).ConfigureAwait(false);
+				specification = await this.interceptor.BeforeFindAsync(specification, queryOptions).ConfigureAwait(false);
 			}
 
 			RecordStatement(specification, selector);
 
 			TResult result = await this.innerRepository.FindOneAsync(specification, selector, queryOptions, cancellationToken).ConfigureAwait(false);
-
-			//if(this.repositoryOptions.InterceptionOptions.IsEnabled)
-			//{
-			//	await this.interceptor.AfterFindAsync(result).ConfigureAwait(false);
-			//}
 
 			return result;
 		}
@@ -484,8 +443,6 @@
 				RecordStatement(predicate);
 
 				result = await this.innerRepository.ExistsAsync(predicate, cancellationToken).ConfigureAwait(false);
-
-				//await this.interceptor.AfterFindAsync(result);
 			}
 			else
 			{
@@ -509,11 +466,6 @@
 
 			bool result = await this.innerRepository.ExistsAsync(predicate, cancellationToken).ConfigureAwait(false);
 
-			//if(this.repositoryOptions.InterceptionOptions.IsEnabled)
-			//{
-			//	await this.interceptor.AfterFindAsync(result);
-			//}
-
 			return result;
 		}
 
@@ -529,11 +481,6 @@
 
 			bool result = await this.innerRepository.ExistsAsync(specification, cancellationToken).ConfigureAwait(false);
 
-			//if(this.repositoryOptions.InterceptionOptions.IsEnabled)
-			//{
-			//	await this.interceptor.AfterFindAsync(result);
-			//}
-
 			return result;
 		}
 
@@ -542,17 +489,12 @@
 		{
 			if(this.repositoryOptions.InterceptionOptions.IsEnabled)
 			{
-				predicate = await this.interceptor.BeforeFindAsync(predicate, queryOptions!);
+				predicate = await this.interceptor.BeforeFindAsync(predicate, queryOptions);
 			}
 
 			RecordStatement(predicate);
 
 			IReadOnlyCollection<TAggregateRoot> result = await this.innerRepository.FindManyAsync(predicate, queryOptions, cancellationToken).ConfigureAwait(false);
-
-			//if(this.repositoryOptions.InterceptionOptions.IsEnabled)
-			//{
-			//	await this.interceptor.AfterFindAsync(result);
-			//}
 
 			return result;
 		}
@@ -562,17 +504,12 @@
 		{
 			if(this.repositoryOptions.InterceptionOptions.IsEnabled)
 			{
-				specification = await this.interceptor.BeforeFindAsync(specification, queryOptions!);
+				specification = await this.interceptor.BeforeFindAsync(specification, queryOptions);
 			}
 
 			RecordStatement(specification);
 
 			IReadOnlyCollection<TAggregateRoot> result = await this.innerRepository.FindManyAsync(specification, queryOptions, cancellationToken).ConfigureAwait(false);
-
-			//if(this.repositoryOptions.InterceptionOptions.IsEnabled)
-			//{
-			//	await this.interceptor.AfterFindAsync(result);
-			//}
 
 			return result;
 		}
@@ -582,17 +519,12 @@
 		{
 			if(this.repositoryOptions.InterceptionOptions.IsEnabled)
 			{
-				predicate = await this.interceptor.BeforeFindAsync(predicate, queryOptions!);
+				predicate = await this.interceptor.BeforeFindAsync(predicate, queryOptions);
 			}
 
 			RecordStatement(predicate, selector);
 
 			IReadOnlyCollection<TResult> result = await this.innerRepository.FindManyAsync(predicate, selector, queryOptions, cancellationToken).ConfigureAwait(false);
-
-			//if(this.repositoryOptions.InterceptionOptions.IsEnabled)
-			//{
-			//	await this.interceptor.AfterFindAsync(result);
-			//}
 
 			return result;
 		}
@@ -602,17 +534,12 @@
 		{
 			if(this.repositoryOptions.InterceptionOptions.IsEnabled)
 			{
-				specification = await this.interceptor.BeforeFindAsync(specification, queryOptions!);
+				specification = await this.interceptor.BeforeFindAsync(specification, queryOptions);
 			}
 
 			RecordStatement(specification, selector);
 
 			IReadOnlyCollection<TResult> result = await this.innerRepository.FindManyAsync(specification, selector, queryOptions, cancellationToken).ConfigureAwait(false);
-
-			//if(this.repositoryOptions.InterceptionOptions.IsEnabled)
-			//{
-			//	await this.interceptor.AfterFindAsync(result);
-			//}
 
 			return result;
 		}
@@ -630,8 +557,6 @@
 				RecordStatement(predicate);
 
 				result = await this.innerRepository.CountAsync(predicate, cancellationToken).ConfigureAwait(false);
-
-				//await this.interceptor.AfterFindAsync(result);
 			}
 			else
 			{
@@ -655,11 +580,6 @@
 
 			long result = await this.innerRepository.CountAsync(predicate, cancellationToken).ConfigureAwait(false);
 
-			//if(this.repositoryOptions.InterceptionOptions.IsEnabled)
-			//{
-			//	await this.interceptor.AfterFindAsync(result);
-			//}
-
 			return result;
 		}
 
@@ -675,12 +595,97 @@
 
 			long result = await this.innerRepository.CountAsync(specification, cancellationToken).ConfigureAwait(false);
 
-			//if(this.repositoryOptions.InterceptionOptions.IsEnabled)
-			//{
-			//	await this.interceptor.AfterFindAsync(result);
-			//}
-
 			return result;
+		}
+
+		/// <inheritdoc />
+		async Task<int> ICanAggregate<TAggregateRoot, TKey>.SumAsync(Expression<Func<TAggregateRoot, int>> selector, CancellationToken cancellationToken)
+		{
+			return await this.innerRepository.SumAsync(selector, cancellationToken);
+		}
+
+		/// <inheritdoc />
+		async Task<long> ICanAggregate<TAggregateRoot, TKey>.SumAsync(Expression<Func<TAggregateRoot, long>> selector, CancellationToken cancellationToken)
+		{
+			return await this.innerRepository.SumAsync(selector, cancellationToken);
+		}
+
+		/// <inheritdoc />
+		async Task<decimal> ICanAggregate<TAggregateRoot, TKey>.SumAsync(Expression<Func<TAggregateRoot, decimal>> selector, CancellationToken cancellationToken)
+		{
+			return await this.innerRepository.SumAsync(selector, cancellationToken);
+		}
+
+		/// <inheritdoc />
+		async Task<float> ICanAggregate<TAggregateRoot, TKey>.SumAsync(Expression<Func<TAggregateRoot, float>> selector, CancellationToken cancellationToken)
+		{
+			return await this.innerRepository.SumAsync(selector, cancellationToken);
+		}
+
+		/// <inheritdoc />
+		async Task<double> ICanAggregate<TAggregateRoot, TKey>.SumAsync(Expression<Func<TAggregateRoot, double>> selector, CancellationToken cancellationToken)
+		{
+			return await this.innerRepository.SumAsync(selector, cancellationToken);
+		}
+
+		/// <inheritdoc />
+		async Task<int> ICanAggregate<TAggregateRoot, TKey>.SumAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, int>> selector, CancellationToken cancellationToken)
+		{
+			return await this.innerRepository.SumAsync(predicate, selector, cancellationToken);
+		}
+
+		/// <inheritdoc />
+		async Task<long> ICanAggregate<TAggregateRoot, TKey>.SumAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, long>> selector, CancellationToken cancellationToken)
+		{
+			return await this.innerRepository.SumAsync(predicate, selector, cancellationToken);
+		}
+
+		/// <inheritdoc />
+		async Task<decimal> ICanAggregate<TAggregateRoot, TKey>.SumAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, decimal>> selector, CancellationToken cancellationToken)
+		{
+			return await this.innerRepository.SumAsync(predicate, selector, cancellationToken);
+		}
+
+		/// <inheritdoc />
+		async Task<float> ICanAggregate<TAggregateRoot, TKey>.SumAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, float>> selector, CancellationToken cancellationToken)
+		{
+			return await this.innerRepository.SumAsync(predicate, selector, cancellationToken);
+		}
+
+		/// <inheritdoc />
+		async Task<double> ICanAggregate<TAggregateRoot, TKey>.SumAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, double>> selector, CancellationToken cancellationToken)
+		{
+			return await this.innerRepository.SumAsync(predicate, selector, cancellationToken);
+		}
+
+		/// <inheritdoc />
+		async Task<int> ICanAggregate<TAggregateRoot, TKey>.SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, int>> selector, CancellationToken cancellationToken)
+		{
+			return await this.innerRepository.SumAsync(specification, selector, cancellationToken);
+		}
+
+		/// <inheritdoc />
+		async Task<long> ICanAggregate<TAggregateRoot, TKey>.SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, long>> selector, CancellationToken cancellationToken)
+		{
+			return await this.innerRepository.SumAsync(specification, selector, cancellationToken);
+		}
+
+		/// <inheritdoc />
+		async Task<decimal> ICanAggregate<TAggregateRoot, TKey>.SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, decimal>> selector, CancellationToken cancellationToken)
+		{
+			return await this.innerRepository.SumAsync(specification, selector, cancellationToken);
+		}
+
+		/// <inheritdoc />
+		async Task<float> ICanAggregate<TAggregateRoot, TKey>.SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, float>> selector, CancellationToken cancellationToken)
+		{
+			return await this.innerRepository.SumAsync(specification, selector, cancellationToken);
+		}
+
+		/// <inheritdoc />
+		async Task<double> ICanAggregate<TAggregateRoot, TKey>.SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, double>> selector, CancellationToken cancellationToken)
+		{
+			return await this.innerRepository.SumAsync(specification, selector, cancellationToken);
 		}
 
 		/// <inheritdoc />
@@ -696,8 +701,6 @@
 				RecordStatement(predicate);
 
 				result = await this.innerRepository.FindOneAsync(predicate, QueryOptions<TAggregateRoot>.Empty(), cancellationToken).ConfigureAwait(false);
-
-				//await this.interceptor.AfterFindAsync(result);
 			}
 			else
 			{
@@ -722,8 +725,6 @@
 				RecordStatement(predicate, selector);
 
 				result = await this.innerRepository.FindOneAsync(predicate, selector, QueryOptions<TAggregateRoot>.Empty(), cancellationToken).ConfigureAwait(false);
-
-				//await this.interceptor.AfterFindAsync(result);
 			}
 			else
 			{

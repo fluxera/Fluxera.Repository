@@ -29,7 +29,12 @@ namespace Fluxera.Repository.EntityFrameworkCore.IntegrationTests.Migrations
                 columns: table => new
                 {
                     ID = table.Column<string>(type: "TEXT", nullable: false),
-                    Name = table.Column<string>(type: "TEXT", nullable: true)
+                    Name = table.Column<string>(type: "TEXT", nullable: true),
+                    SalaryInt = table.Column<int>(type: "INTEGER", nullable: false),
+                    SalaryLong = table.Column<long>(type: "INTEGER", nullable: false),
+                    SalaryDecimal = table.Column<double>(type: "REAL", nullable: false),
+                    SalaryFloat = table.Column<float>(type: "REAL", nullable: false),
+                    SalaryDouble = table.Column<double>(type: "REAL", nullable: false)
                 },
                 constraints: table =>
                 {

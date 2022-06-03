@@ -91,17 +91,17 @@
 		/// <inheritdoc />
 		protected override async Task<TAggregateRoot> FirstOrDefaultAsync(IQueryable<TAggregateRoot> queryable, CancellationToken cancellationToken)
 		{
-			return (await queryable
+			return await queryable
 				.FirstOrDefaultAsync(cancellationToken)
-				.ConfigureAwait(false))!;
+				.ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
 		protected override async Task<TResult> FirstOrDefaultAsync<TResult>(IQueryable<TResult> queryable, CancellationToken cancellationToken)
 		{
-			return (await queryable
+			return await queryable
 				.FirstOrDefaultAsync(cancellationToken)
-				.ConfigureAwait(false))!;
+				.ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
@@ -130,6 +130,46 @@
 				.ConfigureAwait(false);
 		}
 
+		/// <inheritdoc />
+		protected override async Task<int> SumAsync(IQueryable<int> queryable, CancellationToken cancellationToken)
+		{
+			return await queryable
+				.SumAsync(cancellationToken)
+				.ConfigureAwait(false);
+		}
+
+		/// <inheritdoc />
+		protected override async Task<long> SumAsync(IQueryable<long> queryable, CancellationToken cancellationToken)
+		{
+			return await queryable
+				.SumAsync(cancellationToken)
+				.ConfigureAwait(false);
+		}
+
+		/// <inheritdoc />
+		protected override async Task<decimal> SumAsync(IQueryable<decimal> queryable, CancellationToken cancellationToken)
+		{
+			return await queryable
+				.SumAsync(cancellationToken)
+				.ConfigureAwait(false);
+		}
+
+		/// <inheritdoc />
+		protected override async Task<float> SumAsync(IQueryable<float> queryable, CancellationToken cancellationToken)
+		{
+			return await queryable
+				.SumAsync(cancellationToken)
+				.ConfigureAwait(false);
+		}
+
+		/// <inheritdoc />
+		protected override async Task<double> SumAsync(IQueryable<double> queryable, CancellationToken cancellationToken)
+		{
+			return await queryable
+				.SumAsync(cancellationToken)
+				.ConfigureAwait(false);
+		}
+
 		private async Task PerformUpdateAsync(TAggregateRoot item)
 		{
 			EntityEntry<TAggregateRoot> entry = this.dbContext.Entry(item);
@@ -138,7 +178,7 @@
 			{
 				if(entry.State == EntityState.Detached)
 				{
-					TKey key = item.ID!;
+					TKey key = item.ID;
 
 					// Check to see if this item is already attached. If it is then we need to copy the values to the
 					// attached value instead of changing the State to modified since it will throw a duplicate key

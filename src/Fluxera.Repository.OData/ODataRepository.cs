@@ -151,7 +151,7 @@
 			}
 			catch(WebRequestException ex) when(ex.Code == HttpStatusCode.NotFound)
 			{
-				return null!;
+				return null;
 			}
 		}
 
@@ -174,7 +174,7 @@
 			}
 			catch(WebRequestException ex) when(ex.Code == HttpStatusCode.NotFound)
 			{
-				return default!;
+				return default;
 			}
 		}
 
@@ -240,6 +240,36 @@
 				.ConfigureAwait(false);
 		}
 
+		/// <inheritdoc />
+		protected override Task<int> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, int>> selector, CancellationToken cancellationToken)
+		{
+			throw new NotSupportedException("The sum aggregate is not supported.");
+		}
+
+		/// <inheritdoc />
+		protected override Task<long> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, long>> selector, CancellationToken cancellationToken)
+		{
+			throw new NotSupportedException("The sum aggregate is not supported.");
+		}
+
+		/// <inheritdoc />
+		protected override Task<decimal> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, decimal>> selector, CancellationToken cancellationToken)
+		{
+			throw new NotSupportedException("The sum aggregate is not supported.");
+		}
+
+		/// <inheritdoc />
+		protected override Task<float> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, float>> selector, CancellationToken cancellationToken)
+		{
+			throw new NotSupportedException("The sum aggregate is not supported.");
+		}
+
+		/// <inheritdoc />
+		protected override Task<double> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, double>> selector, CancellationToken cancellationToken)
+		{
+			throw new NotSupportedException("The sum aggregate is not supported.");
+		}
+
 		private static Expression<Func<TAggregateRoot, object>> ConvertSelector<TResult>(
 			Expression<Func<TAggregateRoot, TResult>> selector)
 		{
@@ -263,15 +293,15 @@
 			Guard.Against.Null(method, nameof(method));
 
 			LambdaExpression lambda = method as LambdaExpression;
-			MemberExpression memberExpr = null!;
+			MemberExpression memberExpr = null;
 
 			if(lambda != null && lambda.Body.NodeType == ExpressionType.Convert)
 			{
-				memberExpr = (((UnaryExpression)lambda.Body).Operand as MemberExpression)!;
+				memberExpr = ((UnaryExpression)lambda.Body).Operand as MemberExpression;
 			}
 			else if(lambda != null && lambda.Body.NodeType == ExpressionType.MemberAccess)
 			{
-				memberExpr = (lambda.Body as MemberExpression)!;
+				memberExpr = lambda.Body as MemberExpression;
 			}
 
 			Guard.Against.Null(memberExpr, nameof(method));

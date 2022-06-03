@@ -42,7 +42,7 @@
 		/// <inheritdoc />
 		public async Task AddAsync(TAggregateRoot item)
 		{
-			string cacheKey = this.CacheKeyProvider.GetAddCacheKey<TAggregateRoot, TKey>(this.RepositoryName, item.ID!);
+			string cacheKey = this.CacheKeyProvider.GetAddCacheKey<TAggregateRoot, TKey>(this.RepositoryName, item.ID);
 			await this.SetSafeAsync(cacheKey, item).ConfigureAwait(false);
 		}
 
@@ -58,7 +58,7 @@
 		/// <inheritdoc />
 		public async Task UpdateAsync(TAggregateRoot item)
 		{
-			string cacheKey = this.CacheKeyProvider.GetUpdateCacheKey<TAggregateRoot, TKey>(this.RepositoryName, item.ID!);
+			string cacheKey = this.CacheKeyProvider.GetUpdateCacheKey<TAggregateRoot, TKey>(this.RepositoryName, item.ID);
 			await this.SetSafeAsync(cacheKey, item).ConfigureAwait(false);
 		}
 
@@ -193,6 +193,64 @@
 				}
 
 				return count;
+			}
+			catch(Exception e)
+			{
+				this.Logger.LogError(e, e.Message);
+				throw;
+			}
+		}
+
+		/// <inheritdoc />
+		public async Task<TResult> SumAsync<TResult>(Func<Task<TResult>> setter) where TResult : notnull, IComparable, IConvertible, IFormattable, IComparable<TResult>, IEquatable<TResult>
+		{
+			try
+			{
+				long generation = GetGenerationAsync();
+				string cacheKey = this.CacheKeyProvider.GetSumCacheKey<TAggregateRoot, TKey>(this.RepositoryName, generation);
+				bool exists = await this.ExistsSafeAsync(cacheKey).ConfigureAwait(false);
+
+				TResult sum;
+				if(exists)
+				{
+					sum = await this.GetSafeAsync<TResult>(cacheKey).ConfigureAwait(true);
+				}
+				else
+				{
+					sum = await setter.Invoke().ConfigureAwait(false);
+					await this.SetSafeAsync(cacheKey, sum).ConfigureAwait(false);
+				}
+
+				return sum;
+			}
+			catch(Exception e)
+			{
+				this.Logger.LogError(e, e.Message);
+				throw;
+			}
+		}
+
+		/// <inheritdoc />
+		public async Task<TResult> SumAsync<TResult>(Expression<Func<TAggregateRoot, bool>> predicate, Func<Task<TResult>> setter) where TResult : notnull, IComparable, IConvertible, IFormattable, IComparable<TResult>, IEquatable<TResult>
+		{
+			try
+			{
+				long generation = GetGenerationAsync();
+				string cacheKey = this.CacheKeyProvider.GetSumCacheKey<TAggregateRoot, TKey>(this.RepositoryName, generation, predicate);
+				bool exists = await this.ExistsSafeAsync(cacheKey).ConfigureAwait(false);
+
+				TResult sum;
+				if(exists)
+				{
+					sum = await this.GetSafeAsync<TResult>(cacheKey).ConfigureAwait(true);
+				}
+				else
+				{
+					sum = await setter.Invoke().ConfigureAwait(false);
+					await this.SetSafeAsync(cacheKey, sum).ConfigureAwait(false);
+				}
+
+				return sum;
 			}
 			catch(Exception e)
 			{
@@ -392,7 +450,7 @@
 			{
 				// Don't let caching errors mess with the repository.
 				this.Logger.LogError(e, e.Message);
-				return default!;
+				return default;
 			}
 		}
 

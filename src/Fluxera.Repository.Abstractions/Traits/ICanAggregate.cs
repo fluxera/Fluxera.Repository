@@ -45,34 +45,144 @@ namespace Fluxera.Repository.Traits
 		/// <returns>The item count.</returns>
 		Task<long> CountAsync(ISpecification<TAggregateRoot> specification, CancellationToken cancellationToken = default);
 
-		//Task<int> SumAsync(Expression<Func<TAggregateRoot, int>> selector, CancellationToken cancellationToken = default);
-		//Task<int> SumAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, int>> selector, CancellationToken cancellationToken = default);
-		//Task<int> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, int>> selector, CancellationToken cancellationToken = default);
+		/// <summary>
+		///     Forms the sum of the selected value for all available items.
+		/// </summary>
+		/// <param name="selector"></param>
+		/// <param name="cancellationToken"></param>
+		/// <returns></returns>
+		Task<int> SumAsync(Expression<Func<TAggregateRoot, int>> selector, CancellationToken cancellationToken = default);
 
-		//Task<long> SumAsync(Expression<Func<TAggregateRoot, long>> selector, CancellationToken cancellationToken = default);
-		//Task<long> SumAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, long>> selector, CancellationToken cancellationToken = default);
+		/// <summary>
+		///     Forms the sum of the selected value for all available items.
+		/// </summary>
+		/// <param name="selector"></param>
+		/// <param name="cancellationToken"></param>
+		/// <returns></returns>
+		Task<long> SumAsync(Expression<Func<TAggregateRoot, long>> selector, CancellationToken cancellationToken = default);
 
-		//Task<decimal> SumAsync(Expression<Func<TAggregateRoot, decimal>> selector, CancellationToken cancellationToken = default);
-		//Task<decimal> SumAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, decimal>> selector, CancellationToken cancellationToken = default);
+		/// <summary>
+		///     Forms the sum of the selected value for all available items.
+		/// </summary>
+		/// <param name="selector"></param>
+		/// <param name="cancellationToken"></param>
+		/// <returns></returns>
+		Task<decimal> SumAsync(Expression<Func<TAggregateRoot, decimal>> selector, CancellationToken cancellationToken = default);
 
-		//Task<float> SumAsync(Expression<Func<TAggregateRoot, float>> selector, CancellationToken cancellationToken = default);
-		//Task<float> SumAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, float>> selector, CancellationToken cancellationToken = default);
+		/// <summary>
+		///     Forms the sum of the selected value for all available items.
+		/// </summary>
+		/// <param name="selector"></param>
+		/// <param name="cancellationToken"></param>
+		/// <returns></returns>
+		Task<float> SumAsync(Expression<Func<TAggregateRoot, float>> selector, CancellationToken cancellationToken = default);
 
-		//Task<double> SumAsync(Expression<Func<TAggregateRoot, double>> selector, CancellationToken cancellationToken = default);
-		//Task<double> SumAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, double>> selector, CancellationToken cancellationToken = default);
+		/// <summary>
+		///     Forms the sum of the selected value for all available items.
+		/// </summary>
+		/// <param name="selector"></param>
+		/// <param name="cancellationToken"></param>
+		/// <returns></returns>
+		Task<double> SumAsync(Expression<Func<TAggregateRoot, double>> selector, CancellationToken cancellationToken = default);
+
+		/// <summary>
+		///     Forms the sum of the selected value for all items that satisfy the predicate.
+		/// </summary>
+		/// <param name="predicate"></param>
+		/// <param name="selector"></param>
+		/// <param name="cancellationToken"></param>
+		/// <returns></returns>
+		Task<int> SumAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, int>> selector, CancellationToken cancellationToken = default);
+
+		/// <summary>
+		///     Forms the sum of the selected value for all items that satisfy the predicate.
+		/// </summary>
+		/// <param name="predicate"></param>
+		/// <param name="selector"></param>
+		/// <param name="cancellationToken"></param>
+		/// <returns></returns>
+		Task<long> SumAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, long>> selector, CancellationToken cancellationToken = default);
+
+		/// <summary>
+		///     Forms the sum of the selected value for all items that satisfy the predicate.
+		/// </summary>
+		/// <param name="predicate"></param>
+		/// <param name="selector"></param>
+		/// <param name="cancellationToken"></param>
+		/// <returns></returns>
+		Task<decimal> SumAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, decimal>> selector, CancellationToken cancellationToken = default);
+
+		/// <summary>
+		///     Forms the sum of the selected value for all items that satisfy the predicate.
+		/// </summary>
+		/// <param name="predicate"></param>
+		/// <param name="selector"></param>
+		/// <param name="cancellationToken"></param>
+		/// <returns></returns>
+		Task<float> SumAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, float>> selector, CancellationToken cancellationToken = default);
+
+		/// <summary>
+		///     Forms the sum of the selected value for all items that satisfy the predicate.
+		/// </summary>
+		/// <param name="predicate"></param>
+		/// <param name="selector"></param>
+		/// <param name="cancellationToken"></param>
+		/// <returns></returns>
+		Task<double> SumAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, double>> selector, CancellationToken cancellationToken = default);
+
+		/// <summary>
+		///     Forms the sum of the selected value for all items that satisfy the specification.
+		/// </summary>
+		/// <param name="specification"></param>
+		/// <param name="selector"></param>
+		/// <param name="cancellationToken"></param>
+		/// <returns></returns>
+		Task<int> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, int>> selector, CancellationToken cancellationToken = default);
+
+		/// <summary>
+		///     Forms the sum of the selected value for all items that satisfy the specification.
+		/// </summary>
+		/// <param name="specification"></param>
+		/// <param name="selector"></param>
+		/// <param name="cancellationToken"></param>
+		/// <returns></returns>
+		Task<long> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, long>> selector, CancellationToken cancellationToken = default);
+
+		/// <summary>
+		///     Forms the sum of the selected value for all items that satisfy the specification.
+		/// </summary>
+		/// <param name="specification"></param>
+		/// <param name="selector"></param>
+		/// <param name="cancellationToken"></param>
+		/// <returns></returns>
+		Task<decimal> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, decimal>> selector, CancellationToken cancellationToken = default);
+
+		/// <summary>
+		///     Forms the sum of the selected value for all items that satisfy the specification.
+		/// </summary>
+		/// <param name="specification"></param>
+		/// <param name="selector"></param>
+		/// <param name="cancellationToken"></param>
+		/// <returns></returns>
+		Task<float> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, float>> selector, CancellationToken cancellationToken = default);
+
+		/// <summary>
+		///     Forms the sum of the selected value for all items that satisfy the specification.
+		/// </summary>
+		/// <param name="specification"></param>
+		/// <param name="selector"></param>
+		/// <param name="cancellationToken"></param>
+		/// <returns></returns>
+		Task<double> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, double>> selector, CancellationToken cancellationToken = default);
 
 		//Task<double> AverageAsync(Expression<Func<TAggregateRoot, int>> selector, CancellationToken cancellationToken = default);
 		//Task<double> AverageAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, int>> selector, CancellationToken cancellationToken = default);
-
 		//Task<double> AverageAsync(Expression<Func<TAggregateRoot, long>> selector, CancellationToken cancellationToken = default);
 		//Task<double> AverageAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, long>> selector, CancellationToken cancellationToken = default);
-
 		//Task<decimal> AverageAsync(Expression<Func<TAggregateRoot, decimal>> selector, CancellationToken cancellationToken = default);
 		//Task<decimal> AverageAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, decimal>> selector, CancellationToken cancellationToken = default);
-
 		//Task<float> AverageAsync(Expression<Func<TAggregateRoot, float>> selector, CancellationToken cancellationToken = default);
 		//Task<float> AverageAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, float>> selector, CancellationToken cancellationToken = default);
-
 		//Task<double> AverageAsync(Expression<Func<TAggregateRoot, double>> selector, CancellationToken cancellationToken = default);
 		//Task<double> AverageAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, double>> selector, CancellationToken cancellationToken = default);
 

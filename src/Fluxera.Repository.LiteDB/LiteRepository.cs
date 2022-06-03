@@ -100,7 +100,7 @@
 			IList<TAggregateRoot> itemsList = items.ToList();
 			foreach(TAggregateRoot item in itemsList)
 			{
-				specifications.Add(this.CreatePrimaryKeySpecification(item.ID!));
+				specifications.Add(this.CreatePrimaryKeySpecification(item.ID));
 			}
 
 			ManyOrSpecification<TAggregateRoot> specification = new ManyOrSpecification<TAggregateRoot>(specifications);
@@ -171,6 +171,41 @@
 		protected override async Task<long> LongCountAsync(ISpecification<TAggregateRoot> specification, CancellationToken cancellationToken)
 		{
 			return await this.collection.LongCountAsync(specification.Predicate);
+		}
+
+		/// <inheritdoc />
+		protected override async Task<int> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, int>> selector, CancellationToken cancellationToken)
+		{
+			IReadOnlyCollection<int> values = await this.FindManyAsync(specification, selector, QueryOptions<TAggregateRoot>.Empty(), cancellationToken);
+			return values.Sum();
+		}
+
+		/// <inheritdoc />
+		protected override async Task<long> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, long>> selector, CancellationToken cancellationToken)
+		{
+			IReadOnlyCollection<long> values = await this.FindManyAsync(specification, selector, QueryOptions<TAggregateRoot>.Empty(), cancellationToken);
+			return values.Sum();
+		}
+
+		/// <inheritdoc />
+		protected override async Task<decimal> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, decimal>> selector, CancellationToken cancellationToken)
+		{
+			IReadOnlyCollection<decimal> values = await this.FindManyAsync(specification, selector, QueryOptions<TAggregateRoot>.Empty(), cancellationToken);
+			return values.Sum();
+		}
+
+		/// <inheritdoc />
+		protected override async Task<float> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, float>> selector, CancellationToken cancellationToken)
+		{
+			IReadOnlyCollection<float> values = await this.FindManyAsync(specification, selector, QueryOptions<TAggregateRoot>.Empty(), cancellationToken);
+			return values.Sum();
+		}
+
+		/// <inheritdoc />
+		protected override async Task<double> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, double>> selector, CancellationToken cancellationToken)
+		{
+			IReadOnlyCollection<double> values = await this.FindManyAsync(specification, selector, QueryOptions<TAggregateRoot>.Empty(), cancellationToken);
+			return values.Sum();
 		}
 
 		private TKey GenerateKey()

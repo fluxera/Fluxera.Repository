@@ -9,7 +9,7 @@
 		public static readonly LegalType LimitedLiabilityCompany = new LegalType(1, "LLC");
 
 		/// <inheritdoc />
-		private LegalType(int value, string shortName, [CallerMemberName] string name = null!)
+		private LegalType(int value, string shortName, [CallerMemberName] string name = null)
 			: base(value, name)
 		{
 			this.ShortName = shortName;

@@ -17,7 +17,15 @@
 	[PublicAPI]
 	public static class RepositoryBuilderExtensions
 	{
-		private static GuidSerializationProvider serializationProvider;
+		static RepositoryBuilderExtensions()
+		{
+#pragma warning disable CS0618
+			BsonDefaults.GuidRepresentationMode = GuidRepresentationMode.V3;
+#pragma warning restore CS0618
+
+			BsonSerializer.RegisterSerializationProvider(new GuidSerializationProvider());
+			BsonSerializer.RegisterSerializationProvider(new DecimalSerializationProvider());
+		}
 
 		/// <summary>
 		///     Adds a MongoDb repository for the given repository name. The repository options
@@ -31,14 +39,6 @@
 		public static IRepositoryBuilder AddMongoRepository(this IRepositoryBuilder builder,
 			string repositoryName, Action<IRepositoryOptionsBuilder> configureOptions)
 		{
-			if(serializationProvider != null)
-			{
-				serializationProvider = new GuidSerializationProvider();
-
-				BsonDefaults.GuidRepresentationMode = GuidRepresentationMode.V3;
-				BsonSerializer.RegisterSerializationProvider(serializationProvider);
-			}
-
 			ConventionPack pack = new ConventionPack
 			{
 				new NamedIdMemberConvention("ID"),

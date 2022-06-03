@@ -16,13 +16,13 @@
 			if(options.TryGetPagingOptions(out IPagingOptions<T> pagingOptions))
 			{
 				queryable = (ILiteQueryableAsync<T>)queryable
-					.Skip(pagingOptions!.SkipAmount)
+					.Skip(pagingOptions.SkipAmount)
 					.Limit(pagingOptions.TakeAmount);
 			}
 
 			if(options.TryGetSkipTakeOptions(out ISkipTakeOptions<T> skipTakeOptions))
 			{
-				if(skipTakeOptions!.SkipAmount.HasValue)
+				if(skipTakeOptions.SkipAmount.HasValue)
 				{
 					queryable = (ILiteQueryableAsync<T>)queryable.Skip(skipTakeOptions.SkipAmount.Value);
 				}
@@ -35,7 +35,7 @@
 
 			if(options.TryGetSortingOptions(out ISortingOptions<T> orderByOptions))
 			{
-				ISortExpression<T> primaryExpression = orderByOptions!.PrimaryExpression;
+				ISortExpression<T> primaryExpression = orderByOptions.PrimaryExpression;
 
 				ILiteQueryableAsync<T> orderedQueryable = primaryExpression.IsDescending
 					? queryable.OrderByDescending(primaryExpression.Expression)

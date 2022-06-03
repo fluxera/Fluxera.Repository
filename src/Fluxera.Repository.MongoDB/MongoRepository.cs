@@ -117,7 +117,7 @@
 			IList<WriteModel<TAggregateRoot>> deletes = new List<WriteModel<TAggregateRoot>>();
 			foreach(TAggregateRoot item in itemsList)
 			{
-				Expression<Func<TAggregateRoot, bool>> predicate = this.CreatePrimaryKeyPredicate(item.ID!);
+				Expression<Func<TAggregateRoot, bool>> predicate = this.CreatePrimaryKeyPredicate(item.ID);
 				deletes.Add(new DeleteOneModel<TAggregateRoot>(predicate));
 			}
 
@@ -130,7 +130,7 @@
 		protected override async Task UpdateAsync(TAggregateRoot item, CancellationToken cancellationToken)
 		{
 			await this.collection
-				.ReplaceOneAsync(this.CreatePrimaryKeyPredicate(item.ID!), item, cancellationToken: cancellationToken)
+				.ReplaceOneAsync(this.CreatePrimaryKeyPredicate(item.ID), item, cancellationToken: cancellationToken)
 				.ConfigureAwait(false);
 		}
 
@@ -140,7 +140,7 @@
 			IList<WriteModel<TAggregateRoot>> updates = new List<WriteModel<TAggregateRoot>>();
 			foreach(TAggregateRoot item in items)
 			{
-				Expression<Func<TAggregateRoot, bool>> predicate = this.CreatePrimaryKeyPredicate(item.ID!);
+				Expression<Func<TAggregateRoot, bool>> predicate = this.CreatePrimaryKeyPredicate(item.ID);
 				updates.Add(new ReplaceOneModel<TAggregateRoot>(predicate, item));
 			}
 
@@ -171,6 +171,47 @@
 			return await queryable
 				.ToMongoQueryable()
 				.LongCountAsync(cancellationToken);
+		}
+
+		/// <inheritdoc />
+		protected override async Task<int> SumAsync(IQueryable<int> queryable, CancellationToken cancellationToken)
+		{
+			return await queryable
+				.ToMongoQueryable()
+				.SumAsync(cancellationToken);
+		}
+
+		/// <inheritdoc />
+		protected override async Task<long> SumAsync(IQueryable<long> queryable, CancellationToken cancellationToken)
+		{
+			return await queryable
+				.ToMongoQueryable()
+				.SumAsync(cancellationToken);
+		}
+
+		/// <inheritdoc />
+		protected override async Task<decimal> SumAsync(IQueryable<decimal> queryable, CancellationToken cancellationToken)
+		{
+			decimal sumAsync = await queryable
+				.ToMongoQueryable()
+				.SumAsync(cancellationToken);
+			return sumAsync;
+		}
+
+		/// <inheritdoc />
+		protected override async Task<float> SumAsync(IQueryable<float> queryable, CancellationToken cancellationToken)
+		{
+			return await queryable
+				.ToMongoQueryable()
+				.SumAsync(cancellationToken);
+		}
+
+		/// <inheritdoc />
+		protected override async Task<double> SumAsync(IQueryable<double> queryable, CancellationToken cancellationToken)
+		{
+			return await queryable
+				.ToMongoQueryable()
+				.SumAsync(cancellationToken);
 		}
 
 		/// <inheritdoc />

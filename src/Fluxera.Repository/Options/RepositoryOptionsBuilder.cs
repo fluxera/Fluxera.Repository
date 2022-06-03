@@ -98,7 +98,7 @@
 
 			if(!this.repositoryOptions.Settings.ContainsKey(key))
 			{
-				this.repositoryOptions.Settings.Add(key, value!);
+				this.repositoryOptions.Settings.Add(key, value);
 			}
 			else
 			{
