@@ -34,7 +34,12 @@ namespace Fluxera.Repository.EntityFrameworkCore.IntegrationTests.Migrations
                     SalaryLong = table.Column<long>(type: "INTEGER", nullable: false),
                     SalaryDecimal = table.Column<double>(type: "REAL", nullable: false),
                     SalaryFloat = table.Column<float>(type: "REAL", nullable: false),
-                    SalaryDouble = table.Column<double>(type: "REAL", nullable: false)
+                    SalaryDouble = table.Column<double>(type: "REAL", nullable: false),
+                    SalaryNullableInt = table.Column<int>(type: "INTEGER", nullable: true),
+                    SalaryNullableLong = table.Column<long>(type: "INTEGER", nullable: true),
+                    SalaryNullableDecimal = table.Column<double>(type: "REAL", nullable: true),
+                    SalaryNullableFloat = table.Column<float>(type: "REAL", nullable: true),
+                    SalaryNullableDouble = table.Column<double>(type: "REAL", nullable: true)
                 },
                 constraints: table =>
                 {

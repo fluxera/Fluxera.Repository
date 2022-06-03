@@ -50,9 +50,21 @@
 		}
 
 		/// <inheritdoc />
+		protected override Task<int> SumAsync(IQueryable<int?> queryable, CancellationToken cancellationToken)
+		{
+			return Task.FromResult(queryable.Sum().GetValueOrDefault());
+		}
+
+		/// <inheritdoc />
 		protected override Task<long> SumAsync(IQueryable<long> queryable, CancellationToken cancellationToken)
 		{
 			return Task.FromResult(queryable.Sum());
+		}
+
+		/// <inheritdoc />
+		protected override Task<long> SumAsync(IQueryable<long?> queryable, CancellationToken cancellationToken)
+		{
+			return Task.FromResult(queryable.Sum().GetValueOrDefault());
 		}
 
 		/// <inheritdoc />
@@ -62,15 +74,33 @@
 		}
 
 		/// <inheritdoc />
+		protected override Task<decimal> SumAsync(IQueryable<decimal?> queryable, CancellationToken cancellationToken)
+		{
+			return Task.FromResult(queryable.Sum().GetValueOrDefault());
+		}
+
+		/// <inheritdoc />
 		protected override Task<float> SumAsync(IQueryable<float> queryable, CancellationToken cancellationToken)
 		{
 			return Task.FromResult(queryable.Sum());
 		}
 
 		/// <inheritdoc />
+		protected override Task<float> SumAsync(IQueryable<float?> queryable, CancellationToken cancellationToken)
+		{
+			return Task.FromResult(queryable.Sum().GetValueOrDefault());
+		}
+
+		/// <inheritdoc />
 		protected override Task<double> SumAsync(IQueryable<double> queryable, CancellationToken cancellationToken)
 		{
 			return Task.FromResult(queryable.Sum());
+		}
+
+		/// <inheritdoc />
+		protected override Task<double> SumAsync(IQueryable<double?> queryable, CancellationToken cancellationToken)
+		{
+			return Task.FromResult(queryable.Sum().GetValueOrDefault());
 		}
 
 		/// <inheritdoc />

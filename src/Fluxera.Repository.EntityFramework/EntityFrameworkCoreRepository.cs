@@ -139,11 +139,29 @@
 		}
 
 		/// <inheritdoc />
+		protected override async Task<int> SumAsync(IQueryable<int?> queryable, CancellationToken cancellationToken)
+		{
+			return await queryable
+				.SumAsync(cancellationToken)
+				.ConfigureAwait(false)
+				.GetValueOrDefault();
+		}
+
+		/// <inheritdoc />
 		protected override async Task<long> SumAsync(IQueryable<long> queryable, CancellationToken cancellationToken)
 		{
 			return await queryable
 				.SumAsync(cancellationToken)
 				.ConfigureAwait(false);
+		}
+
+		/// <inheritdoc />
+		protected override async Task<long> SumAsync(IQueryable<long?> queryable, CancellationToken cancellationToken)
+		{
+			return await queryable
+				.SumAsync(cancellationToken)
+				.ConfigureAwait(false)
+				.GetValueOrDefault();
 		}
 
 		/// <inheritdoc />
@@ -155,6 +173,15 @@
 		}
 
 		/// <inheritdoc />
+		protected override async Task<decimal> SumAsync(IQueryable<decimal?> queryable, CancellationToken cancellationToken)
+		{
+			return await queryable
+				.SumAsync(cancellationToken)
+				.ConfigureAwait(false)
+				.GetValueOrDefault();
+		}
+
+		/// <inheritdoc />
 		protected override async Task<float> SumAsync(IQueryable<float> queryable, CancellationToken cancellationToken)
 		{
 			return await queryable
@@ -163,11 +190,29 @@
 		}
 
 		/// <inheritdoc />
+		protected override async Task<float> SumAsync(IQueryable<float?> queryable, CancellationToken cancellationToken)
+		{
+			return await queryable
+				.SumAsync(cancellationToken)
+				.ConfigureAwait(false)
+				.GetValueOrDefault();
+		}
+
+		/// <inheritdoc />
 		protected override async Task<double> SumAsync(IQueryable<double> queryable, CancellationToken cancellationToken)
 		{
 			return await queryable
 				.SumAsync(cancellationToken)
 				.ConfigureAwait(false);
+		}
+
+		/// <inheritdoc />
+		protected override async Task<double> SumAsync(IQueryable<double?> queryable, CancellationToken cancellationToken)
+		{
+			return await queryable
+				.SumAsync(cancellationToken)
+				.ConfigureAwait(false)
+				.GetValueOrDefault();
 		}
 
 		/// <inheritdoc />

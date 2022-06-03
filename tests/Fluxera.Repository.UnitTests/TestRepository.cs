@@ -172,7 +172,19 @@ namespace Fluxera.Repository.UnitTests
 		}
 
 		/// <inheritdoc />
+		async Task<int> ICanAggregate<TAggregateRoot, TKey>.SumAsync(Expression<Func<TAggregateRoot, int?>> selector, CancellationToken cancellationToken)
+		{
+			throw new NotImplementedException();
+		}
+
+		/// <inheritdoc />
 		async Task<long> ICanAggregate<TAggregateRoot, TKey>.SumAsync(Expression<Func<TAggregateRoot, long>> selector, CancellationToken cancellationToken)
+		{
+			throw new NotImplementedException();
+		}
+
+		/// <inheritdoc />
+		async Task<long> ICanAggregate<TAggregateRoot, TKey>.SumAsync(Expression<Func<TAggregateRoot, long?>> selector, CancellationToken cancellationToken)
 		{
 			throw new NotImplementedException();
 		}
@@ -184,7 +196,19 @@ namespace Fluxera.Repository.UnitTests
 		}
 
 		/// <inheritdoc />
+		async Task<decimal> ICanAggregate<TAggregateRoot, TKey>.SumAsync(Expression<Func<TAggregateRoot, decimal?>> selector, CancellationToken cancellationToken)
+		{
+			throw new NotImplementedException();
+		}
+
+		/// <inheritdoc />
 		async Task<float> ICanAggregate<TAggregateRoot, TKey>.SumAsync(Expression<Func<TAggregateRoot, float>> selector, CancellationToken cancellationToken)
+		{
+			throw new NotImplementedException();
+		}
+
+		/// <inheritdoc />
+		async Task<float> ICanAggregate<TAggregateRoot, TKey>.SumAsync(Expression<Func<TAggregateRoot, float?>> selector, CancellationToken cancellationToken)
 		{
 			throw new NotImplementedException();
 		}
@@ -196,7 +220,19 @@ namespace Fluxera.Repository.UnitTests
 		}
 
 		/// <inheritdoc />
+		async Task<double> ICanAggregate<TAggregateRoot, TKey>.SumAsync(Expression<Func<TAggregateRoot, double?>> selector, CancellationToken cancellationToken)
+		{
+			throw new NotImplementedException();
+		}
+
+		/// <inheritdoc />
 		async Task<int> ICanAggregate<TAggregateRoot, TKey>.SumAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, int>> selector, CancellationToken cancellationToken)
+		{
+			throw new NotImplementedException();
+		}
+
+		/// <inheritdoc />
+		async Task<int> ICanAggregate<TAggregateRoot, TKey>.SumAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, int?>> selector, CancellationToken cancellationToken)
 		{
 			throw new NotImplementedException();
 		}
@@ -208,7 +244,19 @@ namespace Fluxera.Repository.UnitTests
 		}
 
 		/// <inheritdoc />
+		async Task<long> ICanAggregate<TAggregateRoot, TKey>.SumAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, long?>> selector, CancellationToken cancellationToken)
+		{
+			throw new NotImplementedException();
+		}
+
+		/// <inheritdoc />
 		async Task<decimal> ICanAggregate<TAggregateRoot, TKey>.SumAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, decimal>> selector, CancellationToken cancellationToken)
+		{
+			throw new NotImplementedException();
+		}
+
+		/// <inheritdoc />
+		async Task<decimal> ICanAggregate<TAggregateRoot, TKey>.SumAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, decimal?>> selector, CancellationToken cancellationToken)
 		{
 			throw new NotImplementedException();
 		}
@@ -220,7 +268,19 @@ namespace Fluxera.Repository.UnitTests
 		}
 
 		/// <inheritdoc />
+		async Task<float> ICanAggregate<TAggregateRoot, TKey>.SumAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, float?>> selector, CancellationToken cancellationToken)
+		{
+			throw new NotImplementedException();
+		}
+
+		/// <inheritdoc />
 		async Task<double> ICanAggregate<TAggregateRoot, TKey>.SumAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, double>> selector, CancellationToken cancellationToken)
+		{
+			throw new NotImplementedException();
+		}
+
+		/// <inheritdoc />
+		async Task<double> ICanAggregate<TAggregateRoot, TKey>.SumAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, double?>> selector, CancellationToken cancellationToken)
 		{
 			throw new NotImplementedException();
 		}
@@ -232,7 +292,19 @@ namespace Fluxera.Repository.UnitTests
 		}
 
 		/// <inheritdoc />
+		async Task<int> ICanAggregate<TAggregateRoot, TKey>.SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, int?>> selector, CancellationToken cancellationToken)
+		{
+			throw new NotImplementedException();
+		}
+
+		/// <inheritdoc />
 		async Task<long> ICanAggregate<TAggregateRoot, TKey>.SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, long>> selector, CancellationToken cancellationToken)
+		{
+			throw new NotImplementedException();
+		}
+
+		/// <inheritdoc />
+		async Task<long> ICanAggregate<TAggregateRoot, TKey>.SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, long?>> selector, CancellationToken cancellationToken)
 		{
 			throw new NotImplementedException();
 		}
@@ -244,13 +316,31 @@ namespace Fluxera.Repository.UnitTests
 		}
 
 		/// <inheritdoc />
+		async Task<decimal> ICanAggregate<TAggregateRoot, TKey>.SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, decimal?>> selector, CancellationToken cancellationToken)
+		{
+			throw new NotImplementedException();
+		}
+
+		/// <inheritdoc />
 		async Task<float> ICanAggregate<TAggregateRoot, TKey>.SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, float>> selector, CancellationToken cancellationToken)
 		{
 			throw new NotImplementedException();
 		}
 
 		/// <inheritdoc />
+		async Task<float> ICanAggregate<TAggregateRoot, TKey>.SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, float?>> selector, CancellationToken cancellationToken)
+		{
+			throw new NotImplementedException();
+		}
+
+		/// <inheritdoc />
 		async Task<double> ICanAggregate<TAggregateRoot, TKey>.SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, double>> selector, CancellationToken cancellationToken)
+		{
+			throw new NotImplementedException();
+		}
+
+		/// <inheritdoc />
+		async Task<double> ICanAggregate<TAggregateRoot, TKey>.SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, double?>> selector, CancellationToken cancellationToken)
 		{
 			throw new NotImplementedException();
 		}

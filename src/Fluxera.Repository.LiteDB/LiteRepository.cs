@@ -181,10 +181,34 @@
 		}
 
 		/// <inheritdoc />
+		protected override async Task<int> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, int?>> selector, CancellationToken cancellationToken)
+		{
+			IList<TAggregateRoot> values = await this.collection
+				.Query()
+				.Where(specification.Predicate)
+				.ToListAsync()
+				.ConfigureAwait(false);
+
+			return values.AsQueryable().Sum(selector).GetValueOrDefault();
+		}
+
+		/// <inheritdoc />
 		protected override async Task<long> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, long>> selector, CancellationToken cancellationToken)
 		{
 			IReadOnlyCollection<long> values = await this.FindManyAsync(specification, selector, QueryOptions<TAggregateRoot>.Empty(), cancellationToken);
 			return values.Sum();
+		}
+
+		/// <inheritdoc />
+		protected override async Task<long> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, long?>> selector, CancellationToken cancellationToken)
+		{
+			IList<TAggregateRoot> values = await this.collection
+				.Query()
+				.Where(specification.Predicate)
+				.ToListAsync()
+				.ConfigureAwait(false);
+
+			return values.AsQueryable().Sum(selector).GetValueOrDefault();
 		}
 
 		/// <inheritdoc />
@@ -195,6 +219,18 @@
 		}
 
 		/// <inheritdoc />
+		protected override async Task<decimal> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, decimal?>> selector, CancellationToken cancellationToken)
+		{
+			IList<TAggregateRoot> values = await this.collection
+				.Query()
+				.Where(specification.Predicate)
+				.ToListAsync()
+				.ConfigureAwait(false);
+
+			return values.AsQueryable().Sum(selector).GetValueOrDefault();
+		}
+
+		/// <inheritdoc />
 		protected override async Task<float> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, float>> selector, CancellationToken cancellationToken)
 		{
 			IReadOnlyCollection<float> values = await this.FindManyAsync(specification, selector, QueryOptions<TAggregateRoot>.Empty(), cancellationToken);
@@ -202,10 +238,34 @@
 		}
 
 		/// <inheritdoc />
+		protected override async Task<float> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, float?>> selector, CancellationToken cancellationToken)
+		{
+			IList<TAggregateRoot> values = await this.collection
+				.Query()
+				.Where(specification.Predicate)
+				.ToListAsync()
+				.ConfigureAwait(false);
+
+			return values.AsQueryable().Sum(selector).GetValueOrDefault();
+		}
+
+		/// <inheritdoc />
 		protected override async Task<double> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, double>> selector, CancellationToken cancellationToken)
 		{
 			IReadOnlyCollection<double> values = await this.FindManyAsync(specification, selector, QueryOptions<TAggregateRoot>.Empty(), cancellationToken);
 			return values.Sum();
+		}
+
+		/// <inheritdoc />
+		protected override async Task<double> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, double?>> selector, CancellationToken cancellationToken)
+		{
+			IList<TAggregateRoot> values = await this.collection
+				.Query()
+				.Where(specification.Predicate)
+				.ToListAsync()
+				.ConfigureAwait(false);
+
+			return values.AsQueryable().Sum(selector).GetValueOrDefault();
 		}
 
 		/// <inheritdoc />

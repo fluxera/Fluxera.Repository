@@ -89,9 +89,29 @@
 		}
 
 		/// <inheritdoc />
+		protected sealed override async Task<int> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, int?>> selector, CancellationToken cancellationToken)
+		{
+			IQueryable<int?> queryable = this.Queryable
+				.Apply(specification)
+				.Select(selector);
+
+			return await this.SumAsync(queryable, cancellationToken);
+		}
+
+		/// <inheritdoc />
 		protected sealed override async Task<long> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, long>> selector, CancellationToken cancellationToken)
 		{
 			IQueryable<long> queryable = this.Queryable
+				.Apply(specification)
+				.Select(selector);
+
+			return await this.SumAsync(queryable, cancellationToken);
+		}
+
+		/// <inheritdoc />
+		protected sealed override async Task<long> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, long?>> selector, CancellationToken cancellationToken)
+		{
+			IQueryable<long?> queryable = this.Queryable
 				.Apply(specification)
 				.Select(selector);
 
@@ -109,6 +129,16 @@
 		}
 
 		/// <inheritdoc />
+		protected sealed override async Task<decimal> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, decimal?>> selector, CancellationToken cancellationToken)
+		{
+			IQueryable<decimal?> queryable = this.Queryable
+				.Apply(specification)
+				.Select(selector);
+
+			return await this.SumAsync(queryable, cancellationToken);
+		}
+
+		/// <inheritdoc />
 		protected sealed override async Task<float> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, float>> selector, CancellationToken cancellationToken)
 		{
 			IQueryable<float> queryable = this.Queryable
@@ -119,9 +149,29 @@
 		}
 
 		/// <inheritdoc />
+		protected sealed override async Task<float> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, float?>> selector, CancellationToken cancellationToken)
+		{
+			IQueryable<float?> queryable = this.Queryable
+				.Apply(specification)
+				.Select(selector);
+
+			return await this.SumAsync(queryable, cancellationToken);
+		}
+
+		/// <inheritdoc />
 		protected sealed override async Task<double> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, double>> selector, CancellationToken cancellationToken)
 		{
 			IQueryable<double> queryable = this.Queryable
+				.Apply(specification)
+				.Select(selector);
+
+			return await this.SumAsync(queryable, cancellationToken);
+		}
+
+		/// <inheritdoc />
+		protected sealed override async Task<double> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, double?>> selector, CancellationToken cancellationToken)
+		{
+			IQueryable<double?> queryable = this.Queryable
 				.Apply(specification)
 				.Select(selector);
 
@@ -234,7 +284,23 @@
 		/// <param name="queryable"></param>
 		/// <param name="cancellationToken"></param>
 		/// <returns></returns>
+		protected abstract Task<int> SumAsync(IQueryable<int?> queryable, CancellationToken cancellationToken);
+
+		/// <summary>
+		///     Executes the <see cref="IQueryable{T}" /> using a SumAsync type of extension method.
+		/// </summary>
+		/// <param name="queryable"></param>
+		/// <param name="cancellationToken"></param>
+		/// <returns></returns>
 		protected abstract Task<long> SumAsync(IQueryable<long> queryable, CancellationToken cancellationToken);
+
+		/// <summary>
+		///     Executes the <see cref="IQueryable{T}" /> using a SumAsync type of extension method.
+		/// </summary>
+		/// <param name="queryable"></param>
+		/// <param name="cancellationToken"></param>
+		/// <returns></returns>
+		protected abstract Task<long> SumAsync(IQueryable<long?> queryable, CancellationToken cancellationToken);
 
 		/// <summary>
 		///     Executes the <see cref="IQueryable{T}" /> using a SumAsync type of extension method.
@@ -250,6 +316,14 @@
 		/// <param name="queryable"></param>
 		/// <param name="cancellationToken"></param>
 		/// <returns></returns>
+		protected abstract Task<decimal> SumAsync(IQueryable<decimal?> queryable, CancellationToken cancellationToken);
+
+		/// <summary>
+		///     Executes the <see cref="IQueryable{T}" /> using a SumAsync type of extension method.
+		/// </summary>
+		/// <param name="queryable"></param>
+		/// <param name="cancellationToken"></param>
+		/// <returns></returns>
 		protected abstract Task<float> SumAsync(IQueryable<float> queryable, CancellationToken cancellationToken);
 
 		/// <summary>
@@ -258,7 +332,23 @@
 		/// <param name="queryable"></param>
 		/// <param name="cancellationToken"></param>
 		/// <returns></returns>
+		protected abstract Task<float> SumAsync(IQueryable<float?> queryable, CancellationToken cancellationToken);
+
+		/// <summary>
+		///     Executes the <see cref="IQueryable{T}" /> using a SumAsync type of extension method.
+		/// </summary>
+		/// <param name="queryable"></param>
+		/// <param name="cancellationToken"></param>
+		/// <returns></returns>
 		protected abstract Task<double> SumAsync(IQueryable<double> queryable, CancellationToken cancellationToken);
+
+		/// <summary>
+		///     Executes the <see cref="IQueryable{T}" /> using a SumAsync type of extension method.
+		/// </summary>
+		/// <param name="queryable"></param>
+		/// <param name="cancellationToken"></param>
+		/// <returns></returns>
+		protected abstract Task<double> SumAsync(IQueryable<double?> queryable, CancellationToken cancellationToken);
 
 		/// <summary>
 		///     Executes the <see cref="IQueryable{T}" /> using a AverageAsync type of extension method.

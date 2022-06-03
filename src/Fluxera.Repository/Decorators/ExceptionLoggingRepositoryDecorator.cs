@@ -399,7 +399,35 @@
 		}
 
 		/// <inheritdoc />
+		async Task<int> ICanAggregate<TAggregateRoot, TKey>.SumAsync(Expression<Func<TAggregateRoot, int?>> selector, CancellationToken cancellationToken)
+		{
+			try
+			{
+				return await this.innerRepository.SumAsync(selector, cancellationToken);
+			}
+			catch(Exception ex)
+			{
+				this.logger.LogCritical(ex, "A critical error occurred trying to perform sum: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				throw;
+			}
+		}
+
+		/// <inheritdoc />
 		async Task<long> ICanAggregate<TAggregateRoot, TKey>.SumAsync(Expression<Func<TAggregateRoot, long>> selector, CancellationToken cancellationToken)
+		{
+			try
+			{
+				return await this.innerRepository.SumAsync(selector, cancellationToken);
+			}
+			catch(Exception ex)
+			{
+				this.logger.LogCritical(ex, "A critical error occurred trying to perform sum: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				throw;
+			}
+		}
+
+		/// <inheritdoc />
+		async Task<long> ICanAggregate<TAggregateRoot, TKey>.SumAsync(Expression<Func<TAggregateRoot, long?>> selector, CancellationToken cancellationToken)
 		{
 			try
 			{
@@ -427,7 +455,35 @@
 		}
 
 		/// <inheritdoc />
+		async Task<decimal> ICanAggregate<TAggregateRoot, TKey>.SumAsync(Expression<Func<TAggregateRoot, decimal?>> selector, CancellationToken cancellationToken)
+		{
+			try
+			{
+				return await this.innerRepository.SumAsync(selector, cancellationToken);
+			}
+			catch(Exception ex)
+			{
+				this.logger.LogCritical(ex, "A critical error occurred trying to perform sum: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				throw;
+			}
+		}
+
+		/// <inheritdoc />
 		async Task<float> ICanAggregate<TAggregateRoot, TKey>.SumAsync(Expression<Func<TAggregateRoot, float>> selector, CancellationToken cancellationToken)
+		{
+			try
+			{
+				return await this.innerRepository.SumAsync(selector, cancellationToken);
+			}
+			catch(Exception ex)
+			{
+				this.logger.LogCritical(ex, "A critical error occurred trying to perform sum: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				throw;
+			}
+		}
+
+		/// <inheritdoc />
+		async Task<float> ICanAggregate<TAggregateRoot, TKey>.SumAsync(Expression<Func<TAggregateRoot, float?>> selector, CancellationToken cancellationToken)
 		{
 			try
 			{
@@ -455,7 +511,35 @@
 		}
 
 		/// <inheritdoc />
+		async Task<double> ICanAggregate<TAggregateRoot, TKey>.SumAsync(Expression<Func<TAggregateRoot, double?>> selector, CancellationToken cancellationToken)
+		{
+			try
+			{
+				return await this.innerRepository.SumAsync(selector, cancellationToken);
+			}
+			catch(Exception ex)
+			{
+				this.logger.LogCritical(ex, "A critical error occurred trying to perform sum: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				throw;
+			}
+		}
+
+		/// <inheritdoc />
 		async Task<int> ICanAggregate<TAggregateRoot, TKey>.SumAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, int>> selector, CancellationToken cancellationToken)
+		{
+			try
+			{
+				return await this.innerRepository.SumAsync(predicate, selector, cancellationToken);
+			}
+			catch(Exception ex)
+			{
+				this.logger.LogCritical(ex, "A critical error occurred trying to perform sum: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				throw;
+			}
+		}
+
+		/// <inheritdoc />
+		async Task<int> ICanAggregate<TAggregateRoot, TKey>.SumAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, int?>> selector, CancellationToken cancellationToken)
 		{
 			try
 			{
@@ -483,7 +567,35 @@
 		}
 
 		/// <inheritdoc />
+		async Task<long> ICanAggregate<TAggregateRoot, TKey>.SumAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, long?>> selector, CancellationToken cancellationToken)
+		{
+			try
+			{
+				return await this.innerRepository.SumAsync(predicate, selector, cancellationToken);
+			}
+			catch(Exception ex)
+			{
+				this.logger.LogCritical(ex, "A critical error occurred trying to perform sum: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				throw;
+			}
+		}
+
+		/// <inheritdoc />
 		async Task<decimal> ICanAggregate<TAggregateRoot, TKey>.SumAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, decimal>> selector, CancellationToken cancellationToken)
+		{
+			try
+			{
+				return await this.innerRepository.SumAsync(predicate, selector, cancellationToken);
+			}
+			catch(Exception ex)
+			{
+				this.logger.LogCritical(ex, "A critical error occurred trying to perform sum: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				throw;
+			}
+		}
+
+		/// <inheritdoc />
+		async Task<decimal> ICanAggregate<TAggregateRoot, TKey>.SumAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, decimal?>> selector, CancellationToken cancellationToken)
 		{
 			try
 			{
@@ -511,7 +623,35 @@
 		}
 
 		/// <inheritdoc />
+		async Task<float> ICanAggregate<TAggregateRoot, TKey>.SumAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, float?>> selector, CancellationToken cancellationToken)
+		{
+			try
+			{
+				return await this.innerRepository.SumAsync(predicate, selector, cancellationToken);
+			}
+			catch(Exception ex)
+			{
+				this.logger.LogCritical(ex, "A critical error occurred trying to perform sum: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				throw;
+			}
+		}
+
+		/// <inheritdoc />
 		async Task<double> ICanAggregate<TAggregateRoot, TKey>.SumAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, double>> selector, CancellationToken cancellationToken)
+		{
+			try
+			{
+				return await this.innerRepository.SumAsync(predicate, selector, cancellationToken);
+			}
+			catch(Exception ex)
+			{
+				this.logger.LogCritical(ex, "A critical error occurred trying to perform sum: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				throw;
+			}
+		}
+
+		/// <inheritdoc />
+		async Task<double> ICanAggregate<TAggregateRoot, TKey>.SumAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, double?>> selector, CancellationToken cancellationToken)
 		{
 			try
 			{
@@ -539,7 +679,35 @@
 		}
 
 		/// <inheritdoc />
+		async Task<int> ICanAggregate<TAggregateRoot, TKey>.SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, int?>> selector, CancellationToken cancellationToken)
+		{
+			try
+			{
+				return await this.innerRepository.SumAsync(specification, selector, cancellationToken);
+			}
+			catch(Exception ex)
+			{
+				this.logger.LogCritical(ex, "A critical error occurred trying to perform sum: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				throw;
+			}
+		}
+
+		/// <inheritdoc />
 		async Task<long> ICanAggregate<TAggregateRoot, TKey>.SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, long>> selector, CancellationToken cancellationToken)
+		{
+			try
+			{
+				return await this.innerRepository.SumAsync(specification, selector, cancellationToken);
+			}
+			catch(Exception ex)
+			{
+				this.logger.LogCritical(ex, "A critical error occurred trying to perform sum: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				throw;
+			}
+		}
+
+		/// <inheritdoc />
+		async Task<long> ICanAggregate<TAggregateRoot, TKey>.SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, long?>> selector, CancellationToken cancellationToken)
 		{
 			try
 			{
@@ -567,6 +735,20 @@
 		}
 
 		/// <inheritdoc />
+		async Task<decimal> ICanAggregate<TAggregateRoot, TKey>.SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, decimal?>> selector, CancellationToken cancellationToken)
+		{
+			try
+			{
+				return await this.innerRepository.SumAsync(specification, selector, cancellationToken);
+			}
+			catch(Exception ex)
+			{
+				this.logger.LogCritical(ex, "A critical error occurred trying to perform sum: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				throw;
+			}
+		}
+
+		/// <inheritdoc />
 		async Task<float> ICanAggregate<TAggregateRoot, TKey>.SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, float>> selector, CancellationToken cancellationToken)
 		{
 			try
@@ -581,7 +763,35 @@
 		}
 
 		/// <inheritdoc />
+		async Task<float> ICanAggregate<TAggregateRoot, TKey>.SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, float?>> selector, CancellationToken cancellationToken)
+		{
+			try
+			{
+				return await this.innerRepository.SumAsync(specification, selector, cancellationToken);
+			}
+			catch(Exception ex)
+			{
+				this.logger.LogCritical(ex, "A critical error occurred trying to perform sum: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				throw;
+			}
+		}
+
+		/// <inheritdoc />
 		async Task<double> ICanAggregate<TAggregateRoot, TKey>.SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, double>> selector, CancellationToken cancellationToken)
+		{
+			try
+			{
+				return await this.innerRepository.SumAsync(specification, selector, cancellationToken);
+			}
+			catch(Exception ex)
+			{
+				this.logger.LogCritical(ex, "A critical error occurred trying to perform sum: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				throw;
+			}
+		}
+
+		/// <inheritdoc />
+		async Task<double> ICanAggregate<TAggregateRoot, TKey>.SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, double?>> selector, CancellationToken cancellationToken)
 		{
 			try
 			{

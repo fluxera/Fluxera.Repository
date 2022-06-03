@@ -247,7 +247,19 @@
 		}
 
 		/// <inheritdoc />
+		protected override Task<int> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, int?>> selector, CancellationToken cancellationToken)
+		{
+			throw new NotSupportedException("The sum aggregate is not supported.");
+		}
+
+		/// <inheritdoc />
 		protected override Task<long> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, long>> selector, CancellationToken cancellationToken)
+		{
+			throw new NotSupportedException("The sum aggregate is not supported.");
+		}
+
+		/// <inheritdoc />
+		protected override Task<long> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, long?>> selector, CancellationToken cancellationToken)
 		{
 			throw new NotSupportedException("The sum aggregate is not supported.");
 		}
@@ -259,13 +271,31 @@
 		}
 
 		/// <inheritdoc />
+		protected override Task<decimal> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, decimal?>> selector, CancellationToken cancellationToken)
+		{
+			throw new NotSupportedException("The sum aggregate is not supported.");
+		}
+
+		/// <inheritdoc />
 		protected override Task<float> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, float>> selector, CancellationToken cancellationToken)
 		{
 			throw new NotSupportedException("The sum aggregate is not supported.");
 		}
 
 		/// <inheritdoc />
+		protected override Task<float> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, float?>> selector, CancellationToken cancellationToken)
+		{
+			throw new NotSupportedException("The sum aggregate is not supported.");
+		}
+
+		/// <inheritdoc />
 		protected override Task<double> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, double>> selector, CancellationToken cancellationToken)
+		{
+			throw new NotSupportedException("The sum aggregate is not supported.");
+		}
+
+		/// <inheritdoc />
+		protected override Task<double> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, double?>> selector, CancellationToken cancellationToken)
 		{
 			throw new NotSupportedException("The sum aggregate is not supported.");
 		}
