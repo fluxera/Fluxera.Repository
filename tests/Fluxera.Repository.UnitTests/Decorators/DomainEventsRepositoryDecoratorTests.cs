@@ -39,7 +39,7 @@
 			});
 		}
 
-		private async Task ShouldHaveUsedDispatcher(bool expected = true)
+		private Task ShouldHaveUsedDispatcher(bool expected = true)
 		{
 			if(expected)
 			{
@@ -49,6 +49,8 @@
 				// Info is logged in the handlers.
 				this.loggerMock.VerifyLog().InformationWasCalled();
 			}
+
+			return Task.CompletedTask;
 		}
 
 		[Test]

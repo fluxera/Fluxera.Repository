@@ -2,9 +2,9 @@
 {
 	using System;
 	using System.Collections.Generic;
+	using System.Linq;
 	using System.Runtime.CompilerServices;
 	using Fluxera.Extensions.Validation;
-	using Fluxera.Utilities.Extensions;
 	using JetBrains.Annotations;
 
 	[PublicAPI]
@@ -13,8 +13,7 @@
 		public static Exception ItemNotValid(IEnumerable<ValidationError> errors, Exception innerException = null)
 		{
 			const string message = "The item is not valid. See validation errors for details.";
-			ValidationException exception = new ValidationException(message, innerException);
-			exception.Errors.AddRange(errors);
+			ValidationException exception = new ValidationException(message, innerException, errors.ToList());
 			return exception;
 		}
 

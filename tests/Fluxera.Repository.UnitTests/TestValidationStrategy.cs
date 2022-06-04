@@ -6,7 +6,6 @@
 	using Fluxera.Entity;
 	using Fluxera.Extensions.Validation;
 	using Fluxera.Repository.Validation;
-	using Fluxera.Utilities.Extensions;
 
 	public class TestValidationStrategy<TAggregateRoot, TKey> : IValidationStrategy<TAggregateRoot, TKey>
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
@@ -24,8 +23,7 @@
 			ValidationResult validationResult = await this.validators.ValidateAsync(item);
 			if(!validationResult.IsValid)
 			{
-				ValidationException exception = new ValidationException("Validation failed");
-				exception.Errors.AddRange(validationResult.ValidationErrors);
+				ValidationException exception = new ValidationException("Validation failed.", validationResult.ValidationErrors);
 				throw exception;
 			}
 		}
@@ -37,8 +35,7 @@
 				ValidationResult validationResult = await this.validators.ValidateAsync(item);
 				if(!validationResult.IsValid)
 				{
-					ValidationException exception = new ValidationException("Validation failed");
-					exception.Errors.AddRange(validationResult.ValidationErrors);
+					ValidationException exception = new ValidationException("Validation failed.", validationResult.ValidationErrors);
 					throw exception;
 				}
 			}

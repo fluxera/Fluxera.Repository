@@ -9,15 +9,17 @@
 		public bool DispatchWasCalled;
 
 		/// <inheritdoc />
-		public async Task DispatchAsync(dynamic domainEvent)
+		public Task DispatchAsync(dynamic domainEvent)
 		{
 			this.DispatchWasCalled = true;
+			return Task.CompletedTask;
 		}
 
 		/// <inheritdoc />
-		public async Task DispatchCommittedAsync(dynamic domainEvent)
+		public Task DispatchCommittedAsync(dynamic domainEvent)
 		{
 			this.DispatchCommittedWasCalled = true;
+			return Task.CompletedTask;
 		}
 	}
 }
