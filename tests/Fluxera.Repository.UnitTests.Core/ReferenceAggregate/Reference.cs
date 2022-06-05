@@ -21,34 +21,34 @@
 		[Reference("Employee")]
 		public EmployeeId EmployeeId { get; set; }
 
-		//[Reference("Company")]
-		//public IList<string> CompanyIds { get; set; }
+		[Reference("Company")]
+		public IList<string> CompanyIds { get; set; } = new List<string>();
 
-		//[Reference("Person")]
-		//public IList<Guid> PersonIds { get; set; }
+		[Reference("Person")]
+		public IList<Guid> PersonIds { get; set; } = new List<Guid>();
 
-		//[Reference("Employee")]
-		//public IList<EmployeeId> EmployeeIds { get; set; }
+		[Reference("Employee")]
+		public IList<EmployeeId> EmployeeIds { get; set; } = new List<EmployeeId>();
 
-		//// References to internal aggregate roots.
+		// References to internal aggregate roots.
 
-		//[Reference(typeof(Company))]
-		//public Company Company { get; set; }
-
-		//[Reference(typeof(Person))]
-		//public Person Person { get; set; }
-
-		//[Reference(typeof(Employee))]
-		//public Employee Employee { get; set; }
-
-		//[Reference(typeof(Company))]
-		//public IList<Company> Companies { get; set; }
+		[Reference(typeof(Company))]
+		public Company Company { get; set; }
 
 		//[Reference(typeof(Person))]
-		//public IList<Person> People { get; set; }
+		public Person Person { get; set; }
 
-		//[Reference(typeof(Employee))]
-		//public IList<Employee> Employees { get; set; }
+		[Reference(typeof(Employee))]
+		public Employee Employee { get; set; }
+
+		[Reference(typeof(Company))]
+		public IList<Company> Companies { get; set; } = new List<Company>();
+
+		[Reference(typeof(Person))]
+		public IList<Person> People { get; set; } = new List<Person>();
+
+		[Reference(typeof(Employee))]
+		public IList<Employee> Employees { get; set; } = new List<Employee>();
 
 		//// References to external entities.
 

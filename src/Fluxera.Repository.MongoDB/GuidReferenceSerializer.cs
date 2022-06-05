@@ -42,7 +42,12 @@
 		public override Guid Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
 		{
 			MongoDBRef dbRef = this.dbRefSerializer.Deserialize(context, args);
-			return dbRef.Id.AsGuid;
+			if(dbRef is not null)
+			{
+				return dbRef.Id.AsGuid;
+			}
+
+			return Guid.Empty;
 		}
 	}
 }

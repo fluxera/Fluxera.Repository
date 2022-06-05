@@ -48,7 +48,7 @@
 		protected override string DeserializeValue(BsonDeserializationContext context, BsonDeserializationArgs args)
 		{
 			MongoDBRef dbRef = this.dbRefSerializer.Deserialize(context, args);
-			return dbRef.Id.ToString();
+			return dbRef?.Id?.ToString();
 		}
 	}
 }

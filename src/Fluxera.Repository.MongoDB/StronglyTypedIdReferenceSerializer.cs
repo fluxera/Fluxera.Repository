@@ -45,10 +45,15 @@
 		/// <inheritdoc />
 		public override TStronglyTypedId Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
 		{
-			TValue value = (TValue)this.serializer.Deserialize(context, args);
-			TStronglyTypedId result = (TStronglyTypedId)Activator.CreateInstance(typeof(TStronglyTypedId), new object[] { value });
+			TStronglyTypedId id = null;
+			object value = this.serializer.Deserialize(context, args);
 
-			return result;
+			if(value is not null)
+			{
+				id = (TStronglyTypedId)Activator.CreateInstance(typeof(TStronglyTypedId), new object[] { value });
+			}
+
+			return id;
 		}
 	}
 }
