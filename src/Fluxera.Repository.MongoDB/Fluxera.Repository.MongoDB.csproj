@@ -22,7 +22,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Fluxera.ComponentModel.Annotations" Version="6.0.9" />
+		<InternalsVisibleTo Include="Fluxera.Repository.MongoDB.IntegrationTests" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Fluxera.ComponentModel.Annotations" Version="6.1.0" />
 		<PackageReference Include="Fluxera.Enumeration.MongoDB" Version="6.1.0" />
 		<PackageReference Include="Fluxera.Spatial.MongoDB" Version="6.0.9" />
 		<PackageReference Include="Fluxera.StronglyTypedId.MongoDB" Version="6.0.5" />

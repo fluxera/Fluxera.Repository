@@ -43,6 +43,7 @@
 			{
 				new NamedIdMemberConvention("ID"),
 				new IdGeneratorConvention(),
+				new ReferenceConvention(),
 				new EnumRepresentationConvention(BsonType.String),
 				new CamelCaseElementNameConvention(),
 				new IgnoreExtraElementsConvention(true),

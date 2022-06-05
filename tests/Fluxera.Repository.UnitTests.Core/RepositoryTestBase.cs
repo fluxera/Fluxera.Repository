@@ -5,9 +5,12 @@
 	using Fluxera.Repository.UnitTests.Core.CompanyAggregate;
 	using Fluxera.Repository.UnitTests.Core.EmployeeAggregate;
 	using Fluxera.Repository.UnitTests.Core.PersonAggregate;
+	using Fluxera.Repository.UnitTests.Core.ReferenceAggregate;
+	using JetBrains.Annotations;
 	using Microsoft.Extensions.DependencyInjection;
 	using NUnit.Framework;
 
+	[PublicAPI]
 	public abstract class RepositoryTestBase : TestBase
 	{
 		private ServiceProvider serviceProvider;
@@ -18,8 +21,10 @@
 
 		protected IRepository<Employee, EmployeeId> EmployeeRepository { get; private set; }
 
+		protected IRepository<Reference, string> ReferenceRepository { get; private set; }
+
 		[SetUp]
-		public void SetUp()
+		public async Task SetUp()
 		{
 			this.serviceProvider = BuildServiceProvider(services =>
 			{
@@ -30,17 +35,27 @@
 						rob.UseFor<Person>();
 						rob.UseFor<Company>();
 						rob.UseFor<Employee>();
+						rob.UseFor<Reference>();
 					});
 				});
 
 				services.AddTransient<IPersonRepository, PersonRepository>();
 				services.AddTransient<ICompanyRepository, CompanyRepository>();
 				services.AddTransient<IEmployeeRepository, EmployeeRepository>();
+				services.AddTransient<IReferenceRepository, ReferenceRepository>();
 			});
 
 			this.PersonRepository = this.serviceProvider.GetRequiredService<IPersonRepository>();
 			this.CompanyRepository = this.serviceProvider.GetRequiredService<ICompanyRepository>();
 			this.EmployeeRepository = this.serviceProvider.GetRequiredService<IEmployeeRepository>();
+			this.ReferenceRepository = this.serviceProvider.GetRequiredService<IReferenceRepository>();
+
+			await this.OnSetUpAsync();
+		}
+
+		protected virtual Task OnSetUpAsync()
+		{
+			return Task.CompletedTask;
 		}
 
 		[TearDown]
@@ -64,6 +79,12 @@
 				{
 					await this.EmployeeRepository.RemoveRangeAsync(x => true);
 					await this.EmployeeRepository.DisposeAsync();
+				}
+
+				if(this.ReferenceRepository != null)
+				{
+					//await this.ReferenceRepository.RemoveRangeAsync(x => true);
+					await this.ReferenceRepository.DisposeAsync();
 				}
 			}
 			catch(Exception ex)
