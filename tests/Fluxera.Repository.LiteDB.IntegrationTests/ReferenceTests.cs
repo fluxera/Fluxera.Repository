@@ -1,7 +1,6 @@
 ﻿namespace Fluxera.Repository.LiteDB.IntegrationTests
 {
 	using System;
-	using System.IO;
 	using Fluxera.Repository.UnitTests.Core;
 	using Fluxera.Repository.UnitTests.Core.CompanyAggregate;
 	using Fluxera.Repository.UnitTests.Core.EmployeeAggregate;
@@ -11,7 +10,7 @@
 	using NUnit.Framework;
 
 	[TestFixture]
-	public class AggregateTests : AggregateTestBase
+	public class ReferenceTests : ReferenceTestsBase
 	{
 		/// <inheritdoc />
 		protected override void AddRepositoryUnderTest(IRepositoryBuilder repositoryBuilder,
@@ -22,10 +21,10 @@
 			BsonMapper.Global.Entity<Employee>().Id(x => x.ID);
 			BsonMapper.Global.Entity<Reference>().Id(x => x.ID);
 
-			foreach(string file in Directory.EnumerateFiles(".", "*.db"))
-			{
-				File.Delete(file);
-			}
+			//foreach(string file in Directory.EnumerateFiles(".", "*.db"))
+			//{
+			//	File.Delete(file);
+			//}
 
 			repositoryBuilder.AddLiteRepository(repositoryName, options =>
 			{

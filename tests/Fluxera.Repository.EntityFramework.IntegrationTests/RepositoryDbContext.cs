@@ -18,6 +18,8 @@
 
 		public DbSet<Employee> Employees { get; set; }
 
+		//public DbSet<Reference> References { get; set; }
+
 		/// <inheritdoc />
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
