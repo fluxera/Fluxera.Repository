@@ -1,4 +1,4 @@
-﻿namespace Fluxera.Repository.LiteDB
+﻿namespace Fluxera.Repository.InMemory
 {
 	using System;
 	using System.Threading;

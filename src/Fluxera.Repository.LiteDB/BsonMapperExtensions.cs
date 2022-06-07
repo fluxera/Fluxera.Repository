@@ -1,4 +1,6 @@
-﻿namespace Fluxera.Repository.LiteDB
+﻿// ReSharper disable AssignNullToNotNullAttribute
+
+namespace Fluxera.Repository.LiteDB
 {
 	using System;
 	using System.Collections.Generic;

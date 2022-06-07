@@ -28,7 +28,7 @@
 
 			if(this.idType.IsStronglyTypedId())
 			{
-				Type valueType = this.idType.GetValueType();
+				Type valueType = this.idType.GetStronglyTypedIdValueType();
 
 				if(valueType == typeof(string))
 				{

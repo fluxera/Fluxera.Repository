@@ -1,4 +1,6 @@
-﻿namespace Fluxera.Repository.Options
+﻿// ReSharper disable AssignNullToNotNullAttribute
+
+namespace Fluxera.Repository.Options
 {
 	using System;
 	using Fluxera.Extensions.DependencyInjection;

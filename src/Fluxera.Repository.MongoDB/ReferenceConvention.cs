@@ -1,4 +1,6 @@
-﻿namespace Fluxera.Repository.MongoDB
+﻿// ReSharper disable AssignNullToNotNullAttribute
+
+namespace Fluxera.Repository.MongoDB
 {
 	using System;
 	using System.Reflection;
@@ -83,7 +85,7 @@
 			}
 			else if(memberType.IsStronglyTypedId())
 			{
-				Type valueType = memberType.GetValueType();
+				Type valueType = memberType.GetStronglyTypedIdValueType();
 				Type serializerTypeTemplate = typeof(StronglyTypedIdReferenceSerializer<,>);
 				Type serializerType = serializerTypeTemplate.MakeGenericType(memberType, valueType);
 

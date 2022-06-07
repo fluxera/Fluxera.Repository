@@ -35,7 +35,7 @@
 				foreach(PropertyInfo property in properties)
 				{
 					Type idType = property.PropertyType;
-					Type valueType = idType.GetValueType();
+					Type valueType = idType.GetStronglyTypedIdValueType();
 
 					Type generatorTypeTemplate = typeof(StronglyTypedIdValueGenerator<,>);
 					Type generatorType = generatorTypeTemplate.MakeGenericType(idType, valueType);
@@ -73,6 +73,10 @@
 			}
 		}
 
+		/// <summary>
+		///     Disables the delete cascading for references aggregate roots.
+		/// </summary>
+		/// <param name="modelBuilder"></param>
 		public static void UseReferences(this ModelBuilder modelBuilder)
 		{
 			IEnumerable<IMutableForeignKey> foreignKeys = modelBuilder.Model

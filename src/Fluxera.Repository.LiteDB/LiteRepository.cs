@@ -383,7 +383,7 @@
 			{
 				object keyValue;
 
-				Type valueType = keyType.GetValueType();
+				Type valueType = keyType.GetStronglyTypedIdValueType();
 				if(valueType == typeof(Guid))
 				{
 					Guid key = this.sequentialGuidGenerator.Generate();
