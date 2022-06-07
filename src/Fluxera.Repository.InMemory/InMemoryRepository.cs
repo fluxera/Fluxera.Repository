@@ -254,8 +254,13 @@
 		/// <returns></returns>
 		protected override Expression<Func<TAggregateRoot, bool>> CreatePrimaryKeyPredicate(TKey id)
 		{
-			Expression<Func<TAggregateRoot, bool>> predicate = x => x.ID.Equals(id);
-			return predicate;
+			if(typeof(TKey).IsStronglyTypedId())
+			{
+				Expression<Func<TAggregateRoot, bool>> predicate = x => x.ID.Equals(id);
+				return predicate;
+			}
+
+			return base.CreatePrimaryKeyPredicate(id);
 		}
 
 		private TKey GenerateKey()
@@ -316,7 +321,7 @@
 
 			if(keyType == typeof(int))
 			{
-				IStronglyTypedId<TKey, int> pkValue = Store.Keys.LastOrDefault() as IStronglyTypedId<TKey, int>;
+				IStronglyTypedId<TKey, int> pkValue = Store.LastOrDefault().Key as IStronglyTypedId<TKey, int>;
 
 				int nextInt = (pkValue?.Value ?? 0) + 1;
 				return nextInt;
@@ -324,7 +329,7 @@
 
 			if(keyType == typeof(long))
 			{
-				IStronglyTypedId<TKey, long> pkValue = Store.Keys.LastOrDefault() as IStronglyTypedId<TKey, long>;
+				IStronglyTypedId<TKey, long> pkValue = Store.LastOrDefault().Key as IStronglyTypedId<TKey, long>;
 
 				long nextInt = (pkValue?.Value ?? 0) + 1;
 				return nextInt;
