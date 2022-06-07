@@ -22,17 +22,21 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Fluxera.ComponentModel.Annotations" Version="6.0.9" />
-		<PackageReference Include="Fluxera.Enumeration.MongoDB" Version="6.1.0" />
-		<PackageReference Include="Fluxera.Spatial.MongoDB" Version="6.0.9" />
-		<PackageReference Include="Fluxera.StronglyTypedId.MongoDB" Version="6.0.5" />
-		<PackageReference Include="Fluxera.Temporal.MongoDB" Version="6.0.3" />
-		<PackageReference Include="Fluxera.ValueObject.MongoDB" Version="6.1.2" />
+		<InternalsVisibleTo Include="Fluxera.Repository.MongoDB.IntegrationTests" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Fluxera.ComponentModel.Annotations" Version="6.1.1" />
+		<PackageReference Include="Fluxera.Enumeration.MongoDB" Version="6.1.1" />
+		<PackageReference Include="Fluxera.Spatial.MongoDB" Version="6.1.0" />
+		<PackageReference Include="Fluxera.StronglyTypedId.MongoDB" Version="6.1.1" />
+		<PackageReference Include="Fluxera.Temporal.MongoDB" Version="6.1.1" />
+		<PackageReference Include="Fluxera.ValueObject.MongoDB" Version="6.1.4" />
 		<PackageReference Include="GitVersion.MsBuild" Version="5.10.3">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="MongoDB.Driver" Version="2.15.1" />
+		<PackageReference Include="MongoDB.Driver" Version="2.16.0" />
 		<PackageReference Include="MongoDB.Driver.Core.Extensions.DiagnosticSources" Version="1.1.0" />
 	</ItemGroup>
 

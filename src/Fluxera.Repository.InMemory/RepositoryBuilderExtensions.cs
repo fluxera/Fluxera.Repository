@@ -2,7 +2,6 @@
 {
 	using System;
 	using Fluxera.Guards;
-	using Fluxera.Repository.LiteDB;
 	using JetBrains.Annotations;
 	using Microsoft.Extensions.DependencyInjection;
 

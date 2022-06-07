@@ -37,6 +37,7 @@
 			BsonMapper.Global.UseEnumeration();
 			BsonMapper.Global.UsePrimitiveValueObject();
 			BsonMapper.Global.UseStronglyTypedId();
+			BsonMapper.Global.UseReferences();
 
 			builder.Services.AddSingleton<IDatabaseProvider, DatabaseProvider>();
 			builder.Services.AddSingleton<SequentialGuidGenerator>();

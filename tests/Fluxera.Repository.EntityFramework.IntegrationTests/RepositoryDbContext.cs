@@ -3,6 +3,7 @@
 	using Fluxera.Repository.UnitTests.Core.CompanyAggregate;
 	using Fluxera.Repository.UnitTests.Core.EmployeeAggregate;
 	using Fluxera.Repository.UnitTests.Core.PersonAggregate;
+	using Fluxera.Repository.UnitTests.Core.ReferenceAggregate;
 	using JetBrains.Annotations;
 	using Microsoft.EntityFrameworkCore;
 
@@ -17,6 +18,8 @@
 		public DbSet<Company> Companies { get; set; }
 
 		public DbSet<Employee> Employees { get; set; }
+
+		public DbSet<Reference> References { get; set; }
 
 		/// <inheritdoc />
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

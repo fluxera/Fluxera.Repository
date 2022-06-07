@@ -16,9 +16,10 @@
 		}
 
 		/// <inheritdoc />
-		public async Task HandleAsync(PersonDomainEvent domainEvent)
+		public Task HandleAsync(PersonDomainEvent domainEvent)
 		{
 			this.logger.LogInformation("PersonCommittedDomainEventHandler called.");
+			return Task.CompletedTask;
 		}
 	}
 }

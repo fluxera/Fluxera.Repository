@@ -2,6 +2,7 @@
 {
 	using System;
 	using Fluxera.StronglyTypedId;
+	using Fluxera.Utilities.Extensions;
 	using global::MongoDB.Bson;
 	using global::MongoDB.Bson.Serialization;
 	using global::MongoDB.Bson.Serialization.Conventions;
@@ -18,19 +19,20 @@
 				return;
 			}
 
-			if(idMemberMap.MemberType == typeof(string))
+			Type idMemberType = idMemberMap.MemberType.UnwrapNullableType();
+			if(idMemberType == typeof(string))
 			{
 				idMemberMap
 					.SetIdGenerator(StringObjectIdGenerator.Instance)
 					.SetSerializer(new StringSerializer(BsonType.ObjectId));
 			}
-			else if(idMemberMap.MemberType == typeof(Guid))
+			else if(idMemberType == typeof(Guid))
 			{
 				idMemberMap
 					.SetIdGenerator(CombGuidGenerator.Instance)
 					.SetSerializer(new GuidSerializer(GuidRepresentation.Standard));
 			}
-			else if(idMemberMap.MemberType.IsStronglyTypedId())
+			else if(idMemberType.IsStronglyTypedId())
 			{
 				idMemberMap.SetIdGenerator(new StronglyTypedIdGenerator(idMemberMap.MemberType));
 			}

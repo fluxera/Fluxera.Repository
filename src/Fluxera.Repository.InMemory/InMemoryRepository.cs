@@ -9,7 +9,6 @@
 	using System.Threading.Tasks;
 	using Fluxera.Entity;
 	using Fluxera.Guards;
-	using Fluxera.Repository.LiteDB;
 	using Fluxera.Repository.Specifications;
 	using Fluxera.StronglyTypedId;
 
@@ -293,7 +292,7 @@
 
 			if(keyType.IsStronglyTypedId())
 			{
-				Type valueType = keyType.GetValueType();
+				Type valueType = keyType.GetStronglyTypedIdValueType();
 				object value = this.GenerateKey(valueType);
 				object key = Activator.CreateInstance(typeof(TKey), new object[] { value });
 				return (TKey)key;

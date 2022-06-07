@@ -43,10 +43,12 @@
 			{
 				new NamedIdMemberConvention("ID"),
 				new IdGeneratorConvention(),
+				new ReferenceConvention(),
 				new EnumRepresentationConvention(BsonType.String),
 				new CamelCaseElementNameConvention(),
 				new IgnoreExtraElementsConvention(true),
-				new NamedExtraElementsMemberConvention("ExtraElements")
+				new NamedExtraElementsMemberConvention("ExtraElements"),
+				new EntitiesNotSupportedConvention()
 			};
 
 			pack.UseSpatial();

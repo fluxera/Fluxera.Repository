@@ -16,7 +16,7 @@
 		where TKey : IComparable<TKey>, IEquatable<TKey>
 	{
 		/// <inheritdoc />
-		public override async Task<IReadOnlyCollection<TAggregateRoot>> FindManyAsync(Expression<Func<TAggregateRoot, bool>> predicate, IQueryOptions<TAggregateRoot> queryOptions, CancellationToken cancellationToken)
+		public override Task<IReadOnlyCollection<TAggregateRoot>> FindManyAsync(Expression<Func<TAggregateRoot, bool>> predicate, IQueryOptions<TAggregateRoot> queryOptions, CancellationToken cancellationToken)
 		{
 			Person[] persons =
 			{
@@ -37,18 +37,18 @@
 				}
 			};
 			IReadOnlyCollection<TAggregateRoot> items = persons.Cast<TAggregateRoot>().AsReadOnly();
-			return items;
+			return Task.FromResult(items);
 		}
 
 		/// <inheritdoc />
-		public override async Task<TAggregateRoot> GetAsync(TKey id, CancellationToken cancellationToken)
+		public override Task<TAggregateRoot> GetAsync(TKey id, CancellationToken cancellationToken)
 		{
 			Person item = new Person
 			{
 				ID = Guid.NewGuid(),
 				Name = "Tester"
 			};
-			return item as TAggregateRoot;
+			return Task.FromResult(item as TAggregateRoot);
 		}
 	}
 }

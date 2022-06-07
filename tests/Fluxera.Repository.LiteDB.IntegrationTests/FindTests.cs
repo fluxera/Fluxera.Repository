@@ -6,6 +6,7 @@
 	using Fluxera.Repository.UnitTests.Core.CompanyAggregate;
 	using Fluxera.Repository.UnitTests.Core.EmployeeAggregate;
 	using Fluxera.Repository.UnitTests.Core.PersonAggregate;
+	using Fluxera.Repository.UnitTests.Core.ReferenceAggregate;
 	using global::LiteDB;
 	using NUnit.Framework;
 
@@ -19,6 +20,7 @@
 			BsonMapper.Global.Entity<Company>().Id(x => x.ID);
 			BsonMapper.Global.Entity<Person>().Id(x => x.ID);
 			BsonMapper.Global.Entity<Employee>().Id(x => x.ID);
+			BsonMapper.Global.Entity<Reference>().Id(x => x.ID);
 
 			foreach(string file in Directory.EnumerateFiles(".", "*.db"))
 			{

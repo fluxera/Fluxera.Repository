@@ -10,7 +10,7 @@
 	public static class AwaitableExtensions
 	{
 		/// <summary>
-		///     Simple helper that just awaits the <see cref="List{T}" /> result of the <see cref="ConfiguredTaskAwaitable" />
+		///     Simple helper that just awaits the list result of the <see cref="ConfiguredTaskAwaitable" />
 		///     and returns the data as <see cref="IReadOnlyCollection{T}" />. This is a helper to create a fluent structure
 		///     when calling several methods on a query builder of a storage.
 		/// </summary>
@@ -24,7 +24,7 @@
 		}
 
 		/// <summary>
-		///     Simple helper that just awaits the <see cref="T" /> result of the <see cref="ConfiguredTaskAwaitable" />
+		///     Simple helper that just awaits the result of the <see cref="ConfiguredTaskAwaitable" />
 		///     and returns the data or the default value if the result was <c>null</c>.
 		/// </summary>
 		/// <typeparam name="T"></typeparam>

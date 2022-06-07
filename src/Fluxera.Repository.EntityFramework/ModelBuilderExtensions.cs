@@ -4,6 +4,7 @@
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Reflection;
+	using Fluxera.Entity;
 	using Fluxera.Guards;
 	using Fluxera.StronglyTypedId;
 	using JetBrains.Annotations;
@@ -34,7 +35,7 @@
 				foreach(PropertyInfo property in properties)
 				{
 					Type idType = property.PropertyType;
-					Type valueType = idType.GetValueType();
+					Type valueType = idType.GetStronglyTypedIdValueType();
 
 					Type generatorTypeTemplate = typeof(StronglyTypedIdValueGenerator<,>);
 					Type generatorType = generatorTypeTemplate.MakeGenericType(idType, valueType);
@@ -69,6 +70,23 @@
 						.Property(property.Name)
 						.HasValueGenerator<SequentialGuidStringValueGenerator>();
 				}
+			}
+		}
+
+		/// <summary>
+		///     Disables the delete cascading for references aggregate roots.
+		/// </summary>
+		/// <param name="modelBuilder"></param>
+		public static void UseReferences(this ModelBuilder modelBuilder)
+		{
+			IEnumerable<IMutableForeignKey> foreignKeys = modelBuilder.Model
+				.GetEntityTypes()
+				.Where(e => !e.IsOwned() && e.ClrType.IsAggregateRoot())
+				.SelectMany(e => e.GetForeignKeys());
+
+			foreach(IMutableForeignKey relationship in foreignKeys)
+			{
+				relationship.DeleteBehavior = DeleteBehavior.Restrict;
 			}
 		}
 	}
