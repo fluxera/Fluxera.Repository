@@ -3,6 +3,7 @@
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
+	using System.Reflection;
 	using System.Threading;
 	using System.Threading.Tasks;
 	using Fluxera.Entity;
@@ -40,6 +41,8 @@
 		/// <inheritdoc />
 		protected override async Task AddAsync(TAggregateRoot item, CancellationToken cancellationToken)
 		{
+			this.PrepareItem(item, EntityState.Added);
+
 			await this.dbSet.AddAsync(item, cancellationToken).ConfigureAwait(false);
 			await this.dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 		}
@@ -47,7 +50,14 @@
 		/// <inheritdoc />
 		protected override async Task AddRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{
-			await this.dbSet.AddRangeAsync(items, cancellationToken).ConfigureAwait(false);
+			IList<TAggregateRoot> itemList = items.ToList();
+
+			foreach(TAggregateRoot item in itemList)
+			{
+				this.PrepareItem(item, EntityState.Added);
+			}
+
+			await this.dbSet.AddRangeAsync(itemList, cancellationToken).ConfigureAwait(false);
 			await this.dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 		}
 
@@ -326,6 +336,27 @@
 				// Ignore and try the default behavior.
 				entry.State = EntityState.Modified;
 			}
+			finally
+			{
+				this.PrepareItem(item, EntityState.Modified);
+			}
+		}
+
+		private void PrepareItem(TAggregateRoot item, EntityState entityState)
+		{
+			foreach(PropertyInfo propertyInfo in typeof(TAggregateRoot).GetProperties())
+			{
+				if(propertyInfo.PropertyType.IsAggregateRoot())
+				{
+					object value = propertyInfo.GetValue(item);
+					if(value is not null)
+					{
+						this.dbContext.Entry(value).State = EntityState.Modified;
+					}
+				}
+			}
+
+			this.dbContext.Entry(item).State = entityState;
 		}
 	}
 }

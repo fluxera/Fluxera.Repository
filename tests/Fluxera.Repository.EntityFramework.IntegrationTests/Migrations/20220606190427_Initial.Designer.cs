@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Fluxera.Repository.EntityFrameworkCore.IntegrationTests.Migrations
 {
     [DbContext(typeof(RepositoryDbContext))]
-    [Migration("20220605174406_Initial")]
+    [Migration("20220606190427_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -38,7 +38,12 @@ namespace Fluxera.Repository.EntityFrameworkCore.IntegrationTests.Migrations
                     b.Property<Guid?>("NullableGuid")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("ReferenceID")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("ID");
+
+                    b.HasIndex("ReferenceID");
 
                     b.ToTable("Companies");
                 });
@@ -49,6 +54,9 @@ namespace Fluxera.Repository.EntityFrameworkCore.IntegrationTests.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ReferenceID")
                         .HasColumnType("TEXT");
 
                     b.Property<double>("SalaryDecimal")
@@ -83,6 +91,8 @@ namespace Fluxera.Repository.EntityFrameworkCore.IntegrationTests.Migrations
 
                     b.HasKey("ID");
 
+                    b.HasIndex("ReferenceID");
+
                     b.ToTable("Employees");
                 });
 
@@ -99,13 +109,64 @@ namespace Fluxera.Repository.EntityFrameworkCore.IntegrationTests.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("ReferenceID")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("ID");
+
+                    b.HasIndex("ReferenceID");
 
                     b.ToTable("People", (string)null);
                 });
 
+            modelBuilder.Entity("Fluxera.Repository.UnitTests.Core.ReferenceAggregate.Reference", b =>
+                {
+                    b.Property<string>("ID")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CompanyID")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("EmployeeID")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid?>("PersonID")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CompanyID");
+
+                    b.HasIndex("EmployeeID");
+
+                    b.HasIndex("PersonID");
+
+                    b.ToTable("References");
+                });
+
+            modelBuilder.Entity("Fluxera.Repository.UnitTests.Core.CompanyAggregate.Company", b =>
+                {
+                    b.HasOne("Fluxera.Repository.UnitTests.Core.ReferenceAggregate.Reference", null)
+                        .WithMany("Companies")
+                        .HasForeignKey("ReferenceID")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("Fluxera.Repository.UnitTests.Core.EmployeeAggregate.Employee", b =>
+                {
+                    b.HasOne("Fluxera.Repository.UnitTests.Core.ReferenceAggregate.Reference", null)
+                        .WithMany("Employees")
+                        .HasForeignKey("ReferenceID")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
             modelBuilder.Entity("Fluxera.Repository.UnitTests.Core.PersonAggregate.Person", b =>
                 {
+                    b.HasOne("Fluxera.Repository.UnitTests.Core.ReferenceAggregate.Reference", null)
+                        .WithMany("People")
+                        .HasForeignKey("ReferenceID")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.OwnsOne("Fluxera.Repository.UnitTests.Core.PersonAggregate.Address", "Address", b1 =>
                         {
                             b1.Property<Guid>("PersonID")
@@ -132,6 +193,39 @@ namespace Fluxera.Repository.EntityFrameworkCore.IntegrationTests.Migrations
                         });
 
                     b.Navigation("Address");
+                });
+
+            modelBuilder.Entity("Fluxera.Repository.UnitTests.Core.ReferenceAggregate.Reference", b =>
+                {
+                    b.HasOne("Fluxera.Repository.UnitTests.Core.CompanyAggregate.Company", "Company")
+                        .WithMany()
+                        .HasForeignKey("CompanyID")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Fluxera.Repository.UnitTests.Core.EmployeeAggregate.Employee", "Employee")
+                        .WithMany()
+                        .HasForeignKey("EmployeeID")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Fluxera.Repository.UnitTests.Core.PersonAggregate.Person", "Person")
+                        .WithMany()
+                        .HasForeignKey("PersonID")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Company");
+
+                    b.Navigation("Employee");
+
+                    b.Navigation("Person");
+                });
+
+            modelBuilder.Entity("Fluxera.Repository.UnitTests.Core.ReferenceAggregate.Reference", b =>
+                {
+                    b.Navigation("Companies");
+
+                    b.Navigation("Employees");
+
+                    b.Navigation("People");
                 });
 #pragma warning restore 612, 618
         }

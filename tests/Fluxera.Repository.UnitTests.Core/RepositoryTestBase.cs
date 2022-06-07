@@ -63,37 +63,41 @@
 		{
 			try
 			{
+				if(this.ReferenceRepository != null)
+				{
+					await this.ReferenceRepository.RemoveRangeAsync(x => true);
+					await this.ReferenceRepository.DisposeAsync();
+				}
+
 				if(this.PersonRepository != null)
 				{
-					//await this.PersonRepository.RemoveRangeAsync(x => true);
+					await this.PersonRepository.RemoveRangeAsync(x => true);
 					await this.PersonRepository.DisposeAsync();
 				}
 
 				if(this.CompanyRepository != null)
 				{
-					//await this.CompanyRepository.RemoveRangeAsync(x => true);
+					await this.CompanyRepository.RemoveRangeAsync(x => true);
 					await this.CompanyRepository.DisposeAsync();
 				}
 
 				if(this.EmployeeRepository != null)
 				{
-					//await this.EmployeeRepository.RemoveRangeAsync(x => true);
+					await this.EmployeeRepository.RemoveRangeAsync(x => true);
 					await this.EmployeeRepository.DisposeAsync();
-				}
-
-				if(this.ReferenceRepository != null)
-				{
-					//await this.ReferenceRepository.RemoveRangeAsync(x => true);
-					await this.ReferenceRepository.DisposeAsync();
 				}
 			}
 			catch(Exception ex)
 			{
 				Console.WriteLine(ex);
+				throw;
 			}
 			finally
 			{
-				await this.serviceProvider.DisposeAsync();
+				if(this.serviceProvider is not null)
+				{
+					await this.serviceProvider.DisposeAsync();
+				}
 			}
 		}
 

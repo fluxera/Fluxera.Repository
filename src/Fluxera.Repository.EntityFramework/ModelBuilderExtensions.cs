@@ -4,6 +4,7 @@
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Reflection;
+	using Fluxera.Entity;
 	using Fluxera.Guards;
 	using Fluxera.StronglyTypedId;
 	using JetBrains.Annotations;
@@ -69,6 +70,19 @@
 						.Property(property.Name)
 						.HasValueGenerator<SequentialGuidStringValueGenerator>();
 				}
+			}
+		}
+
+		public static void UseReferences(this ModelBuilder modelBuilder)
+		{
+			IEnumerable<IMutableForeignKey> foreignKeys = modelBuilder.Model
+				.GetEntityTypes()
+				.Where(e => !e.IsOwned() && e.ClrType.IsAggregateRoot())
+				.SelectMany(e => e.GetForeignKeys());
+
+			foreach(IMutableForeignKey relationship in foreignKeys)
+			{
+				relationship.DeleteBehavior = DeleteBehavior.Restrict;
 			}
 		}
 	}

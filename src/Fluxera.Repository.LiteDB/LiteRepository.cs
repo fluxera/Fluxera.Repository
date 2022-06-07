@@ -42,7 +42,7 @@
 			};
 
 			string databaseName = persistenceSettings.Database;
-			string collectionName = typeof(TAggregateRoot).Name.Pluralize().ToLower();
+			string collectionName = typeof(TAggregateRoot).Name.Pluralize();
 
 			// If a custom database name provider is available use this to resolve the database name dynamically.
 			if(databaseNameProvider != null)
