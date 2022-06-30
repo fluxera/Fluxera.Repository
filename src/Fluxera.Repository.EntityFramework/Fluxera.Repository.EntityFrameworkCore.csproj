@@ -22,10 +22,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Fluxera.Enumeration.EntityFrameworkCore" Version="6.1.2" />
+		<PackageReference Include="Fluxera.Enumeration.EntityFrameworkCore" Version="6.1.3" />
 		<PackageReference Include="Fluxera.Guards" Version="6.1.0" />
-		<PackageReference Include="Fluxera.StronglyTypedId.EntityFrameworkCore" Version="6.1.2" />
-		<PackageReference Include="Fluxera.ValueObject.EntityFrameworkCore" Version="6.1.5" />
+		<PackageReference Include="Fluxera.StronglyTypedId.EntityFrameworkCore" Version="6.1.3" />
+		<PackageReference Include="Fluxera.ValueObject.EntityFrameworkCore" Version="6.1.6" />
 		<PackageReference Include="GitVersion.MsBuild" Version="5.10.3">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
