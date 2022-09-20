@@ -24,7 +24,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Fluxera.Entity" Version="6.1.10" />
-		<PackageReference Include="Fluxera.Extensions.Validation.Abstractions" Version="6.1.6" />
+		<PackageReference Include="Fluxera.Extensions.Validation.Abstractions" Version="6.1.7" />
 		<PackageReference Include="Fluxera.Linq.Expressions" Version="6.1.0" />
 		<PackageReference Include="Fluxera.ValueObject" Version="6.1.8" />
 		<PackageReference Include="GitVersion.MsBuild" Version="5.10.3">
