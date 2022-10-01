@@ -100,7 +100,7 @@
 				{
 					RecordCancellation(e.CancellationMessage);
 
-					this.logger.LogInformation(e.CancellationMessage);
+					this.logger.LogCancellationMessage(e.CancellationMessage);
 				}
 			}
 			else
@@ -134,7 +134,7 @@
 				{
 					RecordCancellation(e.CancellationMessage);
 
-					this.logger.LogInformation(e.CancellationMessage);
+					this.logger.LogCancellationMessage(e.CancellationMessage);
 				}
 			}
 			else
@@ -163,7 +163,7 @@
 				{
 					RecordCancellation(e.CancellationMessage);
 
-					this.logger.LogInformation(e.CancellationMessage);
+					this.logger.LogCancellationMessage(e.CancellationMessage);
 				}
 			}
 			else
@@ -197,7 +197,7 @@
 				{
 					RecordCancellation(e.CancellationMessage);
 
-					this.logger.LogInformation(e.CancellationMessage);
+					this.logger.LogCancellationMessage(e.CancellationMessage);
 				}
 			}
 			else
@@ -229,7 +229,7 @@
 				{
 					RecordCancellation(e.CancellationMessage);
 
-					this.logger.LogInformation(e.CancellationMessage);
+					this.logger.LogCancellationMessage(e.CancellationMessage);
 				}
 			}
 			else
@@ -260,7 +260,7 @@
 				{
 					RecordCancellation(e.CancellationMessage);
 
-					this.logger.LogInformation(e.CancellationMessage);
+					this.logger.LogCancellationMessage(e.CancellationMessage);
 				}
 			}
 			else
@@ -291,7 +291,7 @@
 				{
 					RecordCancellation(e.CancellationMessage);
 
-					this.logger.LogInformation(e.CancellationMessage);
+					this.logger.LogCancellationMessage(e.CancellationMessage);
 				}
 			}
 			else
@@ -324,7 +324,7 @@
 				{
 					RecordCancellation(e.CancellationMessage);
 
-					this.logger.LogInformation(e.CancellationMessage);
+					this.logger.LogCancellationMessage(e.CancellationMessage);
 				}
 			}
 			else
@@ -360,7 +360,7 @@
 				{
 					RecordCancellation(e.CancellationMessage);
 
-					this.logger.LogInformation(e.CancellationMessage);
+					this.logger.LogCancellationMessage(e.CancellationMessage);
 				}
 			}
 			else

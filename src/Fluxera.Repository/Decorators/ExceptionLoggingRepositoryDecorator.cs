@@ -43,7 +43,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform add: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("add", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -57,7 +57,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform add: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("add", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -71,7 +71,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform update: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("update", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -85,7 +85,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform update: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("update", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -99,7 +99,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform remove: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("remove", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -113,7 +113,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform remove: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("remove", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -127,7 +127,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform remove: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("remove", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -141,7 +141,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform remove: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("remove", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -155,7 +155,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform remove: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("remove", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -169,7 +169,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform get: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("get", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -183,7 +183,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform get: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("get", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -197,7 +197,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform exists: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("exists", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -211,7 +211,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform find one: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("find one", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -225,7 +225,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform find one: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("find one", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -239,7 +239,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform find one: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("find one", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -253,7 +253,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform find one: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("find one", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -267,7 +267,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform exists: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("exists", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -281,7 +281,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform exists: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("exists", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -295,7 +295,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform find many: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("find many", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -309,7 +309,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform find many: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("find many", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -323,7 +323,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform find many: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("find many", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -337,7 +337,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform find many: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("find many", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -351,7 +351,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform count: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("count", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -365,7 +365,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform count: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("count", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -379,7 +379,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform count: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("count", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -393,7 +393,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform sum: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("sum", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -407,7 +407,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform sum: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("sum", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -421,7 +421,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform sum: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("sum", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -435,7 +435,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform sum: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("sum", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -449,7 +449,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform sum: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("sum", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -463,7 +463,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform sum: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("sum", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -477,7 +477,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform sum: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("sum", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -491,7 +491,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform sum: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("sum", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -505,7 +505,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform sum: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("sum", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -519,7 +519,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform sum: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("sum", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -533,7 +533,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform sum: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("sum", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -547,7 +547,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform sum: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("sum", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -561,7 +561,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform sum: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("sum", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -575,7 +575,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform sum: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("sum", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -589,7 +589,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform sum: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("sum", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -603,7 +603,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform sum: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("sum", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -617,7 +617,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform sum: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("sum", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -631,7 +631,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform sum: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("sum", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -645,7 +645,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform sum: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("sum", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -659,7 +659,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform sum: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("sum", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -673,7 +673,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform sum: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("sum", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -687,7 +687,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform sum: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("sum", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -701,7 +701,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform sum: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("sum", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -715,7 +715,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform sum: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("sum", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -729,7 +729,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform sum: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("sum", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -743,7 +743,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform sum: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("sum", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -757,7 +757,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform sum: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("sum", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -771,7 +771,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform sum: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("sum", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -785,7 +785,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform sum: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("sum", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -799,7 +799,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform sum: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("sum", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -813,7 +813,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform average: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("average", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -827,7 +827,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform average: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("average", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -841,7 +841,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform average: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("average", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -855,7 +855,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform average: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("average", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -869,7 +869,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform average: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("average", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -883,7 +883,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform average: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("average", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -897,7 +897,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform average: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("average", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -911,7 +911,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform average: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("average", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -925,7 +925,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform average: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("average", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -939,7 +939,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform average: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("average", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -953,7 +953,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform average: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("average", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -967,7 +967,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform average: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("average", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -981,7 +981,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform average: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("average", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -995,7 +995,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform average: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("average", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -1009,7 +1009,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform average: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("average", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -1023,7 +1023,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform average: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("average", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -1037,7 +1037,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform average: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("average", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -1051,7 +1051,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform average: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("average", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -1065,7 +1065,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform average: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("average", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -1079,7 +1079,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform average: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("average", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -1093,7 +1093,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform average: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("average", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -1107,7 +1107,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform average: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("average", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -1121,7 +1121,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform average: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("average", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -1135,7 +1135,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform average: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("average", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -1149,7 +1149,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform average: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("average", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -1163,7 +1163,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform average: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("average", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -1177,7 +1177,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform average: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("average", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -1191,7 +1191,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform average: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("average", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -1205,7 +1205,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform average: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("average", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}
@@ -1219,7 +1219,7 @@
 			}
 			catch(Exception ex)
 			{
-				this.logger.LogCritical(ex, "A critical error occurred trying to perform average: {AggregateRoot}", typeof(TAggregateRoot).Name);
+				this.logger.LogErrorOccurredForOperation("average", typeof(TAggregateRoot).Name, ex);
 				throw;
 			}
 		}

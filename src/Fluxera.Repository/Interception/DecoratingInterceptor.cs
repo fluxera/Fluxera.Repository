@@ -27,7 +27,7 @@
 		/// <inheritdoc />
 		public async Task BeforeAddAsync(TAggregateRoot item, InterceptionEvent e)
 		{
-			this.LogTrace($"Intercepting before add: Type = {typeof(TAggregateRoot)}");
+			this.logger.LogInterceptingBeforeOperation("add", typeof(TAggregateRoot).Name);
 
 			foreach(IInterceptor<TAggregateRoot, TKey> interceptor in this.innerInterceptors)
 			{
@@ -38,7 +38,7 @@
 		/// <inheritdoc />
 		public async Task BeforeUpdateAsync(TAggregateRoot item, InterceptionEvent e)
 		{
-			this.LogTrace($"Intercepting before update: Type = {typeof(TAggregateRoot)}");
+			this.logger.LogInterceptingBeforeOperation("update", typeof(TAggregateRoot).Name);
 
 			foreach(IInterceptor<TAggregateRoot, TKey> interceptor in this.innerInterceptors)
 			{
@@ -49,7 +49,7 @@
 		/// <inheritdoc />
 		public async Task BeforeRemoveAsync(TAggregateRoot item, InterceptionEvent e)
 		{
-			this.LogTrace($"Intercepting before remove: Type = {typeof(TAggregateRoot)}");
+			this.logger.LogInterceptingBeforeOperation("remove", typeof(TAggregateRoot).Name);
 
 			foreach(IInterceptor<TAggregateRoot, TKey> interceptor in this.innerInterceptors)
 			{
@@ -60,7 +60,7 @@
 		/// <inheritdoc />
 		public async Task<Expression<Func<TAggregateRoot, bool>>> BeforeRemoveRangeAsync(Expression<Func<TAggregateRoot, bool>> predicate, InterceptionEvent e)
 		{
-			this.LogTrace($"Intercepting before remove: Type = {typeof(TAggregateRoot)}");
+			this.logger.LogInterceptingBeforeOperation("remove", typeof(TAggregateRoot).Name);
 
 			Expression<Func<TAggregateRoot, bool>> interceptorPredicate = predicate;
 
@@ -75,7 +75,7 @@
 		/// <inheritdoc />
 		public async Task<ISpecification<TAggregateRoot>> BeforeRemoveRangeAsync(ISpecification<TAggregateRoot> specification, InterceptionEvent e)
 		{
-			this.LogTrace($"Intercepting before remove: Type = {typeof(TAggregateRoot)}");
+			this.logger.LogInterceptingBeforeOperation("remove", typeof(TAggregateRoot).Name);
 
 			ISpecification<TAggregateRoot> interceptorSpecification = specification;
 
@@ -90,7 +90,7 @@
 		/// <inheritdoc />
 		public async Task<Expression<Func<TAggregateRoot, bool>>> BeforeFindAsync(Expression<Func<TAggregateRoot, bool>> predicate, IQueryOptions<TAggregateRoot> queryOptions)
 		{
-			this.LogTrace($"Intercepting before find: Type = {typeof(TAggregateRoot)}");
+			this.logger.LogInterceptingBeforeOperation("find", typeof(TAggregateRoot).Name);
 
 			Expression<Func<TAggregateRoot, bool>> interceptorPredicate = predicate;
 
@@ -105,7 +105,7 @@
 		/// <inheritdoc />
 		public async Task<ISpecification<TAggregateRoot>> BeforeFindAsync(ISpecification<TAggregateRoot> specification, IQueryOptions<TAggregateRoot> queryOptions)
 		{
-			this.LogTrace($"Intercepting before find: Type = {typeof(TAggregateRoot)}");
+			this.logger.LogInterceptingBeforeOperation("find", typeof(TAggregateRoot).Name);
 
 			ISpecification<TAggregateRoot> interceptorSpecification = specification;
 
@@ -115,11 +115,6 @@
 			}
 
 			return interceptorSpecification;
-		}
-
-		private void LogTrace(string message)
-		{
-			this.logger.LogTrace(message);
 		}
 	}
 }
