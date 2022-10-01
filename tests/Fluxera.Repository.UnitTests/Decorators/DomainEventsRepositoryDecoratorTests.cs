@@ -43,8 +43,8 @@
 		{
 			if(expected)
 			{
-				// Trace is logged by the decorator.
-				this.loggerMock.VerifyLog().TraceWasCalled();
+				// Debug is logged by the decorator.
+				this.loggerMock.VerifyLog().DebugWasCalled();
 
 				// Info is logged in the handlers.
 				this.loggerMock.VerifyLog().InformationWasCalled();
@@ -168,8 +168,8 @@
 		{
 			await this.Repository.RemoveRangeAsync(x => x.Name == "1");
 
-			// Trace is logged by the decorator.
-			this.loggerMock.VerifyLog().TraceWasCalled();
+			// Debug is logged by the decorator.
+			this.loggerMock.VerifyLog().DebugWasCalled();
 		}
 
 		[Test]
@@ -192,8 +192,8 @@
 		{
 			await this.Repository.RemoveAsync(Guid.NewGuid());
 
-			// Trace is logged by the decorator.
-			this.loggerMock.VerifyLog().TraceWasCalled();
+			// Debug is logged by the decorator.
+			this.loggerMock.VerifyLog().DebugWasCalled();
 		}
 
 		[Test]
