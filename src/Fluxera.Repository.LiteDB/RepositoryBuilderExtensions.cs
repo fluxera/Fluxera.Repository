@@ -2,6 +2,7 @@
 {
 	using System;
 	using Fluxera.Enumeration.LiteDB;
+	using Fluxera.Extensions.DependencyInjection;
 	using Fluxera.Guards;
 	using Fluxera.Spatial.LiteDB;
 	using Fluxera.StronglyTypedId.LiteDB;
@@ -25,8 +26,25 @@
 		/// <param name="repositoryName"></param>
 		/// <param name="configure"></param>
 		/// <returns></returns>
-		public static IRepositoryBuilder AddLiteRepository(this IRepositoryBuilder builder,
+		public static IRepositoryBuilder AddLiteRepository<TContext>(this IRepositoryBuilder builder,
 			string repositoryName, Action<IRepositoryOptionsBuilder> configure)
+			where TContext : LiteContext
+		{
+			return builder.AddLiteRepository(repositoryName, typeof(TContext), configure);
+		}
+
+		/// <summary>
+		///     Adds a LiteDB repository for the given repository name. The repository options
+		///     are configured using the options builder configure action. Additional LiteDB
+		///     related mappings can be configures using the mapper configuration action.
+		/// </summary>
+		/// <param name="builder"></param>
+		/// <param name="repositoryName"></param>
+		/// <param name="contextType"></param>
+		/// <param name="configure"></param>
+		/// <returns></returns>
+		public static IRepositoryBuilder AddLiteRepository(this IRepositoryBuilder builder,
+			string repositoryName, Type contextType, Action<IRepositoryOptionsBuilder> configure)
 		{
 			Guard.Against.Null(builder);
 			Guard.Against.NullOrWhiteSpace(repositoryName);
@@ -39,9 +57,20 @@
 			BsonMapper.Global.UseStronglyTypedId();
 			BsonMapper.Global.UseReferences();
 
-			builder.Services.AddSingleton<IDatabaseProvider, DatabaseProvider>();
+			builder.Services.AddSingleton<DatabaseProvider>();
 			builder.Services.AddSingleton<SequentialGuidGenerator>();
-			return builder.AddRepository(repositoryName, typeof(LiteRepository<,>), configure);
+			builder.Services.AddSingleton<LiteContextProvider>();
+			builder.Services.AddNamedTransient<IUnitOfWork>(serviceBuilder =>
+			{
+				serviceBuilder.AddNameFor<LiteUnitOfWork>(repositoryName);
+			});
+
+			return builder.AddRepository(repositoryName, typeof(LiteRepository<,>), x =>
+			{
+				configure.Invoke(x);
+
+				x.AddSetting("Lite.DbContext", contextType);
+			});
 		}
 	}
 }

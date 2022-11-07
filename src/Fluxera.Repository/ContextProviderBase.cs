@@ -60,7 +60,7 @@
 
 			if(!this.dbContextMap.TryAdd(repositoryName, dbContextType))
 			{
-				throw new InvalidOperationException($"Could not add MongoContext type for repository '{repositoryName}'.");
+				throw new InvalidOperationException($"Could not add context type for repository '{repositoryName}'.");
 			}
 
 			return this.GetContext(dbContextType);

@@ -3,6 +3,7 @@
 	using System;
 	using System.IO;
 	using Fluxera.Repository.UnitTests.Core;
+	using Microsoft.Extensions.DependencyInjection;
 	using NUnit.Framework;
 
 	[TestFixture]
@@ -17,7 +18,16 @@
 				File.Delete(file);
 			}
 
-			repositoryBuilder.AddLiteRepository(repositoryName, options =>
+			repositoryBuilder.Services.AddLiteContext(serviceProvider =>
+			{
+				DatabaseProvider databaseProvider = serviceProvider.GetRequiredService<DatabaseProvider>();
+				IRepositoryRegistry repositoryRegistry = serviceProvider.GetRequiredService<IRepositoryRegistry>();
+				IDatabaseNameProvider databaseNameProvider = serviceProvider.GetService<IDatabaseNameProvider>();
+
+				return new RepositoryLiteContext(repositoryName, databaseProvider, repositoryRegistry, databaseNameProvider);
+			});
+
+			repositoryBuilder.AddLiteRepository<RepositoryLiteContext>(repositoryName, options =>
 			{
 				options.AddSetting("Lite.Database", $"{Guid.NewGuid():N}.db");
 

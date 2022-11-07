@@ -8,11 +8,9 @@
 	using System.Threading.Tasks;
 	using Fluxera.Entity;
 	using Fluxera.Guards;
-	using Fluxera.Repository.Options;
 	using Fluxera.Repository.Query;
 	using Fluxera.Repository.Specifications;
 	using Fluxera.StronglyTypedId;
-	using Fluxera.Utilities.Extensions;
 	using global::LiteDB.Async;
 
 	internal sealed class LiteRepository<TAggregateRoot, TKey> : RepositoryBase<TAggregateRoot, TKey>
@@ -20,41 +18,22 @@
 		where TKey : IComparable<TKey>, IEquatable<TKey>
 	{
 		private readonly ILiteCollectionAsync<TAggregateRoot> collection;
+		private readonly LiteContext context;
 		private readonly SequentialGuidGenerator sequentialGuidGenerator;
 
 		public LiteRepository(
+			LiteContextProvider contextProvider,
 			IRepositoryRegistry repositoryRegistry,
-			IDatabaseProvider databaseProvider,
-			SequentialGuidGenerator sequentialGuidGenerator,
-			IDatabaseNameProvider databaseNameProvider = null)
+			SequentialGuidGenerator sequentialGuidGenerator)
 		{
+			Guard.Against.Null(contextProvider);
 			Guard.Against.Null(repositoryRegistry);
-			Guard.Against.Null(databaseProvider);
 
 			this.sequentialGuidGenerator = Guard.Against.Null(sequentialGuidGenerator);
 
 			RepositoryName repositoryName = repositoryRegistry.GetRepositoryNameFor<TAggregateRoot>();
-			RepositoryOptions options = repositoryRegistry.GetRepositoryOptionsFor(repositoryName);
-
-			LitePersistenceSettings persistenceSettings = new LitePersistenceSettings
-			{
-				Database = (string)options.Settings.GetOrDefault("Lite.Database")
-			};
-
-			string databaseName = persistenceSettings.Database;
-			string collectionName = typeof(TAggregateRoot).Name.Pluralize();
-
-			// If a custom database name provider is available use this to resolve the database name dynamically.
-			if(databaseNameProvider != null)
-			{
-				databaseName = databaseNameProvider.GetDatabaseName(typeof(TAggregateRoot));
-			}
-
-			Guard.Against.NullOrEmpty(databaseName, nameof(databaseName));
-			Guard.Against.NullOrEmpty(collectionName, nameof(collectionName));
-
-			LiteDatabaseAsync database = databaseProvider.GetDatabase(repositoryName, databaseName);
-			this.collection = database.GetCollection<TAggregateRoot>(collectionName);
+			this.context = contextProvider.GetContextFor(repositoryName);
+			this.collection = this.context.GetCollection<TAggregateRoot>();
 		}
 
 		private static string Name => "Fluxera.Repository.LiteRepository";
@@ -68,9 +47,16 @@
 		/// <inheritdoc />
 		protected override async Task AddAsync(TAggregateRoot item, CancellationToken cancellationToken)
 		{
-			item.ID = this.GenerateKey();
+			Task PerformAddAsync()
+			{
+				item.ID = this.GenerateKey();
 
-			await this.collection.InsertAsync(item).ConfigureAwait(false);
+				return this.collection.InsertAsync(item).Then(cancellationToken);
+			}
+
+			await this.context
+				.AddCommandAsync(PerformAddAsync)
+				.ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
@@ -78,45 +64,83 @@
 		{
 			IList<TAggregateRoot> itemList = items.ToList();
 
-			foreach(TAggregateRoot item in itemList)
+			Task PerformAddRangeAsync()
 			{
-				item.ID = this.GenerateKey();
+				foreach(TAggregateRoot item in itemList)
+				{
+					item.ID = this.GenerateKey();
+				}
+
+				return this.collection.InsertBulkAsync(itemList).Then(cancellationToken);
 			}
 
-			await this.collection.InsertBulkAsync(itemList).ConfigureAwait(false);
+			await this.context
+				.AddCommandAsync(PerformAddRangeAsync)
+				.ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
 		protected override async Task RemoveRangeAsync(ISpecification<TAggregateRoot> specification, CancellationToken cancellationToken)
 		{
-			await this.collection.DeleteManyAsync(specification.Predicate).ConfigureAwait(false);
+			Task PerformRemoveRangeAsync()
+			{
+				return this.collection.DeleteManyAsync(specification.Predicate).Then(cancellationToken);
+			}
+
+			await this.context
+				.AddCommandAsync(PerformRemoveRangeAsync)
+				.ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
 		protected override async Task RemoveRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{
-			IList<ISpecification<TAggregateRoot>> specifications = new List<ISpecification<TAggregateRoot>>();
-
 			IList<TAggregateRoot> itemsList = items.ToList();
-			foreach(TAggregateRoot item in itemsList)
+
+			Task PerformRemoveRangeAsync()
 			{
-				specifications.Add(this.CreatePrimaryKeySpecification(item.ID));
+				IList<ISpecification<TAggregateRoot>> specifications = new List<ISpecification<TAggregateRoot>>();
+
+				foreach(TAggregateRoot item in itemsList)
+				{
+					specifications.Add(this.CreatePrimaryKeySpecification(item.ID));
+				}
+
+				ManyOrSpecification<TAggregateRoot> specification = new ManyOrSpecification<TAggregateRoot>(specifications);
+				return this.collection.DeleteManyAsync(specification.Predicate).Then(cancellationToken);
 			}
 
-			ManyOrSpecification<TAggregateRoot> specification = new ManyOrSpecification<TAggregateRoot>(specifications);
-			await this.RemoveRangeAsync(specification, cancellationToken).ConfigureAwait(false);
+			await this.context
+				.AddCommandAsync(PerformRemoveRangeAsync)
+				.ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
 		protected override async Task UpdateAsync(TAggregateRoot item, CancellationToken cancellationToken)
 		{
-			await this.collection.UpdateAsync(item).ConfigureAwait(false);
+			Task PerformUpdateAsync()
+			{
+				return this.collection.UpdateAsync(item).Then(cancellationToken);
+			}
+
+			await this.context
+				.AddCommandAsync(PerformUpdateAsync)
+				.ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
 		protected override async Task UpdateRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{
-			await this.collection.UpdateAsync(items).ConfigureAwait(false);
+			IList<TAggregateRoot> itemsList = items.ToList();
+
+			Task PerformUpdateRangeAsync()
+			{
+				return this.collection.UpdateAsync(itemsList).Then(cancellationToken);
+			}
+
+			await this.context
+				.AddCommandAsync(PerformUpdateRangeAsync)
+				.ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
