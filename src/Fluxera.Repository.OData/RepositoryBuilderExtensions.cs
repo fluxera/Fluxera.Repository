@@ -1,6 +1,7 @@
 ﻿namespace Fluxera.Repository.OData
 {
 	using System;
+	using Fluxera.Extensions.DependencyInjection;
 	using JetBrains.Annotations;
 
 	/// <summary>
@@ -20,6 +21,11 @@
 		public static IRepositoryBuilder AddODataRepository(this IRepositoryBuilder builder, string repositoryName,
 			Action<IRepositoryOptionsBuilder> configure)
 		{
+			builder.Services.AddNamedTransient<IUnitOfWork>(serviceBuilder =>
+			{
+				serviceBuilder.AddNameFor<ODataUnitOfWork>(repositoryName);
+			});
+
 			return builder.AddRepository(repositoryName, typeof(ODataRepository<,>), configure);
 		}
 	}
