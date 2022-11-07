@@ -2,6 +2,7 @@
 {
 	using System;
 	using Fluxera.Repository.UnitTests.Core;
+	using Microsoft.Extensions.DependencyInjection;
 	using NUnit.Framework;
 
 	[TestFixture]
@@ -11,14 +12,9 @@
 		protected override void AddRepositoryUnderTest(IRepositoryBuilder repositoryBuilder,
 			string repositoryName, Action<IRepositoryOptionsBuilder> configureOptions)
 		{
-			repositoryBuilder.AddEntityFrameworkRepository(repositoryName, builder =>
-			{
-				configureOptions.Invoke(builder);
+			repositoryBuilder.Services.AddDbContext<RepositoryDbContext>();
 
-				builder.AddSetting("EntityFrameworkCore.DbContext", typeof(RepositoryDbContext));
-				builder.AddSetting("EntityFrameworkCore.ConnectionString", "Filename=test.db");
-				builder.AddSetting("EntityFrameworkCore.LogSQL", false);
-			});
+			repositoryBuilder.AddEntityFrameworkRepository<RepositoryDbContext>(repositoryName, configureOptions.Invoke);
 		}
 	}
 }

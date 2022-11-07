@@ -10,9 +10,6 @@
 	[PublicAPI]
 	public sealed class RepositoryDbContext : RepositoryDbContextBase
 	{
-		/// <inheritdoc />
-		protected override string RepositoryName => "RepositoryUnderTest";
-
 		public DbSet<Person> People { get; set; }
 
 		public DbSet<Company> Companies { get; set; }
@@ -26,7 +23,6 @@
 		{
 			if(!optionsBuilder.IsConfigured)
 			{
-				// https://entityframeworkcore.com/providers-inmemory
 				optionsBuilder.UseSqlite("Filename=test.db");
 			}
 		}

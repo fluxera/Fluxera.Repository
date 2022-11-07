@@ -19,18 +19,23 @@
 		private readonly DbContext dbContext;
 		private readonly DbSet<TAggregateRoot> dbSet;
 
-		public EntityFrameworkCoreRepository(IDbContextFactory dbContextFactory)
+		public EntityFrameworkCoreRepository(
+			DbContextProvider contextProvider,
+			IRepositoryRegistry repositoryRegistry)
 		{
-			Guard.Against.Null(dbContextFactory, nameof(dbContextFactory));
+			Guard.Against.Null(contextProvider, nameof(contextProvider));
+			Guard.Against.Null(repositoryRegistry, nameof(repositoryRegistry));
 
-			this.dbContext = dbContextFactory.CreateDbContext<TAggregateRoot, TKey>();
+			RepositoryName repositoryName = repositoryRegistry.GetRepositoryNameFor<TAggregateRoot>();
+
+			this.dbContext = contextProvider.GetContextFor(repositoryName);
 			this.dbSet = this.dbContext.Set<TAggregateRoot>();
 		}
 
 		private static string Name => "Fluxera.Repository.EntityFrameworkCoreRepository";
 
 		/// <inheritdoc />
-		protected override IQueryable<TAggregateRoot> Queryable => this.dbSet.AsQueryable();
+		protected override IQueryable<TAggregateRoot> Queryable => this.dbSet;
 
 		/// <inheritdoc />
 		public override string ToString()
@@ -44,7 +49,7 @@
 			this.PrepareItem(item, EntityState.Added);
 
 			await this.dbSet.AddAsync(item, cancellationToken).ConfigureAwait(false);
-			await this.dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+			//await this.dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
@@ -58,7 +63,7 @@
 			}
 
 			await this.dbSet.AddRangeAsync(itemList, cancellationToken).ConfigureAwait(false);
-			await this.dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+			//await this.dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
@@ -70,21 +75,22 @@
 				.ConfigureAwait(false);
 
 			this.dbSet.RemoveRange(items);
-			await this.dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+			//await this.dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
-		protected override async Task RemoveRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
+		protected override Task RemoveRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{
 			this.dbSet.RemoveRange(items);
-			await this.dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+			return Task.CompletedTask;
+			//await this.dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
 		protected override async Task UpdateAsync(TAggregateRoot item, CancellationToken cancellationToken)
 		{
 			await this.PerformUpdateAsync(item).ConfigureAwait(false);
-			await this.dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+			//await this.dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
@@ -95,7 +101,7 @@
 				await this.PerformUpdateAsync(item).ConfigureAwait(false);
 			}
 
-			await this.dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+			//await this.dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />

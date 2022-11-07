@@ -23,6 +23,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<InternalsVisibleTo Include="Fluxera.Repository" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Fluxera.Entity" Version="6.1.11" />
 		<PackageReference Include="Fluxera.Extensions.Validation.Abstractions" Version="6.1.8" />
 		<PackageReference Include="Fluxera.Linq.Expressions" Version="6.1.0" />
