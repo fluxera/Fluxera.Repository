@@ -18,6 +18,8 @@
 				LegalType = LegalType.LimitedLiabilityCompany,
 			};
 			await this.CompanyRepository.AddAsync(company);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			company.ID.Should().NotBeEmpty();
 
 			Company result = await this.CompanyRepository.GetAsync(company.ID);

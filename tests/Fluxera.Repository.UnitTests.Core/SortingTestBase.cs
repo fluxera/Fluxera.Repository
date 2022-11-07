@@ -50,6 +50,8 @@
 				},
 			};
 			await this.PersonRepository.AddRangeAsync(persons);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 
 			IQueryOptions<Person> options = QueryOptions<Person>.OrderBy(x => x.Name);
@@ -95,6 +97,8 @@
 				},
 			};
 			await this.PersonRepository.AddRangeAsync(persons);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 
 			IQueryOptions<Person> options = QueryOptions<Person>.OrderBy(x => x.Name).ThenBy(x => x.Age);
@@ -154,6 +158,8 @@
 				},
 			};
 			await this.PersonRepository.AddRangeAsync(persons);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 
 			IQueryOptions<Person> options = QueryOptions<Person>.OrderByDescending(x => x.Name);
@@ -199,6 +205,8 @@
 				},
 			};
 			await this.PersonRepository.AddRangeAsync(persons);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 
 			IQueryOptions<Person> options = QueryOptions<Person>.OrderByDescending(x => x.Name).ThenByDescending(x => x.Age);

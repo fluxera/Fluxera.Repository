@@ -19,9 +19,16 @@
 				Name = "Tester"
 			};
 			await this.PersonRepository.AddAsync(person);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			person.ID.Should().NotBeEmpty();
 
+			Person result = await this.PersonRepository.GetAsync(person.ID);
+			result.Should().NotBeNull();
+
 			await this.PersonRepository.RemoveAsync(person);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			long count = await this.PersonRepository.CountAsync();
 			count.Should().Be(0);
 		}
@@ -34,9 +41,16 @@
 				Name = "Tester"
 			};
 			await this.PersonRepository.AddAsync(person);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			person.ID.Should().NotBeEmpty();
 
+			Person result = await this.PersonRepository.GetAsync(person.ID);
+			result.Should().NotBeNull();
+
 			await this.PersonRepository.RemoveAsync(person.ID);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			long count = await this.PersonRepository.CountAsync();
 			count.Should().Be(0);
 		}
@@ -49,9 +63,16 @@
 				Name = "Tester"
 			};
 			await this.PersonRepository.AddAsync(person);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			person.ID.Should().NotBeEmpty();
 
+			Person result = await this.PersonRepository.GetAsync(person.ID);
+			result.Should().NotBeNull();
+
 			await this.PersonRepository.RemoveRangeAsync(x => x.ID == person.ID);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			long count = await this.PersonRepository.CountAsync();
 			count.Should().Be(0);
 		}
@@ -79,9 +100,19 @@
 				}
 			};
 			await this.PersonRepository.AddRangeAsync(persons);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 
+			foreach(Person person in persons)
+			{
+				Person result = await this.PersonRepository.GetAsync(person.ID);
+				result.Should().NotBeNull();
+			}
+
 			await this.PersonRepository.RemoveRangeAsync(persons);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			long count = await this.PersonRepository.CountAsync();
 			count.Should().Be(0);
 		}
@@ -109,9 +140,19 @@
 				}
 			};
 			await this.PersonRepository.AddRangeAsync(persons);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 
+			foreach(Person person in persons)
+			{
+				Person result = await this.PersonRepository.GetAsync(person.ID);
+				result.Should().NotBeNull();
+			}
+
 			await this.PersonRepository.RemoveRangeAsync(x => true);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			long count = await this.PersonRepository.CountAsync();
 			count.Should().Be(0);
 		}
@@ -124,10 +165,17 @@
 				Name = "Tester"
 			};
 			await this.EmployeeRepository.AddAsync(employee);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employee.ID.Should().NotBeNull();
 			employee.ID.Value.Should().NotBeEmpty();
 
+			Employee result = await this.EmployeeRepository.GetAsync(employee.ID);
+			result.Should().NotBeNull();
+
 			await this.EmployeeRepository.RemoveAsync(employee);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			long count = await this.EmployeeRepository.CountAsync();
 			count.Should().Be(0);
 		}
@@ -140,10 +188,17 @@
 				Name = "Tester"
 			};
 			await this.EmployeeRepository.AddAsync(employee);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employee.ID.Should().NotBeNull();
 			employee.ID.Value.Should().NotBeEmpty();
 
+			Employee result = await this.EmployeeRepository.GetAsync(employee.ID);
+			result.Should().NotBeNull();
+
 			await this.EmployeeRepository.RemoveAsync(employee.ID);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			long count = await this.EmployeeRepository.CountAsync();
 			count.Should().Be(0);
 		}
@@ -156,10 +211,17 @@
 				Name = "Tester"
 			};
 			await this.EmployeeRepository.AddAsync(employee);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employee.ID.Should().NotBeNull();
 			employee.ID.Value.Should().NotBeEmpty();
 
+			Employee result = await this.EmployeeRepository.GetAsync(employee.ID);
+			result.Should().NotBeNull();
+
 			await this.EmployeeRepository.RemoveRangeAsync(x => x.ID == employee.ID);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			long count = await this.EmployeeRepository.CountAsync();
 			count.Should().Be(0);
 		}
@@ -187,10 +249,20 @@
 				}
 			};
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
 
+			foreach(Employee employee in employees)
+			{
+				Employee result = await this.EmployeeRepository.GetAsync(employee.ID);
+				result.Should().NotBeNull();
+			}
+
 			await this.EmployeeRepository.RemoveRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			long count = await this.EmployeeRepository.CountAsync();
 			count.Should().Be(0);
 		}

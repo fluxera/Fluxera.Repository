@@ -38,6 +38,7 @@
 			await this.CompanyRepository.AddAsync(this.company);
 			await this.PersonRepository.AddAsync(this.person);
 			await this.EmployeeRepository.AddAsync(this.employee);
+			await this.UnitOfWork.SaveChangesAsync();
 		}
 
 		[Test]
@@ -49,6 +50,8 @@
 				Company = this.company
 			};
 			await this.ReferenceRepository.AddAsync(reference);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			reference = await this.ReferenceRepository.GetAsync(reference.ID);
 
 			// Assert
@@ -65,6 +68,8 @@
 				Person = this.person
 			};
 			await this.ReferenceRepository.AddAsync(reference);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			reference = await this.ReferenceRepository.GetAsync(reference.ID);
 
 			// Assert
@@ -81,6 +86,8 @@
 				Employee = this.employee
 			};
 			await this.ReferenceRepository.AddAsync(reference);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			reference = await this.ReferenceRepository.GetAsync(reference.ID);
 
 			// Assert
@@ -100,6 +107,8 @@
 				}
 			};
 			await this.ReferenceRepository.AddAsync(reference);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			reference = await this.ReferenceRepository.GetAsync(reference.ID);
 
 			// Assert
@@ -119,6 +128,8 @@
 				}
 			};
 			await this.ReferenceRepository.AddAsync(reference);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			reference = await this.ReferenceRepository.GetAsync(reference.ID);
 
 			// Assert
@@ -138,6 +149,8 @@
 				}
 			};
 			await this.ReferenceRepository.AddAsync(reference);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			reference = await this.ReferenceRepository.GetAsync(reference.ID);
 
 			// Assert

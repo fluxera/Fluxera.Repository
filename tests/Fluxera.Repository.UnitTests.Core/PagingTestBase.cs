@@ -22,6 +22,8 @@
 				.Generate(250);
 
 			await this.PersonRepository.AddRangeAsync(persons);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 
 			IQueryOptions<Person> options = QueryOptions<Person>.Paging(5, 10);
@@ -40,6 +42,8 @@
 				.Generate(250);
 
 			await this.PersonRepository.AddRangeAsync(persons);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 
 			IQueryOptions<Person> options = QueryOptions<Person>.Skip(100);
@@ -57,6 +61,8 @@
 				.Generate(250);
 
 			await this.PersonRepository.AddRangeAsync(persons);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 
 			IQueryOptions<Person> options = QueryOptions<Person>.Take(75);
@@ -74,6 +80,8 @@
 				.Generate(250);
 
 			await this.PersonRepository.AddRangeAsync(persons);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 
 			IQueryOptions<Person> options = QueryOptions<Person>.SkipTake(200, 75);
@@ -91,6 +99,8 @@
 				.Generate(250);
 
 			await this.PersonRepository.AddRangeAsync(persons);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 
 			IQueryOptions<Person> options = QueryOptions<Person>.Skip(200).Take(75);

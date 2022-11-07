@@ -532,7 +532,7 @@ namespace Fluxera.Repository.UnitTests
 		}
 
 		/// <inheritdoc />
-		bool IDisposableRepository.IsDisposed { get; }
+		bool IDisposableRepository.IsDisposed => throw new NotImplementedException();
 
 		/// <inheritdoc />
 		public async ValueTask DisposeAsync()

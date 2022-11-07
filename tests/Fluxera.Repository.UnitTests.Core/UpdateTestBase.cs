@@ -18,12 +18,15 @@
 				Name = "Tester"
 			};
 			await this.PersonRepository.AddAsync(person);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			person.ID.Should().NotBeEmpty();
 
 			Person item = await this.PersonRepository.GetAsync(person.ID);
 			item.Name.Should().Be("Tester");
 			item.Name = "John";
 			await this.PersonRepository.UpdateAsync(item);
+			await this.UnitOfWork.SaveChangesAsync();
 
 			Person result = await this.PersonRepository.GetAsync(person.ID);
 			result.Name.Should().Be("John");
@@ -37,6 +40,8 @@
 				Name = "Tester"
 			};
 			await this.EmployeeRepository.AddAsync(employee);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employee.ID.Should().NotBeNull();
 			employee.ID.Value.Should().NotBeEmpty();
 
@@ -44,6 +49,7 @@
 			item.Name.Should().Be("Tester");
 			item.Name = "John";
 			await this.EmployeeRepository.UpdateAsync(item);
+			await this.UnitOfWork.SaveChangesAsync();
 
 			Employee result = await this.EmployeeRepository.GetAsync(employee.ID);
 			result.Name.Should().Be("John");
@@ -64,10 +70,12 @@
 				}
 			};
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
 
 			employees[0].Name = "One";
 			employees[1].Name = "Two";
 			await this.EmployeeRepository.UpdateRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
 
 			Employee result1 = await this.EmployeeRepository.GetAsync(employees[0].ID);
 			result1.Name.Should().Be("One");
@@ -99,10 +107,12 @@
 				}
 			};
 			await this.PersonRepository.AddRangeAsync(persons);
+			await this.UnitOfWork.SaveChangesAsync();
 
 			persons[0].Name = "One";
 			persons[1].Name = "Two";
 			await this.PersonRepository.UpdateRangeAsync(persons);
+			await this.UnitOfWork.SaveChangesAsync();
 
 			Person result1 = await this.PersonRepository.GetAsync(persons[0].ID);
 			result1.Name.Should().Be("One");

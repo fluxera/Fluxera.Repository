@@ -2,7 +2,6 @@
 
 using System.Collections.Generic;
 using Fluxera.Repository;
-using Fluxera.Repository.MongoDB;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using OpenTelemetry.Resources;
@@ -29,10 +28,10 @@ builder.Services.AddRepository(rb =>
 	//{
 	//	rob.UseFor<Person>();
 	//});
-	rb.AddMongoRepository("PersonRepository", rob =>
-	{
-		rob.UseFor<Person>();
-	});
+	//rb.AddMongoRepository("PersonRepository", rob =>
+	//{
+	//	rob.UseFor<Person>();
+	//});
 });
 
 builder.Services.AddTransient<IPersonRepository, PersonRepository>();

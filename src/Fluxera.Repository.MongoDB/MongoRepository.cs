@@ -4,16 +4,12 @@
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Linq.Expressions;
-	using System.Security.Authentication;
 	using System.Threading;
 	using System.Threading.Tasks;
 	using Fluxera.Entity;
 	using Fluxera.Guards;
-	using Fluxera.Repository.Options;
 	using Fluxera.Repository.Specifications;
-	using Fluxera.Utilities.Extensions;
 	using global::MongoDB.Driver;
-	using global::MongoDB.Driver.Core.Extensions.DiagnosticSources;
 	using global::MongoDB.Driver.Linq;
 
 	internal sealed class MongoRepository<TAggregateRoot, TKey> : LinqRepositoryBase<TAggregateRoot, TKey>
@@ -21,57 +17,18 @@
 		where TKey : IComparable<TKey>, IEquatable<TKey>
 	{
 		private readonly IMongoCollection<TAggregateRoot> collection;
+		private readonly MongoContext context;
 
 		public MongoRepository(
-			IRepositoryRegistry repositoryRegistry,
-			IDatabaseNameProvider databaseNameProvider = null)
+			MongoContextProvider contextProvider,
+			IRepositoryRegistry repositoryRegistry)
 		{
+			Guard.Against.Null(contextProvider, nameof(contextProvider));
+			Guard.Against.Null(repositoryRegistry, nameof(repositoryRegistry));
+
 			RepositoryName repositoryName = repositoryRegistry.GetRepositoryNameFor<TAggregateRoot>();
-			RepositoryOptions options = repositoryRegistry.GetRepositoryOptionsFor(repositoryName);
-
-			MongoPersistenceSettings persistenceSettings = new MongoPersistenceSettings
-			{
-				ConnectionString = (string)(options.Settings.GetOrDefault("Mongo.ConnectionString") ?? "mongodb://localhost:27017"),
-				Database = (string)(options.Settings.GetOrDefault("Mongo.Database") ?? "default")
-			};
-
-			object settingsUseSsl = options.Settings.GetOrDefault("Mongo.UseSsl");
-			persistenceSettings.UseSsl = (bool)(settingsUseSsl ?? false);
-
-			string connectionString = persistenceSettings.ConnectionString;
-			string databaseName = persistenceSettings.Database;
-			string collectionName = typeof(TAggregateRoot).Name.Pluralize();
-
-			// If a custom database name provider is available use this to resolve the database name dynamically.
-			if(databaseNameProvider != null)
-			{
-				databaseName = databaseNameProvider.GetDatabaseName(typeof(TAggregateRoot));
-			}
-
-			Guard.Against.NullOrWhiteSpace(connectionString, nameof(connectionString));
-			Guard.Against.NullOrWhiteSpace(databaseName, nameof(databaseName));
-			Guard.Against.NullOrWhiteSpace(collectionName, nameof(collectionName));
-
-			MongoClientSettings settings = MongoClientSettings.FromUrl(new MongoUrl(connectionString));
-
-			object captureCommandText = options.Settings.GetOrDefault("Mongo.CaptureCommandText");
-			InstrumentationOptions instrumentationOptions = new InstrumentationOptions
-			{
-				CaptureCommandText = (bool)(captureCommandText ?? true)
-			};
-			settings.ClusterConfigurator = clusterBuilder => clusterBuilder.Subscribe(new DiagnosticsActivityEventSubscriber(instrumentationOptions));
-
-			if(persistenceSettings.UseSsl)
-			{
-				settings.SslSettings = new SslSettings
-				{
-					EnabledSslProtocols = SslProtocols.Tls12,
-				};
-			}
-
-			MongoClient client = new MongoClient(settings);
-			IMongoDatabase database = client.GetDatabase(databaseName);
-			this.collection = database.GetCollection<TAggregateRoot>(collectionName);
+			this.context = contextProvider.GetContextFor(repositoryName);
+			this.collection = this.context.GetCollection<TAggregateRoot>();
 		}
 
 		private static string Name => "Fluxera.Repository.MongoRepository";
@@ -86,26 +43,51 @@
 		}
 
 		/// <inheritdoc />
-		protected override async Task AddAsync(TAggregateRoot item, CancellationToken cancellationToken)
+		protected override Task AddAsync(TAggregateRoot item, CancellationToken cancellationToken)
 		{
-			await this.collection
-				.InsertOneAsync(item, cancellationToken: cancellationToken)
-				.ConfigureAwait(false);
+			Task PerformAddAsync()
+			{
+				Task result = this.context.Session is not null
+					? this.collection.InsertOneAsync(this.context.Session, item, cancellationToken: cancellationToken)
+					: this.collection.InsertOneAsync(item, cancellationToken: cancellationToken);
+
+				return result.Then(cancellationToken);
+			}
+
+			return this.context.AddCommandAsync(PerformAddAsync);
 		}
 
 		/// <inheritdoc />
 		protected override async Task AddRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{
-			await this.collection
-				.InsertManyAsync(items, cancellationToken: cancellationToken)
+			Task PerformAddRangeAsync()
+			{
+				Task result = this.context.Session is not null
+					? this.collection.InsertManyAsync(this.context.Session, items, cancellationToken: cancellationToken)
+					: this.collection.InsertManyAsync(items, cancellationToken: cancellationToken);
+
+				return result;
+			}
+
+			await this.context
+				.AddCommandAsync(PerformAddRangeAsync)
 				.ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
 		protected override async Task RemoveRangeAsync(ISpecification<TAggregateRoot> specification, CancellationToken cancellationToken)
 		{
-			await this.collection
-				.DeleteManyAsync(specification.Predicate, cancellationToken)
+			Task PerformRemoveRangeAsync()
+			{
+				Task result = this.context.Session is not null
+					? this.collection.DeleteManyAsync(this.context.Session, specification.Predicate, cancellationToken: cancellationToken)
+					: this.collection.DeleteManyAsync(specification.Predicate, cancellationToken);
+
+				return result;
+			}
+
+			await this.context
+				.AddCommandAsync(PerformRemoveRangeAsync)
 				.ConfigureAwait(false);
 		}
 
@@ -121,16 +103,34 @@
 				deletes.Add(new DeleteOneModel<TAggregateRoot>(predicate));
 			}
 
-			await this.collection
-				.BulkWriteAsync(deletes, new BulkWriteOptions { IsOrdered = false }, cancellationToken)
+			Task PerformRemoveRangeAsync()
+			{
+				Task result = this.context.Session is not null
+					? this.collection.BulkWriteAsync(this.context.Session, deletes, new BulkWriteOptions { IsOrdered = false }, cancellationToken)
+					: this.collection.BulkWriteAsync(deletes, new BulkWriteOptions { IsOrdered = false }, cancellationToken);
+
+				return result;
+			}
+
+			await this.context
+				.AddCommandAsync(PerformRemoveRangeAsync)
 				.ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
 		protected override async Task UpdateAsync(TAggregateRoot item, CancellationToken cancellationToken)
 		{
-			await this.collection
-				.ReplaceOneAsync(this.CreatePrimaryKeyPredicate(item.ID), item, cancellationToken: cancellationToken)
+			Task PerformUpdateAsync()
+			{
+				Task result = this.context.Session is not null
+					? this.collection.ReplaceOneAsync(this.context.Session, this.CreatePrimaryKeyPredicate(item.ID), item, cancellationToken: cancellationToken)
+					: this.collection.ReplaceOneAsync(this.CreatePrimaryKeyPredicate(item.ID), item, cancellationToken: cancellationToken);
+
+				return result;
+			}
+
+			await this.context
+				.AddCommandAsync(PerformUpdateAsync)
 				.ConfigureAwait(false);
 		}
 
@@ -144,8 +144,17 @@
 				updates.Add(new ReplaceOneModel<TAggregateRoot>(predicate, item));
 			}
 
-			await this.collection
-				.BulkWriteAsync(updates, new BulkWriteOptions { IsOrdered = false }, cancellationToken)
+			Task PerformUpdateRangeAsync()
+			{
+				Task result = this.context.Session is not null
+					? this.collection.BulkWriteAsync(this.context.Session, updates, new BulkWriteOptions { IsOrdered = false }, cancellationToken)
+					: this.collection.BulkWriteAsync(updates, new BulkWriteOptions { IsOrdered = false }, cancellationToken);
+
+				return result;
+			}
+
+			await this.context
+				.AddCommandAsync(PerformUpdateRangeAsync)
 				.ConfigureAwait(false);
 		}
 

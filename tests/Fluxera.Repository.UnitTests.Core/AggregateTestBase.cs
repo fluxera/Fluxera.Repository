@@ -31,6 +31,8 @@
 				}
 			};
 			await this.PersonRepository.AddRangeAsync(persons);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 
 			long count = await this.PersonRepository.CountAsync();
@@ -56,6 +58,8 @@
 				}
 			};
 			await this.PersonRepository.AddRangeAsync(persons);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 
 			long count = await this.PersonRepository.CountAsync(x => x.Name.EndsWith("2"));
@@ -81,6 +85,8 @@
 				}
 			};
 			await this.PersonRepository.AddRangeAsync(persons);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 
 			long count = await this.PersonRepository.CountAsync(new Specification<Person>(x => x.Name.EndsWith("2")));
@@ -106,6 +112,8 @@
 				}
 			};
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
 
@@ -132,6 +140,8 @@
 				}
 			};
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
 
@@ -145,6 +155,8 @@
 			Employee[] employees = this.GetSumEmployees();
 
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
 
@@ -159,6 +171,8 @@
 			Employee[] employees = this.GetSumEmployees();
 
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
 
@@ -172,6 +186,8 @@
 			Employee[] employees = this.GetSumEmployees();
 
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
 
@@ -185,6 +201,8 @@
 			Employee[] employees = this.GetSumEmployees();
 
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
 
@@ -198,6 +216,8 @@
 			Employee[] employees = this.GetSumEmployees();
 
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
 
@@ -211,6 +231,8 @@
 			Employee[] employees = this.GetSumEmployees();
 
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
 
@@ -224,6 +246,8 @@
 			Employee[] employees = this.GetSumEmployees();
 
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
 
@@ -237,6 +261,8 @@
 			Employee[] employees = this.GetSumEmployees();
 
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
 
@@ -250,6 +276,8 @@
 			Employee[] employees = this.GetSumEmployees();
 
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
 
@@ -263,6 +291,8 @@
 			Employee[] employees = this.GetSumEmployees();
 
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
 
@@ -276,6 +306,8 @@
 			Employee[] employees = this.GetSumEmployees();
 
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
 
@@ -289,6 +321,8 @@
 			Employee[] employees = this.GetSumEmployees();
 
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
 
@@ -302,6 +336,8 @@
 			Employee[] employees = this.GetSumEmployees();
 
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
 
@@ -315,6 +351,8 @@
 			Employee[] employees = this.GetSumEmployees();
 
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
 
@@ -328,6 +366,8 @@
 			Employee[] employees = this.GetSumEmployees();
 
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
 
@@ -341,6 +381,8 @@
 			Employee[] employees = this.GetSumEmployees();
 
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
 
@@ -354,6 +396,8 @@
 			Employee[] employees = this.GetSumEmployees();
 
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
 
@@ -367,6 +411,8 @@
 			Employee[] employees = this.GetSumEmployees();
 
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
 
@@ -380,6 +426,8 @@
 			Employee[] employees = this.GetSumEmployees();
 
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
 
@@ -393,6 +441,8 @@
 			Employee[] employees = this.GetSumEmployees();
 
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
 
@@ -406,6 +456,8 @@
 			Employee[] employees = this.GetSumEmployees();
 
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
 
@@ -419,6 +471,8 @@
 			Employee[] employees = this.GetSumEmployees();
 
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
 
@@ -432,6 +486,8 @@
 			Employee[] employees = this.GetSumEmployees();
 
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
 
@@ -445,6 +501,8 @@
 			Employee[] employees = this.GetSumEmployees();
 
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
 
@@ -458,6 +516,8 @@
 			Employee[] employees = this.GetSumEmployees();
 
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
 
@@ -471,6 +531,8 @@
 			Employee[] employees = this.GetSumEmployees();
 
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
 
@@ -484,6 +546,8 @@
 			Employee[] employees = this.GetSumEmployees();
 
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
 
@@ -497,6 +561,8 @@
 			Employee[] employees = this.GetSumEmployees();
 
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
 
@@ -510,6 +576,8 @@
 			Employee[] employees = this.GetSumEmployees();
 
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
 
@@ -523,6 +591,8 @@
 			Employee[] employees = this.GetSumEmployees();
 
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
 
@@ -537,6 +607,8 @@
 			Employee[] employees = this.GetSumEmployees();
 
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
 
@@ -550,6 +622,8 @@
 			Employee[] employees = this.GetSumEmployees();
 
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
 
@@ -563,6 +637,8 @@
 			Employee[] employees = this.GetSumEmployees();
 
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
 
@@ -576,6 +652,8 @@
 			Employee[] employees = this.GetSumEmployees();
 
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
 
@@ -589,6 +667,8 @@
 			Employee[] employees = this.GetSumEmployees();
 
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
 
@@ -602,6 +682,8 @@
 			Employee[] employees = this.GetSumEmployees();
 
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
 
@@ -615,6 +697,8 @@
 			Employee[] employees = this.GetSumEmployees();
 
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
 
@@ -628,6 +712,8 @@
 			Employee[] employees = this.GetSumEmployees();
 
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
 
@@ -641,6 +727,8 @@
 			Employee[] employees = this.GetSumEmployees();
 
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
 
@@ -654,6 +742,8 @@
 			Employee[] employees = this.GetSumEmployees();
 
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
 
@@ -667,6 +757,8 @@
 			Employee[] employees = this.GetSumEmployees();
 
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
 
@@ -680,6 +772,8 @@
 			Employee[] employees = this.GetSumEmployees();
 
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
 
@@ -693,6 +787,8 @@
 			Employee[] employees = this.GetSumEmployees();
 
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
 
@@ -706,6 +802,8 @@
 			Employee[] employees = this.GetSumEmployees();
 
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
 
@@ -719,6 +817,8 @@
 			Employee[] employees = this.GetSumEmployees();
 
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
 
@@ -732,6 +832,8 @@
 			Employee[] employees = this.GetSumEmployees();
 
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
 
@@ -745,6 +847,8 @@
 			Employee[] employees = this.GetSumEmployees();
 
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
 
@@ -758,6 +862,8 @@
 			Employee[] employees = this.GetSumEmployees();
 
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
 
@@ -771,6 +877,8 @@
 			Employee[] employees = this.GetSumEmployees();
 
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
 
@@ -784,6 +892,8 @@
 			Employee[] employees = this.GetSumEmployees();
 
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
 
@@ -797,6 +907,8 @@
 			Employee[] employees = this.GetSumEmployees();
 
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
 
@@ -810,6 +922,8 @@
 			Employee[] employees = this.GetSumEmployees();
 
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
 
@@ -823,6 +937,8 @@
 			Employee[] employees = this.GetSumEmployees();
 
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
 
@@ -836,6 +952,8 @@
 			Employee[] employees = this.GetSumEmployees();
 
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
 
@@ -849,6 +967,8 @@
 			Employee[] employees = this.GetSumEmployees();
 
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
 
@@ -862,6 +982,8 @@
 			Employee[] employees = this.GetSumEmployees();
 
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
 
@@ -875,6 +997,8 @@
 			Employee[] employees = this.GetSumEmployees();
 
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
 
@@ -888,6 +1012,8 @@
 			Employee[] employees = this.GetSumEmployees();
 
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
 
@@ -901,6 +1027,8 @@
 			Employee[] employees = this.GetSumEmployees();
 
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
 
@@ -914,6 +1042,8 @@
 			Employee[] employees = this.GetSumEmployees();
 
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
 
