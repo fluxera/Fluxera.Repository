@@ -21,7 +21,14 @@
 			{
 				services.AddRepository(rb =>
 				{
-					rb.AddInMemoryRepository("Repository", rob =>
+					rb.Services.AddInMemoryContext(sp =>
+					{
+						IRepositoryRegistry repositoryRegistry = sp.GetRequiredService<IRepositoryRegistry>();
+
+						return new RepositoryInMemoryContext("Repository", repositoryRegistry);
+					});
+
+					rb.AddInMemoryRepository<RepositoryInMemoryContext>("Repository", rob =>
 					{
 						rob.UseFor<Company>();
 						rob.UseFor<Person>();

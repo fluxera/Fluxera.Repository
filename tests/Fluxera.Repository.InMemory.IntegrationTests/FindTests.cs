@@ -2,6 +2,7 @@
 {
 	using System;
 	using Fluxera.Repository.UnitTests.Core;
+	using Microsoft.Extensions.DependencyInjection;
 	using NUnit.Framework;
 
 	[TestFixture]
@@ -11,7 +12,14 @@
 		protected override void AddRepositoryUnderTest(IRepositoryBuilder repositoryBuilder,
 			string repositoryName, Action<IRepositoryOptionsBuilder> configureOptions)
 		{
-			repositoryBuilder.AddInMemoryRepository(repositoryName, configureOptions);
+			repositoryBuilder.Services.AddInMemoryContext(serviceProvider =>
+			{
+				IRepositoryRegistry repositoryRegistry = serviceProvider.GetRequiredService<IRepositoryRegistry>();
+
+				return new RepositoryInMemoryContext(repositoryName, repositoryRegistry);
+			});
+
+			repositoryBuilder.AddInMemoryRepository<RepositoryInMemoryContext>(repositoryName, configureOptions);
 		}
 	}
 }
