@@ -1,7 +1,7 @@
 ﻿namespace Fluxera.Repository.InMemory
 {
 	using System;
-	using System.Collections.Generic;
+	using System.Collections.Concurrent;
 	using System.Linq;
 	using System.Threading;
 	using System.Threading.Tasks;
@@ -15,7 +15,7 @@
 		private readonly RepositoryName repositoryName;
 		private readonly IRepositoryRegistry repositoryRegistry;
 
-		private IList<Func<Task>> commands;
+		private ConcurrentQueue<Func<Task>> commands;
 
 		protected InMemoryContext(
 			string repositoryName,
@@ -25,7 +25,7 @@
 			this.repositoryRegistry = repositoryRegistry;
 
 			// Command will be stored and later processed on saving changes.
-			this.commands = new List<Func<Task>>();
+			this.commands = new ConcurrentQueue<Func<Task>>();
 		}
 
 		/// <summary>
@@ -36,8 +36,8 @@
 		{
 			Guard.Against.Null(command);
 
-			this.commands ??= new List<Func<Task>>();
-			this.commands.Add(command);
+			this.commands ??= new ConcurrentQueue<Func<Task>>();
+			this.commands.Enqueue(command);
 
 			return Task.CompletedTask;
 		}

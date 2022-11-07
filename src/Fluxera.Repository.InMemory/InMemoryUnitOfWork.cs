@@ -9,16 +9,16 @@
 	[UsedImplicitly]
 	internal sealed class InMemoryUnitOfWork : IUnitOfWork
 	{
-		private readonly InMemoryContextProvider inMemoryContextProvider;
-		private InMemoryContext inMemoryContext;
+		private readonly InMemoryContextProvider contextProvider;
+		private InMemoryContext context;
 
 		private bool isInitialized;
 
-		public InMemoryUnitOfWork(InMemoryContextProvider inMemoryContextProvider)
+		public InMemoryUnitOfWork(InMemoryContextProvider contextProvider)
 		{
-			Guard.Against.Null(inMemoryContextProvider);
+			Guard.Against.Null(contextProvider);
 
-			this.inMemoryContextProvider = inMemoryContextProvider;
+			this.contextProvider = contextProvider;
 		}
 
 		/// <inheritdoc />
@@ -26,7 +26,7 @@
 		{
 			this.EnsureInitialized();
 
-			return this.inMemoryContext.SaveChangesAsync(cancellationToken);
+			return this.context.SaveChangesAsync(cancellationToken);
 		}
 
 		/// <inheritdoc />
@@ -34,13 +34,13 @@
 		{
 			this.EnsureInitialized();
 
-			this.inMemoryContext.DiscardChanges();
+			this.context.DiscardChanges();
 		}
 
 		/// <inheritdoc />
 		void IUnitOfWork.Initialize(RepositoryName repositoryName)
 		{
-			this.inMemoryContext = this.inMemoryContextProvider.GetContextFor(repositoryName);
+			this.context = this.contextProvider.GetContextFor(repositoryName);
 			this.isInitialized = true;
 		}
 

@@ -1,7 +1,7 @@
 ﻿namespace Fluxera.Repository.MongoDB
 {
 	using System;
-	using System.Collections.Generic;
+	using System.Collections.Concurrent;
 	using System.Linq;
 	using System.Security.Authentication;
 	using System.Threading;
@@ -23,7 +23,7 @@
 		private readonly IRepositoryRegistry repositoryRegistry;
 
 		private IMongoClient client;
-		private IList<Func<Task>> commands;
+		private ConcurrentQueue<Func<Task>> commands;
 		private IMongoDatabase database;
 
 		protected MongoContext(
@@ -36,7 +36,7 @@
 			this.databaseNameProvider = databaseNameProvider;
 
 			// Command will be stored and later processed on saving changes.
-			this.commands = new List<Func<Task>>();
+			this.commands = new ConcurrentQueue<Func<Task>>();
 
 			this.Configure();
 		}
@@ -54,18 +54,10 @@
 		{
 			Guard.Against.Null(command);
 
-			this.commands ??= new List<Func<Task>>();
-			this.commands.Add(command);
+			this.commands ??= new ConcurrentQueue<Func<Task>>();
+			this.commands.Enqueue(command);
 
 			return Task.CompletedTask;
-		}
-
-		/// <summary>
-		///     Removes all added commands.
-		/// </summary>
-		private void ClearCommands()
-		{
-			this.commands?.Clear();
 		}
 
 		/// <summary>
@@ -135,7 +127,16 @@
 		/// <inheritdoc />
 		protected override void DisposeManaged()
 		{
+			this.ClearCommands();
 			this.Session?.Dispose();
+		}
+
+		/// <summary>
+		///     Removes all added commands.
+		/// </summary>
+		private void ClearCommands()
+		{
+			this.commands?.Clear();
 		}
 
 		private async Task ExecuteCommands(CancellationToken cancellationToken)

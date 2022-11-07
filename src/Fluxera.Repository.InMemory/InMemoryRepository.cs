@@ -47,7 +47,7 @@
 		}
 
 		/// <inheritdoc />
-		protected override Task AddAsync(TAggregateRoot item, CancellationToken cancellationToken)
+		protected override async Task AddAsync(TAggregateRoot item, CancellationToken cancellationToken)
 		{
 			Task PerformAddAsync()
 			{
@@ -57,11 +57,13 @@
 				return Task.CompletedTask;
 			}
 
-			return this.context.AddCommandAsync(PerformAddAsync);
+			await this.context
+				.AddCommandAsync(PerformAddAsync)
+				.ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
-		protected override Task AddRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
+		protected override async Task AddRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{
 			IList<TAggregateRoot> itemList = items.ToList();
 
@@ -76,11 +78,13 @@
 				return Task.CompletedTask;
 			}
 
-			return this.context.AddCommandAsync(PerformAddRangeAsync);
+			await this.context
+				.AddCommandAsync(PerformAddRangeAsync)
+				.ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
-		protected override Task RemoveRangeAsync(ISpecification<TAggregateRoot> specification, CancellationToken cancellationToken)
+		protected override async Task RemoveRangeAsync(ISpecification<TAggregateRoot> specification, CancellationToken cancellationToken)
 		{
 			Task PerformRemoveRangeAsync()
 			{
@@ -93,11 +97,13 @@
 				return Task.CompletedTask;
 			}
 
-			return this.context.AddCommandAsync(PerformRemoveRangeAsync);
+			await this.context
+				.AddCommandAsync(PerformRemoveRangeAsync)
+				.ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
-		protected override Task RemoveRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
+		protected override async Task RemoveRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{
 			IList<TAggregateRoot> itemList = items.ToList();
 
@@ -111,11 +117,13 @@
 				return Task.CompletedTask;
 			}
 
-			return this.context.AddCommandAsync(PerformRemoveRangeAsync);
+			await this.context
+				.AddCommandAsync(PerformRemoveRangeAsync)
+				.ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
-		protected override Task UpdateAsync(TAggregateRoot item, CancellationToken cancellationToken)
+		protected override async Task UpdateAsync(TAggregateRoot item, CancellationToken cancellationToken)
 		{
 			Task PerformUpdateAsync()
 			{
@@ -124,11 +132,13 @@
 				return Task.CompletedTask;
 			}
 
-			return this.context.AddCommandAsync(PerformUpdateAsync);
+			await this.context
+				.AddCommandAsync(PerformUpdateAsync)
+				.ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
-		protected override Task UpdateRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
+		protected override async Task UpdateRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{
 			IList<TAggregateRoot> itemList = items.ToList();
 
@@ -142,7 +152,9 @@
 				return Task.CompletedTask;
 			}
 
-			return this.context.AddCommandAsync(PerformUpdateRangeAsync);
+			await this.context
+				.AddCommandAsync(PerformUpdateRangeAsync)
+				.ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />

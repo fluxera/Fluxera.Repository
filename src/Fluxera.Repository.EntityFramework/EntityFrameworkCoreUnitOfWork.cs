@@ -10,16 +10,16 @@
 	[UsedImplicitly]
 	internal sealed class EntityFrameworkCoreUnitOfWork : IUnitOfWork
 	{
-		private readonly DbContextProvider dbContextProvider;
+		private readonly DbContextProvider contextProvider;
 
-		private DbContext dbContext;
+		private DbContext context;
 		private bool isInitialized;
 
-		public EntityFrameworkCoreUnitOfWork(DbContextProvider dbContextProvider)
+		public EntityFrameworkCoreUnitOfWork(DbContextProvider contextProvider)
 		{
-			Guard.Against.Null(dbContextProvider);
+			Guard.Against.Null(contextProvider);
 
-			this.dbContextProvider = dbContextProvider;
+			this.contextProvider = contextProvider;
 		}
 
 		/// <inheritdoc />
@@ -27,9 +27,9 @@
 		{
 			this.EnsureInitialized();
 
-			if(this.dbContext.ChangeTracker.HasChanges())
+			if(this.context.ChangeTracker.HasChanges())
 			{
-				await this.dbContext.SaveChangesAsync(cancellationToken);
+				await this.context.SaveChangesAsync(cancellationToken);
 			}
 		}
 
@@ -38,16 +38,16 @@
 		{
 			this.EnsureInitialized();
 
-			if(this.dbContext.ChangeTracker.HasChanges())
+			if(this.context.ChangeTracker.HasChanges())
 			{
-				this.dbContext.ChangeTracker.Clear();
+				this.context.ChangeTracker.Clear();
 			}
 		}
 
 		/// <inheritdoc />
 		void IUnitOfWork.Initialize(RepositoryName repositoryName)
 		{
-			this.dbContext = this.dbContextProvider.GetContextFor(repositoryName);
+			this.context = this.contextProvider.GetContextFor(repositoryName);
 			this.isInitialized = true;
 		}
 

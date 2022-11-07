@@ -23,8 +23,8 @@
 			MongoContextProvider contextProvider,
 			IRepositoryRegistry repositoryRegistry)
 		{
-			Guard.Against.Null(contextProvider, nameof(contextProvider));
-			Guard.Against.Null(repositoryRegistry, nameof(repositoryRegistry));
+			Guard.Against.Null(contextProvider);
+			Guard.Against.Null(repositoryRegistry);
 
 			RepositoryName repositoryName = repositoryRegistry.GetRepositoryNameFor<TAggregateRoot>();
 			this.context = contextProvider.GetContextFor(repositoryName);
@@ -43,7 +43,7 @@
 		}
 
 		/// <inheritdoc />
-		protected override Task AddAsync(TAggregateRoot item, CancellationToken cancellationToken)
+		protected override async Task AddAsync(TAggregateRoot item, CancellationToken cancellationToken)
 		{
 			Task PerformAddAsync()
 			{
@@ -54,19 +54,23 @@
 				return result.Then(cancellationToken);
 			}
 
-			return this.context.AddCommandAsync(PerformAddAsync);
+			await this.context
+				.AddCommandAsync(PerformAddAsync)
+				.ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
 		protected override async Task AddRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{
+			IList<TAggregateRoot> itemsList = items.ToList();
+
 			Task PerformAddRangeAsync()
 			{
 				Task result = this.context.Session is not null
-					? this.collection.InsertManyAsync(this.context.Session, items, cancellationToken: cancellationToken)
-					: this.collection.InsertManyAsync(items, cancellationToken: cancellationToken);
+					? this.collection.InsertManyAsync(this.context.Session, itemsList, cancellationToken: cancellationToken)
+					: this.collection.InsertManyAsync(itemsList, cancellationToken: cancellationToken);
 
-				return result;
+				return result.Then(cancellationToken);
 			}
 
 			await this.context
@@ -83,7 +87,7 @@
 					? this.collection.DeleteManyAsync(this.context.Session, specification.Predicate, cancellationToken: cancellationToken)
 					: this.collection.DeleteManyAsync(specification.Predicate, cancellationToken);
 
-				return result;
+				return result.Then(cancellationToken);
 			}
 
 			await this.context
@@ -109,7 +113,7 @@
 					? this.collection.BulkWriteAsync(this.context.Session, deletes, new BulkWriteOptions { IsOrdered = false }, cancellationToken)
 					: this.collection.BulkWriteAsync(deletes, new BulkWriteOptions { IsOrdered = false }, cancellationToken);
 
-				return result;
+				return result.Then(cancellationToken);
 			}
 
 			await this.context
@@ -126,7 +130,7 @@
 					? this.collection.ReplaceOneAsync(this.context.Session, this.CreatePrimaryKeyPredicate(item.ID), item, cancellationToken: cancellationToken)
 					: this.collection.ReplaceOneAsync(this.CreatePrimaryKeyPredicate(item.ID), item, cancellationToken: cancellationToken);
 
-				return result;
+				return result.Then(cancellationToken);
 			}
 
 			await this.context
@@ -150,7 +154,7 @@
 					? this.collection.BulkWriteAsync(this.context.Session, updates, new BulkWriteOptions { IsOrdered = false }, cancellationToken)
 					: this.collection.BulkWriteAsync(updates, new BulkWriteOptions { IsOrdered = false }, cancellationToken);
 
-				return result;
+				return result.Then(cancellationToken);
 			}
 
 			await this.context

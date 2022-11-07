@@ -9,16 +9,16 @@
 	[UsedImplicitly]
 	internal sealed class MongoUnitOfWork : IUnitOfWork
 	{
-		private readonly MongoContextProvider mongoContextProvider;
+		private readonly MongoContextProvider contextProvider;
+		private MongoContext context;
+
 		private bool isInitialized;
 
-		private MongoContext mongoContext;
-
-		public MongoUnitOfWork(MongoContextProvider mongoContextProvider)
+		public MongoUnitOfWork(MongoContextProvider contextProvider)
 		{
-			Guard.Against.Null(mongoContextProvider);
+			Guard.Against.Null(contextProvider);
 
-			this.mongoContextProvider = mongoContextProvider;
+			this.contextProvider = contextProvider;
 		}
 
 		/// <inheritdoc />
@@ -26,7 +26,7 @@
 		{
 			this.EnsureInitialized();
 
-			return this.mongoContext.SaveChangesAsync(cancellationToken);
+			return this.context.SaveChangesAsync(cancellationToken);
 		}
 
 		/// <inheritdoc />
@@ -34,13 +34,13 @@
 		{
 			this.EnsureInitialized();
 
-			this.mongoContext.DiscardChanges();
+			this.context.DiscardChanges();
 		}
 
 		/// <inheritdoc />
 		void IUnitOfWork.Initialize(RepositoryName repositoryName)
 		{
-			this.mongoContext = this.mongoContextProvider.GetContextFor(repositoryName);
+			this.context = this.contextProvider.GetContextFor(repositoryName);
 			this.isInitialized = true;
 		}
 

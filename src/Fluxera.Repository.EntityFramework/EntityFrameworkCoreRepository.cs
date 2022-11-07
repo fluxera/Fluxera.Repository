@@ -362,6 +362,7 @@
 				}
 			}
 
+			EntityState state = this.dbContext.Entry(item).State;
 			this.dbContext.Entry(item).State = entityState;
 		}
 	}

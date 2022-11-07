@@ -22,6 +22,7 @@
 		/// <returns></returns>
 		public static IRepositoryBuilder AddInMemoryRepository<TContext>(this IRepositoryBuilder builder,
 			string repositoryName, Action<IRepositoryOptionsBuilder> configure)
+			where TContext : InMemoryContext
 		{
 			return builder.AddInMemoryRepository(repositoryName, typeof(TContext), configure);
 		}
@@ -32,11 +33,11 @@
 		/// </summary>
 		/// <param name="builder"></param>
 		/// <param name="repositoryName"></param>
-		/// <param name="inMemoryContextType"></param>
+		/// <param name="contextType"></param>
 		/// <param name="configure"></param>
 		/// <returns></returns>
 		public static IRepositoryBuilder AddInMemoryRepository(this IRepositoryBuilder builder,
-			string repositoryName, Type inMemoryContextType, Action<IRepositoryOptionsBuilder> configure)
+			string repositoryName, Type contextType, Action<IRepositoryOptionsBuilder> configure)
 		{
 			Guard.Against.Null(builder, nameof(builder));
 			Guard.Against.NullOrWhiteSpace(repositoryName, nameof(repositoryName));
@@ -53,7 +54,7 @@
 			{
 				configure.Invoke(x);
 
-				x.AddSetting("InMemory.DbContext", inMemoryContextType);
+				x.AddSetting("InMemory.DbContext", contextType);
 			});
 		}
 	}

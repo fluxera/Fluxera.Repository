@@ -30,7 +30,7 @@
 		}
 
 		/// <summary>
-		///     Adds a MongoDb repository for the given repository name. The repository options
+		///     Adds a MongoDB repository for the given repository name. The repository options
 		///     are configured using the options builder config action. Additional MongoDB related
 		///     conventions can be registered using the configure convention action.
 		/// </summary>
@@ -46,17 +46,17 @@
 		}
 
 		/// <summary>
-		///     Adds a MongoDb repository for the given repository name. The repository options
+		///     Adds a MongoDB repository for the given repository name. The repository options
 		///     are configured using the options builder config action. Additional MongoDB related
 		///     conventions can be registered using the configure convention action.
 		/// </summary>
 		/// <param name="builder"></param>
 		/// <param name="repositoryName"></param>
-		/// <param name="mongoContextType"></param>
+		/// <param name="contextType"></param>
 		/// <param name="configure"></param>
 		/// <returns></returns>
 		public static IRepositoryBuilder AddMongoRepository(this IRepositoryBuilder builder,
-			string repositoryName, Type mongoContextType, Action<IRepositoryOptionsBuilder> configure)
+			string repositoryName, Type contextType, Action<IRepositoryOptionsBuilder> configure)
 		{
 			/* TODO: Move this block to mongo context */
 			ConventionPack pack = new ConventionPack
@@ -90,7 +90,7 @@
 			{
 				configure.Invoke(x);
 
-				x.AddSetting("Mongo.DbContext", mongoContextType);
+				x.AddSetting("Mongo.DbContext", contextType);
 			});
 		}
 	}
