@@ -14,7 +14,35 @@
 	public static class RepositoryBuilderExtensions
 	{
 		/// <summary>
-		///     Add an EF repository for the given repository name. The repository options
+		///     Add an EFCore repository for the "Default" repository name. The repository options
+		///     are configured using the given configure action.
+		/// </summary>
+		/// <param name="builder"></param>
+		/// <param name="configure"></param>
+		/// <returns></returns>
+		public static IRepositoryBuilder AddEntityFrameworkRepository<TContext>(this IRepositoryBuilder builder,
+			Action<IRepositoryOptionsBuilder> configure)
+			where TContext : DbContext
+		{
+			return builder.AddEntityFrameworkRepository(typeof(TContext), configure);
+		}
+
+		/// <summary>
+		///     Add an EFCore repository for the "Default" repository name. The repository options
+		///     are configured using the given configure action.
+		/// </summary>
+		/// <param name="builder"></param>
+		/// <param name="dbContextType"></param>
+		/// <param name="configure"></param>
+		/// <returns></returns>
+		public static IRepositoryBuilder AddEntityFrameworkRepository(this IRepositoryBuilder builder,
+			Type dbContextType, Action<IRepositoryOptionsBuilder> configure)
+		{
+			return builder.AddEntityFrameworkRepository("Default", dbContextType, configure);
+		}
+
+		/// <summary>
+		///     Add an EFCore repository for the given repository name. The repository options
 		///     are configured using the given configure action.
 		/// </summary>
 		/// <param name="builder"></param>
@@ -29,7 +57,7 @@
 		}
 
 		/// <summary>
-		///     Add an EF repository for the given repository name. The repository options
+		///     Add an EFCore repository for the given repository name. The repository options
 		///     are configured using the given configure action.
 		/// </summary>
 		/// <param name="builder"></param>
@@ -40,11 +68,11 @@
 		public static IRepositoryBuilder AddEntityFrameworkRepository(this IRepositoryBuilder builder,
 			string repositoryName, Type dbContextType, Action<IRepositoryOptionsBuilder> configure)
 		{
-			Guard.Against.Null(builder, nameof(builder));
-			Guard.Against.NullOrWhiteSpace(repositoryName, nameof(repositoryName));
-			Guard.Against.Null(configure, nameof(configure));
+			Guard.Against.Null(builder);
+			Guard.Against.NullOrWhiteSpace(repositoryName);
+			Guard.Against.Null(configure);
 
-			builder.Services.AddSingleton<DbContextProvider>();
+			builder.Services.AddScoped<DbContextProvider>();
 			builder.Services.AddNamedTransient<IUnitOfWork>(serviceBuilder =>
 			{
 				serviceBuilder.AddNameFor<EntityFrameworkCoreUnitOfWork>(repositoryName);

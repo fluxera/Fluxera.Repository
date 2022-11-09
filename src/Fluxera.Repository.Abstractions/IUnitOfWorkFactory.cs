@@ -9,10 +9,19 @@
 	public interface IUnitOfWorkFactory
 	{
 		/// <summary>
-		///     Creates a <see cref="IUnitOfWork" /> for the given repository.
+		///     Creates a <see cref="IUnitOfWork" /> for the "Default" repository name.
+		/// </summary>
+		/// <returns></returns>
+		IUnitOfWork CreateUnitOfWork()
+		{
+			return this.CreateUnitOfWork("Default");
+		}
+
+		/// <summary>
+		///     Creates a <see cref="IUnitOfWork" /> for the given repository name.
 		/// </summary>
 		/// <param name="repositoryName"></param>
 		/// <returns></returns>
-		IUnitOfWork CreateFor(RepositoryName repositoryName);
+		IUnitOfWork CreateUnitOfWork(string repositoryName);
 	}
 }

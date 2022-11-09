@@ -8,7 +8,7 @@
 	using Microsoft.EntityFrameworkCore;
 
 	[PublicAPI]
-	public sealed class RepositoryDbContext : RepositoryDbContextBase
+	public sealed class RepositoryDbContext : DbContext
 	{
 		public DbSet<Person> People { get; set; }
 
@@ -47,7 +47,7 @@
 					.HasConversion<double?>();
 			});
 
-			base.OnModelCreating(modelBuilder);
+			modelBuilder.UseRepositoryDefaults();
 		}
 	}
 }

@@ -34,9 +34,8 @@
 			{
 				DatabaseProvider databaseProvider = serviceProvider.GetRequiredService<DatabaseProvider>();
 				IRepositoryRegistry repositoryRegistry = serviceProvider.GetRequiredService<IRepositoryRegistry>();
-				IDatabaseNameProvider databaseNameProvider = serviceProvider.GetService<IDatabaseNameProvider>();
 
-				return new RepositoryLiteContext(repositoryName, databaseProvider, repositoryRegistry, databaseNameProvider);
+				return new RepositoryLiteContext(repositoryName, databaseProvider, repositoryRegistry);
 			});
 
 			repositoryBuilder.AddLiteRepository<RepositoryLiteContext>(repositoryName, options =>

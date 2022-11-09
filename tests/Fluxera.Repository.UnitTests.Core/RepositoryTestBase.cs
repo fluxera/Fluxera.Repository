@@ -55,7 +55,7 @@
 			this.ReferenceRepository = this.serviceProvider.GetRequiredService<IReferenceRepository>();
 
 			IUnitOfWorkFactory unitOfWorkFactory = this.serviceProvider.GetRequiredService<IUnitOfWorkFactory>();
-			this.UnitOfWork = unitOfWorkFactory.CreateFor(repositoryName);
+			this.UnitOfWork = unitOfWorkFactory.CreateUnitOfWork(repositoryName.Name);
 
 			await this.OnSetUpAsync();
 		}

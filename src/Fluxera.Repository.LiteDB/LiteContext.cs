@@ -15,7 +15,6 @@
 	[PublicAPI]
 	public abstract class LiteContext : Disposable
 	{
-		private readonly IDatabaseNameProvider databaseNameProvider;
 		private readonly DatabaseProvider databaseProvider;
 		private readonly RepositoryName repositoryName;
 		private readonly IRepositoryRegistry repositoryRegistry;
@@ -26,13 +25,11 @@
 		protected LiteContext(
 			string repositoryName,
 			DatabaseProvider databaseProvider,
-			IRepositoryRegistry repositoryRegistry,
-			IDatabaseNameProvider databaseNameProvider = null)
+			IRepositoryRegistry repositoryRegistry)
 		{
 			this.repositoryName = (RepositoryName)repositoryName;
 			this.databaseProvider = databaseProvider;
 			this.repositoryRegistry = repositoryRegistry;
-			this.databaseNameProvider = databaseNameProvider;
 
 			// Command will be stored and later processed on saving changes.
 			this.commands = new ConcurrentQueue<Func<Task>>();

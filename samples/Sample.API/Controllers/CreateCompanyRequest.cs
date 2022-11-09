@@ -1,4 +1,4 @@
-namespace Sample.EntityFrameworkCore.Controllers
+namespace Sample.API.Controllers
 {
 	public class CreateCompanyRequest
 	{

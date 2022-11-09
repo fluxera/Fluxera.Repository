@@ -16,6 +16,21 @@
 		IServiceCollection Services { get; }
 
 		/// <summary>
+		///     Adds a storage repository implementation for the "Default" repository name and type.
+		///     The repository options are configured using the repository options builder action.
+		/// </summary>
+		/// <remarks>
+		///     The repository name must be unique.
+		/// </remarks>
+		/// <param name="repositoryType"></param>
+		/// <param name="configure"></param>
+		/// <returns></returns>
+		IRepositoryBuilder AddRepository(Type repositoryType, Action<IRepositoryOptionsBuilder> configure)
+		{
+			return this.AddRepository("Default", repositoryType, configure);
+		}
+
+		/// <summary>
 		///     Adds a storage repository implementation for the given repository name and type.
 		///     The repository options are configured using the repository options builder action.
 		/// </summary>

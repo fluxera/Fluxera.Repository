@@ -13,10 +13,10 @@
 		}
 
 		/// <inheritdoc />
-		public IUnitOfWork CreateFor(RepositoryName repositoryName)
+		public IUnitOfWork CreateUnitOfWork(string repositoryName)
 		{
-			IUnitOfWork unitOfWork = this.serviceProvider.GetRequiredNamedService<IUnitOfWork>(repositoryName.Name);
-			unitOfWork.Initialize(repositoryName);
+			IUnitOfWork unitOfWork = this.serviceProvider.GetRequiredNamedService<IUnitOfWork>(repositoryName);
+			unitOfWork.Initialize((RepositoryName)repositoryName);
 
 			return unitOfWork;
 		}

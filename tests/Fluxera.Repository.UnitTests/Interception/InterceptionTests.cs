@@ -75,7 +75,7 @@
 			});
 
 			IUnitOfWorkFactory unitOfWorkFactory = this.serviceProvider.GetRequiredService<IUnitOfWorkFactory>();
-			IUnitOfWork unitOfWork = unitOfWorkFactory.CreateFor((RepositoryName)"Repository");
+			IUnitOfWork unitOfWork = unitOfWorkFactory.CreateUnitOfWork("Repository");
 			await unitOfWork.SaveChangesAsync();
 
 			InterceptorCounter counter = this.serviceProvider.GetRequiredService<InterceptorCounter>();
@@ -87,7 +87,7 @@
 		public async Task ShouldInterceptRemove()
 		{
 			IUnitOfWorkFactory unitOfWorkFactory = this.serviceProvider.GetRequiredService<IUnitOfWorkFactory>();
-			IUnitOfWork unitOfWork = unitOfWorkFactory.CreateFor((RepositoryName)"Repository");
+			IUnitOfWork unitOfWork = unitOfWorkFactory.CreateUnitOfWork("Repository");
 
 			IPersonRepository personRepository = this.serviceProvider.GetRequiredService<IPersonRepository>();
 			Person person = new Person
@@ -110,7 +110,7 @@
 		public async Task ShouldInterceptUpdate()
 		{
 			IUnitOfWorkFactory unitOfWorkFactory = this.serviceProvider.GetRequiredService<IUnitOfWorkFactory>();
-			IUnitOfWork unitOfWork = unitOfWorkFactory.CreateFor((RepositoryName)"Repository");
+			IUnitOfWork unitOfWork = unitOfWorkFactory.CreateUnitOfWork("Repository");
 
 			IPersonRepository personRepository = this.serviceProvider.GetRequiredService<IPersonRepository>();
 			Person person = new Person

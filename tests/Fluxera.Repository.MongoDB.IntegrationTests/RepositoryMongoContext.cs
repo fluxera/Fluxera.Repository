@@ -8,9 +8,8 @@
 		/// <inheritdoc />
 		public RepositoryMongoContext(
 			string repositoryName,
-			IRepositoryRegistry repositoryRegistry,
-			IDatabaseNameProvider databaseNameProvider = null)
-			: base(repositoryName, repositoryRegistry, databaseNameProvider)
+			IRepositoryRegistry repositoryRegistry)
+			: base(repositoryName, repositoryRegistry)
 		{
 		}
 	}

@@ -18,7 +18,6 @@
 	[PublicAPI]
 	public abstract class MongoContext : Disposable
 	{
-		private readonly IDatabaseNameProvider databaseNameProvider;
 		private readonly RepositoryName repositoryName;
 		private readonly IRepositoryRegistry repositoryRegistry;
 
@@ -28,12 +27,10 @@
 
 		protected MongoContext(
 			string repositoryName,
-			IRepositoryRegistry repositoryRegistry,
-			IDatabaseNameProvider databaseNameProvider = null)
+			IRepositoryRegistry repositoryRegistry)
 		{
 			this.repositoryName = (RepositoryName)repositoryName;
 			this.repositoryRegistry = repositoryRegistry;
-			this.databaseNameProvider = databaseNameProvider;
 
 			// Command will be stored and later processed on saving changes.
 			this.commands = new ConcurrentQueue<Func<Task>>();

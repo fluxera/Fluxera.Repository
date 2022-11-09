@@ -17,9 +17,8 @@
 			repositoryBuilder.Services.AddMongoContext(serviceProvider =>
 			{
 				IRepositoryRegistry repositoryRegistry = serviceProvider.GetRequiredService<IRepositoryRegistry>();
-				IDatabaseNameProvider databaseNameProvider = serviceProvider.GetService<IDatabaseNameProvider>();
 
-				return new RepositoryMongoContext(repositoryName, repositoryRegistry, databaseNameProvider);
+				return new RepositoryMongoContext(repositoryName, repositoryRegistry);
 			});
 
 			repositoryBuilder.AddMongoRepository<RepositoryMongoContext>(repositoryName, options =>

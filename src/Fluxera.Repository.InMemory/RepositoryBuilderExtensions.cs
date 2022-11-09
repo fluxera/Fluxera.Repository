@@ -13,6 +13,34 @@
 	public static class RepositoryBuilderExtensions
 	{
 		/// <summary>
+		///     Add an in-memory repository for the "Default" repository name. The repository options
+		///     are configured using the given configure action.
+		/// </summary>
+		/// <param name="builder"></param>
+		/// <param name="configure"></param>
+		/// <returns></returns>
+		public static IRepositoryBuilder AddInMemoryRepository<TContext>(this IRepositoryBuilder builder,
+			Action<IRepositoryOptionsBuilder> configure)
+			where TContext : InMemoryContext
+		{
+			return builder.AddInMemoryRepository(typeof(TContext), configure);
+		}
+
+		/// <summary>
+		///     Add an in-memory repository for the "Default" repository name. The repository options
+		///     are configured using the given configure action.
+		/// </summary>
+		/// <param name="builder"></param>
+		/// <param name="dbContextType"></param>
+		/// <param name="configure"></param>
+		/// <returns></returns>
+		public static IRepositoryBuilder AddInMemoryRepository(this IRepositoryBuilder builder,
+			Type dbContextType, Action<IRepositoryOptionsBuilder> configure)
+		{
+			return builder.AddInMemoryRepository("Default", dbContextType, configure);
+		}
+
+		/// <summary>
 		///     Adds an in-memory storage repository for the given repository name. The repository
 		///     options are configured using a options builder configure action.
 		/// </summary>
@@ -44,7 +72,7 @@
 			Guard.Against.Null(configure, nameof(configure));
 
 			builder.Services.AddSingleton<SequentialGuidGenerator>();
-			builder.Services.AddSingleton<InMemoryContextProvider>();
+			builder.Services.AddScoped<InMemoryContextProvider>();
 			builder.Services.AddNamedTransient<IUnitOfWork>(serviceBuilder =>
 			{
 				serviceBuilder.AddNameFor<InMemoryUnitOfWork>(repositoryName);

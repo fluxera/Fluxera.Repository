@@ -13,16 +13,6 @@
 	public static class DbContextExtensions
 	{
 		/// <summary>
-		///     Configure the DbContext options.
-		/// </summary>
-		/// <param name="optionsBuilder"></param>
-		/// <returns></returns>
-		public static DbContextOptionsBuilder UseRepositoryDefaults(this DbContextOptionsBuilder optionsBuilder)
-		{
-			return optionsBuilder.UseStronglyTypedId();
-		}
-
-		/// <summary>
 		///     Configure the model builder.
 		/// </summary>
 		/// <param name="modelBuilder"></param>

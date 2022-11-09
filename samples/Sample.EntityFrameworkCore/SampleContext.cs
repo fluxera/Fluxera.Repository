@@ -6,26 +6,32 @@
 	using Sample.Domain.Company;
 
 	[PublicAPI]
-	public sealed class SampleContext : RepositoryDbContextBase
+	public sealed class SampleContext : DbContext
 	{
+		public SampleContext(
+			DbContextOptions<SampleContext> options)
+			: base(options)
+		{
+		}
+
 		/// <inheritdoc />
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
 			if(!optionsBuilder.IsConfigured)
 			{
-				optionsBuilder.UseSqlite("Filename=test.db");
+				optionsBuilder.UseSqlite("Filename=sample.db");
 			}
 		}
 
 		/// <inheritdoc />
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
-			base.OnModelCreating(modelBuilder);
-
 			modelBuilder.Entity<Company>(entity =>
 			{
 				entity.ToTable("Companies");
 			});
+
+			modelBuilder.UseRepositoryDefaults();
 		}
 	}
 }

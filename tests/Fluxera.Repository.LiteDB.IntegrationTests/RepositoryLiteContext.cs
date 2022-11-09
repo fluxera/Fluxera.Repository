@@ -9,9 +9,8 @@
 		public RepositoryLiteContext(
 			string repositoryName,
 			DatabaseProvider databaseProvider,
-			IRepositoryRegistry repositoryRegistry,
-			IDatabaseNameProvider databaseNameProvider = null)
-			: base(repositoryName, databaseProvider, repositoryRegistry, databaseNameProvider)
+			IRepositoryRegistry repositoryRegistry)
+			: base(repositoryName, databaseProvider, repositoryRegistry)
 		{
 		}
 	}
