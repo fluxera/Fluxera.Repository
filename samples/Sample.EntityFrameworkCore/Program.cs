@@ -10,6 +10,8 @@ namespace Sample.EntityFrameworkCore
 
 			builder.Services.AddControllers();
 
+			builder.Services.AddDbContext<SampleContext>();
+
 			WebApplication app = builder.Build();
 
 			app.UseHttpsRedirection();
