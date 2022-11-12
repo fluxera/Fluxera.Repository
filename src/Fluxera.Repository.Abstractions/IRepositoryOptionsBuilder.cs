@@ -88,5 +88,11 @@
 		/// <param name="configure"></param>
 		/// <returns></returns>
 		IRepositoryOptionsBuilder AddInterception(Action<IInterceptionOptionsBuilder> configure);
+
+		/// <summary>
+		///     Enabled the repository to use the unit-of-work implementation.
+		/// </summary>
+		/// <returns></returns>
+		IRepositoryOptionsBuilder EnableUnitOfWork();
 	}
 }

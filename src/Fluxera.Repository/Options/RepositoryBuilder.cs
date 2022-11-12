@@ -13,17 +13,15 @@ namespace Fluxera.Repository.Options
 	{
 		public RepositoryBuilder(IServiceCollection services)
 		{
-			Guard.Against.Null(services, nameof(services));
-
-			this.Services = services;
+			this.Services = Guard.Against.Null(services);
 		}
 
 		/// <inheritdoc />
 		public IRepositoryBuilder AddRepository(string repositoryName, Type repositoryType, Action<IRepositoryOptionsBuilder> configure)
 		{
-			Guard.Against.NullOrWhiteSpace(repositoryName, nameof(repositoryName));
-			Guard.Against.Null(repositoryType, nameof(repositoryType));
-			Guard.Against.Null(configure, nameof(configure));
+			Guard.Against.NullOrWhiteSpace(repositoryName);
+			Guard.Against.Null(repositoryType);
+			Guard.Against.Null(configure);
 
 			RepositoryOptionsBuilder repositoryOptionsBuilder = new RepositoryOptionsBuilder(this.Services, repositoryName, repositoryType);
 			configure.Invoke(repositoryOptionsBuilder);

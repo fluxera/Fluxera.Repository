@@ -8,11 +8,19 @@
 	using Fluxera.Repository.UnitTests.Core.PersonAggregate;
 	using Fluxera.Repository.UnitTests.Core.ReferenceAggregate;
 	using global::LiteDB;
+	using Microsoft.Extensions.DependencyInjection;
 	using NUnit.Framework;
 
-	[TestFixture]
+	[TestFixture(true)]
+	[TestFixture(false)]
 	public class GetTests : GetTestBase
 	{
+		/// <inheritdoc />
+		public GetTests(bool isUnitOfWorkEnabled)
+			: base(isUnitOfWorkEnabled)
+		{
+		}
+
 		/// <inheritdoc />
 		protected override void AddRepositoryUnderTest(IRepositoryBuilder repositoryBuilder,
 			string repositoryName, Action<IRepositoryOptionsBuilder> configureOptions)
@@ -27,7 +35,15 @@
 				File.Delete(file);
 			}
 
-			repositoryBuilder.AddLiteRepository(repositoryName, options =>
+			repositoryBuilder.Services.AddLiteContext(serviceProvider =>
+			{
+				DatabaseProvider databaseProvider = serviceProvider.GetRequiredService<DatabaseProvider>();
+				IRepositoryRegistry repositoryRegistry = serviceProvider.GetRequiredService<IRepositoryRegistry>();
+
+				return new RepositoryLiteContext(repositoryName, databaseProvider, repositoryRegistry);
+			});
+
+			repositoryBuilder.AddLiteRepository<RepositoryLiteContext>(repositoryName, options =>
 			{
 				options.AddSetting("Lite.Database", $"{Guid.NewGuid():N}.db");
 

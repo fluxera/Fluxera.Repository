@@ -44,8 +44,6 @@
 		async Task ICanRemove<TAggregateRoot, TKey>.RemoveAsync(TAggregateRoot item, CancellationToken cancellationToken)
 		{
 			await this.RemoveRangeAsync(this.CreatePrimaryKeySpecification(item.ID), cancellationToken).ConfigureAwait(false);
-			// ReSharper disable once ArrangeDefaultValueWhenTypeNotEvident
-			item.ID = default(TKey);
 		}
 
 		/// <inheritdoc />
@@ -69,13 +67,7 @@
 		/// <inheritdoc />
 		async Task ICanRemove<TAggregateRoot, TKey>.RemoveRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{
-			IEnumerable<TAggregateRoot> itemsList = items.ToList();
-			await this.RemoveRangeAsync(itemsList, cancellationToken);
-			foreach(TAggregateRoot item in itemsList)
-			{
-				// ReSharper disable once ArrangeDefaultValueWhenTypeNotEvident
-				item.ID = default(TKey);
-			}
+			await this.RemoveRangeAsync(items, cancellationToken);
 		}
 
 		/// <inheritdoc />

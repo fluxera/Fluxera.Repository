@@ -2,6 +2,7 @@
 {
 	using System;
 	using System.Collections.Generic;
+	using System.Threading.Tasks;
 	using FluentAssertions;
 	using Fluxera.Repository.InMemory;
 	using Fluxera.Repository.Interception;
@@ -21,7 +22,14 @@
 			{
 				services.AddRepository(rb =>
 				{
-					rb.AddInMemoryRepository("Repository", rob =>
+					rb.Services.AddInMemoryContext(sp =>
+					{
+						IRepositoryRegistry repositoryRegistry = sp.GetRequiredService<IRepositoryRegistry>();
+
+						return new RepositoryInMemoryContext("Repository", repositoryRegistry);
+					});
+
+					rb.AddInMemoryRepository<RepositoryInMemoryContext>("Repository", rob =>
 					{
 						rob.UseFor<Person>();
 
@@ -57,14 +65,18 @@
 		}
 
 		[Test]
-		public void ShouldInterceptAdd()
+		public async Task ShouldInterceptAdd()
 		{
 			IPersonRepository personRepository = this.serviceProvider.GetRequiredService<IPersonRepository>();
-			personRepository.AddAsync(new Person
+			await personRepository.AddAsync(new Person
 			{
 				Name = "Tester",
 				Age = 33
 			});
+
+			IUnitOfWorkFactory unitOfWorkFactory = this.serviceProvider.GetRequiredService<IUnitOfWorkFactory>();
+			IUnitOfWork unitOfWork = unitOfWorkFactory.CreateUnitOfWork("Repository");
+			await unitOfWork.SaveChangesAsync();
 
 			InterceptorCounter counter = this.serviceProvider.GetRequiredService<InterceptorCounter>();
 			counter.BeforeAddCalled.Should().BeGreaterThan(0);
@@ -72,16 +84,22 @@
 		}
 
 		[Test]
-		public void ShouldInterceptRemove()
+		public async Task ShouldInterceptRemove()
 		{
+			IUnitOfWorkFactory unitOfWorkFactory = this.serviceProvider.GetRequiredService<IUnitOfWorkFactory>();
+			IUnitOfWork unitOfWork = unitOfWorkFactory.CreateUnitOfWork("Repository");
+
 			IPersonRepository personRepository = this.serviceProvider.GetRequiredService<IPersonRepository>();
 			Person person = new Person
 			{
 				Name = "Tester",
 				Age = 33
 			};
-			personRepository.AddAsync(person);
-			personRepository.RemoveAsync(person);
+			await personRepository.AddAsync(person);
+			await unitOfWork.SaveChangesAsync();
+
+			await personRepository.RemoveAsync(person);
+			await unitOfWork.SaveChangesAsync();
 
 			InterceptorCounter counter = this.serviceProvider.GetRequiredService<InterceptorCounter>();
 			counter.BeforeRemoveCalled.Should().BeGreaterThan(0);
@@ -89,16 +107,22 @@
 		}
 
 		[Test]
-		public void ShouldInterceptUpdate()
+		public async Task ShouldInterceptUpdate()
 		{
+			IUnitOfWorkFactory unitOfWorkFactory = this.serviceProvider.GetRequiredService<IUnitOfWorkFactory>();
+			IUnitOfWork unitOfWork = unitOfWorkFactory.CreateUnitOfWork("Repository");
+
 			IPersonRepository personRepository = this.serviceProvider.GetRequiredService<IPersonRepository>();
 			Person person = new Person
 			{
 				Name = "Tester",
 				Age = 33
 			};
-			personRepository.AddAsync(person);
-			personRepository.UpdateAsync(person);
+			await personRepository.AddAsync(person);
+			await unitOfWork.SaveChangesAsync();
+
+			await personRepository.UpdateAsync(person);
+			await unitOfWork.SaveChangesAsync();
 
 			InterceptorCounter counter = this.serviceProvider.GetRequiredService<InterceptorCounter>();
 			counter.BeforeUpdateCalled.Should().BeGreaterThan(0);

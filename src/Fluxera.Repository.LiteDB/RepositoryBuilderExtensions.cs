@@ -1,11 +1,8 @@
 ﻿namespace Fluxera.Repository.LiteDB
 {
 	using System;
-	using Fluxera.Enumeration.LiteDB;
+	using Fluxera.Extensions.DependencyInjection;
 	using Fluxera.Guards;
-	using Fluxera.Spatial.LiteDB;
-	using Fluxera.StronglyTypedId.LiteDB;
-	using Fluxera.ValueObject.LiteDB;
 	using global::LiteDB;
 	using JetBrains.Annotations;
 	using Microsoft.Extensions.DependencyInjection;
@@ -17,6 +14,34 @@
 	public static class RepositoryBuilderExtensions
 	{
 		/// <summary>
+		///     Add a LiteDB repository for the "Default" repository name. The repository options
+		///     are configured using the given configure action.
+		/// </summary>
+		/// <param name="builder"></param>
+		/// <param name="configure"></param>
+		/// <returns></returns>
+		public static IRepositoryBuilder AddLiteRepository<TContext>(this IRepositoryBuilder builder,
+			Action<IRepositoryOptionsBuilder> configure)
+			where TContext : LiteContext
+		{
+			return builder.AddLiteRepository(typeof(TContext), configure);
+		}
+
+		/// <summary>
+		///     Add a LiteDB repository for the "Default" repository name. The repository options
+		///     are configured using the given configure action.
+		/// </summary>
+		/// <param name="builder"></param>
+		/// <param name="dbContextType"></param>
+		/// <param name="configure"></param>
+		/// <returns></returns>
+		public static IRepositoryBuilder AddLiteRepository(this IRepositoryBuilder builder,
+			Type dbContextType, Action<IRepositoryOptionsBuilder> configure)
+		{
+			return builder.AddLiteRepository("Default", dbContextType, configure);
+		}
+
+		/// <summary>
 		///     Adds a LiteDB repository for the given repository name. The repository options
 		///     are configured using the options builder configure action. Additional LiteDB
 		///     related mappings can be configures using the mapper configuration action.
@@ -25,23 +50,46 @@
 		/// <param name="repositoryName"></param>
 		/// <param name="configure"></param>
 		/// <returns></returns>
-		public static IRepositoryBuilder AddLiteRepository(this IRepositoryBuilder builder,
+		public static IRepositoryBuilder AddLiteRepository<TContext>(this IRepositoryBuilder builder,
 			string repositoryName, Action<IRepositoryOptionsBuilder> configure)
+			where TContext : LiteContext
+		{
+			return builder.AddLiteRepository(repositoryName, typeof(TContext), configure);
+		}
+
+		/// <summary>
+		///     Adds a LiteDB repository for the given repository name. The repository options
+		///     are configured using the options builder configure action. Additional LiteDB
+		///     related mappings can be configures using the mapper configuration action.
+		/// </summary>
+		/// <param name="builder"></param>
+		/// <param name="repositoryName"></param>
+		/// <param name="contextType"></param>
+		/// <param name="configure"></param>
+		/// <returns></returns>
+		public static IRepositoryBuilder AddLiteRepository(this IRepositoryBuilder builder,
+			string repositoryName, Type contextType, Action<IRepositoryOptionsBuilder> configure)
 		{
 			Guard.Against.Null(builder);
 			Guard.Against.NullOrWhiteSpace(repositoryName);
 			Guard.Against.Null(configure);
 
-			BsonMapper.Global.UseSpatial();
-			//BsonMapper.Global.UseTemporal();
-			BsonMapper.Global.UseEnumeration();
-			BsonMapper.Global.UsePrimitiveValueObject();
-			BsonMapper.Global.UseStronglyTypedId();
-			BsonMapper.Global.UseReferences();
+			BsonMapper.Global.UseRepositoryDefaults();
 
-			builder.Services.AddSingleton<IDatabaseProvider, DatabaseProvider>();
+			builder.Services.AddSingleton<DatabaseProvider>();
 			builder.Services.AddSingleton<SequentialGuidGenerator>();
-			return builder.AddRepository(repositoryName, typeof(LiteRepository<,>), configure);
+			builder.Services.AddScoped<LiteContextProvider>();
+			builder.Services.AddNamedTransient<IUnitOfWork>(serviceBuilder =>
+			{
+				serviceBuilder.AddNameFor<LiteUnitOfWork>(repositoryName);
+			});
+
+			return builder.AddRepository(repositoryName, typeof(LiteRepository<,>), x =>
+			{
+				configure.Invoke(x);
+
+				x.AddSetting("Lite.Context", contextType);
+			});
 		}
 	}
 }

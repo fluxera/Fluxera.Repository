@@ -10,6 +10,12 @@
 	[PublicAPI]
 	public abstract class GetTestBase : RepositoryTestBase
 	{
+		/// <inheritdoc />
+		protected GetTestBase(bool isUnitOfWorkEnabled)
+			: base(isUnitOfWorkEnabled)
+		{
+		}
+
 		[Test]
 		public async Task ShouldGetById()
 		{
@@ -18,6 +24,8 @@
 				Name = "Tester"
 			};
 			await this.PersonRepository.AddAsync(person);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			person.ID.Should().NotBeEmpty();
 
 			Person fromStore = await this.PersonRepository.GetAsync(person.ID);
@@ -33,6 +41,8 @@
 				Name = "Tester"
 			};
 			await this.PersonRepository.AddAsync(person);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			person.ID.Should().NotBeEmpty();
 
 			string fromStore = await this.PersonRepository.GetAsync(person.ID, x => x.Name);
@@ -48,6 +58,8 @@
 				Name = "Tester"
 			};
 			await this.PersonRepository.AddAsync(person);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			person.ID.Should().NotBeEmpty();
 
 			bool fromStore = await this.PersonRepository.ExistsAsync(person.ID);
@@ -62,6 +74,8 @@
 				Name = "Tester"
 			};
 			await this.EmployeeRepository.AddAsync(employee);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employee.ID.Should().NotBeNull();
 			employee.ID.Value.Should().NotBeEmpty();
 
@@ -78,6 +92,8 @@
 				Name = "Tester"
 			};
 			await this.EmployeeRepository.AddAsync(employee);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employee.ID.Should().NotBeNull();
 			employee.ID.Value.Should().NotBeEmpty();
 
@@ -96,6 +112,8 @@
 				Name = "Tester"
 			};
 			await this.EmployeeRepository.AddAsync(employee);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employee.ID.Should().NotBeNull();
 			employee.ID.Value.Should().NotBeEmpty();
 
@@ -112,6 +130,8 @@
 				Name = "Tester"
 			};
 			await this.EmployeeRepository.AddAsync(employee);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employee.ID.Should().NotBeNull();
 			employee.ID.Value.Should().NotBeEmpty();
 

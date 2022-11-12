@@ -35,6 +35,9 @@
 			// Add the repository registry singleton.
 			services.AddSingleton<IRepositoryRegistry, RepositoryRegistry>();
 
+			// Add the unit-of-work factory.
+			services.AddTransient<IUnitOfWorkFactory, UnitOfWorkFactory>();
+
 			// Build the options of the repositories.
 			IRepositoryBuilder repositoryBuilder = new RepositoryBuilder(services);
 			configure.Invoke(repositoryBuilder);

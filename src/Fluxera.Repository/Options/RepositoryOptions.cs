@@ -14,11 +14,9 @@
 		///     Creates a new instance of the <see cref="RepositoryOptions" /> type.
 		/// </summary>
 		/// <param name="repositoryName"></param>
-		/// <param name="repositoryType"></param>
-		public RepositoryOptions(RepositoryName repositoryName, Type repositoryType)
+		public RepositoryOptions(RepositoryName repositoryName)
 		{
 			this.RepositoryName = repositoryName;
-			this.RepositoryType = repositoryType;
 			this.ValidationOptions = new ValidationOptions(repositoryName);
 			this.DomainEventsOptions = new DomainEventsOptions(repositoryName);
 			this.CachingOptions = new CachingOptions(repositoryName);
@@ -29,11 +27,6 @@
 		///     Gets the repository name.
 		/// </summary>
 		public RepositoryName RepositoryName { get; }
-
-		/// <summary>
-		///     Gets the storage repository's type.
-		/// </summary>
-		public Type RepositoryType { get; }
 
 		/// <summary>
 		///     Gets the aggregate root types this repository is used for.
@@ -64,5 +57,10 @@
 		///     Gets the interception options.
 		/// </summary>
 		public InterceptionOptions InterceptionOptions { get; }
+
+		/// <summary>
+		///     Flag, indicating if the unit-of-work usage is enabled. The default is <c>false</c>.
+		/// </summary>
+		public bool IsUnitOfWorkEnabled { get; set; }
 	}
 }

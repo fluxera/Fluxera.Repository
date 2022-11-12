@@ -12,6 +12,12 @@
 	[PublicAPI]
 	public abstract class FindTestBase : RepositoryTestBase
 	{
+		/// <inheritdoc />
+		protected FindTestBase(bool isUnitOfWorkEnabled)
+			: base(isUnitOfWorkEnabled)
+		{
+		}
+
 		[Test]
 		public async Task ShouldFindOne()
 		{
@@ -31,6 +37,8 @@
 				}
 			};
 			await this.PersonRepository.AddRangeAsync(persons);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 
 			Person fromStore = await this.PersonRepository.FindOneAsync(x => x.Name.EndsWith("2"));
@@ -57,6 +65,8 @@
 				}
 			};
 			await this.PersonRepository.AddRangeAsync(persons);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 
 			string fromStore = await this.PersonRepository.FindOneAsync(x => x.Name.EndsWith("2"), x => x.Name);
@@ -83,6 +93,8 @@
 				}
 			};
 			await this.PersonRepository.AddRangeAsync(persons);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 
 			bool fromStore = await this.PersonRepository.ExistsAsync(x => x.Name.EndsWith("2"));
@@ -108,7 +120,15 @@
 				}
 			};
 			await this.PersonRepository.AddRangeAsync(persons);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			persons.ForEach(x => x.ID.Should().NotBeEmpty());
+
+			foreach(Person person in persons)
+			{
+				Person result = await this.PersonRepository.GetAsync(person.ID);
+				result.Should().NotBeNull();
+			}
 
 			Person[] fromStore = (await this.PersonRepository.FindManyAsync(x => x.Name.EndsWith("2"))).ToArray();
 			fromStore.ForEach(x => x.ID.Should().NotBeEmpty());
@@ -134,7 +154,15 @@
 				}
 			};
 			await this.PersonRepository.AddRangeAsync(persons);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			persons.ForEach(x => x.ID.Should().NotBeEmpty());
+
+			foreach(Person person in persons)
+			{
+				Person result = await this.PersonRepository.GetAsync(person.ID);
+				result.Should().NotBeNull();
+			}
 
 			string[] fromStore = (await this.PersonRepository.FindManyAsync(x => x.Name.EndsWith("2"), x => x.Name)).ToArray();
 			fromStore.ForEach(x => x.Should().NotBeNullOrWhiteSpace());
@@ -160,6 +188,8 @@
 				}
 			};
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
 
@@ -187,6 +217,8 @@
 				}
 			};
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
 
@@ -214,6 +246,8 @@
 				}
 			};
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
 
@@ -240,8 +274,16 @@
 				}
 			};
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
+
+			foreach(Employee employee in employees)
+			{
+				Employee result = await this.EmployeeRepository.GetAsync(employee.ID);
+				result.Should().NotBeNull();
+			}
 
 			Employee[] fromStore = (await this.EmployeeRepository.FindManyAsync(x => x.Name.EndsWith("2"))).ToArray();
 			fromStore.ForEach(x => x.ID.Should().NotBeNull());
@@ -268,8 +310,16 @@
 				}
 			};
 			await this.EmployeeRepository.AddRangeAsync(employees);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			employees.ForEach(x => x.ID.Should().NotBeNull());
 			employees.ForEach(x => x.ID.Value.Should().NotBeEmpty());
+
+			foreach(Employee employee in employees)
+			{
+				Employee result = await this.EmployeeRepository.GetAsync(employee.ID);
+				result.Should().NotBeNull();
+			}
 
 			string[] fromStore = (await this.EmployeeRepository.FindManyAsync(x => x.Name.EndsWith("2"), x => x.Name)).ToArray();
 			fromStore.ForEach(x => x.Should().NotBeNullOrWhiteSpace());

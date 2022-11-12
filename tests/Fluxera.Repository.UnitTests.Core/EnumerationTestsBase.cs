@@ -9,6 +9,12 @@
 	[PublicAPI]
 	public abstract class EnumerationTestsBase : RepositoryTestBase
 	{
+		/// <inheritdoc />
+		protected EnumerationTestsBase(bool isUnitOfWorkEnabled)
+			: base(isUnitOfWorkEnabled)
+		{
+		}
+
 		[Test]
 		public async Task ShouldStoreEnumeration()
 		{
@@ -18,6 +24,8 @@
 				LegalType = LegalType.LimitedLiabilityCompany,
 			};
 			await this.CompanyRepository.AddAsync(company);
+			await this.UnitOfWork.SaveChangesAsync();
+
 			company.ID.Should().NotBeEmpty();
 
 			Company result = await this.CompanyRepository.GetAsync(company.ID);
