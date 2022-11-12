@@ -184,10 +184,9 @@ The layers of decorators a executed in the following order.
 ## Supported Storages
 
 - In-Memory
+- Entity Framework Core
 - LiteDB
 - MongoDB
-
-**Coming soon:** EntityFramework Core and OData
 
 ## OpenTelemetry
 
