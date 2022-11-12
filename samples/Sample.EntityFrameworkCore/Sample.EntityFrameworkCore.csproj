@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>disable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
+    <ImplicitUsings>disable</ImplicitUsings>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,7 +19,7 @@
   </ItemGroup>
 
 	<ItemGroup>
-    <ProjectReference Include="..\..\src\Fluxera.Repository.EntityFramework\Fluxera.Repository.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\..\src\Fluxera.Repository.EntityFrameworkCore\Fluxera.Repository.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\Sample.Domain\Sample.Domain.csproj" />
   </ItemGroup>
 

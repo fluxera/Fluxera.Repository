@@ -9,7 +9,7 @@ using Sample.EntityFrameworkCore;
 
 namespace Sample.EntityFrameworkCore.Migrations
 {
-    [DbContext(typeof(SampleContext))]
+    [DbContext(typeof(SampleDbContext))]
     [Migration("20221109125155_Initial")]
     partial class Initial
     {

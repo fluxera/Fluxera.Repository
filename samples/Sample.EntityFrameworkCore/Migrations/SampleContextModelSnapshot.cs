@@ -8,7 +8,7 @@ using Sample.EntityFrameworkCore;
 
 namespace Sample.EntityFrameworkCore.Migrations
 {
-    [DbContext(typeof(SampleContext))]
+    [DbContext(typeof(SampleDbContext))]
     partial class SampleContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

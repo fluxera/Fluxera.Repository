@@ -7,7 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Fluxera.Repository\Fluxera.Repository.csproj" />
+    <ProjectReference Include="..\..\src\Fluxera.Repository.LiteDB\Fluxera.Repository.LiteDB.csproj" />
+    <ProjectReference Include="..\Sample.Domain\Sample.Domain.csproj" />
   </ItemGroup>
 
 </Project>

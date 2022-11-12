@@ -1,10 +1,10 @@
 namespace Sample.API
 {
-	using Fluxera.Repository;
-	using Fluxera.Repository.EntityFrameworkCore;
 	using Fluxera.StronglyTypedId.SystemTextJson;
+	using Microsoft.AspNetCore.Builder;
+	using Microsoft.AspNetCore.Http;
+	using Microsoft.Extensions.DependencyInjection;
 	using Sample.Domain.Company;
-	using Sample.EntityFrameworkCore;
 
 	public static class Program
 	{
@@ -21,18 +21,9 @@ namespace Sample.API
 
 			builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-			builder.Services.AddDbContext<SampleContext>((serviceProvider, optionsBuilder) =>
-			{
-				//optionsBuilder.UseSqlite("Filename=sample.db");
-			});
-
-			builder.Services.AddRepository(repositoryBuilder =>
-			{
-				repositoryBuilder.AddEntityFrameworkRepository<SampleContext>(repositoryOptionsBuilder =>
-				{
-					repositoryOptionsBuilder.UseFor<Company>();
-				});
-			});
+			builder.Services.AddEntityFrameworkCore();
+			//builder.Services.AddLiteDB();
+			//builder.Services.AddMongoDB();
 
 			builder.Services.AddTransient<ICompanyRepository, CompanyRepository>();
 

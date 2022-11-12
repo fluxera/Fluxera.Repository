@@ -1,5 +1,8 @@
 namespace Sample.API.Controllers
 {
+	using System.Collections.Generic;
+	using System.Linq;
+	using System.Threading.Tasks;
 	using Fluxera.Repository;
 	using Microsoft.AspNetCore.Mvc;
 	using Sample.Domain.Company;
