@@ -8,6 +8,7 @@
 	using System.Threading.Tasks;
 	using Fluxera.Entity;
 	using Fluxera.Guards;
+	using Fluxera.Repository.Options;
 	using Fluxera.Repository.Query;
 	using Fluxera.Repository.Specifications;
 	using Fluxera.StronglyTypedId;
@@ -19,6 +20,7 @@
 	{
 		private readonly ILiteCollectionAsync<TAggregateRoot> collection;
 		private readonly LiteContext context;
+		private readonly RepositoryOptions options;
 		private readonly SequentialGuidGenerator sequentialGuidGenerator;
 
 		public LiteRepository(
@@ -28,10 +30,11 @@
 		{
 			Guard.Against.Null(contextProvider);
 			Guard.Against.Null(repositoryRegistry);
-
 			this.sequentialGuidGenerator = Guard.Against.Null(sequentialGuidGenerator);
 
 			RepositoryName repositoryName = repositoryRegistry.GetRepositoryNameFor<TAggregateRoot>();
+			this.options = repositoryRegistry.GetRepositoryOptionsFor(repositoryName);
+
 			this.context = contextProvider.GetContextFor(repositoryName);
 			this.collection = this.context.GetCollection<TAggregateRoot>();
 		}
@@ -54,9 +57,16 @@
 				return this.collection.InsertAsync(item).Then(cancellationToken);
 			}
 
-			await this.context
-				.AddCommandAsync(PerformAddAsync)
-				.ConfigureAwait(false);
+			if(this.options.IsUnitOfWorkEnabled)
+			{
+				await this.context
+					.AddCommandAsync(PerformAddAsync)
+					.ConfigureAwait(false);
+			}
+			else
+			{
+				await PerformAddAsync().ConfigureAwait(false);
+			}
 		}
 
 		/// <inheritdoc />
@@ -74,9 +84,16 @@
 				return this.collection.InsertBulkAsync(itemList).Then(cancellationToken);
 			}
 
-			await this.context
-				.AddCommandAsync(PerformAddRangeAsync)
-				.ConfigureAwait(false);
+			if(this.options.IsUnitOfWorkEnabled)
+			{
+				await this.context
+					.AddCommandAsync(PerformAddRangeAsync)
+					.ConfigureAwait(false);
+			}
+			else
+			{
+				await PerformAddRangeAsync().ConfigureAwait(false);
+			}
 		}
 
 		/// <inheritdoc />
@@ -87,9 +104,16 @@
 				return this.collection.DeleteManyAsync(specification.Predicate).Then(cancellationToken);
 			}
 
-			await this.context
-				.AddCommandAsync(PerformRemoveRangeAsync)
-				.ConfigureAwait(false);
+			if(this.options.IsUnitOfWorkEnabled)
+			{
+				await this.context
+					.AddCommandAsync(PerformRemoveRangeAsync)
+					.ConfigureAwait(false);
+			}
+			else
+			{
+				await PerformRemoveRangeAsync().ConfigureAwait(false);
+			}
 		}
 
 		/// <inheritdoc />
@@ -110,9 +134,16 @@
 				return this.collection.DeleteManyAsync(specification.Predicate).Then(cancellationToken);
 			}
 
-			await this.context
-				.AddCommandAsync(PerformRemoveRangeAsync)
-				.ConfigureAwait(false);
+			if(this.options.IsUnitOfWorkEnabled)
+			{
+				await this.context
+					.AddCommandAsync(PerformRemoveRangeAsync)
+					.ConfigureAwait(false);
+			}
+			else
+			{
+				await PerformRemoveRangeAsync().ConfigureAwait(false);
+			}
 		}
 
 		/// <inheritdoc />
@@ -123,9 +154,16 @@
 				return this.collection.UpdateAsync(item).Then(cancellationToken);
 			}
 
-			await this.context
-				.AddCommandAsync(PerformUpdateAsync)
-				.ConfigureAwait(false);
+			if(this.options.IsUnitOfWorkEnabled)
+			{
+				await this.context
+					.AddCommandAsync(PerformUpdateAsync)
+					.ConfigureAwait(false);
+			}
+			else
+			{
+				await PerformUpdateAsync().ConfigureAwait(false);
+			}
 		}
 
 		/// <inheritdoc />
@@ -138,9 +176,16 @@
 				return this.collection.UpdateAsync(itemsList).Then(cancellationToken);
 			}
 
-			await this.context
-				.AddCommandAsync(PerformUpdateRangeAsync)
-				.ConfigureAwait(false);
+			if(this.options.IsUnitOfWorkEnabled)
+			{
+				await this.context
+					.AddCommandAsync(PerformUpdateRangeAsync)
+					.ConfigureAwait(false);
+			}
+			else
+			{
+				await PerformUpdateRangeAsync().ConfigureAwait(false);
+			}
 		}
 
 		/// <inheritdoc />

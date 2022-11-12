@@ -10,7 +10,7 @@
 		public MongoContextProvider(
 			IServiceProvider serviceProvider,
 			IRepositoryRegistry repositoryRegistry)
-			: base("Mongo.DbContext", serviceProvider, repositoryRegistry)
+			: base("Mongo.Context", serviceProvider, repositoryRegistry)
 		{
 		}
 	}

@@ -11,7 +11,7 @@
 		public DbContextProvider(
 			IServiceProvider serviceProvider,
 			IRepositoryRegistry repositoryRegistry)
-			: base("EntityFrameworkCore.DbContext", serviceProvider, repositoryRegistry)
+			: base("EntityFrameworkCore.Context", serviceProvider, repositoryRegistry)
 		{
 		}
 	}

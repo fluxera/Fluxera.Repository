@@ -10,6 +10,12 @@
 	[PublicAPI]
 	public abstract class UpdateTestBase : RepositoryTestBase
 	{
+		/// <inheritdoc />
+		protected UpdateTestBase(bool isUnitOfWorkEnabled)
+			: base(isUnitOfWorkEnabled)
+		{
+		}
+
 		[Test]
 		public async Task ShouldUpdateItem()
 		{

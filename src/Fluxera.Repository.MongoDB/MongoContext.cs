@@ -15,6 +15,9 @@
 	using global::MongoDB.Driver.Core.Extensions.DiagnosticSources;
 	using JetBrains.Annotations;
 
+	/// <summary>
+	///     A base class for context implementations for the MongoDB repository.
+	/// </summary>
 	[PublicAPI]
 	public abstract class MongoContext : Disposable
 	{
@@ -25,6 +28,11 @@
 		private ConcurrentQueue<Func<Task>> commands;
 		private IMongoDatabase database;
 
+		/// <summary>
+		///     Initializes a new instance of the <see cref="MongoContext" /> type.
+		/// </summary>
+		/// <param name="repositoryName"></param>
+		/// <param name="repositoryRegistry"></param>
 		protected MongoContext(
 			string repositoryName,
 			IRepositoryRegistry repositoryRegistry)
@@ -154,8 +162,8 @@
 
 				MongoPersistenceSettings persistenceSettings = new MongoPersistenceSettings
 				{
-					ConnectionString = (string)(options.Settings.GetOrDefault("Mongo.ConnectionString") ?? "mongodb://localhost:27017"),
-					Database = (string)(options.Settings.GetOrDefault("Mongo.Database") ?? "default")
+					ConnectionString = (string)options.Settings.GetOrDefault("Mongo.ConnectionString"),
+					Database = (string)options.Settings.GetOrDefault("Mongo.Database")
 				};
 
 				object settingsUseSsl = options.Settings.GetOrDefault("Mongo.UseSsl");

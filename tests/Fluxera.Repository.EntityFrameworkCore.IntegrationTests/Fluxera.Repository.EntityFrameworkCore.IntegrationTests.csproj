@@ -27,7 +27,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\src\Fluxera.Repository.EntityFramework\Fluxera.Repository.EntityFrameworkCore.csproj" />
+		<ProjectReference Include="..\..\src\Fluxera.Repository.EntityFrameworkCore\Fluxera.Repository.EntityFrameworkCore.csproj" />
 		<ProjectReference Include="..\Fluxera.Repository.UnitTests.Core\Fluxera.Repository.UnitTests.Core.csproj" />
 	</ItemGroup>
 

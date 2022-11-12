@@ -10,7 +10,7 @@
 		public InMemoryContextProvider(
 			IServiceProvider serviceProvider,
 			IRepositoryRegistry repositoryRegistry)
-			: base("InMemory.DbContext", serviceProvider, repositoryRegistry)
+			: base("InMemory.Context", serviceProvider, repositoryRegistry)
 		{
 		}
 	}

@@ -1,12 +1,8 @@
 ﻿namespace Fluxera.Repository.LiteDB
 {
 	using System;
-	using Fluxera.Enumeration.LiteDB;
 	using Fluxera.Extensions.DependencyInjection;
 	using Fluxera.Guards;
-	using Fluxera.Spatial.LiteDB;
-	using Fluxera.StronglyTypedId.LiteDB;
-	using Fluxera.ValueObject.LiteDB;
 	using global::LiteDB;
 	using JetBrains.Annotations;
 	using Microsoft.Extensions.DependencyInjection;
@@ -78,12 +74,7 @@
 			Guard.Against.NullOrWhiteSpace(repositoryName);
 			Guard.Against.Null(configure);
 
-			BsonMapper.Global.UseSpatial();
-			//BsonMapper.Global.UseTemporal();
-			BsonMapper.Global.UseEnumeration();
-			BsonMapper.Global.UsePrimitiveValueObject();
-			BsonMapper.Global.UseStronglyTypedId();
-			BsonMapper.Global.UseReferences();
+			BsonMapper.Global.UseRepositoryDefaults();
 
 			builder.Services.AddSingleton<DatabaseProvider>();
 			builder.Services.AddSingleton<SequentialGuidGenerator>();
@@ -97,7 +88,7 @@
 			{
 				configure.Invoke(x);
 
-				x.AddSetting("Lite.DbContext", contextType);
+				x.AddSetting("Lite.Context", contextType);
 			});
 		}
 	}

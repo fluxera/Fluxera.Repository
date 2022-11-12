@@ -11,6 +11,12 @@
 	[PublicAPI]
 	public abstract class RemoveTestBase : RepositoryTestBase
 	{
+		/// <inheritdoc />
+		protected RemoveTestBase(bool isUnitOfWorkEnabled)
+			: base(isUnitOfWorkEnabled)
+		{
+		}
+
 		[Test]
 		public async Task ShouldRemoveItem()
 		{

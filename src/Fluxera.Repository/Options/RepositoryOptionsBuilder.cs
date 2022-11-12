@@ -23,7 +23,7 @@
 			Guard.Against.Null(repositoryType, nameof(repositoryType));
 
 			this.services = services;
-			this.repositoryOptions = new RepositoryOptions((RepositoryName)repositoryName, repositoryType);
+			this.repositoryOptions = new RepositoryOptions((RepositoryName)repositoryName);
 		}
 
 		public IRepositoryOptionsBuilder UseFor(IEnumerable<Assembly> assemblies)
@@ -180,6 +180,14 @@
 			configure.Invoke(builder);
 
 			this.repositoryOptions.InterceptionOptions.IsEnabled = true;
+
+			return this;
+		}
+
+		/// <inheritdoc />
+		public IRepositoryOptionsBuilder EnableUnitOfWork()
+		{
+			this.repositoryOptions.IsUnitOfWorkEnabled = true;
 
 			return this;
 		}

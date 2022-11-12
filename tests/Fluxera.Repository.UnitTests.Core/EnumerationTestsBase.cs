@@ -9,6 +9,12 @@
 	[PublicAPI]
 	public abstract class EnumerationTestsBase : RepositoryTestBase
 	{
+		/// <inheritdoc />
+		protected EnumerationTestsBase(bool isUnitOfWorkEnabled)
+			: base(isUnitOfWorkEnabled)
+		{
+		}
+
 		[Test]
 		public async Task ShouldStoreEnumeration()
 		{

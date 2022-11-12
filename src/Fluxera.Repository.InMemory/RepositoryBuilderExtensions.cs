@@ -82,7 +82,7 @@
 			{
 				configure.Invoke(x);
 
-				x.AddSetting("InMemory.DbContext", contextType);
+				x.AddSetting("InMemory.Context", contextType);
 			});
 		}
 	}

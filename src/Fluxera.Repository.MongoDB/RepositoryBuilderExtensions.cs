@@ -1,12 +1,7 @@
 ﻿namespace Fluxera.Repository.MongoDB
 {
 	using System;
-	using Fluxera.Enumeration.MongoDB;
 	using Fluxera.Extensions.DependencyInjection;
-	using Fluxera.Spatial.MongoDB;
-	using Fluxera.StronglyTypedId.MongoDB;
-	using Fluxera.Temporal.MongoDB;
-	using Fluxera.ValueObject.MongoDB;
 	using global::MongoDB.Bson;
 	using global::MongoDB.Bson.Serialization;
 	using global::MongoDB.Bson.Serialization.Conventions;
@@ -86,27 +81,10 @@
 		public static IRepositoryBuilder AddMongoRepository(this IRepositoryBuilder builder,
 			string repositoryName, Type contextType, Action<IRepositoryOptionsBuilder> configure)
 		{
-			/* TODO: Move this block to mongo context */
-			ConventionPack pack = new ConventionPack
-			{
-				new NamedIdMemberConvention("ID"),
-				new IdGeneratorConvention(),
-				new ReferenceConvention(),
-				new EnumRepresentationConvention(BsonType.String),
-				new CamelCaseElementNameConvention(),
-				new IgnoreExtraElementsConvention(true),
-				new NamedExtraElementsMemberConvention("ExtraElements"),
-				new EntitiesNotSupportedConvention()
-			};
-
-			pack.UseSpatial();
-			pack.UseTemporal();
-			pack.UseEnumeration();
-			pack.UsePrimitiveValueObject();
-			pack.UseStronglyTypedId();
+			ConventionPack pack = new ConventionPack();
+			pack.UseRepositoryDefaults();
 
 			ConventionRegistry.Register("ConventionPack", pack, _ => true);
-			/* --- */
 
 			builder.Services.AddScoped<MongoContextProvider>();
 			builder.Services.AddNamedTransient<IUnitOfWork>(serviceBuilder =>
@@ -118,7 +96,7 @@
 			{
 				configure.Invoke(x);
 
-				x.AddSetting("Mongo.DbContext", contextType);
+				x.AddSetting("Mongo.Context", contextType);
 			});
 		}
 	}

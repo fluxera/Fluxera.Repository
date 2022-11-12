@@ -12,6 +12,12 @@
 	[PublicAPI]
 	public abstract class AggregateTestBase : RepositoryTestBase
 	{
+		/// <inheritdoc />
+		protected AggregateTestBase(bool isUnitOfWorkEnabled)
+			: base(isUnitOfWorkEnabled)
+		{
+		}
+
 		[Test]
 		public async Task ShouldCount()
 		{

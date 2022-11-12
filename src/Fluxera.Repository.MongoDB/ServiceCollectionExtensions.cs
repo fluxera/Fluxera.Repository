@@ -10,6 +10,13 @@
 	[PublicAPI]
 	public static class ServiceCollectionExtensions
 	{
+		/// <summary>
+		///     Adds a MongoDB repository context.
+		/// </summary>
+		/// <typeparam name="TContext"></typeparam>
+		/// <param name="services"></param>
+		/// <param name="implementationFactory"></param>
+		/// <returns></returns>
 		public static IServiceCollection AddMongoContext<TContext>(this IServiceCollection services, Func<IServiceProvider, TContext> implementationFactory)
 			where TContext : MongoContext
 		{

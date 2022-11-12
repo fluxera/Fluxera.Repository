@@ -12,6 +12,12 @@
 	[PublicAPI]
 	public abstract class FindTestBase : RepositoryTestBase
 	{
+		/// <inheritdoc />
+		protected FindTestBase(bool isUnitOfWorkEnabled)
+			: base(isUnitOfWorkEnabled)
+		{
+		}
+
 		[Test]
 		public async Task ShouldFindOne()
 		{

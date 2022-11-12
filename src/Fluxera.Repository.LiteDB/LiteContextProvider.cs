@@ -10,8 +10,21 @@
 		public LiteContextProvider(
 			IServiceProvider serviceProvider,
 			IRepositoryRegistry repositoryRegistry)
-			: base("Lite.DbContext", serviceProvider, repositoryRegistry)
+			: base("Lite.Context", serviceProvider, repositoryRegistry)
 		{
 		}
 	}
+
+	//public sealed class LiteContextOptions<TContext> : LiteContextOptions
+	//{
+	//}
+
+	//public abstract class LiteContextOptions
+	//{
+	//	public Type ContextType { get; set; }
+	//}
+
+	//public sealed class LiteContextOptionsBuilder
+	//{
+	//}
 }

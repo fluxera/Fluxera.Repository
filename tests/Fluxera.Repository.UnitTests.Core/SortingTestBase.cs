@@ -13,6 +13,12 @@
 	[PublicAPI]
 	public abstract class SortingTestBase : RepositoryTestBase
 	{
+		/// <inheritdoc />
+		protected SortingTestBase(bool isUnitOfWorkEnabled)
+			: base(isUnitOfWorkEnabled)
+		{
+		}
+
 		[Test]
 		public async Task ShouldSortByPrimary()
 		{

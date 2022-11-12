@@ -82,7 +82,7 @@
 			{
 				configure.Invoke(x);
 
-				x.AddSetting("EntityFrameworkCore.DbContext", dbContextType);
+				x.AddSetting("EntityFrameworkCore.Context", dbContextType);
 			});
 		}
 	}

@@ -10,6 +10,12 @@
 	[PublicAPI]
 	public abstract class GetTestBase : RepositoryTestBase
 	{
+		/// <inheritdoc />
+		protected GetTestBase(bool isUnitOfWorkEnabled)
+			: base(isUnitOfWorkEnabled)
+		{
+		}
+
 		[Test]
 		public async Task ShouldGetById()
 		{

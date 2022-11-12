@@ -9,6 +9,9 @@
 	using Fluxera.Utilities;
 	using JetBrains.Annotations;
 
+	/// <summary>
+	///     A base class for context implementations for the in-memory repository.
+	/// </summary>
 	[PublicAPI]
 	public abstract class InMemoryContext : Disposable
 	{
@@ -17,6 +20,11 @@
 
 		private ConcurrentQueue<Func<Task>> commands;
 
+		/// <summary>
+		///     Initializes a new instance of the <see cref="InMemoryContext" /> type.
+		/// </summary>
+		/// <param name="repositoryName"></param>
+		/// <param name="repositoryRegistry"></param>
 		protected InMemoryContext(
 			string repositoryName,
 			IRepositoryRegistry repositoryRegistry)

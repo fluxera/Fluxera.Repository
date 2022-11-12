@@ -9,8 +9,12 @@ namespace Fluxera.Repository.LiteDB
 	using System.Reflection;
 	using Fluxera.ComponentModel.Annotations;
 	using Fluxera.Entity;
+	using Fluxera.Enumeration.LiteDB;
 	using Fluxera.Guards;
+	using Fluxera.Spatial.LiteDB;
+	using Fluxera.StronglyTypedId.LiteDB;
 	using Fluxera.Utilities.Extensions;
+	using Fluxera.ValueObject.LiteDB;
 	using global::LiteDB;
 	using JetBrains.Annotations;
 
@@ -21,14 +25,33 @@ namespace Fluxera.Repository.LiteDB
 	public static class BsonMapperExtensions
 	{
 		/// <summary>
+		///     Configure the bson mapper with default settings.
+		/// </summary>
+		/// <param name="bsonMapper"></param>
+		/// <returns></returns>
+		public static BsonMapper UseRepositoryDefaults(this BsonMapper bsonMapper)
+		{
+			Guard.Against.Null(bsonMapper);
+
+			bsonMapper.UseSpatial();
+			//mapper.UseTemporal();
+			bsonMapper.UseEnumeration();
+			bsonMapper.UsePrimitiveValueObject();
+			bsonMapper.UseStronglyTypedId();
+			bsonMapper.UseReferences();
+
+			return bsonMapper;
+		}
+
+		/// <summary>
 		///     Configures the mapper to reference marked properties as DbRef
 		///     instead of including the complete document.
 		/// </summary>
-		/// <param name="mapper"></param>
+		/// <param name="bsonMapper"></param>
 		/// <returns></returns>
-		public static BsonMapper UseReferences(this BsonMapper mapper)
+		public static BsonMapper UseReferences(this BsonMapper bsonMapper)
 		{
-			Guard.Against.Null(mapper);
+			Guard.Against.Null(bsonMapper);
 
 			IList<Type> aggregateRootTypes = AppDomain.CurrentDomain
 				.GetAssemblies()
@@ -36,11 +59,11 @@ namespace Fluxera.Repository.LiteDB
 				.Where(x => x.IsAggregateRoot())
 				.ToList();
 
-			MethodInfo entityMethod = mapper.GetType().GetMethod("Entity", BindingFlags.Public | BindingFlags.Instance);
+			MethodInfo entityMethod = bsonMapper.GetType().GetMethod("Entity", BindingFlags.Public | BindingFlags.Instance);
 
 			foreach(Type aggregateRootType in aggregateRootTypes)
 			{
-				object entityBuilder = entityMethod?.MakeGenericMethod(aggregateRootType).Invoke(mapper, Array.Empty<object>());
+				object entityBuilder = entityMethod?.MakeGenericMethod(aggregateRootType).Invoke(bsonMapper, Array.Empty<object>());
 				MethodInfo idMethod = entityBuilder?.GetType().GetMethod("Id");
 
 				// Configure the ID property to use.
@@ -77,7 +100,7 @@ namespace Fluxera.Repository.LiteDB
 				}
 			}
 
-			return mapper;
+			return bsonMapper;
 		}
 
 		private static object ConfigureReferenceProperty(object entityBuilder, Type aggregateRootType, PropertyInfo property, string collectionName)

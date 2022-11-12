@@ -13,6 +13,12 @@
 	[PublicAPI]
 	public abstract class PagingTestBase : RepositoryTestBase
 	{
+		/// <inheritdoc />
+		protected PagingTestBase(bool isUnitOfWorkEnabled)
+			: base(isUnitOfWorkEnabled)
+		{
+		}
+
 		[Test]
 		public async Task ShouldPageResult()
 		{

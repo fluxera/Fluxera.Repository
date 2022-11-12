@@ -13,7 +13,14 @@
 	[PublicAPI]
 	public abstract class RepositoryTestBase : TestBase
 	{
+		private readonly bool isUnitOfWorkEnabled;
+
 		private ServiceProvider serviceProvider;
+
+		protected RepositoryTestBase(bool isUnitOfWorkEnabled)
+		{
+			this.isUnitOfWorkEnabled = isUnitOfWorkEnabled;
+		}
 
 		protected IRepository<Person, Guid> PersonRepository { get; private set; }
 
@@ -40,6 +47,11 @@
 						rob.UseFor<Company>();
 						rob.UseFor<Employee>();
 						rob.UseFor<Reference>();
+
+						if(this.isUnitOfWorkEnabled)
+						{
+							rob.EnableUnitOfWork();
+						}
 					});
 				});
 

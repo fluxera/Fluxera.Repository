@@ -9,6 +9,7 @@
 	using System.Threading.Tasks;
 	using Fluxera.Entity;
 	using Fluxera.Guards;
+	using Fluxera.Repository.Options;
 	using Fluxera.Repository.Specifications;
 	using Fluxera.StronglyTypedId;
 
@@ -18,6 +19,7 @@
 	{
 		private static readonly ConcurrentDictionary<TKey, TAggregateRoot> Store = new ConcurrentDictionary<TKey, TAggregateRoot>();
 		private readonly InMemoryContext context;
+		private readonly RepositoryOptions options;
 
 		private readonly SequentialGuidGenerator sequentialGuidGenerator;
 
@@ -30,8 +32,9 @@
 			Guard.Against.Null(repositoryRegistry);
 			this.sequentialGuidGenerator = Guard.Against.Null(sequentialGuidGenerator);
 
-
 			RepositoryName repositoryName = repositoryRegistry.GetRepositoryNameFor<TAggregateRoot>();
+			this.options = repositoryRegistry.GetRepositoryOptionsFor(repositoryName);
+
 			this.context = contextProvider.GetContextFor(repositoryName);
 		}
 
@@ -57,9 +60,16 @@
 				return Task.CompletedTask;
 			}
 
-			await this.context
-				.AddCommandAsync(PerformAddAsync)
-				.ConfigureAwait(false);
+			if(this.options.IsUnitOfWorkEnabled)
+			{
+				await this.context
+					.AddCommandAsync(PerformAddAsync)
+					.ConfigureAwait(false);
+			}
+			else
+			{
+				await PerformAddAsync().ConfigureAwait(false);
+			}
 		}
 
 		/// <inheritdoc />
@@ -78,9 +88,16 @@
 				return Task.CompletedTask;
 			}
 
-			await this.context
-				.AddCommandAsync(PerformAddRangeAsync)
-				.ConfigureAwait(false);
+			if(this.options.IsUnitOfWorkEnabled)
+			{
+				await this.context
+					.AddCommandAsync(PerformAddRangeAsync)
+					.ConfigureAwait(false);
+			}
+			else
+			{
+				await PerformAddRangeAsync().ConfigureAwait(false);
+			}
 		}
 
 		/// <inheritdoc />
@@ -97,9 +114,16 @@
 				return Task.CompletedTask;
 			}
 
-			await this.context
-				.AddCommandAsync(PerformRemoveRangeAsync)
-				.ConfigureAwait(false);
+			if(this.options.IsUnitOfWorkEnabled)
+			{
+				await this.context
+					.AddCommandAsync(PerformRemoveRangeAsync)
+					.ConfigureAwait(false);
+			}
+			else
+			{
+				await PerformRemoveRangeAsync().ConfigureAwait(false);
+			}
 		}
 
 		/// <inheritdoc />
@@ -117,9 +141,16 @@
 				return Task.CompletedTask;
 			}
 
-			await this.context
-				.AddCommandAsync(PerformRemoveRangeAsync)
-				.ConfigureAwait(false);
+			if(this.options.IsUnitOfWorkEnabled)
+			{
+				await this.context
+					.AddCommandAsync(PerformRemoveRangeAsync)
+					.ConfigureAwait(false);
+			}
+			else
+			{
+				await PerformRemoveRangeAsync().ConfigureAwait(false);
+			}
 		}
 
 		/// <inheritdoc />
@@ -132,9 +163,16 @@
 				return Task.CompletedTask;
 			}
 
-			await this.context
-				.AddCommandAsync(PerformUpdateAsync)
-				.ConfigureAwait(false);
+			if(this.options.IsUnitOfWorkEnabled)
+			{
+				await this.context
+					.AddCommandAsync(PerformUpdateAsync)
+					.ConfigureAwait(false);
+			}
+			else
+			{
+				await PerformUpdateAsync().ConfigureAwait(false);
+			}
 		}
 
 		/// <inheritdoc />
@@ -152,9 +190,16 @@
 				return Task.CompletedTask;
 			}
 
-			await this.context
-				.AddCommandAsync(PerformUpdateRangeAsync)
-				.ConfigureAwait(false);
+			if(this.options.IsUnitOfWorkEnabled)
+			{
+				await this.context
+					.AddCommandAsync(PerformUpdateRangeAsync)
+					.ConfigureAwait(false);
+			}
+			else
+			{
+				await PerformUpdateRangeAsync().ConfigureAwait(false);
+			}
 		}
 
 		/// <inheritdoc />

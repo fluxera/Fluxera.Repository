@@ -10,6 +10,13 @@
 	[PublicAPI]
 	public static class ServiceCollectionExtensions
 	{
+		/// <summary>
+		///     Adds a LiteDB repository context.
+		/// </summary>
+		/// <typeparam name="TContext"></typeparam>
+		/// <param name="services"></param>
+		/// <param name="implementationFactory"></param>
+		/// <returns></returns>
 		public static IServiceCollection AddLiteContext<TContext>(this IServiceCollection services, Func<IServiceProvider, TContext> implementationFactory)
 			where TContext : LiteContext
 		{

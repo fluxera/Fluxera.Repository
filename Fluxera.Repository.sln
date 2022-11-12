@@ -31,7 +31,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fluxera.Repository.InMemory
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fluxera.Repository.Abstractions", "src\Fluxera.Repository.Abstractions\Fluxera.Repository.Abstractions.csproj", "{F6E7830F-A3D7-4535-9B50-1F1BCD885691}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fluxera.Repository.EntityFrameworkCore", "src\Fluxera.Repository.EntityFramework\Fluxera.Repository.EntityFrameworkCore.csproj", "{0ECA752F-D86F-4AA8-8C8C-2E0219A2100D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fluxera.Repository.EntityFrameworkCore", "src\Fluxera.Repository.EntityFrameworkCore\Fluxera.Repository.EntityFrameworkCore.csproj", "{0ECA752F-D86F-4AA8-8C8C-2E0219A2100D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fluxera.Repository.LiteDB", "src\Fluxera.Repository.LiteDB\Fluxera.Repository.LiteDB.csproj", "{4E24EB48-DD12-4779-8507-A552DE84789C}"
 EndProject
@@ -41,21 +41,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fluxera.Repository.InMemory
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fluxera.Repository.UnitTests.Core", "tests\Fluxera.Repository.UnitTests.Core\Fluxera.Repository.UnitTests.Core.csproj", "{4C12619F-7219-4C08-9FA6-1E9985B4151C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fluxera.Repository.EntityFrameworkCore.IntegrationTests", "tests\Fluxera.Repository.EntityFramework.IntegrationTests\Fluxera.Repository.EntityFrameworkCore.IntegrationTests.csproj", "{799BBB07-1C6A-4F1D-8460-7D45AA40F1C3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fluxera.Repository.EntityFrameworkCore.IntegrationTests", "tests\Fluxera.Repository.EntityFrameworkCore.IntegrationTests\Fluxera.Repository.EntityFrameworkCore.IntegrationTests.csproj", "{799BBB07-1C6A-4F1D-8460-7D45AA40F1C3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fluxera.Repository.LiteDB.IntegrationTests", "tests\Fluxera.Repository.LiteDB.IntegrationTests\Fluxera.Repository.LiteDB.IntegrationTests.csproj", "{0377B3AA-79FE-4341-863C-171E6B6CE890}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fluxera.Repository.MongoDB.IntegrationTests", "tests\Fluxera.Repository.MongoDB.IntegrationTests\Fluxera.Repository.MongoDB.IntegrationTests.csproj", "{B69B46BA-09C2-4115-81DE-2661A6A83897}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ODataApplication", "tests\ODataApplication\ODataApplication.csproj", "{29B9954C-0A2C-4D23-8C99-3396DC454FCF}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fluxera.Repository.OpenTelemetry", "src\Fluxera.Repository.OpenTelemetry\Fluxera.Repository.OpenTelemetry.csproj", "{44CFEFC2-119D-45FC-985D-528F55888886}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApplication1", "tests\WebApplication1\WebApplication1.csproj", "{901E8A8F-DBF2-405D-9C58-813024AF2218}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fluxera.Repository.OData", "src\Fluxera.Repository.OData\Fluxera.Repository.OData.csproj", "{071F8AC6-D6D3-4ABE-AC5D-1EA77C767165}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fluxera.Repository.OData.IntegrationTests", "tests\Fluxera.Repository.OData.IntegrationTests\Fluxera.Repository.OData.IntegrationTests.csproj", "{F2D028DD-F903-403B-92FD-E5963A9F8A6A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{112E5560-DCAF-4761-9F40-2D489FE527AF}"
 EndProject
@@ -63,7 +55,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.EntityFrameworkCore"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.Domain", "samples\Sample.Domain\Sample.Domain.csproj", "{2BF23485-8DF3-4EB0-B071-338F87DB0058}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.API", "samples\Sample.API\Sample.API.csproj", "{BC6982D6-499F-4BA3-84FA-378D67C80789}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.API", "samples\Sample.API\Sample.API.csproj", "{BC6982D6-499F-4BA3-84FA-378D67C80789}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.LiteDB", "samples\Sample.LiteDB\Sample.LiteDB.csproj", "{E19D5C9E-AE88-4713-B018-7A5F0B7563B7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.MongoDB", "samples\Sample.MongoDB\Sample.MongoDB.csproj", "{7673C153-6461-460B-9597-E9A9FD9C0889}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -119,26 +115,10 @@ Global
 		{B69B46BA-09C2-4115-81DE-2661A6A83897}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B69B46BA-09C2-4115-81DE-2661A6A83897}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B69B46BA-09C2-4115-81DE-2661A6A83897}.Release|Any CPU.Build.0 = Release|Any CPU
-		{29B9954C-0A2C-4D23-8C99-3396DC454FCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{29B9954C-0A2C-4D23-8C99-3396DC454FCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{29B9954C-0A2C-4D23-8C99-3396DC454FCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{29B9954C-0A2C-4D23-8C99-3396DC454FCF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{44CFEFC2-119D-45FC-985D-528F55888886}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{44CFEFC2-119D-45FC-985D-528F55888886}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{44CFEFC2-119D-45FC-985D-528F55888886}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{44CFEFC2-119D-45FC-985D-528F55888886}.Release|Any CPU.Build.0 = Release|Any CPU
-		{901E8A8F-DBF2-405D-9C58-813024AF2218}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{901E8A8F-DBF2-405D-9C58-813024AF2218}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{901E8A8F-DBF2-405D-9C58-813024AF2218}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{901E8A8F-DBF2-405D-9C58-813024AF2218}.Release|Any CPU.Build.0 = Release|Any CPU
-		{071F8AC6-D6D3-4ABE-AC5D-1EA77C767165}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{071F8AC6-D6D3-4ABE-AC5D-1EA77C767165}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{071F8AC6-D6D3-4ABE-AC5D-1EA77C767165}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{071F8AC6-D6D3-4ABE-AC5D-1EA77C767165}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F2D028DD-F903-403B-92FD-E5963A9F8A6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F2D028DD-F903-403B-92FD-E5963A9F8A6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F2D028DD-F903-403B-92FD-E5963A9F8A6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F2D028DD-F903-403B-92FD-E5963A9F8A6A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8BCDF956-8BBC-4460-B199-9DA3AA76DB2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8BCDF956-8BBC-4460-B199-9DA3AA76DB2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8BCDF956-8BBC-4460-B199-9DA3AA76DB2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -151,6 +131,14 @@ Global
 		{BC6982D6-499F-4BA3-84FA-378D67C80789}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BC6982D6-499F-4BA3-84FA-378D67C80789}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BC6982D6-499F-4BA3-84FA-378D67C80789}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E19D5C9E-AE88-4713-B018-7A5F0B7563B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E19D5C9E-AE88-4713-B018-7A5F0B7563B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E19D5C9E-AE88-4713-B018-7A5F0B7563B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E19D5C9E-AE88-4713-B018-7A5F0B7563B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7673C153-6461-460B-9597-E9A9FD9C0889}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7673C153-6461-460B-9597-E9A9FD9C0889}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7673C153-6461-460B-9597-E9A9FD9C0889}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7673C153-6461-460B-9597-E9A9FD9C0889}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -168,14 +156,12 @@ Global
 		{799BBB07-1C6A-4F1D-8460-7D45AA40F1C3} = {F18D2D58-282C-4D93-8D9A-3A76CF98F018}
 		{0377B3AA-79FE-4341-863C-171E6B6CE890} = {F18D2D58-282C-4D93-8D9A-3A76CF98F018}
 		{B69B46BA-09C2-4115-81DE-2661A6A83897} = {F18D2D58-282C-4D93-8D9A-3A76CF98F018}
-		{29B9954C-0A2C-4D23-8C99-3396DC454FCF} = {F18D2D58-282C-4D93-8D9A-3A76CF98F018}
 		{44CFEFC2-119D-45FC-985D-528F55888886} = {DF28D730-99B3-4811-AAC7-725A73B3F668}
-		{901E8A8F-DBF2-405D-9C58-813024AF2218} = {F18D2D58-282C-4D93-8D9A-3A76CF98F018}
-		{071F8AC6-D6D3-4ABE-AC5D-1EA77C767165} = {DF28D730-99B3-4811-AAC7-725A73B3F668}
-		{F2D028DD-F903-403B-92FD-E5963A9F8A6A} = {F18D2D58-282C-4D93-8D9A-3A76CF98F018}
 		{8BCDF956-8BBC-4460-B199-9DA3AA76DB2E} = {112E5560-DCAF-4761-9F40-2D489FE527AF}
 		{2BF23485-8DF3-4EB0-B071-338F87DB0058} = {112E5560-DCAF-4761-9F40-2D489FE527AF}
 		{BC6982D6-499F-4BA3-84FA-378D67C80789} = {112E5560-DCAF-4761-9F40-2D489FE527AF}
+		{E19D5C9E-AE88-4713-B018-7A5F0B7563B7} = {112E5560-DCAF-4761-9F40-2D489FE527AF}
+		{7673C153-6461-460B-9597-E9A9FD9C0889} = {112E5560-DCAF-4761-9F40-2D489FE527AF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D97BF2AF-6E68-4E88-BF70-773A86E26013}

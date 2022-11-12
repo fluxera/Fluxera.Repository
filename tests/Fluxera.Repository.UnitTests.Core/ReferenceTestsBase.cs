@@ -17,6 +17,12 @@
 		private Person person;
 
 		/// <inheritdoc />
+		protected ReferenceTestsBase(bool isUnitOfWorkEnabled)
+			: base(isUnitOfWorkEnabled)
+		{
+		}
+
+		/// <inheritdoc />
 		protected override async Task OnSetUpAsync()
 		{
 			this.company = new Company

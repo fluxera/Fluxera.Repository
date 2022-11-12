@@ -12,6 +12,12 @@
 	[PublicAPI]
 	public abstract class AddTestBase : RepositoryTestBase
 	{
+		/// <inheritdoc />
+		protected AddTestBase(bool isUnitOfWorkEnabled)
+			: base(isUnitOfWorkEnabled)
+		{
+		}
+
 		[Test]
 		public async Task ShouldAddItemStringId()
 		{

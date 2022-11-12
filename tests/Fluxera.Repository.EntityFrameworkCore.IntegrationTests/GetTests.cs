@@ -5,9 +5,16 @@
 	using Microsoft.Extensions.DependencyInjection;
 	using NUnit.Framework;
 
-	[TestFixture]
-	public class AggregateTests : AggregateTestBase
+	[TestFixture(true)]
+	[TestFixture(false)]
+	public class GetTests : GetTestBase
 	{
+		/// <inheritdoc />
+		public GetTests(bool isUnitOfWorkEnabled)
+			: base(isUnitOfWorkEnabled)
+		{
+		}
+
 		/// <inheritdoc />
 		protected override void AddRepositoryUnderTest(IRepositoryBuilder repositoryBuilder,
 			string repositoryName, Action<IRepositoryOptionsBuilder> configureOptions)

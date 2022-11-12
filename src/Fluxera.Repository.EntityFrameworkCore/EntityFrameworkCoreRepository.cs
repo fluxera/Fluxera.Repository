@@ -8,6 +8,7 @@
 	using System.Threading.Tasks;
 	using Fluxera.Entity;
 	using Fluxera.Guards;
+	using Fluxera.Repository.Options;
 	using Fluxera.Repository.Specifications;
 	using Microsoft.EntityFrameworkCore;
 	using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -18,6 +19,7 @@
 	{
 		private readonly DbContext dbContext;
 		private readonly DbSet<TAggregateRoot> dbSet;
+		private readonly RepositoryOptions options;
 
 		public EntityFrameworkCoreRepository(
 			DbContextProvider contextProvider,
@@ -27,6 +29,7 @@
 			Guard.Against.Null(repositoryRegistry, nameof(repositoryRegistry));
 
 			RepositoryName repositoryName = repositoryRegistry.GetRepositoryNameFor<TAggregateRoot>();
+			this.options = repositoryRegistry.GetRepositoryOptionsFor(repositoryName);
 
 			this.dbContext = contextProvider.GetContextFor(repositoryName);
 			this.dbSet = this.dbContext.Set<TAggregateRoot>();
@@ -47,9 +50,12 @@
 		protected override async Task AddAsync(TAggregateRoot item, CancellationToken cancellationToken)
 		{
 			this.PrepareItem(item, EntityState.Added);
-
 			await this.dbSet.AddAsync(item, cancellationToken).ConfigureAwait(false);
-			//await this.dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+
+			if(!this.options.IsUnitOfWorkEnabled)
+			{
+				await this.dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+			}
 		}
 
 		/// <inheritdoc />
@@ -63,7 +69,11 @@
 			}
 
 			await this.dbSet.AddRangeAsync(itemList, cancellationToken).ConfigureAwait(false);
-			//await this.dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+
+			if(!this.options.IsUnitOfWorkEnabled)
+			{
+				await this.dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+			}
 		}
 
 		/// <inheritdoc />
@@ -75,22 +85,33 @@
 				.ConfigureAwait(false);
 
 			this.dbSet.RemoveRange(items);
-			//await this.dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+
+			if(!this.options.IsUnitOfWorkEnabled)
+			{
+				await this.dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+			}
 		}
 
 		/// <inheritdoc />
-		protected override Task RemoveRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
+		protected override async Task RemoveRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{
 			this.dbSet.RemoveRange(items);
-			return Task.CompletedTask;
-			//await this.dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+
+			if(!this.options.IsUnitOfWorkEnabled)
+			{
+				await this.dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+			}
 		}
 
 		/// <inheritdoc />
 		protected override async Task UpdateAsync(TAggregateRoot item, CancellationToken cancellationToken)
 		{
 			await this.PerformUpdateAsync(item).ConfigureAwait(false);
-			//await this.dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+
+			if(!this.options.IsUnitOfWorkEnabled)
+			{
+				await this.dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+			}
 		}
 
 		/// <inheritdoc />
@@ -101,7 +122,10 @@
 				await this.PerformUpdateAsync(item).ConfigureAwait(false);
 			}
 
-			//await this.dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+			if(!this.options.IsUnitOfWorkEnabled)
+			{
+				await this.dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+			}
 		}
 
 		/// <inheritdoc />
@@ -362,7 +386,6 @@
 				}
 			}
 
-			EntityState state = this.dbContext.Entry(item).State;
 			this.dbContext.Entry(item).State = entityState;
 		}
 	}

@@ -5,8 +5,11 @@
 	using System.Linq;
 	using System.Reflection;
 	using Fluxera.Entity;
+	using Fluxera.Enumeration.EntityFrameworkCore;
 	using Fluxera.Guards;
 	using Fluxera.StronglyTypedId;
+	using Fluxera.StronglyTypedId.EntityFrameworkCore;
+	using Fluxera.ValueObject.EntityFrameworkCore;
 	using JetBrains.Annotations;
 	using Microsoft.EntityFrameworkCore;
 	using Microsoft.EntityFrameworkCore.Metadata;
@@ -17,6 +20,28 @@
 	[PublicAPI]
 	public static class ModelBuilderExtensions
 	{
+		/// <summary>
+		///     Configure the model builder with default settings.
+		/// </summary>
+		/// <param name="modelBuilder"></param>
+		/// <returns></returns>
+		public static ModelBuilder UseRepositoryDefaults(this ModelBuilder modelBuilder)
+		{
+			Guard.Against.False(modelBuilder.Model.GetEntityTypes().Any(),
+				message: "The entities for the DbContext must be added before the call to UseRepositoryDefaults.");
+
+			//modelBuilder.UseSpatial();
+			//modelBuilder.UseTemporal();
+			modelBuilder.UseEnumeration();
+			modelBuilder.UsePrimitiveValueObject();
+			modelBuilder.UseStronglyTypedId();
+			modelBuilder.UseStronglyTypedIdValueGenerator();
+			modelBuilder.UseSequentialGuidStringIdValueGenerator();
+			modelBuilder.UseReferences();
+
+			return modelBuilder;
+		}
+
 		/// <summary>
 		///     Configure the model builder to use the <see cref="StronglyTypedIdValueGenerator{TStronglyTypedId,TValue}" />.
 		/// </summary>

@@ -12,6 +12,9 @@
 	using global::LiteDB.Async;
 	using JetBrains.Annotations;
 
+	/// <summary>
+	///     A base class for context implementations for the LiteDB repository.
+	/// </summary>
 	[PublicAPI]
 	public abstract class LiteContext : Disposable
 	{
@@ -22,6 +25,12 @@
 		private ConcurrentQueue<Func<Task>> commands;
 		private LiteDatabaseAsync database;
 
+		/// <summary>
+		///     Initializes a new instance of the <see cref="LiteContext" /> type.
+		/// </summary>
+		/// <param name="repositoryName"></param>
+		/// <param name="databaseProvider"></param>
+		/// <param name="repositoryRegistry"></param>
 		protected LiteContext(
 			string repositoryName,
 			DatabaseProvider databaseProvider,
