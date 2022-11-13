@@ -153,7 +153,7 @@ based method, so you are sure that even a get-by-id will benefit from you modifi
 ### Query Options
 
 To control how you query data is returned, you can use the ```QueryOptions``` to create sorting and
-paging optiosn that will be applied to the base-query on execution.
+paging options that will be applied to the base-query on execution.
 
 ## Repository Decorators Hierarchy
 
@@ -180,6 +180,38 @@ The layers of decorators a executed in the following order.
 - **Data Storage**
   This is the base layer around wich all decorators are configures. This is the storage specific
   repository implementation.
+
+## Unit of Work
+
+The Unit of Work (UoW) pattern is disabled by default an  can be enabled using the ```EnableUnitOfWork``` method
+of the ```IRepositoryOptionsBuilder```.
+
+When enabled, a simple call to, f.e. ```AddAsync(item)``` will not persist the given item instantly. The 
+add operation is added to the UoW instance and is executed when the UoW for the repository saves the changes.
+
+```C#
+await this.repository.AddAsync(new Company
+{
+    Name = "First Company",
+    LegalType = LegalType.LimitedLiabilityCompany
+});
+
+await this.repository.AddAsync(new Company
+{
+    Name = "Second Company",
+    LegalType = LegalType.Corporation
+});
+
+await this.unitOfWork.SaveChangesAsync();
+```
+
+Due to the fact that this library supports multiple, different repositories at the same time, a UoW 
+instance can not be obtained directly using dependency injection. You can get a UoW instance from
+the ```IUnitOfWorkFactory``` with the name of the repository.
+
+```C#
+this.unitOfWork = unitOfWorkFactory.CreateUnitOfWork("MongoDB");
+```
 
 ## Supported Storages
 
@@ -216,11 +248,15 @@ You can configure different repositories for different aggregate root types, f.e
 in a MongoDB and invoices in a MS SQL database.
 
 ```C#
+// Add the repository services to the service collection and configure the repositories.
 services.AddRepository(builder =>
 {
     // Add default services and the repositories.
-    builder.AddMongoRepository("MongoDB", options =>
+    builder.AddMongoRepository<SampleMongoContext>("MongoDB", options =>
     {
+        // Enabled UoW for this repository.
+        options.EnableUnitOfWork();
+
         // Configure for what aggregate root types this repository uses.
         options.UseFor<Person>();
 
