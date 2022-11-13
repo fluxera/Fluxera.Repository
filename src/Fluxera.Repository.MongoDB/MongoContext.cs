@@ -20,6 +20,8 @@
 	[PublicAPI]
 	public abstract class MongoContext : Disposable
 	{
+		private static readonly ConcurrentDictionary<string, IMongoClient> Clients = new ConcurrentDictionary<string, IMongoClient>();
+
 		private IMongoClient client;
 		private ConcurrentQueue<Func<Task>> commands;
 		private IMongoDatabase database;
@@ -140,23 +142,34 @@
 			Guard.Against.NullOrWhiteSpace(connectionString);
 			Guard.Against.NullOrWhiteSpace(databaseName);
 
-			MongoClientSettings settings = MongoClientSettings.FromUrl(new MongoUrl(connectionString));
-
-			InstrumentationOptions instrumentationOptions = new InstrumentationOptions
+			// Create the client instance and cache it for the connection string.
+			// It is recommended to only have a single client instance.
+			if(!Clients.ContainsKey(connectionString))
 			{
-				CaptureCommandText = options.CaptureCommandText
-			};
-			settings.ClusterConfigurator = clusterBuilder => clusterBuilder.Subscribe(new DiagnosticsActivityEventSubscriber(instrumentationOptions));
+				MongoClientSettings settings = MongoClientSettings.FromUrl(new MongoUrl(connectionString));
 
-			if(options.UseSsl)
-			{
-				settings.SslSettings = new SslSettings
+				InstrumentationOptions instrumentationOptions = new InstrumentationOptions
 				{
-					EnabledSslProtocols = SslProtocols.Tls12 | SslProtocols.Tls13
+					CaptureCommandText = options.CaptureCommandText
 				};
+				settings.ClusterConfigurator = clusterBuilder => clusterBuilder.Subscribe(new DiagnosticsActivityEventSubscriber(instrumentationOptions));
+
+				if(options.UseSsl)
+				{
+					settings.SslSettings = new SslSettings
+					{
+						EnabledSslProtocols = SslProtocols.Tls12 | SslProtocols.Tls13
+					};
+				}
+
+				IMongoClient mongoClient = new MongoClient(settings);
+				if(!Clients.TryAdd(connectionString, mongoClient))
+				{
+					throw new InvalidOperationException("The MongoDB client could not be added to the client cache.");
+				}
 			}
 
-			this.client = new MongoClient(settings);
+			this.client = Clients[connectionString];
 			this.database = this.client.GetDatabase(databaseName);
 		}
 
