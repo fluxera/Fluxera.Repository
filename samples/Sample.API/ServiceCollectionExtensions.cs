@@ -38,8 +38,6 @@ namespace Sample.API
 					repositoryOptionsBuilder.UseFor<Company>();
 
 					repositoryOptionsBuilder.EnableUnitOfWork();
-
-					repositoryOptionsBuilder.AddSetting("Lite.Database", "sample.lite.db");
 				});
 			});
 
@@ -55,9 +53,6 @@ namespace Sample.API
 					repositoryOptionsBuilder.UseFor<Company>();
 
 					repositoryOptionsBuilder.EnableUnitOfWork();
-
-					repositoryOptionsBuilder.AddSetting("Mongo.ConnectionString", "mongodb://localhost:27017");
-					repositoryOptionsBuilder.AddSetting("Mongo.Database", "sample");
 				});
 			});
 

@@ -85,12 +85,7 @@
 				serviceBuilder.AddNameFor<LiteUnitOfWork>(repositoryName);
 			});
 
-			return builder.AddRepository(repositoryName, typeof(LiteRepository<,>), x =>
-			{
-				configure.Invoke(x);
-
-				x.AddSetting("Repository.ContextType", contextType);
-			});
+			return builder.AddRepository(repositoryName, typeof(LiteRepository<,>), contextType, configure);
 		}
 	}
 }

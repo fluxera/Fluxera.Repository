@@ -10,9 +10,9 @@
 		}
 
 		/// <inheritdoc />
-		protected override void ConfigureOptions(LiteContextOptions contextOptions)
+		protected override void ConfigureOptions(LiteContextOptions options)
 		{
-			base.ConfigureOptions(contextOptions);
+			options.Database = "sample.lite.db";
 		}
 	}
 }

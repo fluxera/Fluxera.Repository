@@ -2,9 +2,7 @@
 {
 	using System;
 	using System.Collections.Concurrent;
-	using Fluxera.Guards;
 	using Fluxera.Repository.Options;
-	using Fluxera.Utilities.Extensions;
 	using JetBrains.Annotations;
 	using Microsoft.Extensions.DependencyInjection;
 
@@ -44,7 +42,7 @@
 				? this.GetContext(contextType)
 				: this.RegisterContextType(repositoryName);
 
-			this.PerformConfigureContext(context, repositoryName, this.serviceProvider);
+			this.PerformConfigureContext(context, repositoryName);
 
 			return context;
 		}
@@ -52,16 +50,13 @@
 		private TContextBase RegisterContextType(RepositoryName repositoryName)
 		{
 			RepositoryOptions options = this.repositoryRegistry.GetRepositoryOptionsFor(repositoryName);
-			Type contextType = options.Settings.GetOrDefault("Repository.ContextType") as Type;
 
-			Guard.Against.Null(contextType, nameof(contextType));
-
-			if(!this.contextMap.TryAdd(repositoryName, contextType))
+			if(!this.contextMap.TryAdd(repositoryName, options.RepositoryContextType))
 			{
 				throw new InvalidOperationException($"Could not add context type for repository '{repositoryName}'.");
 			}
 
-			return this.GetContext(contextType);
+			return this.GetContext(options.RepositoryContextType);
 		}
 
 		private TContextBase GetContext(Type dbContextType)
@@ -75,7 +70,6 @@
 		/// </summary>
 		/// <param name="context"></param>
 		/// <param name="repositoryName"></param>
-		/// <param name="serviceProvider"></param>
-		protected abstract void PerformConfigureContext(TContextBase context, RepositoryName repositoryName, IServiceProvider serviceProvider);
+		protected abstract void PerformConfigureContext(TContextBase context, RepositoryName repositoryName);
 	}
 }

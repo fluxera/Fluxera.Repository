@@ -7,14 +7,12 @@
 	using System.Threading;
 	using System.Threading.Tasks;
 	using Fluxera.Guards;
-	using Fluxera.Repository.Options;
 	using Fluxera.Utilities;
 	using Fluxera.Utilities.Extensions;
 	using global::MongoDB.Driver;
 	using global::MongoDB.Driver.Core.Clusters;
 	using global::MongoDB.Driver.Core.Extensions.DiagnosticSources;
 	using JetBrains.Annotations;
-	using Microsoft.Extensions.DependencyInjection;
 
 	/// <summary>
 	///     A base class for context implementations for the MongoDB repository.
@@ -128,44 +126,29 @@
 		/// <summary>
 		///     Configures the options to use for this context instance over it's lifetime.
 		/// </summary>
-		/// <param name="contextOptions">The options instance configured with the default settings.</param>
-		protected virtual void ConfigureOptions(MongoContextOptions contextOptions)
+		protected abstract void ConfigureOptions(MongoContextOptions options);
+
+		internal void Configure(RepositoryName repositoryName)
 		{
-		}
+			MongoContextOptions options = new MongoContextOptions();
 
-		internal void Configure(RepositoryName repositoryName, IServiceProvider serviceProvider)
-		{
-			IRepositoryRegistry repositoryRegistry = serviceProvider.GetRequiredService<IRepositoryRegistry>();
+			this.ConfigureOptions(options);
 
-			RepositoryOptions options = repositoryRegistry.GetRepositoryOptionsFor(repositoryName);
+			string connectionString = options.ConnectionString;
+			string databaseName = options.Database;
 
-			MongoContextOptions contextOptions = new MongoContextOptions
-			{
-				ConnectionString = (string)options.Settings.GetOrDefault("Mongo.ConnectionString"),
-				Database = (string)options.Settings.GetOrDefault("Mongo.Database")
-			};
-
-			object settingsUseSsl = options.Settings.GetOrDefault("Mongo.UseSsl");
-			contextOptions.UseSsl = (bool)(settingsUseSsl ?? false);
-
-			this.ConfigureOptions(contextOptions);
-
-			string connectionString = contextOptions.ConnectionString;
-			string databaseName = contextOptions.Database;
-
-			Guard.Against.NullOrWhiteSpace(connectionString, nameof(connectionString));
-			Guard.Against.NullOrWhiteSpace(databaseName, nameof(databaseName));
+			Guard.Against.NullOrWhiteSpace(connectionString);
+			Guard.Against.NullOrWhiteSpace(databaseName);
 
 			MongoClientSettings settings = MongoClientSettings.FromUrl(new MongoUrl(connectionString));
 
-			object captureCommandText = options.Settings.GetOrDefault("Mongo.CaptureCommandText");
 			InstrumentationOptions instrumentationOptions = new InstrumentationOptions
 			{
-				CaptureCommandText = (bool)(captureCommandText ?? true)
+				CaptureCommandText = options.CaptureCommandText
 			};
 			settings.ClusterConfigurator = clusterBuilder => clusterBuilder.Subscribe(new DiagnosticsActivityEventSubscriber(instrumentationOptions));
 
-			if(contextOptions.UseSsl)
+			if(options.UseSsl)
 			{
 				settings.SslSettings = new SslSettings
 				{

@@ -79,12 +79,7 @@
 				serviceBuilder.AddNameFor<InMemoryUnitOfWork>(repositoryName);
 			});
 
-			return builder.AddRepository(repositoryName, typeof(InMemoryRepository<,>), x =>
-			{
-				configure.Invoke(x);
-
-				x.AddSetting("Repository.ContextType", contextType);
-			});
+			return builder.AddRepository(repositoryName, typeof(InMemoryRepository<,>), contextType, configure);
 		}
 	}
 }

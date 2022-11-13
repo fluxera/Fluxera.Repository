@@ -93,12 +93,7 @@
 				serviceBuilder.AddNameFor<MongoUnitOfWork>(repositoryName);
 			});
 
-			return builder.AddRepository(repositoryName, typeof(MongoRepository<,>), x =>
-			{
-				configure.Invoke(x);
-
-				x.AddSetting("Repository.ContextType", contextType);
-			});
+			return builder.AddRepository(repositoryName, typeof(MongoRepository<,>), contextType, configure);
 		}
 	}
 }

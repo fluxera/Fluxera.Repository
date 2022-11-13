@@ -22,5 +22,10 @@
 		///     Flag, if the connection uses SSL.
 		/// </summary>
 		public bool UseSsl { get; set; }
+
+		/// <summary>
+		///     Flag, if the diagnostics instrumentation should record the command text used.
+		/// </summary>
+		public bool CaptureCommandText { get; set; } = true;
 	}
 }

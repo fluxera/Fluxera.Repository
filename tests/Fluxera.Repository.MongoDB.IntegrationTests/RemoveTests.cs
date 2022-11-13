@@ -20,13 +20,7 @@
 		protected override void AddRepositoryUnderTest(IRepositoryBuilder repositoryBuilder,
 			string repositoryName, Action<IRepositoryOptionsBuilder> configureOptions)
 		{
-			repositoryBuilder.AddMongoRepository<RepositoryMongoContext>(repositoryName, options =>
-			{
-				options.AddSetting("Mongo.ConnectionString", "mongodb://localhost:27017");
-				options.AddSetting("Mongo.Database", "test");
-
-				configureOptions.Invoke(options);
-			});
+			repositoryBuilder.AddMongoRepository<RepositoryMongoContext>(repositoryName, configureOptions);
 		}
 
 		/// <inheritdoc />

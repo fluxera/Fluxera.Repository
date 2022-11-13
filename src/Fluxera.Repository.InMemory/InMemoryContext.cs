@@ -87,12 +87,11 @@
 		/// <summary>
 		///     Configures the options to use for this context instance over it's lifetime.
 		/// </summary>
-		/// <param name="contextOptions">The options instance configured with the default settings.</param>
-		protected virtual void ConfigureOptions(InMemoryContextOptions contextOptions)
+		protected virtual void ConfigureOptions(InMemoryContextOptions options)
 		{
 		}
 
-		internal void Configure(RepositoryName repositoryName, IServiceProvider serviceProvider)
+		internal void Configure(RepositoryName repositoryName)
 		{
 			InMemoryContextOptions contextOptions = new InMemoryContextOptions
 			{

@@ -36,12 +36,7 @@
 				File.Delete(file);
 			}
 
-			repositoryBuilder.AddLiteRepository<RepositoryLiteContext>(repositoryName, options =>
-			{
-				options.AddSetting("Lite.Database", $"{Guid.NewGuid():N}.db");
-
-				configureOptions.Invoke(options);
-			});
+			repositoryBuilder.AddLiteRepository<RepositoryLiteContext>(repositoryName, configureOptions);
 		}
 
 		[Test]

@@ -15,9 +15,9 @@
 		}
 
 		/// <inheritdoc />
-		protected override void PerformConfigureContext(InMemoryContext context, RepositoryName repositoryName, IServiceProvider serviceProvider)
+		protected override void PerformConfigureContext(InMemoryContext context, RepositoryName repositoryName)
 		{
-			context.Configure(repositoryName, serviceProvider);
+			context.Configure(repositoryName);
 		}
 	}
 }

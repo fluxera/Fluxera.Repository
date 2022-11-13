@@ -52,16 +52,6 @@
 		IRepositoryOptionsBuilder UseFor<TAggregateRoot>();
 
 		/// <summary>
-		///     Adds a key/value setting for the storage to use. This values will be
-		///     available in the repository settings of the storage implementation.
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="key"></param>
-		/// <param name="value"></param>
-		/// <returns></returns>
-		IRepositoryOptionsBuilder AddSetting<T>(string key, T value);
-
-		/// <summary>
 		///     Add the validation feature to the repository.
 		/// </summary>
 		/// <param name="configure"></param>

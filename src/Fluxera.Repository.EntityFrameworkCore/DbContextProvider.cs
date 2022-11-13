@@ -16,7 +16,7 @@
 		}
 
 		/// <inheritdoc />
-		protected override void PerformConfigureContext(DbContext context, RepositoryName repositoryName, IServiceProvider serviceProvider)
+		protected override void PerformConfigureContext(DbContext context, RepositoryName repositoryName)
 		{
 		}
 	}

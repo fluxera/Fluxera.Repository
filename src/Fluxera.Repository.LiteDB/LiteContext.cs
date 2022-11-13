@@ -6,12 +6,10 @@
 	using System.Threading;
 	using System.Threading.Tasks;
 	using Fluxera.Guards;
-	using Fluxera.Repository.Options;
 	using Fluxera.Utilities;
 	using Fluxera.Utilities.Extensions;
 	using global::LiteDB.Async;
 	using JetBrains.Annotations;
-	using Microsoft.Extensions.DependencyInjection;
 
 	/// <summary>
 	///     A base class for context implementations for the LiteDB repository.
@@ -108,27 +106,17 @@
 		/// <summary>
 		///     Configures the options to use for this context instance over it's lifetime.
 		/// </summary>
-		/// <param name="contextOptions">The options instance configured with the default settings.</param>
-		protected virtual void ConfigureOptions(LiteContextOptions contextOptions)
+		protected abstract void ConfigureOptions(LiteContextOptions options);
+
+		internal void Configure(RepositoryName repositoryName, DatabaseProvider databaseProvider)
 		{
-		}
+			LiteContextOptions options = new LiteContextOptions();
 
-		internal void Configure(RepositoryName repositoryName, IServiceProvider serviceProvider)
-		{
-			IRepositoryRegistry repositoryRegistry = serviceProvider.GetRequiredService<IRepositoryRegistry>();
-			DatabaseProvider databaseProvider = serviceProvider.GetRequiredService<DatabaseProvider>();
+			this.ConfigureOptions(options);
 
-			RepositoryOptions options = repositoryRegistry.GetRepositoryOptionsFor(repositoryName);
+			string databaseName = options.Database;
 
-			LiteContextOptions contextOptions = new LiteContextOptions
-			{
-				Database = (string)options.Settings.GetOrDefault("Lite.Database")
-			};
-			this.ConfigureOptions(contextOptions);
-
-			string databaseName = contextOptions.Database;
-
-			Guard.Against.NullOrWhiteSpace(databaseName, nameof(databaseName));
+			Guard.Against.NullOrWhiteSpace(databaseName);
 
 			this.database = databaseProvider.GetDatabase(repositoryName, databaseName);
 		}
