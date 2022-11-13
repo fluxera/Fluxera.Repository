@@ -7,7 +7,6 @@
 	using System.Threading;
 	using System.Threading.Tasks;
 	using Fluxera.Guards;
-	using Fluxera.Repository.Options;
 	using Fluxera.Utilities;
 	using Fluxera.Utilities.Extensions;
 	using global::MongoDB.Driver;
@@ -21,29 +20,21 @@
 	[PublicAPI]
 	public abstract class MongoContext : Disposable
 	{
-		private readonly RepositoryName repositoryName;
-		private readonly IRepositoryRegistry repositoryRegistry;
+		private static readonly ConcurrentDictionary<string, IMongoClient> Clients = new ConcurrentDictionary<string, IMongoClient>();
 
 		private IMongoClient client;
 		private ConcurrentQueue<Func<Task>> commands;
 		private IMongoDatabase database;
 
+		private bool isConfigured;
+
 		/// <summary>
 		///     Initializes a new instance of the <see cref="MongoContext" /> type.
 		/// </summary>
-		/// <param name="repositoryName"></param>
-		/// <param name="repositoryRegistry"></param>
-		protected MongoContext(
-			string repositoryName,
-			IRepositoryRegistry repositoryRegistry)
+		protected MongoContext()
 		{
-			this.repositoryName = (RepositoryName)repositoryName;
-			this.repositoryRegistry = repositoryRegistry;
-
 			// Command will be stored and later processed on saving changes.
 			this.commands = new ConcurrentQueue<Func<Task>>();
-
-			this.Configure();
 		}
 
 		/// <summary>
@@ -137,6 +128,61 @@
 		}
 
 		/// <summary>
+		///     Configures the options to use for this context instance over it's lifetime.
+		/// </summary>
+		protected abstract void ConfigureOptions(MongoContextOptions options);
+
+		internal void Configure(RepositoryName repositoryName)
+		{
+			if(!this.isConfigured)
+			{
+				MongoContextOptions options = new MongoContextOptions();
+
+				this.ConfigureOptions(options);
+
+				string connectionString = options.ConnectionString;
+				string databaseName = options.Database;
+
+				Guard.Against.NullOrWhiteSpace(connectionString);
+				Guard.Against.NullOrWhiteSpace(databaseName);
+
+				// Create the client instance and cache it for the connection string. It is recommended to only have
+				// a single client instance.
+				// See: https://mongodb.github.io/mongo-csharp-driver/2.18/reference/driver/connecting/
+				if(!Clients.ContainsKey(connectionString))
+				{
+					MongoClientSettings settings = MongoClientSettings.FromUrl(new MongoUrl(connectionString));
+
+					InstrumentationOptions instrumentationOptions = new InstrumentationOptions
+					{
+						CaptureCommandText = options.CaptureCommandText
+					};
+					settings.ClusterConfigurator = clusterBuilder => clusterBuilder.Subscribe(new DiagnosticsActivityEventSubscriber(instrumentationOptions));
+
+					if(options.UseSsl)
+					{
+						settings.SslSettings = new SslSettings
+						{
+							EnabledSslProtocols = SslProtocols.Tls12 | SslProtocols.Tls13
+						};
+					}
+
+					IMongoClient mongoClient = new MongoClient(settings);
+					if(!Clients.TryAdd(connectionString, mongoClient))
+					{
+						throw new InvalidOperationException("The MongoDB client could not be added to the client cache.");
+					}
+				}
+
+				this.client = Clients[connectionString];
+				this.database = this.client.GetDatabase(databaseName);
+
+
+				this.isConfigured = true;
+			}
+		}
+
+		/// <summary>
 		///     Removes all added commands.
 		/// </summary>
 		private void ClearCommands()
@@ -151,56 +197,6 @@
 				cancellationToken.ThrowIfCancellationRequested();
 
 				await command.Invoke().ConfigureAwait(false);
-			}
-		}
-
-		private void Configure()
-		{
-			if(this.client is null)
-			{
-				RepositoryOptions options = this.repositoryRegistry.GetRepositoryOptionsFor(this.repositoryName);
-
-				MongoPersistenceSettings persistenceSettings = new MongoPersistenceSettings
-				{
-					ConnectionString = (string)options.Settings.GetOrDefault("Mongo.ConnectionString"),
-					Database = (string)options.Settings.GetOrDefault("Mongo.Database")
-				};
-
-				object settingsUseSsl = options.Settings.GetOrDefault("Mongo.UseSsl");
-				persistenceSettings.UseSsl = (bool)(settingsUseSsl ?? false);
-
-				string connectionString = persistenceSettings.ConnectionString;
-				string databaseName = persistenceSettings.Database;
-
-				// TODO
-				//// If a custom database name provider is available use this to resolve the database name dynamically.
-				//if (databaseNameProvider != null)
-				//{
-				//	databaseName = databaseNameProvider.GetDatabaseName(typeof(TAggregateRoot));
-				//}
-
-				Guard.Against.NullOrWhiteSpace(connectionString, nameof(connectionString));
-				Guard.Against.NullOrWhiteSpace(databaseName, nameof(databaseName));
-
-				MongoClientSettings settings = MongoClientSettings.FromUrl(new MongoUrl(connectionString));
-
-				object captureCommandText = options.Settings.GetOrDefault("Mongo.CaptureCommandText");
-				InstrumentationOptions instrumentationOptions = new InstrumentationOptions
-				{
-					CaptureCommandText = (bool)(captureCommandText ?? true)
-				};
-				settings.ClusterConfigurator = clusterBuilder => clusterBuilder.Subscribe(new DiagnosticsActivityEventSubscriber(instrumentationOptions));
-
-				if(persistenceSettings.UseSsl)
-				{
-					settings.SslSettings = new SslSettings
-					{
-						EnabledSslProtocols = SslProtocols.Tls12
-					};
-				}
-
-				this.client = new MongoClient(settings);
-				this.database = this.client.GetDatabase(databaseName);
 			}
 		}
 	}

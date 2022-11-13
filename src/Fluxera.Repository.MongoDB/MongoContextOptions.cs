@@ -3,10 +3,10 @@
 	using JetBrains.Annotations;
 
 	/// <summary>
-	///     Provides the settings for the MongoDB repository implementation.
+	///     Provides the options for the MongoDB repository implementation.
 	/// </summary>
 	[PublicAPI]
-	public sealed class MongoPersistenceSettings
+	public sealed class MongoContextOptions
 	{
 		/// <summary>
 		///     Gets or sets the connection string.
@@ -22,5 +22,10 @@
 		///     Flag, if the connection uses SSL.
 		/// </summary>
 		public bool UseSsl { get; set; }
+
+		/// <summary>
+		///     Flag, if the diagnostics instrumentation should record the command text used.
+		/// </summary>
+		public bool CaptureCommandText { get; set; } = true;
 	}
 }

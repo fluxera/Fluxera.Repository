@@ -23,11 +23,12 @@
 		///     The repository name must be unique.
 		/// </remarks>
 		/// <param name="repositoryType"></param>
+		/// <param name="contextType"></param>
 		/// <param name="configure"></param>
 		/// <returns></returns>
-		IRepositoryBuilder AddRepository(Type repositoryType, Action<IRepositoryOptionsBuilder> configure)
+		IRepositoryBuilder AddRepository(Type repositoryType, Type contextType, Action<IRepositoryOptionsBuilder> configure)
 		{
-			return this.AddRepository("Default", repositoryType, configure);
+			return this.AddRepository("Default", repositoryType, contextType, configure);
 		}
 
 		/// <summary>
@@ -39,8 +40,9 @@
 		/// </remarks>
 		/// <param name="repositoryName"></param>
 		/// <param name="repositoryType"></param>
+		/// <param name="contextType"></param>
 		/// <param name="configure"></param>
 		/// <returns></returns>
-		IRepositoryBuilder AddRepository(string repositoryName, Type repositoryType, Action<IRepositoryOptionsBuilder> configure);
+		IRepositoryBuilder AddRepository(string repositoryName, Type repositoryType, Type contextType, Action<IRepositoryOptionsBuilder> configure);
 	}
 }

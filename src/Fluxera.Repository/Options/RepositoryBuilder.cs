@@ -17,7 +17,7 @@ namespace Fluxera.Repository.Options
 		}
 
 		/// <inheritdoc />
-		public IRepositoryBuilder AddRepository(string repositoryName, Type repositoryType, Action<IRepositoryOptionsBuilder> configure)
+		public IRepositoryBuilder AddRepository(string repositoryName, Type repositoryType, Type contextType, Action<IRepositoryOptionsBuilder> configure)
 		{
 			Guard.Against.NullOrWhiteSpace(repositoryName);
 			Guard.Against.Null(repositoryType);
@@ -25,6 +25,9 @@ namespace Fluxera.Repository.Options
 
 			RepositoryOptionsBuilder repositoryOptionsBuilder = new RepositoryOptionsBuilder(this.Services, repositoryName, repositoryType);
 			configure.Invoke(repositoryOptionsBuilder);
+
+			repositoryOptionsBuilder.SetRepositoryContextType(contextType);
+
 			RepositoryOptions repositoryOptions = repositoryOptionsBuilder.Build();
 
 			// Add the repositories for the registered aggregates.

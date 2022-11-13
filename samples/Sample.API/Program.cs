@@ -24,6 +24,7 @@ namespace Sample.API
 			builder.Services.AddEntityFrameworkCore();
 			//builder.Services.AddLiteDB();
 			//builder.Services.AddMongoDB();
+			//builder.Services.AddInMemory();
 
 			builder.Services.AddTransient<ICompanyRepository, CompanyRepository>();
 

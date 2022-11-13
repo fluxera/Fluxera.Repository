@@ -6,8 +6,7 @@
 	public sealed class RepositoryInMemoryContext : InMemoryContext
 	{
 		/// <inheritdoc />
-		public RepositoryInMemoryContext(string repositoryName, IRepositoryRegistry repositoryRegistry)
-			: base(repositoryName, repositoryRegistry)
+		protected override void ConfigureOptions(InMemoryContextOptions options)
 		{
 		}
 	}

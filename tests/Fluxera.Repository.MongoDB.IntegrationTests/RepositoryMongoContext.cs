@@ -6,11 +6,10 @@
 	public sealed class RepositoryMongoContext : MongoContext
 	{
 		/// <inheritdoc />
-		public RepositoryMongoContext(
-			string repositoryName,
-			IRepositoryRegistry repositoryRegistry)
-			: base(repositoryName, repositoryRegistry)
+		protected override void ConfigureOptions(MongoContextOptions options)
 		{
+			options.ConnectionString = "mongodb://localhost:27017";
+			options.Database = "test";
 		}
 	}
 }

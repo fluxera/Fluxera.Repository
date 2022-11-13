@@ -6,7 +6,6 @@
 	using System.Threading;
 	using System.Threading.Tasks;
 	using Fluxera.Guards;
-	using Fluxera.Repository.Options;
 	using Fluxera.Utilities;
 	using Fluxera.Utilities.Extensions;
 	using global::LiteDB.Async;
@@ -18,32 +17,18 @@
 	[PublicAPI]
 	public abstract class LiteContext : Disposable
 	{
-		private readonly DatabaseProvider databaseProvider;
-		private readonly RepositoryName repositoryName;
-		private readonly IRepositoryRegistry repositoryRegistry;
-
 		private ConcurrentQueue<Func<Task>> commands;
 		private LiteDatabaseAsync database;
+
+		private bool isConfigured;
 
 		/// <summary>
 		///     Initializes a new instance of the <see cref="LiteContext" /> type.
 		/// </summary>
-		/// <param name="repositoryName"></param>
-		/// <param name="databaseProvider"></param>
-		/// <param name="repositoryRegistry"></param>
-		protected LiteContext(
-			string repositoryName,
-			DatabaseProvider databaseProvider,
-			IRepositoryRegistry repositoryRegistry)
+		protected LiteContext()
 		{
-			this.repositoryName = (RepositoryName)repositoryName;
-			this.databaseProvider = databaseProvider;
-			this.repositoryRegistry = repositoryRegistry;
-
 			// Command will be stored and later processed on saving changes.
 			this.commands = new ConcurrentQueue<Func<Task>>();
-
-			this.Configure();
 		}
 
 		/// <summary>
@@ -121,6 +106,29 @@
 		}
 
 		/// <summary>
+		///     Configures the options to use for this context instance over it's lifetime.
+		/// </summary>
+		protected abstract void ConfigureOptions(LiteContextOptions options);
+
+		internal void Configure(RepositoryName repositoryName, DatabaseProvider databaseProvider)
+		{
+			if(!this.isConfigured)
+			{
+				LiteContextOptions options = new LiteContextOptions();
+
+				this.ConfigureOptions(options);
+
+				string databaseName = options.Database;
+
+				Guard.Against.NullOrWhiteSpace(databaseName);
+
+				this.database = databaseProvider.GetDatabase(repositoryName, databaseName);
+
+				this.isConfigured = true;
+			}
+		}
+
+		/// <summary>
 		///     Removes all added commands.
 		/// </summary>
 		private void ClearCommands()
@@ -136,28 +144,6 @@
 
 				await command.Invoke().ConfigureAwait(false);
 			}
-		}
-
-		private void Configure()
-		{
-			RepositoryOptions options = this.repositoryRegistry.GetRepositoryOptionsFor(this.repositoryName);
-
-			LitePersistenceSettings persistenceSettings = new LitePersistenceSettings
-			{
-				Database = (string)options.Settings.GetOrDefault("Lite.Database")
-			};
-
-			string databaseName = persistenceSettings.Database;
-
-			//// If a custom database name provider is available use this to resolve the database name dynamically.
-			//if(databaseNameProvider != null)
-			//{
-			//	databaseName = databaseNameProvider.GetDatabaseName(typeof(TAggregateRoot));
-			//}
-
-			Guard.Against.NullOrWhiteSpace(databaseName, nameof(databaseName));
-
-			this.database = this.databaseProvider.GetDatabase(this.repositoryName, databaseName);
 		}
 	}
 }

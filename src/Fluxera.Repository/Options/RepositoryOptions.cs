@@ -34,11 +34,6 @@
 		public IList<Type> AggregateRootTypes { get; } = new List<Type>();
 
 		/// <summary>
-		///     Gets the raw settings vales.
-		/// </summary>
-		public IDictionary<string, object> Settings { get; } = new Dictionary<string, object>();
-
-		/// <summary>
 		///     Gets the validation options.
 		/// </summary>
 		public ValidationOptions ValidationOptions { get; }
@@ -61,6 +56,11 @@
 		/// <summary>
 		///     Flag, indicating if the unit-of-work usage is enabled. The default is <c>false</c>.
 		/// </summary>
-		public bool IsUnitOfWorkEnabled { get; set; }
+		public bool IsUnitOfWorkEnabled { get; internal set; }
+
+		/// <summary>
+		///     Gets the type of the repository context.
+		/// </summary>
+		public Type RepositoryContextType { get; internal set; }
 	}
 }

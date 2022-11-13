@@ -53,6 +53,13 @@ heavily to split up the many features around the storage implementation, to keep
 have every decorator layer only impolement a single responseibility. Your specialized repository then
 acts as the outermost layout of decorators.
 
+## Supported Storages
+
+- Entity Framework Core
+- LiteDB
+- MongoDB
+- In-Memory (for testing and prototyping only)
+
 ## Additional Features
 
 Besides to being able top perform CRUD operation with the underlying data storage, the repository
@@ -153,7 +160,7 @@ based method, so you are sure that even a get-by-id will benefit from you modifi
 ### Query Options
 
 To control how you query data is returned, you can use the ```QueryOptions``` to create sorting and
-paging optiosn that will be applied to the base-query on execution.
+paging options that will be applied to the base-query on execution.
 
 ## Repository Decorators Hierarchy
 
@@ -181,12 +188,37 @@ The layers of decorators a executed in the following order.
   This is the base layer around wich all decorators are configures. This is the storage specific
   repository implementation.
 
-## Supported Storages
+## Unit of Work
 
-- In-Memory
-- Entity Framework Core
-- LiteDB
-- MongoDB
+The Unit of Work (UoW) pattern is disabled by default an  can be enabled using the ```EnableUnitOfWork``` method
+of the ```IRepositoryOptionsBuilder```.
+
+When enabled, a simple call to, f.e. ```AddAsync(item)``` will not persist the given item instantly. The 
+add operation is added to the UoW instance and is executed when the UoW for the repository saves the changes.
+
+```C#
+await this.repository.AddAsync(new Company
+{
+    Name = "First Company",
+    LegalType = LegalType.LimitedLiabilityCompany
+});
+
+await this.repository.AddAsync(new Company
+{
+    Name = "Second Company",
+    LegalType = LegalType.Corporation
+});
+
+await this.unitOfWork.SaveChangesAsync();
+```
+
+Due to the fact that this library supports multiple, different repositories at the same time, a UoW 
+instance can not be obtained directly using dependency injection. You can get a UoW instance from
+the ```IUnitOfWorkFactory``` with the name of the repository.
+
+```C#
+this.unitOfWork = unitOfWorkFactory.CreateUnitOfWork("MongoDB");
+```
 
 ## OpenTelemetry
 
@@ -213,14 +245,19 @@ builder
 ## Usage
 
 You can configure different repositories for different aggregate root types, f.e. you can have persons
-in a MongoDB and invoices in a MS SQL database.
+in a MongoDB and invoices in a SQL database. You can choose to omit the repository name using overloads
+that do not accept a name parameter. In this case, the default name "Default" is used for the repository.
 
 ```C#
+// Add the repository services to the service collection and configure the repositories.
 services.AddRepository(builder =>
 {
     // Add default services and the repositories.
-    builder.AddMongoRepository("MongoDB", options =>
+    builder.AddMongoRepository<SampleMongoContext>("MongoDB", options =>
     {
+        // Enabled UoW for this repository.
+        options.EnableUnitOfWork();
+
         // Configure for what aggregate root types this repository uses.
         options.UseFor<Person>();
 
@@ -260,6 +297,32 @@ services.AddRepository(builder =>
 });
 ```
 
+Storage-specific options are configure using a repository-specific context class. 
+The following example shows the configuration of a MongoDB repository.
+
+```C#
+public class SampleMongoContext : MongoContext
+{
+    protected override void ConfigureOptions(MongoContextOptions options)
+    {
+        options.ConnectionString = "mongodb://localhost:27017";
+        options.Database = "sample";
+    }
+}
+```
+
+The context types are registered as scoped services in the container. The ```void ConfigureOptions(MongoContextOptions options)```
+method is called whenever an instance of the context is created. In a web application this will occur for
+every request. You can then modify, f.e. the connection strings or database names to use for this context instance.
+
+This comes in handy if you plan on implementing "database-per-tenant" data isolation in SaaS szenarios.
+
 ## References
 
 The [OpenTelemetry](https://opentelemetry.io/) project.
+
+The [MongoDB C# Driver](https://github.com/mongodb/mongo-csharp-driver) project.
+
+The [Entity Framework Core](https://github.com/dotnet/efcore) project.
+
+The [LiteDB](https://github.com/mbdavid/LiteDB) project.

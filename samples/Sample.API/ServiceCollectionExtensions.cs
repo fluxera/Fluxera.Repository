@@ -2,11 +2,13 @@ namespace Sample.API
 {
 	using Fluxera.Repository;
 	using Fluxera.Repository.EntityFrameworkCore;
+	using Fluxera.Repository.InMemory;
 	using Fluxera.Repository.LiteDB;
 	using Fluxera.Repository.MongoDB;
 	using Microsoft.Extensions.DependencyInjection;
 	using Sample.Domain.Company;
 	using Sample.EntityFrameworkCore;
+	using Sample.InMemory;
 	using Sample.LiteDB;
 	using Sample.MongoDB;
 
@@ -31,14 +33,6 @@ namespace Sample.API
 
 		public static IServiceCollection AddLiteDB(this IServiceCollection services)
 		{
-			services.AddLiteContext(serviceProvider =>
-			{
-				DatabaseProvider databaseProvider = serviceProvider.GetRequiredService<DatabaseProvider>();
-				IRepositoryRegistry repositoryRegistry = serviceProvider.GetRequiredService<IRepositoryRegistry>();
-
-				return new SampleLiteContext("Default", databaseProvider, repositoryRegistry);
-			});
-
 			services.AddRepository(repositoryBuilder =>
 			{
 				repositoryBuilder.AddLiteRepository<SampleLiteContext>(repositoryOptionsBuilder =>
@@ -46,8 +40,6 @@ namespace Sample.API
 					repositoryOptionsBuilder.UseFor<Company>();
 
 					repositoryOptionsBuilder.EnableUnitOfWork();
-
-					repositoryOptionsBuilder.AddSetting("Lite.Database", "sample.lite.db");
 				});
 			});
 
@@ -56,13 +48,6 @@ namespace Sample.API
 
 		public static IServiceCollection AddMongoDB(this IServiceCollection services)
 		{
-			services.AddMongoContext(serviceProvider =>
-			{
-				IRepositoryRegistry repositoryRegistry = serviceProvider.GetRequiredService<IRepositoryRegistry>();
-
-				return new SampleMongoContext("Default", repositoryRegistry);
-			});
-
 			services.AddRepository(repositoryBuilder =>
 			{
 				repositoryBuilder.AddMongoRepository<SampleMongoContext>(repositoryOptionsBuilder =>
@@ -70,9 +55,21 @@ namespace Sample.API
 					repositoryOptionsBuilder.UseFor<Company>();
 
 					repositoryOptionsBuilder.EnableUnitOfWork();
+				});
+			});
 
-					repositoryOptionsBuilder.AddSetting("Mongo.ConnectionString", "mongodb://localhost:27017");
-					repositoryOptionsBuilder.AddSetting("Mongo.Database", "sample");
+			return services;
+		}
+
+		public static IServiceCollection AddInMemory(this IServiceCollection services)
+		{
+			services.AddRepository(repositoryBuilder =>
+			{
+				repositoryBuilder.AddInMemoryRepository<SampleInMemoryContext>(repositoryOptionsBuilder =>
+				{
+					repositoryOptionsBuilder.UseFor<Company>();
+
+					repositoryOptionsBuilder.EnableUnitOfWork();
 				});
 			});
 

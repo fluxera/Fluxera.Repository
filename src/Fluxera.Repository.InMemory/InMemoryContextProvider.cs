@@ -10,8 +10,14 @@
 		public InMemoryContextProvider(
 			IServiceProvider serviceProvider,
 			IRepositoryRegistry repositoryRegistry)
-			: base("InMemory.Context", serviceProvider, repositoryRegistry)
+			: base(serviceProvider, repositoryRegistry)
 		{
+		}
+
+		/// <inheritdoc />
+		protected override void PerformConfigureContext(InMemoryContext context, RepositoryName repositoryName)
+		{
+			context.Configure(repositoryName);
 		}
 	}
 }

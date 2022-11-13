@@ -72,18 +72,14 @@
 			Guard.Against.Null(configure, nameof(configure));
 
 			builder.Services.AddSingleton<SequentialGuidGenerator>();
+			builder.Services.AddScoped(contextType);
 			builder.Services.AddScoped<InMemoryContextProvider>();
 			builder.Services.AddNamedTransient<IUnitOfWork>(serviceBuilder =>
 			{
 				serviceBuilder.AddNameFor<InMemoryUnitOfWork>(repositoryName);
 			});
 
-			return builder.AddRepository(repositoryName, typeof(InMemoryRepository<,>), x =>
-			{
-				configure.Invoke(x);
-
-				x.AddSetting("InMemory.Context", contextType);
-			});
+			return builder.AddRepository(repositoryName, typeof(InMemoryRepository<,>), contextType, configure);
 		}
 	}
 }

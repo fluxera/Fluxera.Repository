@@ -18,9 +18,9 @@
 
 		public RepositoryOptionsBuilder(IServiceCollection services, string repositoryName, Type repositoryType)
 		{
-			Guard.Against.Null(services, nameof(services));
-			Guard.Against.NullOrWhiteSpace(repositoryName, nameof(repositoryName));
-			Guard.Against.Null(repositoryType, nameof(repositoryType));
+			Guard.Against.Null(services);
+			Guard.Against.NullOrWhiteSpace(repositoryName);
+			Guard.Against.Null(repositoryType);
 
 			this.services = services;
 			this.repositoryOptions = new RepositoryOptions((RepositoryName)repositoryName);
@@ -40,7 +40,7 @@
 
 		public IRepositoryOptionsBuilder UseFor(Assembly assembly)
 		{
-			Guard.Against.Null(assembly, nameof(assembly));
+			Guard.Against.Null(assembly);
 
 			foreach(Type type in assembly.GetTypes())
 			{
@@ -70,7 +70,7 @@
 
 		public IRepositoryOptionsBuilder UseFor(Type type)
 		{
-			Guard.Against.Null(type, nameof(type));
+			Guard.Against.Null(type);
 			Guard.Against.False(type.IsAggregateRoot(), nameof(type), $"The repository can only use aggregate root types: '{type.Name}'");
 
 			if(!this.repositoryOptions.AggregateRootTypes.Contains(type))
@@ -91,27 +91,9 @@
 			return this.UseFor(typeof(TAggregateRoot));
 		}
 
-		public IRepositoryOptionsBuilder AddSetting<T>(string key, T value)
-		{
-			Guard.Against.NullOrWhiteSpace(key, nameof(key));
-			Guard.Against.Null(value, nameof(value));
-
-			if(!this.repositoryOptions.Settings.ContainsKey(key))
-			{
-				this.repositoryOptions.Settings.Add(key, value);
-			}
-			else
-			{
-				throw new InvalidOperationException(
-					$"The setting '{key}' was already added for the repository '{this.repositoryOptions.RepositoryName}'.");
-			}
-
-			return this;
-		}
-
 		public IRepositoryOptionsBuilder AddValidation(Action<IValidationOptionsBuilder> configure)
 		{
-			Guard.Against.Null(configure, nameof(configure));
+			Guard.Against.Null(configure);
 
 			if(this.repositoryOptions.ValidationOptions.IsEnabled)
 			{
@@ -132,7 +114,7 @@
 
 		public IRepositoryOptionsBuilder AddDomainEventHandling(Action<IDomainEventsOptionsBuilder> configure)
 		{
-			Guard.Against.Null(configure, nameof(configure));
+			Guard.Against.Null(configure);
 
 			if(this.repositoryOptions.DomainEventsOptions.IsEnabled)
 			{
@@ -164,11 +146,10 @@
 			return this;
 		}
 
-
 		/// <inheritdoc />
 		public IRepositoryOptionsBuilder AddInterception(Action<IInterceptionOptionsBuilder> configure)
 		{
-			Guard.Against.Null(configure, nameof(configure));
+			Guard.Against.Null(configure);
 
 			if(this.repositoryOptions.InterceptionOptions.IsEnabled)
 			{
@@ -190,6 +171,13 @@
 			this.repositoryOptions.IsUnitOfWorkEnabled = true;
 
 			return this;
+		}
+
+		internal void SetRepositoryContextType(Type contextType)
+		{
+			Guard.Against.Null(contextType);
+
+			this.repositoryOptions.RepositoryContextType = contextType;
 		}
 
 		internal RepositoryOptions Build()

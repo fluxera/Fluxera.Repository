@@ -15,26 +15,20 @@
 	[PublicAPI]
 	public abstract class InMemoryContext : Disposable
 	{
-		private readonly RepositoryName repositoryName;
-		private readonly IRepositoryRegistry repositoryRegistry;
-
 		private ConcurrentQueue<Func<Task>> commands;
+
+		private bool isConfigured;
 
 		/// <summary>
 		///     Initializes a new instance of the <see cref="InMemoryContext" /> type.
 		/// </summary>
-		/// <param name="repositoryName"></param>
-		/// <param name="repositoryRegistry"></param>
-		protected InMemoryContext(
-			string repositoryName,
-			IRepositoryRegistry repositoryRegistry)
+		protected InMemoryContext()
 		{
-			this.repositoryName = (RepositoryName)repositoryName;
-			this.repositoryRegistry = repositoryRegistry;
-
 			// Command will be stored and later processed on saving changes.
 			this.commands = new ConcurrentQueue<Func<Task>>();
 		}
+
+		internal string Database { get; set; } = string.Empty;
 
 		/// <summary>
 		///     Adds a command for execution.
@@ -92,6 +86,28 @@
 		protected override void DisposeManaged()
 		{
 			this.ClearCommands();
+		}
+
+		/// <summary>
+		///     Configures the options to use for this context instance over it's lifetime.
+		/// </summary>
+		protected abstract void ConfigureOptions(InMemoryContextOptions options);
+
+		internal void Configure(RepositoryName repositoryName)
+		{
+			if(!this.isConfigured)
+			{
+				InMemoryContextOptions contextOptions = new InMemoryContextOptions
+				{
+					Database = string.Empty
+				};
+
+				this.ConfigureOptions(contextOptions);
+
+				this.Database = contextOptions.Database;
+
+				this.isConfigured = true;
+			}
 		}
 
 		/// <summary>

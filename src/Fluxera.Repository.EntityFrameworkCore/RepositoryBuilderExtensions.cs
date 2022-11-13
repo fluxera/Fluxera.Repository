@@ -62,11 +62,11 @@
 		/// </summary>
 		/// <param name="builder"></param>
 		/// <param name="repositoryName"></param>
-		/// <param name="dbContextType"></param>
+		/// <param name="contextType"></param>
 		/// <param name="configure"></param>
 		/// <returns></returns>
 		public static IRepositoryBuilder AddEntityFrameworkRepository(this IRepositoryBuilder builder,
-			string repositoryName, Type dbContextType, Action<IRepositoryOptionsBuilder> configure)
+			string repositoryName, Type contextType, Action<IRepositoryOptionsBuilder> configure)
 		{
 			Guard.Against.Null(builder);
 			Guard.Against.NullOrWhiteSpace(repositoryName);
@@ -78,12 +78,7 @@
 				serviceBuilder.AddNameFor<EntityFrameworkCoreUnitOfWork>(repositoryName);
 			});
 
-			return builder.AddRepository(repositoryName, typeof(EntityFrameworkCoreRepository<,>), x =>
-			{
-				configure.Invoke(x);
-
-				x.AddSetting("EntityFrameworkCore.Context", dbContextType);
-			});
+			return builder.AddRepository(repositoryName, typeof(EntityFrameworkCoreRepository<,>), contextType, configure);
 		}
 	}
 }

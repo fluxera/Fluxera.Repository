@@ -15,7 +15,7 @@
 	[PublicAPI]
 	public sealed class DatabaseProvider : Disposable
 	{
-		private readonly ConcurrentDictionary<RepositoryName, LiteDatabaseAsync> databases = new ConcurrentDictionary<RepositoryName, LiteDatabaseAsync>();
+		private readonly ConcurrentDictionary<string, LiteDatabaseAsync> databases = new ConcurrentDictionary<string, LiteDatabaseAsync>();
 
 		/// <summary>
 		///     Gets a database for the given repository and database names.
@@ -25,7 +25,9 @@
 		/// <returns></returns>
 		public LiteDatabaseAsync GetDatabase(RepositoryName repositoryName, string databaseName)
 		{
-			LiteDatabaseAsync database = this.databases.GetOrAdd(repositoryName,
+			string key = $"{repositoryName}_{databaseName}";
+
+			LiteDatabaseAsync database = this.databases.GetOrAdd(key,
 				_ => new LiteDatabaseAsync(databaseName.EnsureEndsWith(".db")));
 
 			return database;

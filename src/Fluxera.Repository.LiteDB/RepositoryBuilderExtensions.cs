@@ -78,18 +78,14 @@
 
 			builder.Services.AddSingleton<DatabaseProvider>();
 			builder.Services.AddSingleton<SequentialGuidGenerator>();
+			builder.Services.AddScoped(contextType);
 			builder.Services.AddScoped<LiteContextProvider>();
 			builder.Services.AddNamedTransient<IUnitOfWork>(serviceBuilder =>
 			{
 				serviceBuilder.AddNameFor<LiteUnitOfWork>(repositoryName);
 			});
 
-			return builder.AddRepository(repositoryName, typeof(LiteRepository<,>), x =>
-			{
-				configure.Invoke(x);
-
-				x.AddSetting("Lite.Context", contextType);
-			});
+			return builder.AddRepository(repositoryName, typeof(LiteRepository<,>), contextType, configure);
 		}
 	}
 }

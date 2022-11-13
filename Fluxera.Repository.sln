@@ -61,6 +61,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.LiteDB", "samples\Sa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.MongoDB", "samples\Sample.MongoDB\Sample.MongoDB.csproj", "{7673C153-6461-460B-9597-E9A9FD9C0889}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.InMemory", "samples\Sample.InMemory\Sample.InMemory.csproj", "{645E32ED-3BFF-4048-BFE1-14A3EB804EA7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -139,6 +141,10 @@ Global
 		{7673C153-6461-460B-9597-E9A9FD9C0889}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7673C153-6461-460B-9597-E9A9FD9C0889}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7673C153-6461-460B-9597-E9A9FD9C0889}.Release|Any CPU.Build.0 = Release|Any CPU
+		{645E32ED-3BFF-4048-BFE1-14A3EB804EA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{645E32ED-3BFF-4048-BFE1-14A3EB804EA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{645E32ED-3BFF-4048-BFE1-14A3EB804EA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{645E32ED-3BFF-4048-BFE1-14A3EB804EA7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -162,6 +168,7 @@ Global
 		{BC6982D6-499F-4BA3-84FA-378D67C80789} = {112E5560-DCAF-4761-9F40-2D489FE527AF}
 		{E19D5C9E-AE88-4713-B018-7A5F0B7563B7} = {112E5560-DCAF-4761-9F40-2D489FE527AF}
 		{7673C153-6461-460B-9597-E9A9FD9C0889} = {112E5560-DCAF-4761-9F40-2D489FE527AF}
+		{645E32ED-3BFF-4048-BFE1-14A3EB804EA7} = {112E5560-DCAF-4761-9F40-2D489FE527AF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D97BF2AF-6E68-4E88-BF70-773A86E26013}
