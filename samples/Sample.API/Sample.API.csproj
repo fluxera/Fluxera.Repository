@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Sample.EntityFrameworkCore\Sample.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\Sample.InMemory\Sample.InMemory.csproj" />
     <ProjectReference Include="..\Sample.LiteDB\Sample.LiteDB.csproj" />
     <ProjectReference Include="..\Sample.MongoDB\Sample.MongoDB.csproj" />
   </ItemGroup>

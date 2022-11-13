@@ -2,11 +2,13 @@ namespace Sample.API
 {
 	using Fluxera.Repository;
 	using Fluxera.Repository.EntityFrameworkCore;
+	using Fluxera.Repository.InMemory;
 	using Fluxera.Repository.LiteDB;
 	using Fluxera.Repository.MongoDB;
 	using Microsoft.Extensions.DependencyInjection;
 	using Sample.Domain.Company;
 	using Sample.EntityFrameworkCore;
+	using Sample.InMemory;
 	using Sample.LiteDB;
 	using Sample.MongoDB;
 
@@ -49,6 +51,21 @@ namespace Sample.API
 			services.AddRepository(repositoryBuilder =>
 			{
 				repositoryBuilder.AddMongoRepository<SampleMongoContext>(repositoryOptionsBuilder =>
+				{
+					repositoryOptionsBuilder.UseFor<Company>();
+
+					repositoryOptionsBuilder.EnableUnitOfWork();
+				});
+			});
+
+			return services;
+		}
+
+		public static IServiceCollection AddInMemory(this IServiceCollection services)
+		{
+			services.AddRepository(repositoryBuilder =>
+			{
+				repositoryBuilder.AddInMemoryRepository<SampleInMemoryContext>(repositoryOptionsBuilder =>
 				{
 					repositoryOptionsBuilder.UseFor<Company>();
 
