@@ -20,6 +20,8 @@
 		private ConcurrentQueue<Func<Task>> commands;
 		private LiteDatabaseAsync database;
 
+		private bool isConfigured;
+
 		/// <summary>
 		///     Initializes a new instance of the <see cref="LiteContext" /> type.
 		/// </summary>
@@ -110,15 +112,20 @@
 
 		internal void Configure(RepositoryName repositoryName, DatabaseProvider databaseProvider)
 		{
-			LiteContextOptions options = new LiteContextOptions();
+			if(!this.isConfigured)
+			{
+				LiteContextOptions options = new LiteContextOptions();
 
-			this.ConfigureOptions(options);
+				this.ConfigureOptions(options);
 
-			string databaseName = options.Database;
+				string databaseName = options.Database;
 
-			Guard.Against.NullOrWhiteSpace(databaseName);
+				Guard.Against.NullOrWhiteSpace(databaseName);
 
-			this.database = databaseProvider.GetDatabase(repositoryName, databaseName);
+				this.database = databaseProvider.GetDatabase(repositoryName, databaseName);
+
+				this.isConfigured = true;
+			}
 		}
 
 		/// <summary>

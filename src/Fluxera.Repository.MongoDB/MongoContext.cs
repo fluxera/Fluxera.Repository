@@ -26,6 +26,8 @@
 		private ConcurrentQueue<Func<Task>> commands;
 		private IMongoDatabase database;
 
+		private bool isConfigured;
+
 		/// <summary>
 		///     Initializes a new instance of the <see cref="MongoContext" /> type.
 		/// </summary>
@@ -132,46 +134,52 @@
 
 		internal void Configure(RepositoryName repositoryName)
 		{
-			MongoContextOptions options = new MongoContextOptions();
-
-			this.ConfigureOptions(options);
-
-			string connectionString = options.ConnectionString;
-			string databaseName = options.Database;
-
-			Guard.Against.NullOrWhiteSpace(connectionString);
-			Guard.Against.NullOrWhiteSpace(databaseName);
-
-			// Create the client instance and cache it for the connection string. It is recommended to only have
-			// a single client instance.
-			// See: https://mongodb.github.io/mongo-csharp-driver/2.18/reference/driver/connecting/
-			if(!Clients.ContainsKey(connectionString))
+			if(!this.isConfigured)
 			{
-				MongoClientSettings settings = MongoClientSettings.FromUrl(new MongoUrl(connectionString));
+				MongoContextOptions options = new MongoContextOptions();
 
-				InstrumentationOptions instrumentationOptions = new InstrumentationOptions
-				{
-					CaptureCommandText = options.CaptureCommandText
-				};
-				settings.ClusterConfigurator = clusterBuilder => clusterBuilder.Subscribe(new DiagnosticsActivityEventSubscriber(instrumentationOptions));
+				this.ConfigureOptions(options);
 
-				if(options.UseSsl)
+				string connectionString = options.ConnectionString;
+				string databaseName = options.Database;
+
+				Guard.Against.NullOrWhiteSpace(connectionString);
+				Guard.Against.NullOrWhiteSpace(databaseName);
+
+				// Create the client instance and cache it for the connection string. It is recommended to only have
+				// a single client instance.
+				// See: https://mongodb.github.io/mongo-csharp-driver/2.18/reference/driver/connecting/
+				if(!Clients.ContainsKey(connectionString))
 				{
-					settings.SslSettings = new SslSettings
+					MongoClientSettings settings = MongoClientSettings.FromUrl(new MongoUrl(connectionString));
+
+					InstrumentationOptions instrumentationOptions = new InstrumentationOptions
 					{
-						EnabledSslProtocols = SslProtocols.Tls12 | SslProtocols.Tls13
+						CaptureCommandText = options.CaptureCommandText
 					};
+					settings.ClusterConfigurator = clusterBuilder => clusterBuilder.Subscribe(new DiagnosticsActivityEventSubscriber(instrumentationOptions));
+
+					if(options.UseSsl)
+					{
+						settings.SslSettings = new SslSettings
+						{
+							EnabledSslProtocols = SslProtocols.Tls12 | SslProtocols.Tls13
+						};
+					}
+
+					IMongoClient mongoClient = new MongoClient(settings);
+					if(!Clients.TryAdd(connectionString, mongoClient))
+					{
+						throw new InvalidOperationException("The MongoDB client could not be added to the client cache.");
+					}
 				}
 
-				IMongoClient mongoClient = new MongoClient(settings);
-				if(!Clients.TryAdd(connectionString, mongoClient))
-				{
-					throw new InvalidOperationException("The MongoDB client could not be added to the client cache.");
-				}
+				this.client = Clients[connectionString];
+				this.database = this.client.GetDatabase(databaseName);
+
+
+				this.isConfigured = true;
 			}
-
-			this.client = Clients[connectionString];
-			this.database = this.client.GetDatabase(databaseName);
 		}
 
 		/// <summary>

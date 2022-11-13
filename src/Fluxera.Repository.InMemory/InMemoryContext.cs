@@ -17,6 +17,8 @@
 	{
 		private ConcurrentQueue<Func<Task>> commands;
 
+		private bool isConfigured;
+
 		/// <summary>
 		///     Initializes a new instance of the <see cref="InMemoryContext" /> type.
 		/// </summary>
@@ -25,6 +27,8 @@
 			// Command will be stored and later processed on saving changes.
 			this.commands = new ConcurrentQueue<Func<Task>>();
 		}
+
+		internal string Database { get; set; } = string.Empty;
 
 		/// <summary>
 		///     Adds a command for execution.
@@ -87,18 +91,23 @@
 		/// <summary>
 		///     Configures the options to use for this context instance over it's lifetime.
 		/// </summary>
-		protected virtual void ConfigureOptions(InMemoryContextOptions options)
-		{
-		}
+		protected abstract void ConfigureOptions(InMemoryContextOptions options);
 
 		internal void Configure(RepositoryName repositoryName)
 		{
-			InMemoryContextOptions contextOptions = new InMemoryContextOptions
+			if(!this.isConfigured)
 			{
-				Database = string.Empty
-			};
+				InMemoryContextOptions contextOptions = new InMemoryContextOptions
+				{
+					Database = string.Empty
+				};
 
-			this.ConfigureOptions(contextOptions);
+				this.ConfigureOptions(contextOptions);
+
+				this.Database = contextOptions.Database;
+
+				this.isConfigured = true;
+			}
 		}
 
 		/// <summary>
