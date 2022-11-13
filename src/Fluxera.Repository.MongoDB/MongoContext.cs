@@ -152,7 +152,7 @@
 			{
 				settings.SslSettings = new SslSettings
 				{
-					EnabledSslProtocols = SslProtocols.Tls12
+					EnabledSslProtocols = SslProtocols.Tls12 | SslProtocols.Tls13
 				};
 			}
 
