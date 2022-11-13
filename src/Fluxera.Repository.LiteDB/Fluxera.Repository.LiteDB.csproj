@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
+		<TargetFramework>net7.0</TargetFramework>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -22,11 +22,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Fluxera.Enumeration.LiteDB" Version="6.1.6" />
-		<PackageReference Include="Fluxera.Spatial.LiteDB" Version="6.1.4" />
-		<PackageReference Include="Fluxera.StronglyTypedId.LiteDB" Version="6.1.6" />
-		<PackageReference Include="Fluxera.ValueObject.LiteDB" Version="6.1.9" />
-		<PackageReference Include="GitVersion.MsBuild" Version="5.10.3">
+		<PackageReference Include="Fluxera.Enumeration.LiteDB" Version="7.0.2" />
+		<PackageReference Include="Fluxera.Spatial.LiteDB" Version="7.0.2" />
+		<PackageReference Include="Fluxera.StronglyTypedId.LiteDB" Version="7.0.1" />
+		<PackageReference Include="Fluxera.ValueObject.LiteDB" Version="7.0.1" />
+		<PackageReference Include="GitVersion.MsBuild" Version="5.11.1">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>

@@ -1,13 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <Nullable>disable</Nullable>
     <ImplicitUsings>disable</ImplicitUsings>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Fluxera.StronglyTypedId.SystemTextJson" Version="6.1.6" />
+    <PackageReference Include="Fluxera.StronglyTypedId.SystemTextJson" Version="7.0.1" />
   </ItemGroup>
 
   <ItemGroup>

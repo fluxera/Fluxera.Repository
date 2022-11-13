@@ -4,6 +4,7 @@
 	using FluentAssertions;
 	using Fluxera.Repository.UnitTests.Core.EmployeeAggregate;
 	using Fluxera.Repository.UnitTests.Core.PersonAggregate;
+	using Fluxera.Utilities.Extensions;
 	using JetBrains.Annotations;
 	using NUnit.Framework;
 
@@ -97,21 +98,15 @@
 			{
 				new Person
 				{
-					Name = "Tester",
-					DomainEvents =
-					{
-						new PersonDomainEvent()
-					}
+					Name = "Tester"
 				},
 				new Person
 				{
-					Name = "Tester",
-					DomainEvents =
-					{
-						new PersonDomainEvent()
-					}
+					Name = "Tester"
 				}
 			};
+			persons.ForEach(x => x.RaiseDomainEvent(new PersonDomainEvent()));
+
 			await this.PersonRepository.AddRangeAsync(persons);
 			await this.UnitOfWork.SaveChangesAsync();
 

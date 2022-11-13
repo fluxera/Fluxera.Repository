@@ -5,6 +5,7 @@
 	using Fluxera.Entity.DomainEvents;
 	using Fluxera.Repository.Decorators;
 	using Fluxera.Repository.UnitTests.Core.PersonAggregate;
+	using Fluxera.Utilities.Extensions;
 	using Microsoft.Extensions.DependencyInjection;
 	using Microsoft.Extensions.Logging;
 	using Microsoft.Extensions.Logging.Mock;
@@ -60,21 +61,15 @@
 			{
 				new Person
 				{
-					Name = "Tester",
-					DomainEvents =
-					{
-						new PersonDomainEvent()
-					}
+					Name = "Tester"
 				},
 				new Person
 				{
-					Name = "Tester",
-					DomainEvents =
-					{
-						new PersonDomainEvent()
-					}
+					Name = "Tester"
 				}
 			};
+			persons.ForEach(x => x.RaiseDomainEvent(new PersonDomainEvent()));
+
 			await this.Repository.AddRangeAsync(persons);
 			await this.ShouldHaveUsedDispatcher();
 		}
@@ -82,14 +77,13 @@
 		[Test]
 		public async Task Should_AddAsync_Single()
 		{
-			await this.Repository.AddAsync(new Person
+			Person person = new Person
 			{
-				Name = "Tester",
-				DomainEvents =
-				{
-					new PersonDomainEvent()
-				}
-			});
+				Name = "Tester"
+			};
+			person.RaiseDomainEvent(new PersonDomainEvent());
+
+			await this.Repository.AddAsync(person);
 			await this.ShouldHaveUsedDispatcher();
 		}
 
@@ -175,15 +169,14 @@
 		[Test]
 		public async Task Should_RemoveAsync_Single()
 		{
-			await this.Repository.RemoveAsync(new Person
+			Person person = new Person
 			{
-				ID = Guid.NewGuid(),
-				Name = "Tester",
-				DomainEvents =
-				{
-					new PersonDomainEvent()
-				}
-			});
+				ID = Guid.Parse("d37eaa47-7cb0-4368-af1a-8f1c94be9782"),
+				Name = "Tester"
+			};
+			person.RaiseDomainEvent(new PersonDomainEvent());
+
+			await this.Repository.RemoveAsync(person);
 			await this.ShouldHaveUsedDispatcher();
 		}
 
@@ -203,32 +196,22 @@
 			{
 				new Person
 				{
-					ID = Guid.NewGuid(),
-					Name = "Tester",
-					DomainEvents =
-					{
-						new PersonDomainEvent()
-					}
+					ID = Guid.Parse("8693cbd0-a564-47cf-9fe3-b1444392957d"),
+					Name = "Tester"
 				},
 				new Person
 				{
-					ID = Guid.NewGuid(),
-					Name = "Tester",
-					DomainEvents =
-					{
-						new PersonDomainEvent()
-					}
+					ID = Guid.Parse("c8fbfccd-a14c-41ba-8e2f-d32b286b6804"),
+					Name = "Tester"
 				},
 				new Person
 				{
-					ID = Guid.NewGuid(),
-					Name = "Tester",
-					DomainEvents =
-					{
-						new PersonDomainEvent()
-					}
+					ID = Guid.Parse("fabb0b65-45c5-4aff-87b0-45b766074588"),
+					Name = "Tester"
 				}
 			};
+			persons.ForEach(x => x.RaiseDomainEvent(new PersonDomainEvent()));
+
 			await this.Repository.UpdateRangeAsync(persons);
 			await this.ShouldHaveUsedDispatcher();
 		}
@@ -236,15 +219,14 @@
 		[Test]
 		public async Task Should_UpdateAsync_Single()
 		{
-			await this.Repository.UpdateAsync(new Person
+			Person person = new Person
 			{
-				ID = Guid.NewGuid(),
-				Name = "Tester",
-				DomainEvents =
-				{
-					new PersonDomainEvent()
-				}
-			});
+				ID = Guid.Parse("d37eaa47-7cb0-4368-af1a-8f1c94be9782"),
+				Name = "Tester"
+			};
+			person.RaiseDomainEvent(new PersonDomainEvent());
+
+			await this.Repository.UpdateAsync(person);
 			await this.ShouldHaveUsedDispatcher();
 		}
 	}

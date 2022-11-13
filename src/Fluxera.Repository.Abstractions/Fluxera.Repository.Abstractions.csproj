@@ -27,15 +27,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Fluxera.Entity" Version="6.1.11" />
-		<PackageReference Include="Fluxera.Extensions.Validation.Abstractions" Version="6.1.8" />
-		<PackageReference Include="Fluxera.Linq.Expressions" Version="6.1.0" />
-		<PackageReference Include="Fluxera.ValueObject" Version="6.1.9" />
-		<PackageReference Include="GitVersion.MsBuild" Version="5.10.3">
+		<PackageReference Include="Fluxera.Entity" Version="7.0.1" />
+		<PackageReference Include="Fluxera.Extensions.Validation.Abstractions" Version="7.0.1" />
+		<PackageReference Include="Fluxera.Linq.Expressions" Version="7.0.2" />
+		<PackageReference Include="Fluxera.ValueObject" Version="7.0.1" />
+		<PackageReference Include="GitVersion.MsBuild" Version="5.11.1">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.2" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.0" />
 	</ItemGroup>
 
 </Project>
