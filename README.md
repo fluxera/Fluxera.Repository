@@ -53,6 +53,13 @@ heavily to split up the many features around the storage implementation, to keep
 have every decorator layer only impolement a single responseibility. Your specialized repository then
 acts as the outermost layout of decorators.
 
+## Supported Storages
+
+- In-Memory
+- Entity Framework Core
+- LiteDB
+- MongoDB
+
 ## Additional Features
 
 Besides to being able top perform CRUD operation with the underlying data storage, the repository
@@ -213,13 +220,6 @@ the ```IUnitOfWorkFactory``` with the name of the repository.
 this.unitOfWork = unitOfWorkFactory.CreateUnitOfWork("MongoDB");
 ```
 
-## Supported Storages
-
-- In-Memory
-- Entity Framework Core
-- LiteDB
-- MongoDB
-
 ## OpenTelemetry
 
 The repository produces ```Activity``` events using ```System.Diagnistic```. Those events are used
@@ -296,6 +296,32 @@ services.AddRepository(builder =>
 });
 ```
 
+Storage-specific options are configure using a repository-specific context class. 
+The following example shows the configuration of a MongoDB repository.
+
+```C#
+public class SampleMongoContext : MongoContext
+{
+    protected override void ConfigureOptions(MongoContextOptions options)
+    {
+        options.ConnectionString = "mongodb://localhost:27017";
+        options.Database = "sample";
+    }
+}
+```
+
+The context types are registered as scoped services in the container. The ```void ConfigureOptions(MongoContextOptions options)```
+method is called whenever an instance of the context is created. In a web application this will occur for
+every request. You can then modify, f.e. the connection strings or database names to use for this context instance.
+
+This comes in handy if you plan on implementing "database-per-tenant" data isolation in SaaS szenarios.
+
 ## References
 
 The [OpenTelemetry](https://opentelemetry.io/) project.
+
+The [MongoDB C# Driver](https://github.com/mongodb/mongo-csharp-driver) project.
+
+The [Entity Framework Core](https://github.com/dotnet/efcore) project.
+
+The [LiteDB](https://github.com/mbdavid/LiteDB) project.
