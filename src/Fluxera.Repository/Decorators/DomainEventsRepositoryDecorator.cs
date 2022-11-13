@@ -55,7 +55,7 @@
 			await this.innerRepository.AddAsync(item, cancellationToken).ConfigureAwait(false);
 
 			// Add event to dispatch 'item added' event only to committed event handlers.
-			item.DomainEvents.Add(new ItemAdded<TAggregateRoot, TKey>(item));
+			item.RaiseDomainEvent(new ItemAdded<TAggregateRoot, TKey>(item));
 
 			await this.DispatchCommittedAsync(item).ConfigureAwait(false);
 		}
@@ -72,7 +72,7 @@
 			// Add event to dispatch 'item added' event only to committed event handlers.
 			foreach(TAggregateRoot item in itemsList)
 			{
-				item.DomainEvents.Add(new ItemAdded<TAggregateRoot, TKey>(item));
+				item.RaiseDomainEvent(new ItemAdded<TAggregateRoot, TKey>(item));
 			}
 
 			await this.DispatchCommittedAsync(itemsList).ConfigureAwait(false);
@@ -88,7 +88,7 @@
 			await this.innerRepository.UpdateAsync(item, cancellationToken).ConfigureAwait(false);
 
 			// Add event to dispatch 'item updated' event only to committed event handlers.
-			item.DomainEvents.Add(new ItemUpdated<TAggregateRoot, TKey>(itemBeforeUpdate, item));
+			item.RaiseDomainEvent(new ItemUpdated<TAggregateRoot, TKey>(itemBeforeUpdate, item));
 
 			await this.DispatchCommittedAsync(item).ConfigureAwait(false);
 		}
@@ -110,7 +110,7 @@
 			foreach(TAggregateRoot item in itemsList)
 			{
 				TAggregateRoot itemBeforeUpdate = itemsBeforeUpdate?.FirstOrDefault(x => x.ID.Equals(item.ID));
-				item.DomainEvents.Add(new ItemUpdated<TAggregateRoot, TKey>(itemBeforeUpdate, item));
+				item.RaiseDomainEvent(new ItemUpdated<TAggregateRoot, TKey>(itemBeforeUpdate, item));
 			}
 
 			await this.DispatchCommittedAsync(itemsList).ConfigureAwait(false);
@@ -126,7 +126,7 @@
 			await this.innerRepository.RemoveAsync(item, cancellationToken).ConfigureAwait(false);
 
 			// Add event to dispatch 'item removed' event only to committed event handlers.
-			item.DomainEvents.Add(new ItemRemoved<TAggregateRoot, TKey>(item, id));
+			item.RaiseDomainEvent(new ItemRemoved<TAggregateRoot, TKey>(id, item));
 
 			await this.DispatchCommittedAsync(item).ConfigureAwait(false);
 		}
@@ -144,7 +144,7 @@
 			// Add event to dispatch 'item removed' event only to committed event handlers.
 			foreach((TKey key, TAggregateRoot value) in itemsDict)
 			{
-				value.DomainEvents.Add(new ItemRemoved<TAggregateRoot, TKey>(value, key));
+				value.RaiseDomainEvent(new ItemRemoved<TAggregateRoot, TKey>(key, value));
 			}
 
 			await this.DispatchCommittedAsync(items).ConfigureAwait(false);
@@ -163,7 +163,7 @@
 			// Add event to dispatch 'item removed' event only to committed event handlers.
 			foreach((TKey key, TAggregateRoot value) in itemsDict)
 			{
-				value.DomainEvents.Add(new ItemRemoved<TAggregateRoot, TKey>(value, key));
+				value.RaiseDomainEvent(new ItemRemoved<TAggregateRoot, TKey>(key, value));
 			}
 
 			await this.DispatchCommittedAsync(items).ConfigureAwait(false);
@@ -182,7 +182,7 @@
 			// Add event to dispatch 'item removed' event only to committed event handlers.
 			foreach((TKey key, TAggregateRoot value) in itemsDict)
 			{
-				value.DomainEvents.Add(new ItemRemoved<TAggregateRoot, TKey>(value, key));
+				value.RaiseDomainEvent(new ItemRemoved<TAggregateRoot, TKey>(key, value));
 			}
 
 			await this.DispatchCommittedAsync(itemsList).ConfigureAwait(false);
@@ -657,7 +657,7 @@
 			await this.innerRepository.RemoveAsync(id, cancellationToken).ConfigureAwait(false);
 
 			// Add event to dispatch 'item removed' event only to committed event handlers.
-			item.DomainEvents.Add(new ItemRemoved<TAggregateRoot, TKey>(item, id));
+			item.RaiseDomainEvent(new ItemRemoved<TAggregateRoot, TKey>(id, item));
 
 			await this.DispatchCommittedAsync(item).ConfigureAwait(false);
 		}
@@ -707,7 +707,7 @@
 				await this.domainEventDispatcher.DispatchCommittedAsync(domainEvent).ConfigureAwait(false);
 			}
 
-			item.DomainEvents.Clear();
+			item.ClearDomainEvents();
 		}
 
 		private async Task DispatchCommittedAsync(IEnumerable<TAggregateRoot> items)

@@ -9,6 +9,13 @@
 	/// </summary>
 	public static class TaskExtensions
 	{
+		/// <summary>
+		///     Checks the source task for faults and cancellations and sets
+		///     the result of the <see cref="TaskCompletionSource" /> accordingly.
+		/// </summary>
+		/// <param name="sourceTask"></param>
+		/// <param name="cancellationToken"></param>
+		/// <returns></returns>
 		public static Task Then(this Task sourceTask, CancellationToken cancellationToken)
 		{
 			TaskCompletionSource taskCompletionSource = new TaskCompletionSource();
@@ -17,6 +24,7 @@
 			{
 				if(task.IsFaulted)
 				{
+					// ReSharper disable once PossibleNullReferenceException
 					taskCompletionSource.TrySetException(task.Exception.InnerExceptions);
 				}
 				else if(task.IsCanceled)

@@ -5,7 +5,6 @@
 	using Fluxera.Entity;
 	using Fluxera.Extensions.Validation;
 	using Fluxera.Repository.Validation;
-	using Fluxera.Utilities.Extensions;
 	using Microsoft.Extensions.DependencyInjection;
 
 	public class TesValidationStrategyFactory : IValidationStrategyFactory

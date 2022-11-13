@@ -125,7 +125,7 @@ namespace Fluxera.Repository.UnitTests
 		}
 
 		/// <inheritdoc />
-		public async Task<IReadOnlyCollection<TAggregateRoot>> FindManyAsync(ISpecification<TAggregateRoot> specification, IQueryOptions<TAggregateRoot> queryOptions = null, CancellationToken cancellationToken = default)
+		public virtual async Task<IReadOnlyCollection<TAggregateRoot>> FindManyAsync(ISpecification<TAggregateRoot> specification, IQueryOptions<TAggregateRoot> queryOptions = null, CancellationToken cancellationToken = default)
 		{
 			return default;
 		}

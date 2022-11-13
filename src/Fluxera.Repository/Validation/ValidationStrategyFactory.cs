@@ -7,7 +7,6 @@
 	using Fluxera.Extensions.Validation;
 	using Fluxera.Guards;
 	using Fluxera.Repository.Options;
-	using Fluxera.Utilities.Extensions;
 	using JetBrains.Annotations;
 
 	[UsedImplicitly]
