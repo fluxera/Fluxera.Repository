@@ -6,7 +6,7 @@
 	public sealed class RepositoryInMemoryContext : InMemoryContext
 	{
 		/// <inheritdoc />
-		public RepositoryInMemoryContext()
+		protected override void ConfigureOptions(InMemoryContextOptions options)
 		{
 		}
 	}

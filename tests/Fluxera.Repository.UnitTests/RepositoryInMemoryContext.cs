@@ -6,5 +6,10 @@
 	[PublicAPI]
 	public sealed class RepositoryInMemoryContext : InMemoryContext
 	{
+		/// <inheritdoc />
+		protected override void ConfigureOptions(InMemoryContextOptions options)
+		{
+			throw new System.NotImplementedException();
+		}
 	}
 }
