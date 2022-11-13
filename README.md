@@ -55,10 +55,10 @@ acts as the outermost layout of decorators.
 
 ## Supported Storages
 
-- In-Memory
 - Entity Framework Core
 - LiteDB
 - MongoDB
+- In-Memory (for testing and prototyping only)
 
 ## Additional Features
 
@@ -245,7 +245,8 @@ builder
 ## Usage
 
 You can configure different repositories for different aggregate root types, f.e. you can have persons
-in a MongoDB and invoices in a MS SQL database.
+in a MongoDB and invoices in a SQL database. You can choose to omit the repository name using overloads
+that do not accept a name parameter. In this case, the default name "Default" is used for the repository.
 
 ```C#
 // Add the repository services to the service collection and configure the repositories.
