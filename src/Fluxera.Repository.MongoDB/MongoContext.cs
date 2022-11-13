@@ -142,8 +142,9 @@
 			Guard.Against.NullOrWhiteSpace(connectionString);
 			Guard.Against.NullOrWhiteSpace(databaseName);
 
-			// Create the client instance and cache it for the connection string.
-			// It is recommended to only have a single client instance.
+			// Create the client instance and cache it for the connection string. It is recommended to only have
+			// a single client instance.
+			// See: https://mongodb.github.io/mongo-csharp-driver/2.18/reference/driver/connecting/
 			if(!Clients.ContainsKey(connectionString))
 			{
 				MongoClientSettings settings = MongoClientSettings.FromUrl(new MongoUrl(connectionString));
