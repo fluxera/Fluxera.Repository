@@ -72,6 +72,7 @@
 			Guard.Against.Null(configure, nameof(configure));
 
 			builder.Services.AddSingleton<SequentialGuidGenerator>();
+			builder.Services.AddScoped(contextType);
 			builder.Services.AddScoped<InMemoryContextProvider>();
 			builder.Services.AddNamedTransient<IUnitOfWork>(serviceBuilder =>
 			{
@@ -82,7 +83,7 @@
 			{
 				configure.Invoke(x);
 
-				x.AddSetting("InMemory.Context", contextType);
+				x.AddSetting("Repository.ContextType", contextType);
 			});
 		}
 	}

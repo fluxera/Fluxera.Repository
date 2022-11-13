@@ -1,12 +1,9 @@
 ﻿namespace Fluxera.Repository.LiteDB
 {
-	using JetBrains.Annotations;
-
 	/// <summary>
-	///     Provides the settings for the LiteDB repository implementation.
+	///     Provides the options for the LiteDB repository implementation.
 	/// </summary>
-	[PublicAPI]
-	public sealed class LitePersistenceSettings
+	public sealed class LiteContextOptions
 	{
 		/// <summary>
 		///     Gets or sets the filename of the database to use.

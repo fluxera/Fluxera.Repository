@@ -15,8 +15,7 @@
 	[PublicAPI]
 	public abstract class ContextProviderBase<TContextBase>
 	{
-		private readonly string contextTypeSettingsKey;
-		private readonly ConcurrentDictionary<RepositoryName, Type> dbContextMap = new ConcurrentDictionary<RepositoryName, Type>();
+		private readonly ConcurrentDictionary<RepositoryName, Type> contextMap = new ConcurrentDictionary<RepositoryName, Type>();
 
 		private readonly IRepositoryRegistry repositoryRegistry;
 		private readonly IServiceProvider serviceProvider;
@@ -24,15 +23,12 @@
 		/// <summary>
 		///     Initializes a new instance of the <see cref="ContextProviderBase{T}" /> type.
 		/// </summary>
-		/// <param name="contextTypeSettingsKey"></param>
 		/// <param name="serviceProvider"></param>
 		/// <param name="repositoryRegistry"></param>
 		protected ContextProviderBase(
-			string contextTypeSettingsKey,
 			IServiceProvider serviceProvider,
 			IRepositoryRegistry repositoryRegistry)
 		{
-			this.contextTypeSettingsKey = contextTypeSettingsKey;
 			this.serviceProvider = serviceProvider;
 			this.repositoryRegistry = repositoryRegistry;
 		}
@@ -44,32 +40,42 @@
 		/// <returns></returns>
 		public TContextBase GetContextFor(RepositoryName repositoryName)
 		{
-			TContextBase dbContext = this.dbContextMap.TryGetValue(repositoryName, out Type dbContextType)
-				? this.GetContext(dbContextType)
+			TContextBase context = this.contextMap.TryGetValue(repositoryName, out Type contextType)
+				? this.GetContext(contextType)
 				: this.RegisterContextType(repositoryName);
 
-			return dbContext;
+			this.PerformConfigureContext(context, repositoryName, this.serviceProvider);
+
+			return context;
 		}
 
 		private TContextBase RegisterContextType(RepositoryName repositoryName)
 		{
 			RepositoryOptions options = this.repositoryRegistry.GetRepositoryOptionsFor(repositoryName);
-			Type dbContextType = options.Settings.GetOrDefault(this.contextTypeSettingsKey) as Type;
+			Type contextType = options.Settings.GetOrDefault("Repository.ContextType") as Type;
 
-			Guard.Against.Null(dbContextType, nameof(dbContextType));
+			Guard.Against.Null(contextType, nameof(contextType));
 
-			if(!this.dbContextMap.TryAdd(repositoryName, dbContextType))
+			if(!this.contextMap.TryAdd(repositoryName, contextType))
 			{
 				throw new InvalidOperationException($"Could not add context type for repository '{repositoryName}'.");
 			}
 
-			return this.GetContext(dbContextType);
+			return this.GetContext(contextType);
 		}
 
 		private TContextBase GetContext(Type dbContextType)
 		{
-			TContextBase dbContext = (TContextBase)this.serviceProvider.GetRequiredService(dbContextType);
-			return dbContext;
+			TContextBase context = (TContextBase)this.serviceProvider.GetRequiredService(dbContextType);
+			return context;
 		}
+
+		/// <summary>
+		///     Performs initialization of the context before usage.
+		/// </summary>
+		/// <param name="context"></param>
+		/// <param name="repositoryName"></param>
+		/// <param name="serviceProvider"></param>
+		protected abstract void PerformConfigureContext(TContextBase context, RepositoryName repositoryName, IServiceProvider serviceProvider);
 	}
 }

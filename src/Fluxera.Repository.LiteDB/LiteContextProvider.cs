@@ -10,21 +10,14 @@
 		public LiteContextProvider(
 			IServiceProvider serviceProvider,
 			IRepositoryRegistry repositoryRegistry)
-			: base("Lite.Context", serviceProvider, repositoryRegistry)
+			: base(serviceProvider, repositoryRegistry)
 		{
 		}
+
+		/// <inheritdoc />
+		protected override void PerformConfigureContext(LiteContext context, RepositoryName repositoryName, IServiceProvider serviceProvider)
+		{
+			context.Configure(repositoryName, serviceProvider);
+		}
 	}
-
-	//public sealed class LiteContextOptions<TContext> : LiteContextOptions
-	//{
-	//}
-
-	//public abstract class LiteContextOptions
-	//{
-	//	public Type ContextType { get; set; }
-	//}
-
-	//public sealed class LiteContextOptionsBuilder
-	//{
-	//}
 }

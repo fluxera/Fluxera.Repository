@@ -31,14 +31,6 @@ namespace Sample.API
 
 		public static IServiceCollection AddLiteDB(this IServiceCollection services)
 		{
-			services.AddLiteContext(serviceProvider =>
-			{
-				DatabaseProvider databaseProvider = serviceProvider.GetRequiredService<DatabaseProvider>();
-				IRepositoryRegistry repositoryRegistry = serviceProvider.GetRequiredService<IRepositoryRegistry>();
-
-				return new SampleLiteContext("Default", databaseProvider, repositoryRegistry);
-			});
-
 			services.AddRepository(repositoryBuilder =>
 			{
 				repositoryBuilder.AddLiteRepository<SampleLiteContext>(repositoryOptionsBuilder =>
@@ -56,13 +48,6 @@ namespace Sample.API
 
 		public static IServiceCollection AddMongoDB(this IServiceCollection services)
 		{
-			services.AddMongoContext(serviceProvider =>
-			{
-				IRepositoryRegistry repositoryRegistry = serviceProvider.GetRequiredService<IRepositoryRegistry>();
-
-				return new SampleMongoContext("Default", repositoryRegistry);
-			});
-
 			services.AddRepository(repositoryBuilder =>
 			{
 				repositoryBuilder.AddMongoRepository<SampleMongoContext>(repositoryOptionsBuilder =>

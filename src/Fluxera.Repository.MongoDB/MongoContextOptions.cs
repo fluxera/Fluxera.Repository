@@ -3,10 +3,10 @@
 	using JetBrains.Annotations;
 
 	/// <summary>
-	///     Provides the settings for the MongoDB repository implementation.
+	///     Provides the options for the MongoDB repository implementation.
 	/// </summary>
 	[PublicAPI]
-	public sealed class MongoPersistenceSettings
+	public sealed class MongoContextOptions
 	{
 		/// <summary>
 		///     Gets or sets the connection string.

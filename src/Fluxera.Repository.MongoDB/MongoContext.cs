@@ -14,6 +14,7 @@
 	using global::MongoDB.Driver.Core.Clusters;
 	using global::MongoDB.Driver.Core.Extensions.DiagnosticSources;
 	using JetBrains.Annotations;
+	using Microsoft.Extensions.DependencyInjection;
 
 	/// <summary>
 	///     A base class for context implementations for the MongoDB repository.
@@ -21,9 +22,6 @@
 	[PublicAPI]
 	public abstract class MongoContext : Disposable
 	{
-		private readonly RepositoryName repositoryName;
-		private readonly IRepositoryRegistry repositoryRegistry;
-
 		private IMongoClient client;
 		private ConcurrentQueue<Func<Task>> commands;
 		private IMongoDatabase database;
@@ -31,19 +29,10 @@
 		/// <summary>
 		///     Initializes a new instance of the <see cref="MongoContext" /> type.
 		/// </summary>
-		/// <param name="repositoryName"></param>
-		/// <param name="repositoryRegistry"></param>
-		protected MongoContext(
-			string repositoryName,
-			IRepositoryRegistry repositoryRegistry)
+		protected MongoContext()
 		{
-			this.repositoryName = (RepositoryName)repositoryName;
-			this.repositoryRegistry = repositoryRegistry;
-
 			// Command will be stored and later processed on saving changes.
 			this.commands = new ConcurrentQueue<Func<Task>>();
-
-			this.Configure();
 		}
 
 		/// <summary>
@@ -137,6 +126,58 @@
 		}
 
 		/// <summary>
+		///     Configures the options to use for this context instance over it's lifetime.
+		/// </summary>
+		/// <param name="contextOptions">The options instance configured with the default settings.</param>
+		protected virtual void ConfigureOptions(MongoContextOptions contextOptions)
+		{
+		}
+
+		internal void Configure(RepositoryName repositoryName, IServiceProvider serviceProvider)
+		{
+			IRepositoryRegistry repositoryRegistry = serviceProvider.GetRequiredService<IRepositoryRegistry>();
+
+			RepositoryOptions options = repositoryRegistry.GetRepositoryOptionsFor(repositoryName);
+
+			MongoContextOptions contextOptions = new MongoContextOptions
+			{
+				ConnectionString = (string)options.Settings.GetOrDefault("Mongo.ConnectionString"),
+				Database = (string)options.Settings.GetOrDefault("Mongo.Database")
+			};
+
+			object settingsUseSsl = options.Settings.GetOrDefault("Mongo.UseSsl");
+			contextOptions.UseSsl = (bool)(settingsUseSsl ?? false);
+
+			this.ConfigureOptions(contextOptions);
+
+			string connectionString = contextOptions.ConnectionString;
+			string databaseName = contextOptions.Database;
+
+			Guard.Against.NullOrWhiteSpace(connectionString, nameof(connectionString));
+			Guard.Against.NullOrWhiteSpace(databaseName, nameof(databaseName));
+
+			MongoClientSettings settings = MongoClientSettings.FromUrl(new MongoUrl(connectionString));
+
+			object captureCommandText = options.Settings.GetOrDefault("Mongo.CaptureCommandText");
+			InstrumentationOptions instrumentationOptions = new InstrumentationOptions
+			{
+				CaptureCommandText = (bool)(captureCommandText ?? true)
+			};
+			settings.ClusterConfigurator = clusterBuilder => clusterBuilder.Subscribe(new DiagnosticsActivityEventSubscriber(instrumentationOptions));
+
+			if(contextOptions.UseSsl)
+			{
+				settings.SslSettings = new SslSettings
+				{
+					EnabledSslProtocols = SslProtocols.Tls12
+				};
+			}
+
+			this.client = new MongoClient(settings);
+			this.database = this.client.GetDatabase(databaseName);
+		}
+
+		/// <summary>
 		///     Removes all added commands.
 		/// </summary>
 		private void ClearCommands()
@@ -151,56 +192,6 @@
 				cancellationToken.ThrowIfCancellationRequested();
 
 				await command.Invoke().ConfigureAwait(false);
-			}
-		}
-
-		private void Configure()
-		{
-			if(this.client is null)
-			{
-				RepositoryOptions options = this.repositoryRegistry.GetRepositoryOptionsFor(this.repositoryName);
-
-				MongoPersistenceSettings persistenceSettings = new MongoPersistenceSettings
-				{
-					ConnectionString = (string)options.Settings.GetOrDefault("Mongo.ConnectionString"),
-					Database = (string)options.Settings.GetOrDefault("Mongo.Database")
-				};
-
-				object settingsUseSsl = options.Settings.GetOrDefault("Mongo.UseSsl");
-				persistenceSettings.UseSsl = (bool)(settingsUseSsl ?? false);
-
-				string connectionString = persistenceSettings.ConnectionString;
-				string databaseName = persistenceSettings.Database;
-
-				// TODO
-				//// If a custom database name provider is available use this to resolve the database name dynamically.
-				//if (databaseNameProvider != null)
-				//{
-				//	databaseName = databaseNameProvider.GetDatabaseName(typeof(TAggregateRoot));
-				//}
-
-				Guard.Against.NullOrWhiteSpace(connectionString, nameof(connectionString));
-				Guard.Against.NullOrWhiteSpace(databaseName, nameof(databaseName));
-
-				MongoClientSettings settings = MongoClientSettings.FromUrl(new MongoUrl(connectionString));
-
-				object captureCommandText = options.Settings.GetOrDefault("Mongo.CaptureCommandText");
-				InstrumentationOptions instrumentationOptions = new InstrumentationOptions
-				{
-					CaptureCommandText = (bool)(captureCommandText ?? true)
-				};
-				settings.ClusterConfigurator = clusterBuilder => clusterBuilder.Subscribe(new DiagnosticsActivityEventSubscriber(instrumentationOptions));
-
-				if(persistenceSettings.UseSsl)
-				{
-					settings.SslSettings = new SslSettings
-					{
-						EnabledSslProtocols = SslProtocols.Tls12
-					};
-				}
-
-				this.client = new MongoClient(settings);
-				this.database = this.client.GetDatabase(databaseName);
 			}
 		}
 	}

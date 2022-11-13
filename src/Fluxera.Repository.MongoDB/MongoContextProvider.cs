@@ -10,8 +10,14 @@
 		public MongoContextProvider(
 			IServiceProvider serviceProvider,
 			IRepositoryRegistry repositoryRegistry)
-			: base("Mongo.Context", serviceProvider, repositoryRegistry)
+			: base(serviceProvider, repositoryRegistry)
 		{
+		}
+
+		/// <inheritdoc />
+		protected override void PerformConfigureContext(MongoContext context, RepositoryName repositoryName, IServiceProvider serviceProvider)
+		{
+			context.Configure(repositoryName, serviceProvider);
 		}
 	}
 }

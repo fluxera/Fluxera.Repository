@@ -86,6 +86,7 @@
 
 			ConventionRegistry.Register("ConventionPack", pack, _ => true);
 
+			builder.Services.AddScoped(contextType);
 			builder.Services.AddScoped<MongoContextProvider>();
 			builder.Services.AddNamedTransient<IUnitOfWork>(serviceBuilder =>
 			{
@@ -96,7 +97,7 @@
 			{
 				configure.Invoke(x);
 
-				x.AddSetting("Mongo.Context", contextType);
+				x.AddSetting("Repository.ContextType", contextType);
 			});
 		}
 	}

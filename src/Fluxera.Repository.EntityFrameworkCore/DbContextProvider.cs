@@ -11,7 +11,12 @@
 		public DbContextProvider(
 			IServiceProvider serviceProvider,
 			IRepositoryRegistry repositoryRegistry)
-			: base("EntityFrameworkCore.Context", serviceProvider, repositoryRegistry)
+			: base(serviceProvider, repositoryRegistry)
+		{
+		}
+
+		/// <inheritdoc />
+		protected override void PerformConfigureContext(DbContext context, RepositoryName repositoryName, IServiceProvider serviceProvider)
 		{
 		}
 	}
