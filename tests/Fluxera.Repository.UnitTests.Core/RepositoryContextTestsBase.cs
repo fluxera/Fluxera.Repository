@@ -13,6 +13,28 @@
 	{
 		private ServiceProvider serviceProvider;
 
+		[Test]
+		public void ShouldThrowOnWrongContextBaseClass()
+		{
+			Action action = () =>
+			{
+				BuildServiceProvider(services =>
+				{
+					RepositoryName repositoryName = new RepositoryName("RepositoryUnderTest");
+
+					services.AddRepository(rb =>
+					{
+						this.AddRepositoryUnderTestWithWrongContextBaseClass(rb, (string)repositoryName, rob =>
+						{
+							rob.UseFor<Person>();
+						});
+					});
+				});
+			};
+
+			action.Should().Throw<ArgumentException>();
+		}
+
 		[SetUp]
 		public async Task SetUp()
 		{
@@ -136,6 +158,11 @@
 		}
 
 		protected abstract void AddRepositoryUnderTest(
+			IRepositoryBuilder repositoryBuilder,
+			string repositoryName,
+			Action<IRepositoryOptionsBuilder> configureOptions);
+
+		protected abstract void AddRepositoryUnderTestWithWrongContextBaseClass(
 			IRepositoryBuilder repositoryBuilder,
 			string repositoryName,
 			Action<IRepositoryOptionsBuilder> configureOptions);

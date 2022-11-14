@@ -28,6 +28,11 @@
 			this.commands = new ConcurrentQueue<Func<Task>>();
 		}
 
+		/// <summary>
+		///     Gets the name of the repository this context belong to.
+		/// </summary>
+		protected RepositoryName RepositoryName { get; private set; }
+
 		internal string Database { get; set; } = string.Empty;
 
 		/// <summary>
@@ -97,14 +102,13 @@
 		{
 			if(!this.isConfigured)
 			{
-				InMemoryContextOptions contextOptions = new InMemoryContextOptions
-				{
-					Database = string.Empty
-				};
+				InMemoryContextOptions contextOptions = new InMemoryContextOptions(repositoryName);
 
 				this.ConfigureOptions(contextOptions);
 
 				this.Database = contextOptions.Database;
+
+				this.RepositoryName = repositoryName;
 
 				this.isConfigured = true;
 			}

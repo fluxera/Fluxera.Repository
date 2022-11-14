@@ -70,6 +70,8 @@
 			Guard.Against.Null(builder, nameof(builder));
 			Guard.Against.NullOrWhiteSpace(repositoryName, nameof(repositoryName));
 			Guard.Against.Null(configure, nameof(configure));
+			Guard.Against.False(contextType.IsAssignableTo(typeof(InMemoryContext)),
+				message: $"The context type must inherit from '{nameof(InMemoryContext)}'.");
 
 			builder.Services.AddSingleton<SequentialGuidGenerator>();
 			builder.Services.AddScoped(contextType);

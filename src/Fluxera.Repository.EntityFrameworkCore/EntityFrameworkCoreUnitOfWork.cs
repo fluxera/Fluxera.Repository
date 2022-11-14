@@ -10,12 +10,12 @@
 	[UsedImplicitly]
 	internal sealed class EntityFrameworkCoreUnitOfWork : IUnitOfWork
 	{
-		private readonly DbContextProvider contextProvider;
+		private readonly EntityFrameworkCoreContextProvider contextProvider;
 
 		private DbContext context;
 		private bool isInitialized;
 
-		public EntityFrameworkCoreUnitOfWork(DbContextProvider contextProvider)
+		public EntityFrameworkCoreUnitOfWork(EntityFrameworkCoreContextProvider contextProvider)
 		{
 			Guard.Against.Null(contextProvider);
 

@@ -9,6 +9,20 @@
 	public sealed class MongoContextOptions
 	{
 		/// <summary>
+		///     Initializes a new instance of the <see cref="MongoContextOptions" /> type.
+		/// </summary>
+		/// <param name="repositoryName"></param>
+		public MongoContextOptions(RepositoryName repositoryName)
+		{
+			this.RepositoryName = repositoryName;
+		}
+
+		/// <summary>
+		///     Gets the name of the repository this options belong to.
+		/// </summary>
+		public RepositoryName RepositoryName { get; }
+
+		/// <summary>
 		///     Gets or sets the connection string.
 		/// </summary>
 		public string ConnectionString { get; set; }

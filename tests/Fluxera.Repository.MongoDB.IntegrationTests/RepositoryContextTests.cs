@@ -17,6 +17,12 @@
 		}
 
 		/// <inheritdoc />
+		protected override void AddRepositoryUnderTestWithWrongContextBaseClass(IRepositoryBuilder repositoryBuilder, string repositoryName, Action<IRepositoryOptionsBuilder> configureOptions)
+		{
+			repositoryBuilder.AddMongoRepository(repositoryName, typeof(WrongBaseClassContext), configureOptions);
+		}
+
+		/// <inheritdoc />
 		protected override async Task TearDownAsync()
 		{
 			MongoClient client = new MongoClient("mongodb://localhost:27017");

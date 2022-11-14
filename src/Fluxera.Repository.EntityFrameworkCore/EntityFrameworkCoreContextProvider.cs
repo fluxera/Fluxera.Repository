@@ -2,13 +2,12 @@
 {
 	using System;
 	using JetBrains.Annotations;
-	using Microsoft.EntityFrameworkCore;
 
 	[UsedImplicitly]
-	internal sealed class DbContextProvider : ContextProviderBase<DbContext>
+	internal sealed class EntityFrameworkCoreContextProvider : ContextProviderBase<EntityFrameworkCoreContext>
 	{
 		/// <inheritdoc />
-		public DbContextProvider(
+		public EntityFrameworkCoreContextProvider(
 			IServiceProvider serviceProvider,
 			IRepositoryRegistry repositoryRegistry)
 			: base(serviceProvider, repositoryRegistry)
@@ -16,8 +15,9 @@
 		}
 
 		/// <inheritdoc />
-		protected override void PerformConfigureContext(DbContext context, RepositoryName repositoryName)
+		protected override void PerformConfigureContext(EntityFrameworkCoreContext context, RepositoryName repositoryName)
 		{
+			context.Configure(repositoryName);
 		}
 	}
 }

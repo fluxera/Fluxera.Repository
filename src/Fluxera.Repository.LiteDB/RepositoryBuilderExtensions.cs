@@ -73,6 +73,8 @@
 			Guard.Against.Null(builder);
 			Guard.Against.NullOrWhiteSpace(repositoryName);
 			Guard.Against.Null(configure);
+			Guard.Against.False(contextType.IsAssignableTo(typeof(LiteContext)),
+				message: $"The context type must inherit from '{nameof(LiteContext)}'.");
 
 			BsonMapper.Global.UseRepositoryDefaults();
 
