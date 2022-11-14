@@ -2,6 +2,7 @@
 {
 	using System;
 	using Fluxera.Extensions.DependencyInjection;
+	using Fluxera.Guards;
 	using global::MongoDB.Bson;
 	using global::MongoDB.Bson.Serialization;
 	using global::MongoDB.Bson.Serialization.Conventions;
@@ -81,6 +82,12 @@
 		public static IRepositoryBuilder AddMongoRepository(this IRepositoryBuilder builder,
 			string repositoryName, Type contextType, Action<IRepositoryOptionsBuilder> configure)
 		{
+			Guard.Against.Null(builder);
+			Guard.Against.NullOrWhiteSpace(repositoryName);
+			Guard.Against.Null(configure);
+			Guard.Against.False(contextType.IsAssignableTo(typeof(MongoContext)),
+				message: $"The context type must inherit from '{nameof(MongoContext)}'.");
+
 			ConventionPack pack = new ConventionPack();
 			pack.UseRepositoryDefaults();
 

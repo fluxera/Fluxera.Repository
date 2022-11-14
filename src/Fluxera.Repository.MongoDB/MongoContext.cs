@@ -38,6 +38,11 @@
 		}
 
 		/// <summary>
+		///     Gets the name of the repository this context belong to.
+		/// </summary>
+		protected RepositoryName RepositoryName { get; private set; }
+
+		/// <summary>
 		///     Gets the session for this context.
 		/// </summary>
 		public IClientSessionHandle Session { get; private set; }
@@ -136,7 +141,7 @@
 		{
 			if(!this.isConfigured)
 			{
-				MongoContextOptions options = new MongoContextOptions();
+				MongoContextOptions options = new MongoContextOptions(repositoryName);
 
 				this.ConfigureOptions(options);
 
@@ -177,6 +182,7 @@
 				this.client = Clients[connectionString];
 				this.database = this.client.GetDatabase(databaseName);
 
+				this.RepositoryName = repositoryName;
 
 				this.isConfigured = true;
 			}

@@ -23,5 +23,11 @@
 
 			repositoryBuilder.AddLiteRepository<RepositoryMultiTenantLiteContext>(repositoryName, configureOptions);
 		}
+
+		/// <inheritdoc />
+		protected override void AddRepositoryUnderTestWithWrongContextBaseClass(IRepositoryBuilder repositoryBuilder, string repositoryName, Action<IRepositoryOptionsBuilder> configureOptions)
+		{
+			repositoryBuilder.AddLiteRepository(repositoryName, typeof(WrongBaseClassContext), configureOptions);
+		}
 	}
 }

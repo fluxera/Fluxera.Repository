@@ -6,14 +6,13 @@
 	using Sample.Domain.Company;
 
 	[PublicAPI]
-	public sealed class SampleDbContext : DbContext
+	public sealed class SampleDbContext : EntityFrameworkCoreContext
 	{
 		public SampleDbContext()
 		{
 		}
 
-		public SampleDbContext(
-			DbContextOptions<SampleDbContext> options)
+		public SampleDbContext(DbContextOptions<SampleDbContext> options)
 			: base(options)
 		{
 		}

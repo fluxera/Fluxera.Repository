@@ -4,7 +4,6 @@
 	using Fluxera.Extensions.DependencyInjection;
 	using Fluxera.Guards;
 	using JetBrains.Annotations;
-	using Microsoft.EntityFrameworkCore;
 	using Microsoft.Extensions.DependencyInjection;
 
 	/// <summary>
@@ -22,7 +21,7 @@
 		/// <returns></returns>
 		public static IRepositoryBuilder AddEntityFrameworkRepository<TContext>(this IRepositoryBuilder builder,
 			Action<IRepositoryOptionsBuilder> configure)
-			where TContext : DbContext
+			where TContext : EntityFrameworkCoreContext
 		{
 			return builder.AddEntityFrameworkRepository(typeof(TContext), configure);
 		}
@@ -51,7 +50,7 @@
 		/// <returns></returns>
 		public static IRepositoryBuilder AddEntityFrameworkRepository<TContext>(this IRepositoryBuilder builder,
 			string repositoryName, Action<IRepositoryOptionsBuilder> configure)
-			where TContext : DbContext
+			where TContext : EntityFrameworkCoreContext
 		{
 			return builder.AddEntityFrameworkRepository(repositoryName, typeof(TContext), configure);
 		}
@@ -71,8 +70,10 @@
 			Guard.Against.Null(builder);
 			Guard.Against.NullOrWhiteSpace(repositoryName);
 			Guard.Against.Null(configure);
+			Guard.Against.False(contextType.IsAssignableTo(typeof(EntityFrameworkCoreContext)),
+				message: $"The context type must inherit from '{nameof(EntityFrameworkCoreContext)}'.");
 
-			builder.Services.AddScoped<DbContextProvider>();
+			builder.Services.AddScoped<EntityFrameworkCoreContextProvider>();
 			builder.Services.AddNamedTransient<IUnitOfWork>(serviceBuilder =>
 			{
 				serviceBuilder.AddNameFor<EntityFrameworkCoreUnitOfWork>(repositoryName);

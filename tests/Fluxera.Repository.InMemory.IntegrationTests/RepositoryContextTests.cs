@@ -13,5 +13,11 @@
 		{
 			repositoryBuilder.AddInMemoryRepository<RepositoryMultiTenantInMemoryContext>(repositoryName, configureOptions);
 		}
+
+		/// <inheritdoc />
+		protected override void AddRepositoryUnderTestWithWrongContextBaseClass(IRepositoryBuilder repositoryBuilder, string repositoryName, Action<IRepositoryOptionsBuilder> configureOptions)
+		{
+			repositoryBuilder.AddInMemoryRepository(repositoryName, typeof(WrongBaseClassContext), configureOptions);
+		}
 	}
 }

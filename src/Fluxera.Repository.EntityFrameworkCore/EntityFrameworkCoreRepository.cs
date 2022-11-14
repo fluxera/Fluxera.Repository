@@ -22,7 +22,7 @@
 		private readonly RepositoryOptions options;
 
 		public EntityFrameworkCoreRepository(
-			DbContextProvider contextProvider,
+			EntityFrameworkCoreContextProvider contextProvider,
 			IRepositoryRegistry repositoryRegistry)
 		{
 			Guard.Against.Null(contextProvider, nameof(contextProvider));

@@ -32,6 +32,11 @@
 		}
 
 		/// <summary>
+		///     Gets the name of the repository this context belong to.
+		/// </summary>
+		protected RepositoryName RepositoryName { get; private set; }
+
+		/// <summary>
 		///     Adds a command for execution.
 		/// </summary>
 		/// <param name="command"></param>
@@ -114,7 +119,7 @@
 		{
 			if(!this.isConfigured)
 			{
-				LiteContextOptions options = new LiteContextOptions();
+				LiteContextOptions options = new LiteContextOptions(repositoryName);
 
 				this.ConfigureOptions(options);
 
@@ -123,6 +128,8 @@
 				Guard.Against.NullOrWhiteSpace(databaseName);
 
 				this.database = databaseProvider.GetDatabase(repositoryName, databaseName);
+
+				this.RepositoryName = repositoryName;
 
 				this.isConfigured = true;
 			}

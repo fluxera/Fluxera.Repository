@@ -16,5 +16,13 @@
 
 			repositoryBuilder.AddEntityFrameworkRepository<RepositoryMultiTenantDbContext>(repositoryName, configureOptions.Invoke);
 		}
+
+		/// <inheritdoc />
+		protected override void AddRepositoryUnderTestWithWrongContextBaseClass(IRepositoryBuilder repositoryBuilder, string repositoryName, Action<IRepositoryOptionsBuilder> configureOptions)
+		{
+			repositoryBuilder.Services.AddDbContext<WrongBaseClassContext>();
+
+			repositoryBuilder.AddEntityFrameworkRepository(repositoryName, typeof(WrongBaseClassContext), configureOptions.Invoke);
+		}
 	}
 }
