@@ -9,6 +9,8 @@
 	using Fluxera.Entity;
 	using Fluxera.Entity.DomainEvents;
 	using Fluxera.Guards;
+	using Fluxera.Repository.DomainEvents;
+	using Fluxera.Repository.Options;
 	using Fluxera.Repository.Query;
 	using Fluxera.Repository.Specifications;
 	using Fluxera.Repository.Traits;
@@ -23,28 +25,38 @@
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 		where TKey : notnull, IComparable<TKey>, IEquatable<TKey>
 	{
-		private readonly IDomainEventDispatcher domainEventDispatcher;
 		private readonly IRepository<TAggregateRoot, TKey> innerRepository;
+		private readonly IDomainEventDispatcher domainEventDispatcher;
+		private readonly ICrudDomainEventsFactory domainEventsFactory;
 		private readonly ILogger logger;
+		private readonly DomainEventsOptions domainEventsOptions;
 
 		/// <summary>
 		///     Creates a new instance of the <see cref="DomainEventsRepositoryDecorator{TAggregateRoot,TKey}" /> type.
 		/// </summary>
 		/// <param name="innerRepository"></param>
 		/// <param name="domainEventDispatcher"></param>
+		/// <param name="domainEventsFactory"></param>
+		/// <param name="repositoryRegistry"></param>
 		/// <param name="loggerFactory"></param>
 		public DomainEventsRepositoryDecorator(
 			IRepository<TAggregateRoot, TKey> innerRepository,
 			IDomainEventDispatcher domainEventDispatcher,
+			ICrudDomainEventsFactory domainEventsFactory,
+			IRepositoryRegistry repositoryRegistry,
 			ILoggerFactory loggerFactory)
 		{
-			Guard.Against.Null(innerRepository, nameof(innerRepository));
-			Guard.Against.Null(domainEventDispatcher, nameof(domainEventDispatcher));
-			Guard.Against.Null(loggerFactory, nameof(loggerFactory));
+			this.innerRepository = Guard.Against.Null(innerRepository);
+			this.domainEventDispatcher = Guard.Against.Null(domainEventDispatcher);
+			this.domainEventsFactory = Guard.Against.Null(domainEventsFactory);
+			Guard.Against.Null(loggerFactory);
+			Guard.Against.Null(repositoryRegistry);
 
-			this.innerRepository = innerRepository;
-			this.domainEventDispatcher = domainEventDispatcher;
 			this.logger = loggerFactory.CreateLogger(LoggerNames.EventsDispatcher);
+
+			RepositoryName repositoryName = repositoryRegistry.GetRepositoryNameFor<TAggregateRoot>();
+			RepositoryOptions repositoryOptions = repositoryRegistry.GetRepositoryOptionsFor(repositoryName);
+			this.domainEventsOptions = repositoryOptions.DomainEventsOptions;
 		}
 
 		/// <inheritdoc />
@@ -55,7 +67,14 @@
 			await this.innerRepository.AddAsync(item, cancellationToken).ConfigureAwait(false);
 
 			// Add event to dispatch 'item added' event only to committed event handlers.
-			item.RaiseDomainEvent(new ItemAdded<TAggregateRoot, TKey>(item));
+			if(this.domainEventsOptions.IsAutomaticCrudDomainEventsEnabled)
+			{
+				IDomainEvent domainEvent = this.domainEventsFactory.CreateAddedEvent<TAggregateRoot, TKey>(item);
+				if(domainEvent is not null)
+				{
+					item.RaiseDomainEvent(domainEvent);
+				}
+			}
 
 			await this.DispatchCommittedAsync(item).ConfigureAwait(false);
 		}
@@ -70,9 +89,16 @@
 			await this.innerRepository.AddRangeAsync(itemsList, cancellationToken).ConfigureAwait(false);
 
 			// Add event to dispatch 'item added' event only to committed event handlers.
-			foreach(TAggregateRoot item in itemsList)
+			if(this.domainEventsOptions.IsAutomaticCrudDomainEventsEnabled)
 			{
-				item.RaiseDomainEvent(new ItemAdded<TAggregateRoot, TKey>(item));
+				foreach(TAggregateRoot item in itemsList)
+				{
+					IDomainEvent domainEvent = this.domainEventsFactory.CreateAddedEvent<TAggregateRoot, TKey>(item);
+					if(domainEvent is not null)
+					{
+						item.RaiseDomainEvent(domainEvent);
+					}
+				}
 			}
 
 			await this.DispatchCommittedAsync(itemsList).ConfigureAwait(false);
@@ -88,7 +114,14 @@
 			await this.innerRepository.UpdateAsync(item, cancellationToken).ConfigureAwait(false);
 
 			// Add event to dispatch 'item updated' event only to committed event handlers.
-			item.RaiseDomainEvent(new ItemUpdated<TAggregateRoot, TKey>(itemBeforeUpdate, item));
+			if(this.domainEventsOptions.IsAutomaticCrudDomainEventsEnabled)
+			{
+				IDomainEvent domainEvent = this.domainEventsFactory.CreateUpdatedEvent<TAggregateRoot, TKey>(itemBeforeUpdate, item);
+				if(domainEvent is not null)
+				{
+					item.RaiseDomainEvent(domainEvent);
+				}
+			}
 
 			await this.DispatchCommittedAsync(item).ConfigureAwait(false);
 		}
@@ -107,10 +140,17 @@
 			await this.innerRepository.UpdateRangeAsync(itemsList, cancellationToken).ConfigureAwait(false);
 
 			// Add event to dispatch 'item updated' event only to committed event handlers.
-			foreach(TAggregateRoot item in itemsList)
+			if(this.domainEventsOptions.IsAutomaticCrudDomainEventsEnabled)
 			{
-				TAggregateRoot itemBeforeUpdate = itemsBeforeUpdate?.FirstOrDefault(x => x.ID.Equals(item.ID));
-				item.RaiseDomainEvent(new ItemUpdated<TAggregateRoot, TKey>(itemBeforeUpdate, item));
+				foreach(TAggregateRoot item in itemsList)
+				{
+					TAggregateRoot itemBeforeUpdate = itemsBeforeUpdate?.FirstOrDefault(x => x.ID.Equals(item.ID));
+					IDomainEvent domainEvent = this.domainEventsFactory.CreateUpdatedEvent<TAggregateRoot, TKey>(itemBeforeUpdate, item);
+					if(domainEvent is not null)
+					{
+						item.RaiseDomainEvent(domainEvent);
+					}
+				}
 			}
 
 			await this.DispatchCommittedAsync(itemsList).ConfigureAwait(false);
@@ -126,7 +166,14 @@
 			await this.innerRepository.RemoveAsync(item, cancellationToken).ConfigureAwait(false);
 
 			// Add event to dispatch 'item removed' event only to committed event handlers.
-			item.RaiseDomainEvent(new ItemRemoved<TAggregateRoot, TKey>(id, item));
+			if(this.domainEventsOptions.IsAutomaticCrudDomainEventsEnabled)
+			{
+				IDomainEvent domainEvent = this.domainEventsFactory.CreateRemovedEvent(id, item);
+				if(domainEvent is not null)
+				{
+					item.RaiseDomainEvent(domainEvent);
+				}
+			}
 
 			await this.DispatchCommittedAsync(item).ConfigureAwait(false);
 		}
@@ -142,9 +189,16 @@
 			await this.innerRepository.RemoveRangeAsync(predicate, cancellationToken).ConfigureAwait(false);
 
 			// Add event to dispatch 'item removed' event only to committed event handlers.
-			foreach((TKey key, TAggregateRoot value) in itemsDict)
+			if(this.domainEventsOptions.IsAutomaticCrudDomainEventsEnabled)
 			{
-				value.RaiseDomainEvent(new ItemRemoved<TAggregateRoot, TKey>(key, value));
+				foreach((TKey id, TAggregateRoot item) in itemsDict)
+				{
+					IDomainEvent domainEvent = this.domainEventsFactory.CreateRemovedEvent(id, item);
+					if(domainEvent is not null)
+					{
+						item.RaiseDomainEvent(domainEvent);
+					}
+				}
 			}
 
 			await this.DispatchCommittedAsync(items).ConfigureAwait(false);
@@ -161,9 +215,16 @@
 			await this.innerRepository.RemoveRangeAsync(specification, cancellationToken).ConfigureAwait(false);
 
 			// Add event to dispatch 'item removed' event only to committed event handlers.
-			foreach((TKey key, TAggregateRoot value) in itemsDict)
+			if(this.domainEventsOptions.IsAutomaticCrudDomainEventsEnabled)
 			{
-				value.RaiseDomainEvent(new ItemRemoved<TAggregateRoot, TKey>(key, value));
+				foreach((TKey id, TAggregateRoot item) in itemsDict)
+				{
+					IDomainEvent domainEvent = this.domainEventsFactory.CreateRemovedEvent(id, item);
+					if(domainEvent is not null)
+					{
+						item.RaiseDomainEvent(domainEvent);
+					}
+				}
 			}
 
 			await this.DispatchCommittedAsync(items).ConfigureAwait(false);
@@ -180,12 +241,59 @@
 			await this.innerRepository.RemoveRangeAsync(itemsList, cancellationToken).ConfigureAwait(false);
 
 			// Add event to dispatch 'item removed' event only to committed event handlers.
-			foreach((TKey key, TAggregateRoot value) in itemsDict)
+			if(this.domainEventsOptions.IsAutomaticCrudDomainEventsEnabled)
 			{
-				value.RaiseDomainEvent(new ItemRemoved<TAggregateRoot, TKey>(key, value));
+				foreach((TKey id, TAggregateRoot item) in itemsDict)
+				{
+					IDomainEvent domainEvent = this.domainEventsFactory.CreateRemovedEvent(id, item);
+					if(domainEvent is not null)
+					{
+						item.RaiseDomainEvent(domainEvent);
+					}
+				}
 			}
 
 			await this.DispatchCommittedAsync(itemsList).ConfigureAwait(false);
+		}
+
+		/// <inheritdoc />
+		async Task ICanRemove<TAggregateRoot, TKey>.RemoveAsync(TKey id, CancellationToken cancellationToken)
+		{
+			TAggregateRoot item = await this.innerRepository.GetAsync(id, cancellationToken).ConfigureAwait(false);
+
+			await this.DispatchAsync(item).ConfigureAwait(false);
+
+			await this.innerRepository.RemoveAsync(id, cancellationToken).ConfigureAwait(false);
+
+			// Add event to dispatch 'item removed' event only to committed event handlers.
+			if(this.domainEventsOptions.IsAutomaticCrudDomainEventsEnabled)
+			{
+				IDomainEvent domainEvent = this.domainEventsFactory.CreateRemovedEvent(id, item);
+				if(domainEvent is not null)
+				{
+					item.RaiseDomainEvent(domainEvent);
+				}
+			}
+
+			await this.DispatchCommittedAsync(item).ConfigureAwait(false);
+		}
+
+		/// <inheritdoc />
+		async Task<TAggregateRoot> ICanGet<TAggregateRoot, TKey>.GetAsync(TKey id, CancellationToken cancellationToken)
+		{
+			return await this.innerRepository.GetAsync(id, cancellationToken).ConfigureAwait(false);
+		}
+
+		/// <inheritdoc />
+		async Task<TResult> ICanGet<TAggregateRoot, TKey>.GetAsync<TResult>(TKey id, Expression<Func<TAggregateRoot, TResult>> selector, CancellationToken cancellationToken)
+		{
+			return await this.innerRepository.GetAsync(id, selector, cancellationToken).ConfigureAwait(false);
+		}
+
+		/// <inheritdoc />
+		async Task<bool> ICanGet<TAggregateRoot, TKey>.ExistsAsync(TKey id, CancellationToken cancellationToken)
+		{
+			return await this.innerRepository.ExistsAsync(id, cancellationToken).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
@@ -645,39 +753,6 @@
 			{
 				await this.innerRepository.DisposeAsync();
 			}
-		}
-
-		/// <inheritdoc />
-		async Task ICanRemove<TAggregateRoot, TKey>.RemoveAsync(TKey id, CancellationToken cancellationToken)
-		{
-			TAggregateRoot item = await this.innerRepository.GetAsync(id, cancellationToken).ConfigureAwait(false);
-
-			await this.DispatchAsync(item).ConfigureAwait(false);
-
-			await this.innerRepository.RemoveAsync(id, cancellationToken).ConfigureAwait(false);
-
-			// Add event to dispatch 'item removed' event only to committed event handlers.
-			item.RaiseDomainEvent(new ItemRemoved<TAggregateRoot, TKey>(id, item));
-
-			await this.DispatchCommittedAsync(item).ConfigureAwait(false);
-		}
-
-		/// <inheritdoc />
-		async Task<TAggregateRoot> ICanGet<TAggregateRoot, TKey>.GetAsync(TKey id, CancellationToken cancellationToken)
-		{
-			return await this.innerRepository.GetAsync(id, cancellationToken).ConfigureAwait(false);
-		}
-
-		/// <inheritdoc />
-		async Task<TResult> ICanGet<TAggregateRoot, TKey>.GetAsync<TResult>(TKey id, Expression<Func<TAggregateRoot, TResult>> selector, CancellationToken cancellationToken)
-		{
-			return await this.innerRepository.GetAsync(id, selector, cancellationToken).ConfigureAwait(false);
-		}
-
-		/// <inheritdoc />
-		async Task<bool> ICanGet<TAggregateRoot, TKey>.ExistsAsync(TKey id, CancellationToken cancellationToken)
-		{
-			return await this.innerRepository.ExistsAsync(id, cancellationToken).ConfigureAwait(false);
 		}
 
 		private async Task DispatchAsync(TAggregateRoot item)

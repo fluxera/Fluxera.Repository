@@ -4,6 +4,7 @@
 	using System.Collections.Generic;
 	using System.Reflection;
 	using Fluxera.Entity.DomainEvents;
+	using Fluxera.Repository.DomainEvents;
 	using JetBrains.Annotations;
 
 	/// <summary>
@@ -45,5 +46,17 @@
 		/// <param name="type"></param>
 		/// <returns></returns>
 		IDomainEventsOptionsBuilder AddDomainEventHandler(Type type);
+
+		/// <summary>
+		///     Replace the default CRUD domain event factory.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <returns></returns>
+		IDomainEventsOptionsBuilder AddCrudDomainEventsFactory<T>() where T : class, ICrudDomainEventsFactory;
+
+		/// <summary>
+		///     Enables the automatically added CRUD domain events.
+		/// </summary>
+		IDomainEventsOptionsBuilder EnableAutomaticCrudDomainEvents();
 	}
 }

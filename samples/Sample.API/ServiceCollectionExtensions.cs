@@ -7,6 +7,7 @@ namespace Sample.API
 	using Fluxera.Repository.MongoDB;
 	using Microsoft.Extensions.DependencyInjection;
 	using Sample.Domain.Company;
+	using Sample.Domain.Company.Handlers;
 	using Sample.EntityFrameworkCore;
 	using Sample.InMemory;
 	using Sample.LiteDB;
@@ -24,6 +25,15 @@ namespace Sample.API
 				{
 					repositoryOptionsBuilder.UseFor<Company>();
 
+					repositoryOptionsBuilder.AddDomainEventHandling(domainEventsOptionsBuilder =>
+					{
+						domainEventsOptionsBuilder.AddDomainEventHandler<CompanyAddedHandler>();
+
+						domainEventsOptionsBuilder.AddCrudDomainEventsFactory<SampleCrudDomainEventsFactory>();
+
+						domainEventsOptionsBuilder.EnableAutomaticCrudDomainEvents();
+					});
+
 					repositoryOptionsBuilder.EnableUnitOfWork();
 				});
 			});
@@ -38,6 +48,13 @@ namespace Sample.API
 				repositoryBuilder.AddLiteRepository<SampleLiteContext>(repositoryOptionsBuilder =>
 				{
 					repositoryOptionsBuilder.UseFor<Company>();
+
+					repositoryOptionsBuilder.AddDomainEventHandling(domainEventsOptionsBuilder =>
+					{
+						domainEventsOptionsBuilder.AddDomainEventHandler<CompanyAddedHandler>();
+
+						domainEventsOptionsBuilder.AddCrudDomainEventsFactory<SampleCrudDomainEventsFactory>();
+					});
 
 					repositoryOptionsBuilder.EnableUnitOfWork();
 				});
@@ -54,6 +71,13 @@ namespace Sample.API
 				{
 					repositoryOptionsBuilder.UseFor<Company>();
 
+					repositoryOptionsBuilder.AddDomainEventHandling(domainEventsOptionsBuilder =>
+					{
+						domainEventsOptionsBuilder.AddDomainEventHandler<CompanyAddedHandler>();
+
+						domainEventsOptionsBuilder.AddCrudDomainEventsFactory<SampleCrudDomainEventsFactory>();
+					});
+
 					repositoryOptionsBuilder.EnableUnitOfWork();
 				});
 			});
@@ -68,6 +92,13 @@ namespace Sample.API
 				repositoryBuilder.AddInMemoryRepository<SampleInMemoryContext>(repositoryOptionsBuilder =>
 				{
 					repositoryOptionsBuilder.UseFor<Company>();
+
+					repositoryOptionsBuilder.AddDomainEventHandling(domainEventsOptionsBuilder =>
+					{
+						domainEventsOptionsBuilder.AddDomainEventHandler<CompanyAddedHandler>();
+
+						domainEventsOptionsBuilder.AddCrudDomainEventsFactory<SampleCrudDomainEventsFactory>();
+					});
 
 					repositoryOptionsBuilder.EnableUnitOfWork();
 				});

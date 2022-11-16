@@ -39,24 +39,22 @@
 		/// <param name="repositoryRegistry"></param>
 		/// <param name="decoratingInterceptorFactory"></param>
 		public InterceptionRepositoryDecorator(
-			ILoggerFactory loggerFactory,
 			IRepository<TAggregateRoot, TKey> innerRepository,
 			IRepositoryRegistry repositoryRegistry,
-			IDecoratingInterceptorFactory<TAggregateRoot, TKey> decoratingInterceptorFactory)
+			IDecoratingInterceptorFactory<TAggregateRoot, TKey> decoratingInterceptorFactory,
+			ILoggerFactory loggerFactory)
 		{
-			Guard.Against.Null(loggerFactory, nameof(loggerFactory));
-			Guard.Against.Null(innerRepository, nameof(innerRepository));
-			Guard.Against.Null(repositoryRegistry, nameof(repositoryRegistry));
-			Guard.Against.Null(decoratingInterceptorFactory, nameof(decoratingInterceptorFactory));
-
-			this.logger = loggerFactory.CreateLogger(LoggerNames.Interception);
-
-			this.innerRepository = innerRepository;
+			this.innerRepository = Guard.Against.Null(innerRepository);
+			Guard.Against.Null(repositoryRegistry);
+			Guard.Against.Null(decoratingInterceptorFactory);
+			Guard.Against.Null(loggerFactory);
 
 			RepositoryName repositoryName = repositoryRegistry.GetRepositoryNameFor<TAggregateRoot>();
 			this.repositoryOptions = repositoryRegistry.GetRepositoryOptionsFor(repositoryName);
 
 			this.interceptor = decoratingInterceptorFactory.CreateDecoratingInterceptor();
+
+			this.logger = loggerFactory.CreateLogger(LoggerNames.Interception);
 		}
 
 		/// <inheritdoc />

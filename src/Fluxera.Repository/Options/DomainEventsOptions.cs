@@ -30,6 +30,14 @@
 		public bool IsEnabled { get; set; }
 
 		/// <summary>
+		///     Flag, indicating if the automatic adding of CRUD domain events is enabled.
+		/// </summary>
+		/// <remarks>
+		///     The default is disabled.
+		/// </remarks>
+		public bool IsAutomaticCrudDomainEventsEnabled { get; set; }
+
+		/// <summary>
 		///     Gets the event handler types.
 		/// </summary>
 		public IList<Type> DomainEventHandlerTypes { get; } = new List<Type>();

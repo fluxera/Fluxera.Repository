@@ -31,12 +31,12 @@
 		/// </summary>
 		/// <param name="innerRepository"></param>
 		/// <param name="validationStrategyFactory"></param>
-		public ValidationRepositoryDecorator(IRepository<TAggregateRoot, TKey> innerRepository, IValidationStrategyFactory validationStrategyFactory)
+		public ValidationRepositoryDecorator(
+			IRepository<TAggregateRoot, TKey> innerRepository,
+			IValidationStrategyFactory validationStrategyFactory)
 		{
-			Guard.Against.Null(innerRepository, nameof(innerRepository));
-			Guard.Against.Null(validationStrategyFactory, nameof(validationStrategyFactory));
-
-			this.innerRepository = innerRepository;
+			this.innerRepository = Guard.Against.Null(innerRepository);
+			Guard.Against.Null(validationStrategyFactory);
 
 			this.validationStrategy = validationStrategyFactory.CreateStrategy<TAggregateRoot, TKey>();
 		}

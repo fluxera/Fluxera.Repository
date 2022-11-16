@@ -8,12 +8,14 @@
 	using Fluxera.Guards;
 	using Fluxera.Repository.Caching;
 	using Fluxera.Repository.Decorators;
+	using Fluxera.Repository.DomainEvents;
 	using Fluxera.Repository.Interception;
 	using Fluxera.Repository.Options;
 	using Fluxera.Repository.Validation;
 	using Fluxera.Utilities.Extensions;
 	using JetBrains.Annotations;
 	using Microsoft.Extensions.DependencyInjection;
+	using Microsoft.Extensions.DependencyInjection.Extensions;
 
 	/// <summary>
 	///     The configuration extensions methods for the repository.
@@ -70,6 +72,9 @@
 					return domainEventHandlerTypes.AsReadOnly();
 				});
 			});
+
+			// Add the default CRUD domain events factory it no other factory was already added.
+			services.TryAddSingleton<ICrudDomainEventsFactory, DefaultCrudDomainEventsFactory>();
 
 			// Register caching strategy factory.
 			services.AddTransient<ICachingStrategyFactory, CachingStrategyFactory>();
