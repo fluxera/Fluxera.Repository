@@ -8,10 +8,13 @@
 		where T : AggregateRoot<T, TKey>
 		where TKey : IComparable<TKey>, IEquatable<TKey>
 	{
+		private IInterceptor<T, TKey> interceptor;
+
 		/// <inheritdoc />
 		public IInterceptor<T, TKey> CreateDecoratingInterceptor()
 		{
-			return new TestDecoratingInterceptor<T, TKey>();
+			this.interceptor ??= new TestDecoratingInterceptor<T, TKey>();
+			return this.interceptor;
 		}
 	}
 }

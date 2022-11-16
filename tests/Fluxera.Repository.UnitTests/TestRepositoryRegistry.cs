@@ -23,8 +23,13 @@
 		{
 			return new RepositoryOptions(repositoryName)
 			{
+				InterceptionOptions =
+				{
+					IsEnabled = true
+				},
 				DomainEventsOptions =
 				{
+					IsEnabled = true,
 					IsAutomaticCrudDomainEventsEnabled = true
 				}
 			};
