@@ -14,7 +14,7 @@
 		{
 			repositoryBuilder.Services.AddDbContext<RepositoryMultiTenantDbContext>();
 
-			repositoryBuilder.AddEntityFrameworkRepository<RepositoryMultiTenantDbContext>(repositoryName, configureOptions.Invoke);
+			repositoryBuilder.AddEntityFrameworkRepository<RepositoryMultiTenantContext>(repositoryName, configureOptions.Invoke);
 		}
 
 		/// <inheritdoc />

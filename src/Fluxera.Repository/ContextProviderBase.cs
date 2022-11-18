@@ -59,9 +59,9 @@
 			return this.GetContext(options.RepositoryContextType);
 		}
 
-		private TContextBase GetContext(Type dbContextType)
+		private TContextBase GetContext(Type contextType)
 		{
-			TContextBase context = (TContextBase)this.serviceProvider.GetRequiredService(dbContextType);
+			TContextBase context = (TContextBase)this.serviceProvider.GetRequiredService(contextType);
 			return context;
 		}
 

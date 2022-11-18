@@ -21,7 +21,7 @@ namespace Sample.API
 
 			services.AddRepository(repositoryBuilder =>
 			{
-				repositoryBuilder.AddEntityFrameworkRepository<SampleDbContext>(repositoryOptionsBuilder =>
+				repositoryBuilder.AddEntityFrameworkRepository<SampleContext>(repositoryOptionsBuilder =>
 				{
 					repositoryOptionsBuilder.UseFor<Company>();
 

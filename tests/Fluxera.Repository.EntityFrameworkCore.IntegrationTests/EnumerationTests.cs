@@ -21,7 +21,7 @@
 		{
 			repositoryBuilder.Services.AddDbContext<RepositoryDbContext>();
 
-			repositoryBuilder.AddEntityFrameworkRepository<RepositoryDbContext>(repositoryName, configureOptions.Invoke);
+			repositoryBuilder.AddEntityFrameworkRepository<RepositoryContext>(repositoryName, configureOptions.Invoke);
 		}
 	}
 }

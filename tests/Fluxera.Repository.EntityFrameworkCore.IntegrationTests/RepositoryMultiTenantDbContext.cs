@@ -6,7 +6,7 @@
 	using Microsoft.EntityFrameworkCore;
 
 	[PublicAPI]
-	public sealed class RepositoryMultiTenantDbContext : EntityFrameworkCoreContext
+	public sealed class RepositoryMultiTenantDbContext : DbContext
 	{
 		private readonly TenantNameProvider tenantNameProvider;
 

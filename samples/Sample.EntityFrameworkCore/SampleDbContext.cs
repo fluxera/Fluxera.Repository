@@ -6,7 +6,7 @@
 	using Sample.Domain.Company;
 
 	[PublicAPI]
-	public sealed class SampleDbContext : EntityFrameworkCoreContext
+	public sealed class SampleDbContext : DbContext
 	{
 		public SampleDbContext()
 		{

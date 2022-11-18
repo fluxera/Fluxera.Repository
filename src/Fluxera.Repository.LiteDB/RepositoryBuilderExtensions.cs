@@ -80,6 +80,7 @@
 
 			builder.Services.AddSingleton<DatabaseProvider>();
 			builder.Services.AddSingleton<SequentialGuidGenerator>();
+
 			builder.Services.AddScoped(contextType);
 			builder.Services.AddScoped<LiteContextProvider>();
 			builder.Services.AddNamedTransient<IUnitOfWork>(serviceBuilder =>

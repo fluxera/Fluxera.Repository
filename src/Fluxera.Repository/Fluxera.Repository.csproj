@@ -49,8 +49,4 @@
 		<ProjectReference Include="..\Fluxera.Repository.Abstractions\Fluxera.Repository.Abstractions.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="DomainEvents\" />
-	</ItemGroup>
-
 </Project>
