@@ -4,6 +4,7 @@
 	using System.Threading.Tasks;
 	using Fluxera.Entity.DomainEvents;
 	using Fluxera.Repository.Decorators;
+	using Fluxera.Repository.DomainEvents;
 	using Fluxera.Repository.UnitTests.Core.PersonAggregate;
 	using Fluxera.Utilities.Extensions;
 	using Microsoft.Extensions.DependencyInjection;
@@ -38,6 +39,10 @@
 				builder.AddDomainEventHandler<PersonDomainEventHandler>();
 				builder.AddDomainEventHandler<PersonCommittedDomainEventHandler>();
 			});
+
+			services.AddSingleton<IRepositoryRegistry, TestRepositoryRegistry>();
+
+			services.AddSingleton<ICrudDomainEventsFactory, TestCrudDomainEventsFactory>();
 		}
 
 		private Task ShouldHaveUsedDispatcher(bool expected = true)

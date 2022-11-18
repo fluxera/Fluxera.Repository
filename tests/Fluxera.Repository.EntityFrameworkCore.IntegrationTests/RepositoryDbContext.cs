@@ -8,7 +8,7 @@
 	using Microsoft.EntityFrameworkCore;
 
 	[PublicAPI]
-	public sealed class RepositoryDbContext : EntityFrameworkCoreContext
+	public sealed class RepositoryDbContext : DbContext
 	{
 		public DbSet<Person> People { get; set; }
 

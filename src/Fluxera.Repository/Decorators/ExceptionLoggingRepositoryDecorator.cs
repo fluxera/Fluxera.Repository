@@ -6,6 +6,7 @@
 	using System.Threading;
 	using System.Threading.Tasks;
 	using Fluxera.Entity;
+	using Fluxera.Guards;
 	using Fluxera.Repository.Query;
 	using Fluxera.Repository.Specifications;
 	using Fluxera.Repository.Traits;
@@ -28,9 +29,13 @@
 		/// </summary>
 		/// <param name="innerRepository"></param>
 		/// <param name="loggerFactory"></param>
-		public ExceptionLoggingRepositoryDecorator(IRepository<TAggregateRoot, TKey> innerRepository, ILoggerFactory loggerFactory)
+		public ExceptionLoggingRepositoryDecorator(
+			IRepository<TAggregateRoot, TKey> innerRepository,
+			ILoggerFactory loggerFactory)
 		{
-			this.innerRepository = innerRepository;
+			this.innerRepository = Guard.Against.Null(innerRepository);
+			Guard.Against.Null(loggerFactory);
+
 			this.logger = loggerFactory.CreateLogger(LoggerNames.Repository);
 		}
 

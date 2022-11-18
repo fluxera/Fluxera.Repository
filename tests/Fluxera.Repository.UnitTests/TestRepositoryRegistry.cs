@@ -9,7 +9,7 @@
 		/// <inheritdoc />
 		public RepositoryName GetRepositoryNameFor<TAggregateRoot>()
 		{
-			throw new NotImplementedException();
+			return new RepositoryName("Test");
 		}
 
 		/// <inheritdoc />
@@ -21,7 +21,18 @@
 		/// <inheritdoc />
 		public RepositoryOptions GetRepositoryOptionsFor(RepositoryName repositoryName)
 		{
-			throw new NotImplementedException();
+			return new RepositoryOptions(repositoryName)
+			{
+				InterceptionOptions =
+				{
+					IsEnabled = true
+				},
+				DomainEventsOptions =
+				{
+					IsEnabled = true,
+					IsAutomaticCrudDomainEventsEnabled = true
+				}
+			};
 		}
 
 		/// <inheritdoc />

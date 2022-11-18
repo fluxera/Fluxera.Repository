@@ -5,14 +5,13 @@
 	using System.Threading.Tasks;
 	using Fluxera.Guards;
 	using JetBrains.Annotations;
-	using Microsoft.EntityFrameworkCore;
 
 	[UsedImplicitly]
 	internal sealed class EntityFrameworkCoreUnitOfWork : IUnitOfWork
 	{
 		private readonly EntityFrameworkCoreContextProvider contextProvider;
 
-		private DbContext context;
+		private EntityFrameworkCoreContext context;
 		private bool isInitialized;
 
 		public EntityFrameworkCoreUnitOfWork(EntityFrameworkCoreContextProvider contextProvider)
@@ -27,7 +26,7 @@
 		{
 			this.EnsureInitialized();
 
-			if(this.context.ChangeTracker.HasChanges())
+			if(this.context.HasChanges())
 			{
 				await this.context.SaveChangesAsync(cancellationToken);
 			}
@@ -38,9 +37,9 @@
 		{
 			this.EnsureInitialized();
 
-			if(this.context.ChangeTracker.HasChanges())
+			if(this.context.HasChanges())
 			{
-				this.context.ChangeTracker.Clear();
+				this.context.DiscardChanges();
 			}
 		}
 

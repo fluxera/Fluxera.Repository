@@ -17,7 +17,7 @@
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 		where TKey : IComparable<TKey>, IEquatable<TKey>
 	{
-		private readonly DbContext dbContext;
+		private readonly EntityFrameworkCoreContext context;
 		private readonly DbSet<TAggregateRoot> dbSet;
 		private readonly RepositoryOptions options;
 
@@ -31,8 +31,8 @@
 			RepositoryName repositoryName = repositoryRegistry.GetRepositoryNameFor<TAggregateRoot>();
 			this.options = repositoryRegistry.GetRepositoryOptionsFor(repositoryName);
 
-			this.dbContext = contextProvider.GetContextFor(repositoryName);
-			this.dbSet = this.dbContext.Set<TAggregateRoot>();
+			this.context = contextProvider.GetContextFor(repositoryName);
+			this.dbSet = this.context.Set<TAggregateRoot>();
 		}
 
 		private static string Name => "Fluxera.Repository.EntityFrameworkCoreRepository";
@@ -54,7 +54,7 @@
 
 			if(!this.options.IsUnitOfWorkEnabled)
 			{
-				await this.dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+				await this.context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 			}
 		}
 
@@ -72,7 +72,7 @@
 
 			if(!this.options.IsUnitOfWorkEnabled)
 			{
-				await this.dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+				await this.context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 			}
 		}
 
@@ -88,7 +88,7 @@
 
 			if(!this.options.IsUnitOfWorkEnabled)
 			{
-				await this.dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+				await this.context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 			}
 		}
 
@@ -99,7 +99,7 @@
 
 			if(!this.options.IsUnitOfWorkEnabled)
 			{
-				await this.dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+				await this.context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 			}
 		}
 
@@ -110,7 +110,7 @@
 
 			if(!this.options.IsUnitOfWorkEnabled)
 			{
-				await this.dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+				await this.context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 			}
 		}
 
@@ -124,7 +124,7 @@
 
 			if(!this.options.IsUnitOfWorkEnabled)
 			{
-				await this.dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+				await this.context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 			}
 		}
 
@@ -342,7 +342,7 @@
 
 		private async Task PerformUpdateAsync(TAggregateRoot item)
 		{
-			EntityEntry<TAggregateRoot> entry = this.dbContext.Entry(item);
+			EntityEntry<TAggregateRoot> entry = this.context.Entry(item);
 
 			try
 			{
@@ -357,7 +357,7 @@
 					TAggregateRoot attachedEntity = await this.dbSet.FindAsync(key).ConfigureAwait(false);
 					if(attachedEntity is not null)
 					{
-						this.dbContext.Entry(attachedEntity).CurrentValues.SetValues(item);
+						this.context.Entry(attachedEntity).CurrentValues.SetValues(item);
 					}
 				}
 			}
@@ -381,12 +381,12 @@
 					object value = propertyInfo.GetValue(item);
 					if(value is not null)
 					{
-						this.dbContext.Entry(value).State = EntityState.Modified;
+						this.context.Entry(value).State = EntityState.Modified;
 					}
 				}
 			}
 
-			this.dbContext.Entry(item).State = entityState;
+			this.context.Entry(item).State = entityState;
 		}
 	}
 }

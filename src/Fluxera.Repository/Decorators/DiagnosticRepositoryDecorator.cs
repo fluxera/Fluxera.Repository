@@ -43,10 +43,8 @@ namespace Fluxera.Repository.Decorators
 			IRepository<TAggregateRoot, TKey> innerRepository,
 			IRepositoryRegistry repositoryRegistry)
 		{
-			Guard.Against.Null(innerRepository, nameof(innerRepository));
-			Guard.Against.Null(repositoryRegistry, nameof(repositoryRegistry));
-
-			this.innerRepository = innerRepository;
+			this.innerRepository = Guard.Against.Null(innerRepository);
+			Guard.Against.Null(repositoryRegistry);
 
 			RepositoryName repositoryName = repositoryRegistry.GetRepositoryNameFor<TAggregateRoot>();
 			this.repositoryOptions = repositoryRegistry.GetRepositoryOptionsFor(repositoryName);

@@ -122,7 +122,7 @@
 					$"The domain event handling was already enabled for repository '{this.repositoryOptions.RepositoryName}'.");
 			}
 
-			DomainEventsOptionsBuilder builder = new DomainEventsOptionsBuilder(this.repositoryOptions);
+			DomainEventsOptionsBuilder builder = new DomainEventsOptionsBuilder(this.repositoryOptions, this.services);
 			configure.Invoke(builder);
 
 			this.repositoryOptions.DomainEventsOptions.IsEnabled = true;

@@ -31,11 +31,12 @@
 		/// </summary>
 		/// <param name="innerRepository"></param>
 		/// <param name="cachingStrategyFactory"></param>
-		public CachingRepositoryDecorator(IRepository<TAggregateRoot, TKey> innerRepository, ICachingStrategyFactory cachingStrategyFactory)
+		public CachingRepositoryDecorator(
+			IRepository<TAggregateRoot, TKey> innerRepository,
+			ICachingStrategyFactory cachingStrategyFactory)
 		{
-			Guard.Against.Null(innerRepository, nameof(innerRepository));
-
-			this.innerRepository = innerRepository;
+			this.innerRepository = Guard.Against.Null(innerRepository);
+			Guard.Against.Null(cachingStrategyFactory);
 
 			this.cachingStrategy = cachingStrategyFactory.CreateStrategy<TAggregateRoot, TKey>();
 		}

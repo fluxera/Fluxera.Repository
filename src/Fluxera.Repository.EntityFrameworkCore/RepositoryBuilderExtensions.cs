@@ -73,6 +73,7 @@
 			Guard.Against.False(contextType.IsAssignableTo(typeof(EntityFrameworkCoreContext)),
 				message: $"The context type must inherit from '{nameof(EntityFrameworkCoreContext)}'.");
 
+			builder.Services.AddScoped(contextType);
 			builder.Services.AddScoped<EntityFrameworkCoreContextProvider>();
 			builder.Services.AddNamedTransient<IUnitOfWork>(serviceBuilder =>
 			{

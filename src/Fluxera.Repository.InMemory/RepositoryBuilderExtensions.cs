@@ -74,6 +74,7 @@
 				message: $"The context type must inherit from '{nameof(InMemoryContext)}'.");
 
 			builder.Services.AddSingleton<SequentialGuidGenerator>();
+
 			builder.Services.AddScoped(contextType);
 			builder.Services.AddScoped<InMemoryContextProvider>();
 			builder.Services.AddNamedTransient<IUnitOfWork>(serviceBuilder =>

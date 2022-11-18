@@ -12,46 +12,61 @@
 		where T : AggregateRoot<T, TKey>
 		where TKey : IComparable<TKey>, IEquatable<TKey>
 	{
+		public bool BeforeAddCalled;
+		public bool BeforeUpdateCalled;
+		public bool BeforeRemoveCalled;
+		public bool BeforeRemoveRangeExpressionCalled;
+		public bool BeforeRemoveRangeSpecCalled;
+		public bool BeforeFindExpressionCalled;
+		public bool BeforeFindSpecCalled;
+
 		/// <inheritdoc />
 		public Task BeforeAddAsync(T item, InterceptionEvent e)
 		{
-			throw new NotImplementedException();
+			this.BeforeAddCalled = true;
+			return Task.CompletedTask;
 		}
 
 		/// <inheritdoc />
 		public Task BeforeUpdateAsync(T item, InterceptionEvent e)
 		{
-			throw new NotImplementedException();
+			this.BeforeUpdateCalled = true;
+			return Task.CompletedTask;
 		}
 
 		/// <inheritdoc />
 		public Task BeforeRemoveAsync(T item, InterceptionEvent e)
 		{
-			throw new NotImplementedException();
+			this.BeforeRemoveCalled = true;
+			return Task.CompletedTask;
 		}
 
 		/// <inheritdoc />
 		public Task<Expression<Func<T, bool>>> BeforeRemoveRangeAsync(Expression<Func<T, bool>> predicate, InterceptionEvent e)
 		{
-			throw new NotImplementedException();
+			this.BeforeRemoveRangeExpressionCalled = true;
+			return Task.FromResult(predicate);
 		}
 
 		/// <inheritdoc />
 		public Task<ISpecification<T>> BeforeRemoveRangeAsync(ISpecification<T> specification, InterceptionEvent e)
 		{
-			throw new NotImplementedException();
+			this.BeforeRemoveRangeSpecCalled = true;
+			return Task.FromResult(specification);
 		}
 
 		/// <inheritdoc />
 		public Task<Expression<Func<T, bool>>> BeforeFindAsync(Expression<Func<T, bool>> predicate, IQueryOptions<T> queryOptions)
 		{
-			throw new NotImplementedException();
+			this.BeforeFindExpressionCalled = true;
+			return Task.FromResult(predicate);
 		}
 
 		/// <inheritdoc />
 		public Task<ISpecification<T>> BeforeFindAsync(ISpecification<T> specification, IQueryOptions<T> queryOptions)
 		{
-			throw new NotImplementedException();
+			this.BeforeFindSpecCalled = true;
+			return Task.FromResult(specification);
 		}
 	}
 }
