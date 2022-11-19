@@ -22,18 +22,25 @@ namespace Sample.API
 			builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 			builder.Services.AddEntityFrameworkCore(true);
-			//builder.Services.AddLiteDB(true);
 			//builder.Services.AddMongoDB(true);
+			//builder.Services.AddLiteDB(true);
 			//builder.Services.AddInMemory(true);
 
 			//builder.Services.AddEntityFrameworkCore(false);
-			//builder.Services.AddLiteDB(false);
 			//builder.Services.AddMongoDB(false);
+			//builder.Services.AddLiteDB(false);
 			//builder.Services.AddInMemory(false);
 
 			builder.Services.AddTransient<ICompanyRepository, CompanyRepository>();
 
 			WebApplication app = builder.Build();
+
+			//using(IServiceScope scope = app.Services.CreateScope())
+			//{
+			//	SampleDbContext context = scope.ServiceProvider.GetService<SampleDbContext>();
+			//	context?.Database.EnsureCreated();
+			//	context?.Database.Migrate();
+			//}
 
 			app.UseHttpsRedirection();
 

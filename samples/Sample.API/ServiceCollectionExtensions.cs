@@ -40,7 +40,10 @@ namespace Sample.API
 						domainEventsOptionsBuilder.EnableAutomaticCrudDomainEvents();
 					});
 
-					//repositoryOptionsBuilder.EnableUnitOfWork();
+					if(enableUnitOfWork)
+					{
+						repositoryOptionsBuilder.EnableUnitOfWork();
+					}
 				});
 			});
 
@@ -69,7 +72,10 @@ namespace Sample.API
 						domainEventsOptionsBuilder.EnableAutomaticCrudDomainEvents();
 					});
 
-					repositoryOptionsBuilder.EnableUnitOfWork();
+					if(enableUnitOfWork)
+					{
+						repositoryOptionsBuilder.EnableUnitOfWork();
+					}
 				});
 			});
 
@@ -103,7 +109,10 @@ namespace Sample.API
 						domainEventsOptionsBuilder.EnableAutomaticCrudDomainEvents();
 					});
 
-					repositoryOptionsBuilder.EnableUnitOfWork();
+					if(enableUnitOfWork)
+					{
+						repositoryOptionsBuilder.EnableUnitOfWork();
+					}
 				});
 			});
 
@@ -132,7 +141,10 @@ namespace Sample.API
 						domainEventsOptionsBuilder.EnableAutomaticCrudDomainEvents();
 					});
 
-					repositoryOptionsBuilder.EnableUnitOfWork();
+					if(enableUnitOfWork)
+					{
+						repositoryOptionsBuilder.EnableUnitOfWork();
+					}
 				});
 			});
 
