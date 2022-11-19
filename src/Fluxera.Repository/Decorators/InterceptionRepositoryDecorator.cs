@@ -58,27 +58,6 @@
 		}
 
 		/// <inheritdoc />
-		bool IDisposableRepository.IsDisposed => this.innerRepository.IsDisposed;
-
-		/// <inheritdoc />
-		void IDisposable.Dispose()
-		{
-			if(!this.innerRepository.IsDisposed)
-			{
-				this.innerRepository.Dispose();
-			}
-		}
-
-		/// <inheritdoc />
-		async ValueTask IAsyncDisposable.DisposeAsync()
-		{
-			if(!this.innerRepository.IsDisposed)
-			{
-				await this.innerRepository.DisposeAsync();
-			}
-		}
-
-		/// <inheritdoc />
 		async Task ICanAdd<TAggregateRoot, TKey>.AddAsync(TAggregateRoot item, CancellationToken cancellationToken)
 		{
 			if(this.repositoryOptions.InterceptionOptions.IsEnabled)
@@ -1003,6 +982,34 @@
 			return result;
 		}
 
+
+		/// <inheritdoc />
+		bool IDisposableRepository.IsDisposed => this.innerRepository.IsDisposed;
+
+		/// <inheritdoc />
+		void IDisposable.Dispose()
+		{
+			if(!this.innerRepository.IsDisposed)
+			{
+				this.innerRepository.Dispose();
+			}
+		}
+
+		/// <inheritdoc />
+		async ValueTask IAsyncDisposable.DisposeAsync()
+		{
+			if(!this.innerRepository.IsDisposed)
+			{
+				await this.innerRepository.DisposeAsync();
+			}
+		}
+
+		/// <inheritdoc />
+		public override string ToString()
+		{
+			return this.innerRepository.ToString();
+		}
+
 		private static void RecordCancellation(string cancellationMessage)
 		{
 			Activity activity = Activity.Current;
@@ -1080,12 +1087,6 @@
 
 				activity.AddTag("db.statement", statement);
 			}
-		}
-
-		/// <inheritdoc />
-		public override string ToString()
-		{
-			return this.innerRepository.ToString();
 		}
 
 		private static Expression<Func<TAggregateRoot, bool>> CreatePrimaryKeyPredicate(TKey id)

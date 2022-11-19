@@ -17,7 +17,7 @@
 		/// <inheritdoc />
 		protected override void PerformConfigureContext(MongoContext context, RepositoryName repositoryName)
 		{
-			context.Configure(repositoryName);
+			context.Configure(repositoryName, this.ServiceProvider);
 		}
 	}
 }

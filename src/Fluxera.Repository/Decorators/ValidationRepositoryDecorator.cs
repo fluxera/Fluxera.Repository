@@ -42,27 +42,6 @@
 		}
 
 		/// <inheritdoc />
-		bool IDisposableRepository.IsDisposed => this.innerRepository.IsDisposed;
-
-		/// <inheritdoc />
-		void IDisposable.Dispose()
-		{
-			if(!this.innerRepository.IsDisposed)
-			{
-				this.innerRepository.Dispose();
-			}
-		}
-
-		/// <inheritdoc />
-		async ValueTask IAsyncDisposable.DisposeAsync()
-		{
-			if(!this.innerRepository.IsDisposed)
-			{
-				await this.innerRepository.DisposeAsync();
-			}
-		}
-
-		/// <inheritdoc />
 		async Task<long> ICanAggregate<TAggregateRoot, TKey>.CountAsync(CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.CountAsync(cancellationToken).ConfigureAwait(false);
@@ -582,6 +561,27 @@
 		async Task<bool> ICanGet<TAggregateRoot, TKey>.ExistsAsync(TKey id, CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.ExistsAsync(id, cancellationToken).ConfigureAwait(false);
+		}
+
+		/// <inheritdoc />
+		bool IDisposableRepository.IsDisposed => this.innerRepository.IsDisposed;
+
+		/// <inheritdoc />
+		void IDisposable.Dispose()
+		{
+			if(!this.innerRepository.IsDisposed)
+			{
+				this.innerRepository.Dispose();
+			}
+		}
+
+		/// <inheritdoc />
+		async ValueTask IAsyncDisposable.DisposeAsync()
+		{
+			if(!this.innerRepository.IsDisposed)
+			{
+				await this.innerRepository.DisposeAsync();
+			}
 		}
 
 		/// <inheritdoc />

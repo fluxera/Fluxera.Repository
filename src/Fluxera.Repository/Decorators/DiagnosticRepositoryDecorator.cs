@@ -587,6 +587,12 @@ namespace Fluxera.Repository.Decorators
 			}
 		}
 
+		/// <inheritdoc />
+		public override string ToString()
+		{
+			return this.innerRepository.ToString();
+		}
+
 		private async Task<TResult> RunDiagnosticAsync<TResult>(Func<Task<TResult>> func, [CallerMemberName] string callerMemberName = "")
 		{
 			string commandName = callerMemberName.RemovePostFix("Async") ?? callerMemberName;
@@ -680,12 +686,6 @@ namespace Fluxera.Repository.Decorators
 				activity.AddTag("error.msg", exception.Message);
 				activity.AddTag("error.stack", exception.StackTrace);
 			}
-		}
-
-		/// <inheritdoc />
-		public override string ToString()
-		{
-			return this.innerRepository.ToString();
 		}
 	}
 }

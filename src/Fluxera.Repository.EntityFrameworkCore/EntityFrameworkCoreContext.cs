@@ -1,8 +1,11 @@
 ﻿namespace Fluxera.Repository.EntityFrameworkCore
 {
 	using System;
+	using System.Collections.Concurrent;
 	using System.Threading;
 	using System.Threading.Tasks;
+	using Fluxera.Guards;
+	using Fluxera.Repository.Options;
 	using Fluxera.Utilities;
 	using JetBrains.Annotations;
 	using Microsoft.EntityFrameworkCore;
@@ -15,6 +18,7 @@
 	[PublicAPI]
 	public abstract class EntityFrameworkCoreContext : Disposable
 	{
+		private ConcurrentQueue<Func<Task>> commands;
 		private DbContext context;
 
 		private bool isConfigured;
@@ -24,7 +28,13 @@
 		/// </summary>
 		protected EntityFrameworkCoreContext()
 		{
+			// Command will be stored and later processed on saving changes.
+			this.commands = new ConcurrentQueue<Func<Task>>();
 		}
+
+		private IServiceProvider ServiceProvider { get; set; }
+
+		private RepositoryOptions RepositoryOptions { get; set; }
 
 		/// <summary>
 		///     Gets the name of the repository this context belong to.
@@ -32,9 +42,18 @@
 		protected RepositoryName RepositoryName { get; private set; }
 
 		/// <summary>
-		///     Configures the options to use for this context instance over it's lifetime.
+		///     Adds a command for execution.
 		/// </summary>
-		protected abstract void ConfigureOptions(EntityFrameworkCoreContextOptions options);
+		/// <param name="command"></param>
+		public Task AddCommandAsync(Func<Task> command)
+		{
+			Guard.Against.Null(command);
+
+			this.commands ??= new ConcurrentQueue<Func<Task>>();
+			this.commands.Enqueue(command);
+
+			return Task.CompletedTask;
+		}
 
 		/// <summary>
 		///     Saves the changes inside a transaction.
@@ -42,8 +61,45 @@
 		/// <returns></returns>
 		public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
 		{
-			await this.context.SaveChangesAsync(cancellationToken);
+			//if(!this.commands.Any())
+			//{
+			//	return;
+			//}
+
+			try
+			{
+				await this.DispatchDomainEventsAsync();
+				await this.context.SaveChangesAsync(cancellationToken);
+			}
+			finally
+			{
+				this.ClearDomainEvents();
+			}
 		}
+
+		/// <summary>
+		///     Checks if any new, deleted, or changed entities are being tracked
+		///     such that these changes will be sent to the database if <see cref="DbContext.SaveChanges()" />
+		///     or <see cref="DbContext.SaveChangesAsync(CancellationToken)" /> is called.
+		/// </summary>
+		/// <returns></returns>
+		public bool HasChanges()
+		{
+			return this.context.ChangeTracker.HasChanges();
+		}
+
+		/// <summary>
+		///     Stops tracking all currently tracked entities.
+		/// </summary>
+		public void DiscardChanges()
+		{
+			this.context.ChangeTracker.Clear();
+		}
+
+		/// <summary>
+		///     Configures the options to use for this context instance over it's lifetime.
+		/// </summary>
+		protected abstract void ConfigureOptions(EntityFrameworkCoreContextOptions options);
 
 		internal void Configure(RepositoryName repositoryName, IServiceProvider serviceProvider)
 		{
@@ -55,7 +111,12 @@
 
 				this.context = (DbContext)serviceProvider.GetRequiredService(options.DbContextType);
 
+				IRepositoryRegistry repositoryRegistry = serviceProvider.GetRequiredService<IRepositoryRegistry>();
+				RepositoryOptions repositoryOptions = repositoryRegistry.GetRepositoryOptionsFor(repositoryName);
+				this.RepositoryOptions = repositoryOptions;
+
 				this.RepositoryName = repositoryName;
+				this.ServiceProvider = serviceProvider;
 
 				this.isConfigured = true;
 			}
@@ -84,23 +145,37 @@
 			return this.context.Entry(item);
 		}
 
-		/// <summary>
-		///     Checks if any new, deleted, or changed entities are being tracked
-		///     such that these changes will be sent to the database if <see cref="DbContext.SaveChanges()" />
-		///     or <see cref="DbContext.SaveChangesAsync(CancellationToken)" /> is called.
-		/// </summary>
-		/// <returns></returns>
-		public bool HasChanges()
+		/// <inheritdoc />
+		protected override void DisposeManaged()
 		{
-			return this.context.ChangeTracker.HasChanges();
+			this.ClearCommands();
 		}
 
-		/// <summary>
-		///     Stops tracking all currently tracked entities.
-		/// </summary>
-		public void DiscardChanges()
+		private void ClearCommands()
 		{
-			this.context.ChangeTracker.Clear();
+			this.commands?.Clear();
+		}
+
+		private async Task ExecuteCommands(CancellationToken cancellationToken)
+		{
+			foreach(Func<Task> command in this.commands)
+			{
+				cancellationToken.ThrowIfCancellationRequested();
+
+				await command.Invoke().ConfigureAwait(false);
+			}
+		}
+
+		private void ClearDomainEvents()
+		{
+			OutboxDomainEventDispatcher outboxDispatcher = this.ServiceProvider.GetRequiredService<OutboxDomainEventDispatcher>();
+			outboxDispatcher.Clear();
+		}
+
+		private async Task DispatchDomainEventsAsync()
+		{
+			OutboxDomainEventDispatcher outboxDispatcher = this.ServiceProvider.GetRequiredService<OutboxDomainEventDispatcher>();
+			await outboxDispatcher.FlushAsync();
 		}
 	}
 }

@@ -13,6 +13,7 @@
 	using global::MongoDB.Driver.Core.Clusters;
 	using global::MongoDB.Driver.Core.Extensions.DiagnosticSources;
 	using JetBrains.Annotations;
+	using Microsoft.Extensions.DependencyInjection;
 
 	/// <summary>
 	///     A base class for context implementations for the MongoDB repository.
@@ -36,6 +37,8 @@
 			// Command will be stored and later processed on saving changes.
 			this.commands = new ConcurrentQueue<Func<Task>>();
 		}
+
+		private IServiceProvider ServiceProvider { get; set; }
 
 		/// <summary>
 		///     Gets the name of the repository this context belong to.
@@ -67,13 +70,13 @@
 		/// <returns></returns>
 		public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
 		{
+			if(!this.commands.Any())
+			{
+				return;
+			}
+
 			try
 			{
-				if(!this.commands.Any())
-				{
-					return;
-				}
-
 				ClusterType clusterType = this.client.Cluster.Description.Type;
 				if(clusterType == ClusterType.ReplicaSet)
 				{
@@ -81,19 +84,22 @@
 					{
 						this.Session.StartTransaction();
 
-						await this.ExecuteCommands(cancellationToken);
+						await this.ExecuteCommandsAsync(cancellationToken);
+						await this.DispatchDomainEventsAsync();
 
 						await this.Session.CommitTransactionAsync(cancellationToken);
 					}
 				}
 				else
 				{
-					await this.ExecuteCommands(cancellationToken);
+					await this.ExecuteCommandsAsync(cancellationToken);
+					await this.DispatchDomainEventsAsync();
 				}
 			}
 			finally
 			{
 				this.ClearCommands();
+				this.ClearDomainEvents();
 			}
 		}
 
@@ -137,7 +143,7 @@
 		/// </summary>
 		protected abstract void ConfigureOptions(MongoContextOptions options);
 
-		internal void Configure(RepositoryName repositoryName)
+		internal void Configure(RepositoryName repositoryName, IServiceProvider serviceProvider)
 		{
 			if(!this.isConfigured)
 			{
@@ -183,20 +189,24 @@
 				this.database = this.client.GetDatabase(databaseName);
 
 				this.RepositoryName = repositoryName;
+				this.ServiceProvider = serviceProvider;
 
 				this.isConfigured = true;
 			}
 		}
 
-		/// <summary>
-		///     Removes all added commands.
-		/// </summary>
 		private void ClearCommands()
 		{
 			this.commands?.Clear();
 		}
 
-		private async Task ExecuteCommands(CancellationToken cancellationToken)
+		private void ClearDomainEvents()
+		{
+			OutboxDomainEventDispatcher outboxDispatcher = this.ServiceProvider.GetRequiredService<OutboxDomainEventDispatcher>();
+			outboxDispatcher.Clear();
+		}
+
+		private async Task ExecuteCommandsAsync(CancellationToken cancellationToken)
 		{
 			foreach(Func<Task> command in this.commands)
 			{
@@ -204,6 +214,12 @@
 
 				await command.Invoke().ConfigureAwait(false);
 			}
+		}
+
+		private async Task DispatchDomainEventsAsync()
+		{
+			OutboxDomainEventDispatcher outboxDispatcher = this.ServiceProvider.GetRequiredService<OutboxDomainEventDispatcher>();
+			await outboxDispatcher.FlushAsync();
 		}
 	}
 }
