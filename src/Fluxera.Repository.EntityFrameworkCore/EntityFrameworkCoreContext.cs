@@ -3,6 +3,7 @@
 	using System;
 	using System.Threading;
 	using System.Threading.Tasks;
+	using Fluxera.Repository.Options;
 	using Fluxera.Utilities;
 	using JetBrains.Annotations;
 	using Microsoft.EntityFrameworkCore;
@@ -26,15 +27,14 @@
 		{
 		}
 
+		private IServiceProvider ServiceProvider { get; set; }
+
+		private RepositoryOptions RepositoryOptions { get; set; }
+
 		/// <summary>
 		///     Gets the name of the repository this context belong to.
 		/// </summary>
 		protected RepositoryName RepositoryName { get; private set; }
-
-		/// <summary>
-		///     Configures the options to use for this context instance over it's lifetime.
-		/// </summary>
-		protected abstract void ConfigureOptions(EntityFrameworkCoreContextOptions options);
 
 		/// <summary>
 		///     Saves the changes inside a transaction.
@@ -42,8 +42,44 @@
 		/// <returns></returns>
 		public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
 		{
-			await this.context.SaveChangesAsync(cancellationToken);
+			try
+			{
+				await this.DispatchDomainEventsAsync();
+
+				await this.context.SaveChangesAsync(cancellationToken);
+			}
+			finally
+			{
+				this.ClearDomainEvents();
+			}
 		}
+
+		/// <summary>
+		///     Checks if any commands were added for execution.
+		/// </summary>
+		/// <returns></returns>
+		public bool HasChanges()
+		{
+			return this.context.ChangeTracker.HasChanges();
+		}
+
+		/// <summary>
+		///     Discards all changes.
+		/// </summary>
+		public void DiscardChanges()
+		{
+			this.context.ChangeTracker.Clear();
+		}
+
+		/// <inheritdoc />
+		protected override void DisposeManaged()
+		{
+		}
+
+		/// <summary>
+		///     Configures the options to use for this context instance over it's lifetime.
+		/// </summary>
+		protected abstract void ConfigureOptions(EntityFrameworkCoreContextOptions options);
 
 		internal void Configure(RepositoryName repositoryName, IServiceProvider serviceProvider)
 		{
@@ -55,7 +91,12 @@
 
 				this.context = (DbContext)serviceProvider.GetRequiredService(options.DbContextType);
 
+				IRepositoryRegistry repositoryRegistry = serviceProvider.GetRequiredService<IRepositoryRegistry>();
+				RepositoryOptions repositoryOptions = repositoryRegistry.GetRepositoryOptionsFor(repositoryName);
+				this.RepositoryOptions = repositoryOptions;
+
 				this.RepositoryName = repositoryName;
+				this.ServiceProvider = serviceProvider;
 
 				this.isConfigured = true;
 			}
@@ -84,23 +125,16 @@
 			return this.context.Entry(item);
 		}
 
-		/// <summary>
-		///     Checks if any new, deleted, or changed entities are being tracked
-		///     such that these changes will be sent to the database if <see cref="DbContext.SaveChanges()" />
-		///     or <see cref="DbContext.SaveChangesAsync(CancellationToken)" /> is called.
-		/// </summary>
-		/// <returns></returns>
-		public bool HasChanges()
+		private void ClearDomainEvents()
 		{
-			return this.context.ChangeTracker.HasChanges();
+			OutboxDomainEventDispatcher outboxDispatcher = this.ServiceProvider.GetRequiredService<OutboxDomainEventDispatcher>();
+			outboxDispatcher.Clear();
 		}
 
-		/// <summary>
-		///     Stops tracking all currently tracked entities.
-		/// </summary>
-		public void DiscardChanges()
+		private async Task DispatchDomainEventsAsync()
 		{
-			this.context.ChangeTracker.Clear();
+			OutboxDomainEventDispatcher outboxDispatcher = this.ServiceProvider.GetRequiredService<OutboxDomainEventDispatcher>();
+			await outboxDispatcher.FlushAsync();
 		}
 	}
 }

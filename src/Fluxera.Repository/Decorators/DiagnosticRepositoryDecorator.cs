@@ -587,6 +587,12 @@ namespace Fluxera.Repository.Decorators
 			}
 		}
 
+		/// <inheritdoc />
+		public override string ToString()
+		{
+			return this.innerRepository.ToString();
+		}
+
 		private async Task<TResult> RunDiagnosticAsync<TResult>(Func<Task<TResult>> func, [CallerMemberName] string callerMemberName = "")
 		{
 			string commandName = callerMemberName.RemovePostFix("Async") ?? callerMemberName;
@@ -635,7 +641,7 @@ namespace Fluxera.Repository.Decorators
 		private static Activity StartActivity(string commandName, string storageName, RepositoryOptions repositoryOptions)
 		{
 			Activity activity = ActivitySource.StartActivity(ActivityName);
-			if(activity != null)
+			if(activity is not null)
 			{
 				activity.DisplayName = $"{commandName} for {AggregateRootName}";
 
@@ -647,10 +653,14 @@ namespace Fluxera.Repository.Decorators
 				activity.AddTag("db.repository.name", repositoryOptions.RepositoryName);
 				activity.AddTag("db.repository.operation", commandName);
 				activity.AddTag("db.repository.aggregate", AggregateRootName);
-				activity.AddTag("db.repository.options.caching.enabled", repositoryOptions.CachingOptions.IsEnabled);
-				activity.AddTag("db.repository.options.events.enabled", repositoryOptions.DomainEventsOptions.IsEnabled);
-				activity.AddTag("db.repository.options.interception.enabled", repositoryOptions.InterceptionOptions.IsEnabled);
+
 				activity.AddTag("db.repository.options.validation.enabled", repositoryOptions.ValidationOptions.IsEnabled);
+				activity.AddTag("db.repository.options.events.enabled", repositoryOptions.DomainEventsOptions.IsEnabled);
+				activity.AddTag("db.repository.options.events.auto.enabled", repositoryOptions.DomainEventsOptions.IsAutomaticCrudDomainEventsEnabled);
+				activity.AddTag("db.repository.options.caching.enabled", repositoryOptions.CachingOptions.IsEnabled);
+				activity.AddTag("db.repository.options.interception.enabled", repositoryOptions.InterceptionOptions.IsEnabled);
+				activity.AddTag("db.repository.options.uow.enabled", repositoryOptions.IsUnitOfWorkEnabled);
+				activity.AddTag("db.repository.options.context", repositoryOptions.RepositoryContextType.FullName);
 			}
 
 			return activity;
@@ -676,12 +686,6 @@ namespace Fluxera.Repository.Decorators
 				activity.AddTag("error.msg", exception.Message);
 				activity.AddTag("error.stack", exception.StackTrace);
 			}
-		}
-
-		/// <inheritdoc />
-		public override string ToString()
-		{
-			return this.innerRepository.ToString();
 		}
 	}
 }

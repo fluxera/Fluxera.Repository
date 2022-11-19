@@ -10,6 +10,7 @@
 	using Fluxera.Utilities.Extensions;
 	using global::LiteDB.Async;
 	using JetBrains.Annotations;
+	using Microsoft.Extensions.DependencyInjection;
 
 	/// <summary>
 	///     A base class for context implementations for the LiteDB repository.
@@ -30,6 +31,8 @@
 			// Command will be stored and later processed on saving changes.
 			this.commands = new ConcurrentQueue<Func<Task>>();
 		}
+
+		private IServiceProvider ServiceProvider { get; set; }
 
 		/// <summary>
 		///     Gets the name of the repository this context belong to.
@@ -56,16 +59,17 @@
 		/// <returns></returns>
 		public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
 		{
+			if(!this.commands.Any())
+			{
+				return;
+			}
+
 			try
 			{
-				if(!this.commands.Any())
-				{
-					return;
-				}
-
 				using(ILiteDatabaseAsync transaction = await this.database.BeginTransactionAsync())
 				{
 					await this.ExecuteCommands(cancellationToken);
+					await this.DispatchDomainEventsAsync();
 
 					await transaction.CommitAsync();
 				}
@@ -73,6 +77,7 @@
 			finally
 			{
 				this.ClearCommands();
+				this.ClearDomainEvents();
 			}
 		}
 
@@ -93,17 +98,6 @@
 			this.ClearCommands();
 		}
 
-		/// <summary>
-		///     Gets a collection.
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <returns></returns>
-		public ILiteCollectionAsync<T> GetCollection<T>()
-		{
-			string collectionName = typeof(T).Name.Pluralize();
-			return this.database.GetCollection<T>(collectionName);
-		}
-
 		/// <inheritdoc />
 		protected override void DisposeManaged()
 		{
@@ -115,7 +109,7 @@
 		/// </summary>
 		protected abstract void ConfigureOptions(LiteContextOptions options);
 
-		internal void Configure(RepositoryName repositoryName, DatabaseProvider databaseProvider)
+		internal void Configure(RepositoryName repositoryName, IServiceProvider serviceProvider)
 		{
 			if(!this.isConfigured)
 			{
@@ -127,20 +121,36 @@
 
 				Guard.Against.NullOrWhiteSpace(databaseName);
 
+				DatabaseProvider databaseProvider = serviceProvider.GetRequiredService<DatabaseProvider>();
 				this.database = databaseProvider.GetDatabase(repositoryName, databaseName);
 
 				this.RepositoryName = repositoryName;
+				this.ServiceProvider = serviceProvider;
 
 				this.isConfigured = true;
 			}
 		}
 
 		/// <summary>
-		///     Removes all added commands.
+		///     Gets a collection.
 		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <returns></returns>
+		internal ILiteCollectionAsync<T> GetCollection<T>()
+		{
+			string collectionName = typeof(T).Name.Pluralize();
+			return this.database.GetCollection<T>(collectionName);
+		}
+
 		private void ClearCommands()
 		{
 			this.commands?.Clear();
+		}
+
+		private void ClearDomainEvents()
+		{
+			OutboxDomainEventDispatcher outboxDispatcher = this.ServiceProvider.GetRequiredService<OutboxDomainEventDispatcher>();
+			outboxDispatcher.Clear();
 		}
 
 		private async Task ExecuteCommands(CancellationToken cancellationToken)
@@ -151,6 +161,12 @@
 
 				await command.Invoke().ConfigureAwait(false);
 			}
+		}
+
+		private async Task DispatchDomainEventsAsync()
+		{
+			OutboxDomainEventDispatcher outboxDispatcher = this.ServiceProvider.GetRequiredService<OutboxDomainEventDispatcher>();
+			await outboxDispatcher.FlushAsync();
 		}
 	}
 }

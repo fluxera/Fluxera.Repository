@@ -8,6 +8,7 @@
 	using Fluxera.Guards;
 	using Fluxera.Utilities;
 	using JetBrains.Annotations;
+	using Microsoft.Extensions.DependencyInjection;
 
 	/// <summary>
 	///     A base class for context implementations for the in-memory repository.
@@ -27,6 +28,8 @@
 			// Command will be stored and later processed on saving changes.
 			this.commands = new ConcurrentQueue<Func<Task>>();
 		}
+
+		private IServiceProvider ServiceProvider { get; set; }
 
 		/// <summary>
 		///     Gets the name of the repository this context belong to.
@@ -55,18 +58,20 @@
 		/// <returns></returns>
 		public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
 		{
+			if(!this.commands.Any())
+			{
+				return;
+			}
+
 			try
 			{
-				if(!this.commands.Any())
-				{
-					return;
-				}
-
 				await this.ExecuteCommands(cancellationToken);
+				await this.DispatchDomainEventsAsync();
 			}
 			finally
 			{
 				this.ClearCommands();
+				this.ClearDomainEvents();
 			}
 		}
 
@@ -98,7 +103,7 @@
 		/// </summary>
 		protected abstract void ConfigureOptions(InMemoryContextOptions options);
 
-		internal void Configure(RepositoryName repositoryName)
+		internal void Configure(RepositoryName repositoryName, IServiceProvider serviceProvider)
 		{
 			if(!this.isConfigured)
 			{
@@ -109,17 +114,21 @@
 				this.Database = contextOptions.Database;
 
 				this.RepositoryName = repositoryName;
+				this.ServiceProvider = serviceProvider;
 
 				this.isConfigured = true;
 			}
 		}
 
-		/// <summary>
-		///     Removes all added commands.
-		/// </summary>
 		private void ClearCommands()
 		{
 			this.commands?.Clear();
+		}
+
+		private void ClearDomainEvents()
+		{
+			OutboxDomainEventDispatcher outboxDispatcher = this.ServiceProvider.GetRequiredService<OutboxDomainEventDispatcher>();
+			outboxDispatcher.Clear();
 		}
 
 		private async Task ExecuteCommands(CancellationToken cancellationToken)
@@ -130,6 +139,12 @@
 
 				await command.Invoke().ConfigureAwait(false);
 			}
+		}
+
+		private async Task DispatchDomainEventsAsync()
+		{
+			OutboxDomainEventDispatcher outboxDispatcher = this.ServiceProvider.GetRequiredService<OutboxDomainEventDispatcher>();
+			await outboxDispatcher.FlushAsync();
 		}
 	}
 }

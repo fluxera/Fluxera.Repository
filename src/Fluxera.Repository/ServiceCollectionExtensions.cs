@@ -63,6 +63,7 @@
 			// Add the domain infrastructure with domain event handlers.
 			services.AddDomainEvents(builder =>
 			{
+				builder.AddDomainEventDispatcher<OutboxDomainEventDispatcher>();
 				builder.AddDomainEventHandlers(() =>
 				{
 					RepositoryOptionsList repositoryOptionsList = services.GetSingletonInstance<RepositoryOptionsList>();
@@ -71,6 +72,13 @@
 
 					return domainEventHandlerTypes.AsReadOnly();
 				});
+			});
+
+			// Add the concrete outbox domain event dispatcher type.
+			services.AddScoped(serviceProvider =>
+			{
+				IDomainEventDispatcher domainEventDispatcher = serviceProvider.GetRequiredService<IDomainEventDispatcher>();
+				return (OutboxDomainEventDispatcher)domainEventDispatcher;
 			});
 
 			// Add the default CRUD domain events factory it no other factory was already added.
@@ -100,7 +108,7 @@
 			return services;
 		}
 
-		private static IServiceCollection DecorateRepository(this IServiceCollection services, Type repositoryType, bool isInterceptionEnabled = false)
+		private static IServiceCollection DecorateRepository(this IServiceCollection services, Type repositoryType)
 		{
 			Guard.Against.Null(services);
 			Guard.Against.Null(repositoryType);

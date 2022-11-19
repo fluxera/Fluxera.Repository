@@ -16,7 +16,6 @@
 		private readonly ConcurrentDictionary<RepositoryName, Type> contextMap = new ConcurrentDictionary<RepositoryName, Type>();
 
 		private readonly IRepositoryRegistry repositoryRegistry;
-		private readonly IServiceProvider serviceProvider;
 
 		/// <summary>
 		///     Initializes a new instance of the <see cref="ContextProviderBase{T}" /> type.
@@ -27,9 +26,14 @@
 			IServiceProvider serviceProvider,
 			IRepositoryRegistry repositoryRegistry)
 		{
-			this.serviceProvider = serviceProvider;
+			this.ServiceProvider = serviceProvider;
 			this.repositoryRegistry = repositoryRegistry;
 		}
+
+		/// <summary>
+		///     Gets the service provider.
+		/// </summary>
+		protected IServiceProvider ServiceProvider { get; }
 
 		/// <summary>
 		///     Gets a storage specific context provider instance.
@@ -61,7 +65,7 @@
 
 		private TContextBase GetContext(Type contextType)
 		{
-			TContextBase context = (TContextBase)this.serviceProvider.GetRequiredService(contextType);
+			TContextBase context = (TContextBase)this.ServiceProvider.GetRequiredService(contextType);
 			return context;
 		}
 

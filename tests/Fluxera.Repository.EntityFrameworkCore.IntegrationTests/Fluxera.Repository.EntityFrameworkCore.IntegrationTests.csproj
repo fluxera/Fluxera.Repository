@@ -32,14 +32,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<None Update="test-2.db">
-		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
 		<None Update="test-1.db">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="test.db">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>
 

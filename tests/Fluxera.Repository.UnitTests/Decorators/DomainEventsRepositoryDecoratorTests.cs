@@ -37,11 +37,15 @@
 			services.AddDomainEvents(builder =>
 			{
 				builder.AddDomainEventHandler<PersonDomainEventHandler>();
-				builder.AddDomainEventHandler<PersonCommittedDomainEventHandler>();
+				builder.AddDomainEventDispatcher<OutboxDomainEventDispatcher>();
+			});
+			services.AddScoped(serviceProvider =>
+			{
+				IDomainEventDispatcher domainEventDispatcher = serviceProvider.GetRequiredService<IDomainEventDispatcher>();
+				return (OutboxDomainEventDispatcher)domainEventDispatcher;
 			});
 
 			services.AddSingleton<IRepositoryRegistry, TestRepositoryRegistry>();
-
 			services.AddSingleton<ICrudDomainEventsFactory, TestCrudDomainEventsFactory>();
 		}
 
