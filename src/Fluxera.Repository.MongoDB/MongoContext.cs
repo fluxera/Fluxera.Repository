@@ -120,17 +120,6 @@
 			this.ClearCommands();
 		}
 
-		/// <summary>
-		///     Gets a collection.
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <returns></returns>
-		public IMongoCollection<T> GetCollection<T>()
-		{
-			string collectionName = typeof(T).Name.Pluralize();
-			return this.database.GetCollection<T>(collectionName);
-		}
-
 		/// <inheritdoc />
 		protected override void DisposeManaged()
 		{
@@ -193,6 +182,17 @@
 
 				this.isConfigured = true;
 			}
+		}
+
+		/// <summary>
+		///     Gets a collection.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <returns></returns>
+		internal IMongoCollection<T> GetCollection<T>()
+		{
+			string collectionName = typeof(T).Name.Pluralize();
+			return this.database.GetCollection<T>(collectionName);
 		}
 
 		private void ClearCommands()

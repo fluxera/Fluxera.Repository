@@ -5,6 +5,7 @@ namespace Sample.API.Controllers
 	using System.Threading.Tasks;
 	using Fluxera.Repository;
 	using Microsoft.AspNetCore.Mvc;
+	using Microsoft.Extensions.Options;
 	using Sample.Domain.Company;
 
 	[ApiController]
@@ -13,9 +14,14 @@ namespace Sample.API.Controllers
 	{
 		private readonly ICompanyRepository repository;
 		private readonly IUnitOfWork unitOfWork;
+		private readonly SampleOptions options;
 
-		public CompaniesController(ICompanyRepository repository, IUnitOfWorkFactory unitOfWorkFactory)
+		public CompaniesController(
+			IOptions<SampleOptions> options,
+			ICompanyRepository repository,
+			IUnitOfWorkFactory unitOfWorkFactory)
 		{
+			this.options = options.Value;
 			this.repository = repository;
 			this.unitOfWork = unitOfWorkFactory.CreateUnitOfWork();
 		}
@@ -28,7 +34,11 @@ namespace Sample.API.Controllers
 				Name = request.Name,
 				LegalType = LegalType.LimitedLiabilityCompany
 			});
-			await this.unitOfWork.SaveChangesAsync();
+
+			if(this.options.EnableUnitOfWork)
+			{
+				await this.unitOfWork.SaveChangesAsync();
+			}
 
 			return this.Ok();
 		}
@@ -44,6 +54,19 @@ namespace Sample.API.Controllers
 				x.Name,
 				LegalType = x.LegalType.ShortName
 			}));
+		}
+
+		[HttpDelete]
+		public async Task<IActionResult> DeleteCompanies()
+		{
+			await this.repository.RemoveRangeAsync(x => true);
+
+			if(this.options.EnableUnitOfWork)
+			{
+				await this.unitOfWork.SaveChangesAsync();
+			}
+
+			return this.NoContent();
 		}
 	}
 }

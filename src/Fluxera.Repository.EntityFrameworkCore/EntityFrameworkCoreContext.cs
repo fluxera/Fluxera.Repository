@@ -1,10 +1,8 @@
 ﻿namespace Fluxera.Repository.EntityFrameworkCore
 {
 	using System;
-	using System.Collections.Concurrent;
 	using System.Threading;
 	using System.Threading.Tasks;
-	using Fluxera.Guards;
 	using Fluxera.Repository.Options;
 	using Fluxera.Utilities;
 	using JetBrains.Annotations;
@@ -18,7 +16,6 @@
 	[PublicAPI]
 	public abstract class EntityFrameworkCoreContext : Disposable
 	{
-		private ConcurrentQueue<Func<Task>> commands;
 		private DbContext context;
 
 		private bool isConfigured;
@@ -28,8 +25,6 @@
 		/// </summary>
 		protected EntityFrameworkCoreContext()
 		{
-			// Command will be stored and later processed on saving changes.
-			this.commands = new ConcurrentQueue<Func<Task>>();
 		}
 
 		private IServiceProvider ServiceProvider { get; set; }
@@ -42,33 +37,15 @@
 		protected RepositoryName RepositoryName { get; private set; }
 
 		/// <summary>
-		///     Adds a command for execution.
-		/// </summary>
-		/// <param name="command"></param>
-		public Task AddCommandAsync(Func<Task> command)
-		{
-			Guard.Against.Null(command);
-
-			this.commands ??= new ConcurrentQueue<Func<Task>>();
-			this.commands.Enqueue(command);
-
-			return Task.CompletedTask;
-		}
-
-		/// <summary>
 		///     Saves the changes inside a transaction.
 		/// </summary>
 		/// <returns></returns>
 		public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
 		{
-			//if(!this.commands.Any())
-			//{
-			//	return;
-			//}
-
 			try
 			{
 				await this.DispatchDomainEventsAsync();
+
 				await this.context.SaveChangesAsync(cancellationToken);
 			}
 			finally
@@ -78,9 +55,7 @@
 		}
 
 		/// <summary>
-		///     Checks if any new, deleted, or changed entities are being tracked
-		///     such that these changes will be sent to the database if <see cref="DbContext.SaveChanges()" />
-		///     or <see cref="DbContext.SaveChangesAsync(CancellationToken)" /> is called.
+		///     Checks if any commands were added for execution.
 		/// </summary>
 		/// <returns></returns>
 		public bool HasChanges()
@@ -89,11 +64,16 @@
 		}
 
 		/// <summary>
-		///     Stops tracking all currently tracked entities.
+		///     Discards all changes.
 		/// </summary>
 		public void DiscardChanges()
 		{
 			this.context.ChangeTracker.Clear();
+		}
+
+		/// <inheritdoc />
+		protected override void DisposeManaged()
+		{
 		}
 
 		/// <summary>
@@ -143,27 +123,6 @@
 		internal EntityEntry<TEntity> Entry<TEntity>(TEntity item) where TEntity : class
 		{
 			return this.context.Entry(item);
-		}
-
-		/// <inheritdoc />
-		protected override void DisposeManaged()
-		{
-			this.ClearCommands();
-		}
-
-		private void ClearCommands()
-		{
-			this.commands?.Clear();
-		}
-
-		private async Task ExecuteCommands(CancellationToken cancellationToken)
-		{
-			foreach(Func<Task> command in this.commands)
-			{
-				cancellationToken.ThrowIfCancellationRequested();
-
-				await command.Invoke().ConfigureAwait(false);
-			}
 		}
 
 		private void ClearDomainEvents()

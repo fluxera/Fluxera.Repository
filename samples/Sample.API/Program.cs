@@ -21,10 +21,15 @@ namespace Sample.API
 
 			builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-			builder.Services.AddEntityFrameworkCore();
-			//builder.Services.AddLiteDB();
-			//builder.Services.AddMongoDB();
-			//builder.Services.AddInMemory();
+			builder.Services.AddEntityFrameworkCore(true);
+			//builder.Services.AddLiteDB(true);
+			//builder.Services.AddMongoDB(true);
+			//builder.Services.AddInMemory(true);
+
+			//builder.Services.AddEntityFrameworkCore(false);
+			//builder.Services.AddLiteDB(false);
+			//builder.Services.AddMongoDB(false);
+			//builder.Services.AddInMemory(false);
 
 			builder.Services.AddTransient<ICompanyRepository, CompanyRepository>();
 

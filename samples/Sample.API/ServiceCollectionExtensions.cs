@@ -16,8 +16,13 @@ namespace Sample.API
 
 	public static class ServiceCollectionExtensions
 	{
-		public static IServiceCollection AddEntityFrameworkCore(this IServiceCollection services)
+		public static IServiceCollection AddEntityFrameworkCore(this IServiceCollection services, bool enableUnitOfWork)
 		{
+			services.Configure<SampleOptions>(options =>
+			{
+				options.EnableUnitOfWork = enableUnitOfWork;
+			});
+
 			services.AddDbContext<SampleDbContext>();
 
 			services.AddRepository(repositoryBuilder =>
@@ -42,8 +47,13 @@ namespace Sample.API
 			return services;
 		}
 
-		public static IServiceCollection AddLiteDB(this IServiceCollection services)
+		public static IServiceCollection AddLiteDB(this IServiceCollection services, bool enableUnitOfWork)
 		{
+			services.Configure<SampleOptions>(options =>
+			{
+				options.EnableUnitOfWork = enableUnitOfWork;
+			});
+
 			services.AddRepository(repositoryBuilder =>
 			{
 				repositoryBuilder.AddLiteRepository<SampleLiteContext>(repositoryOptionsBuilder =>
@@ -71,8 +81,13 @@ namespace Sample.API
 			return services;
 		}
 
-		public static IServiceCollection AddMongoDB(this IServiceCollection services)
+		public static IServiceCollection AddMongoDB(this IServiceCollection services, bool enableUnitOfWork)
 		{
+			services.Configure<SampleOptions>(options =>
+			{
+				options.EnableUnitOfWork = enableUnitOfWork;
+			});
+
 			services.AddRepository(repositoryBuilder =>
 			{
 				repositoryBuilder.AddMongoRepository<SampleMongoContext>(repositoryOptionsBuilder =>
@@ -95,8 +110,13 @@ namespace Sample.API
 			return services;
 		}
 
-		public static IServiceCollection AddInMemory(this IServiceCollection services)
+		public static IServiceCollection AddInMemory(this IServiceCollection services, bool enableUnitOfWork)
 		{
+			services.Configure<SampleOptions>(options =>
+			{
+				options.EnableUnitOfWork = enableUnitOfWork;
+			});
+
 			services.AddRepository(repositoryBuilder =>
 			{
 				repositoryBuilder.AddInMemoryRepository<SampleInMemoryContext>(repositoryOptionsBuilder =>
