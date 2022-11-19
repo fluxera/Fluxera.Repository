@@ -27,7 +27,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Fluxera.Entity" Version="7.0.2" />
+		<PackageReference Include="Fluxera.Entity" Version="7.0.3" />
 		<PackageReference Include="Fluxera.Extensions.Validation.Abstractions" Version="7.0.2" />
 		<PackageReference Include="Fluxera.Linq.Expressions" Version="7.0.3" />
 		<PackageReference Include="Fluxera.ValueObject" Version="7.0.2" />

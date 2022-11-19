@@ -7,12 +7,8 @@
 	internal static partial class LoggerExtensions
 	{
 		[DebuggerStepThrough]
-		[LoggerMessage(0, LogLevel.Debug, "Dispatching domain events (Before commit): Type = {Type}, Count = {Count}")]
-		public static partial void LogDispatchingEventsBeforeCommit(this ILogger logger, string type, int count);
-
-		[DebuggerStepThrough]
-		[LoggerMessage(0, LogLevel.Debug, "Dispatching domain events (After commit): Type = {Type}, Count = {Count}")]
-		public static partial void LogDispatchingEventsAfterCommit(this ILogger logger, string type, int count);
+		[LoggerMessage(0, LogLevel.Debug, "Dispatched domain events: Type = {Type}, Count = {Count}")]
+		public static partial void LogDispatchedDomainEvents(this ILogger logger, string type, int count);
 
 		[DebuggerStepThrough]
 		[LoggerMessage(0, LogLevel.Debug, "Intercepting before {Operation}: {AggregateRoot}")]

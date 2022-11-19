@@ -7,12 +7,12 @@
 	using Sample.Domain.Company.Events;
 
 	[UsedImplicitly]
-	public sealed class CompanyAddedHandler : ICommittedDomainEventHandler<CompanyAdded>
+	public sealed class CompanyAddedHandler : IDomainEventHandler<CompanyAdded>
 	{
 		/// <inheritdoc />
 		public Task HandleAsync(CompanyAdded domainEvent)
 		{
-			Console.WriteLine("HANDLE COMMITTED");
+			Console.WriteLine("HANDLE COMPANY ADDED");
 
 			return Task.CompletedTask;
 		}

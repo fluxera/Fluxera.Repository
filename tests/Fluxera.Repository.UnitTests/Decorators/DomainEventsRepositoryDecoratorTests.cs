@@ -37,11 +37,9 @@
 			services.AddDomainEvents(builder =>
 			{
 				builder.AddDomainEventHandler<PersonDomainEventHandler>();
-				builder.AddDomainEventHandler<PersonCommittedDomainEventHandler>();
 			});
 
 			services.AddSingleton<IRepositoryRegistry, TestRepositoryRegistry>();
-
 			services.AddSingleton<ICrudDomainEventsFactory, TestCrudDomainEventsFactory>();
 		}
 

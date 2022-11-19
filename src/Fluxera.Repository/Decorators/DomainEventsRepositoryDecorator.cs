@@ -62,8 +62,6 @@
 		/// <inheritdoc />
 		async Task ICanAdd<TAggregateRoot, TKey>.AddAsync(TAggregateRoot item, CancellationToken cancellationToken)
 		{
-			await this.DispatchAsync(item).ConfigureAwait(false);
-
 			await this.innerRepository.AddAsync(item, cancellationToken).ConfigureAwait(false);
 
 			// Add event to dispatch 'item added' event only to committed event handlers.
@@ -76,15 +74,13 @@
 				}
 			}
 
-			await this.DispatchCommittedAsync(item).ConfigureAwait(false);
+			await this.DispatchAsync(item).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
 		async Task ICanAdd<TAggregateRoot, TKey>.AddRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{
 			IEnumerable<TAggregateRoot> itemsList = items.ToList();
-
-			await this.DispatchAsync(itemsList).ConfigureAwait(false);
 
 			await this.innerRepository.AddRangeAsync(itemsList, cancellationToken).ConfigureAwait(false);
 
@@ -101,14 +97,12 @@
 				}
 			}
 
-			await this.DispatchCommittedAsync(itemsList).ConfigureAwait(false);
+			await this.DispatchAsync(itemsList).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
 		async Task ICanUpdate<TAggregateRoot, TKey>.UpdateAsync(TAggregateRoot item, CancellationToken cancellationToken)
 		{
-			await this.DispatchAsync(item).ConfigureAwait(false);
-
 			TAggregateRoot itemBeforeUpdate = await this.innerRepository.GetAsync(item.ID, cancellationToken);
 
 			await this.innerRepository.UpdateAsync(item, cancellationToken).ConfigureAwait(false);
@@ -123,15 +117,13 @@
 				}
 			}
 
-			await this.DispatchCommittedAsync(item).ConfigureAwait(false);
+			await this.DispatchAsync(item).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
 		async Task ICanUpdate<TAggregateRoot, TKey>.UpdateRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{
 			IEnumerable<TAggregateRoot> itemsList = items.ToList();
-
-			await this.DispatchAsync(itemsList).ConfigureAwait(false);
 
 			IEnumerable<ISpecification<TAggregateRoot>> specifications = itemsList.Select(item => this.CreatePrimaryKeySpecification(item.ID));
 			ISpecification<TAggregateRoot> specification = new ManyOrElseSpecification<TAggregateRoot>(specifications);
@@ -153,15 +145,13 @@
 				}
 			}
 
-			await this.DispatchCommittedAsync(itemsList).ConfigureAwait(false);
+			await this.DispatchAsync(itemsList).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
 		async Task ICanRemove<TAggregateRoot, TKey>.RemoveAsync(TAggregateRoot item, CancellationToken cancellationToken)
 		{
 			TKey id = item.ID;
-
-			await this.DispatchAsync(item).ConfigureAwait(false);
 
 			await this.innerRepository.RemoveAsync(item, cancellationToken).ConfigureAwait(false);
 
@@ -175,7 +165,7 @@
 				}
 			}
 
-			await this.DispatchCommittedAsync(item).ConfigureAwait(false);
+			await this.DispatchAsync(item).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
@@ -183,8 +173,6 @@
 		{
 			IReadOnlyCollection<TAggregateRoot> items = await this.innerRepository.FindManyAsync(predicate, cancellationToken: cancellationToken).ConfigureAwait(false);
 			IDictionary<TKey, TAggregateRoot> itemsDict = items.ToDictionary(x => x.ID, x => x);
-
-			await this.DispatchAsync(items).ConfigureAwait(false);
 
 			await this.innerRepository.RemoveRangeAsync(predicate, cancellationToken).ConfigureAwait(false);
 
@@ -201,7 +189,7 @@
 				}
 			}
 
-			await this.DispatchCommittedAsync(items).ConfigureAwait(false);
+			await this.DispatchAsync(items).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
@@ -209,8 +197,6 @@
 		{
 			IReadOnlyCollection<TAggregateRoot> items = await this.innerRepository.FindManyAsync(specification, cancellationToken: cancellationToken).ConfigureAwait(false);
 			IDictionary<TKey, TAggregateRoot> itemsDict = items.ToDictionary(x => x.ID, x => x);
-
-			await this.DispatchAsync(items).ConfigureAwait(false);
 
 			await this.innerRepository.RemoveRangeAsync(specification, cancellationToken).ConfigureAwait(false);
 
@@ -227,7 +213,7 @@
 				}
 			}
 
-			await this.DispatchCommittedAsync(items).ConfigureAwait(false);
+			await this.DispatchAsync(items).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
@@ -235,8 +221,6 @@
 		{
 			IEnumerable<TAggregateRoot> itemsList = items.ToList();
 			Dictionary<TKey, TAggregateRoot> itemsDict = itemsList.ToDictionary(x => x.ID, x => x);
-
-			await this.DispatchAsync(itemsList).ConfigureAwait(false);
 
 			await this.innerRepository.RemoveRangeAsync(itemsList, cancellationToken).ConfigureAwait(false);
 
@@ -253,15 +237,13 @@
 				}
 			}
 
-			await this.DispatchCommittedAsync(itemsList).ConfigureAwait(false);
+			await this.DispatchAsync(itemsList).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
 		async Task ICanRemove<TAggregateRoot, TKey>.RemoveAsync(TKey id, CancellationToken cancellationToken)
 		{
 			TAggregateRoot item = await this.innerRepository.GetAsync(id, cancellationToken).ConfigureAwait(false);
-
-			await this.DispatchAsync(item).ConfigureAwait(false);
 
 			await this.innerRepository.RemoveAsync(id, cancellationToken).ConfigureAwait(false);
 
@@ -275,7 +257,7 @@
 				}
 			}
 
-			await this.DispatchCommittedAsync(item).ConfigureAwait(false);
+			await this.DispatchAsync(item).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
@@ -757,7 +739,7 @@
 
 		private async Task DispatchAsync(TAggregateRoot item)
 		{
-			this.logger.LogDispatchingEventsBeforeCommit(typeof(TAggregateRoot).Name, item.DomainEvents.Count);
+			this.logger.LogDispatchedDomainEvents(typeof(TAggregateRoot).Name, item.DomainEvents.Count);
 
 			foreach(IDomainEvent domainEvent in item.DomainEvents)
 			{
@@ -770,26 +752,6 @@
 			foreach(TAggregateRoot item in items)
 			{
 				await this.DispatchAsync(item).ConfigureAwait(false);
-			}
-		}
-
-		private async Task DispatchCommittedAsync(TAggregateRoot item)
-		{
-			this.logger.LogDispatchingEventsAfterCommit(typeof(TAggregateRoot).Name, item.DomainEvents.Count);
-
-			foreach(IDomainEvent domainEvent in item.DomainEvents)
-			{
-				await this.domainEventDispatcher.DispatchCommittedAsync(domainEvent).ConfigureAwait(false);
-			}
-
-			item.ClearDomainEvents();
-		}
-
-		private async Task DispatchCommittedAsync(IEnumerable<TAggregateRoot> items)
-		{
-			foreach(TAggregateRoot item in items)
-			{
-				await this.DispatchCommittedAsync(item).ConfigureAwait(false);
 			}
 		}
 

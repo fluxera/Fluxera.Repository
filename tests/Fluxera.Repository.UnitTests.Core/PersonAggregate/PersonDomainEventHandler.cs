@@ -8,9 +8,9 @@
 	[UsedImplicitly]
 	public class PersonDomainEventHandler : IDomainEventHandler<PersonDomainEvent>
 	{
-		private readonly ILogger<PersonCommittedDomainEventHandler> logger;
+		private readonly ILogger<PersonDomainEventHandler> logger;
 
-		public PersonDomainEventHandler(ILogger<PersonCommittedDomainEventHandler> logger)
+		public PersonDomainEventHandler(ILogger<PersonDomainEventHandler> logger)
 		{
 			this.logger = logger;
 		}
@@ -18,7 +18,7 @@
 		/// <inheritdoc />
 		public Task HandleAsync(PersonDomainEvent domainEvent)
 		{
-			this.logger.LogInformation("PersonCommittedDomainEventHandler called.");
+			this.logger.LogInformation("PersonDomainEventHandler called.");
 			return Task.CompletedTask;
 		}
 	}
