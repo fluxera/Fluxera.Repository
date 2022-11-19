@@ -84,7 +84,7 @@
 
 			await this.innerRepository.AddRangeAsync(itemsList, cancellationToken).ConfigureAwait(false);
 
-			// Add event to dispatch 'item added' event only to committed event handlers.
+			// Add event to dispatch 'item added' event to event handlers.
 			if(this.domainEventsOptions.IsAutomaticCrudDomainEventsEnabled)
 			{
 				foreach(TAggregateRoot item in itemsList)
@@ -103,11 +103,16 @@
 		/// <inheritdoc />
 		async Task ICanUpdate<TAggregateRoot, TKey>.UpdateAsync(TAggregateRoot item, CancellationToken cancellationToken)
 		{
-			TAggregateRoot itemBeforeUpdate = await this.innerRepository.GetAsync(item.ID, cancellationToken);
+			// Retrieve the state of the item before updating for CRUD domain events creation.
+			TAggregateRoot itemBeforeUpdate = null;
+			if(this.domainEventsOptions.IsAutomaticCrudDomainEventsEnabled)
+			{
+				itemBeforeUpdate = await this.innerRepository.GetAsync(item.ID, cancellationToken);
+			}
 
 			await this.innerRepository.UpdateAsync(item, cancellationToken).ConfigureAwait(false);
 
-			// Add event to dispatch 'item updated' event only to committed event handlers.
+			// Add event to dispatch 'item updated' event to event handlers.
 			if(this.domainEventsOptions.IsAutomaticCrudDomainEventsEnabled)
 			{
 				IDomainEvent domainEvent = this.domainEventsFactory.CreateUpdatedEvent<TAggregateRoot, TKey>(itemBeforeUpdate, item);
@@ -125,13 +130,18 @@
 		{
 			IEnumerable<TAggregateRoot> itemsList = items.ToList();
 
-			IEnumerable<ISpecification<TAggregateRoot>> specifications = itemsList.Select(item => this.CreatePrimaryKeySpecification(item.ID));
-			ISpecification<TAggregateRoot> specification = new ManyOrElseSpecification<TAggregateRoot>(specifications);
-			IReadOnlyCollection<TAggregateRoot> itemsBeforeUpdate = await this.innerRepository.FindManyAsync(specification, cancellationToken: cancellationToken);
+			// Retrieve the state of the items before updating for CRUD domain events creation.
+			IReadOnlyCollection<TAggregateRoot> itemsBeforeUpdate = null;
+			if(this.domainEventsOptions.IsAutomaticCrudDomainEventsEnabled)
+			{
+				IEnumerable<ISpecification<TAggregateRoot>> specifications = itemsList.Select(item => CreatePrimaryKeySpecification(item.ID));
+				ISpecification<TAggregateRoot> specification = new ManyOrElseSpecification<TAggregateRoot>(specifications);
+				itemsBeforeUpdate = await this.innerRepository.FindManyAsync(specification, cancellationToken: cancellationToken);
+			}
 
 			await this.innerRepository.UpdateRangeAsync(itemsList, cancellationToken).ConfigureAwait(false);
 
-			// Add event to dispatch 'item updated' event only to committed event handlers.
+			// Add event to dispatch 'item updated' event to event handlers.
 			if(this.domainEventsOptions.IsAutomaticCrudDomainEventsEnabled)
 			{
 				foreach(TAggregateRoot item in itemsList)
@@ -155,7 +165,7 @@
 
 			await this.innerRepository.RemoveAsync(item, cancellationToken).ConfigureAwait(false);
 
-			// Add event to dispatch 'item removed' event only to committed event handlers.
+			// Add event to dispatch 'item removed' event to event handlers.
 			if(this.domainEventsOptions.IsAutomaticCrudDomainEventsEnabled)
 			{
 				IDomainEvent domainEvent = this.domainEventsFactory.CreateRemovedEvent(id, item);
@@ -172,19 +182,28 @@
 		async Task ICanRemove<TAggregateRoot, TKey>.RemoveRangeAsync(Expression<Func<TAggregateRoot, bool>> predicate, CancellationToken cancellationToken)
 		{
 			IReadOnlyCollection<TAggregateRoot> items = await this.innerRepository.FindManyAsync(predicate, cancellationToken: cancellationToken).ConfigureAwait(false);
-			IDictionary<TKey, TAggregateRoot> itemsDict = items.ToDictionary(x => x.ID, x => x);
+
+			// Retrieve the state of the items before removing for CRUD domain events creation.
+			IDictionary<TKey, TAggregateRoot> itemsDict = null;
+			if(this.domainEventsOptions.IsAutomaticCrudDomainEventsEnabled)
+			{
+				itemsDict = items.ToDictionary(x => x.ID, x => x);
+			}
 
 			await this.innerRepository.RemoveRangeAsync(predicate, cancellationToken).ConfigureAwait(false);
 
-			// Add event to dispatch 'item removed' event only to committed event handlers.
+			// Add event to dispatch 'item removed' event to event handlers.
 			if(this.domainEventsOptions.IsAutomaticCrudDomainEventsEnabled)
 			{
-				foreach((TKey id, TAggregateRoot item) in itemsDict)
+				if(itemsDict is not null)
 				{
-					IDomainEvent domainEvent = this.domainEventsFactory.CreateRemovedEvent(id, item);
-					if(domainEvent is not null)
+					foreach((TKey id, TAggregateRoot item) in itemsDict)
 					{
-						item.RaiseDomainEvent(domainEvent);
+						IDomainEvent domainEvent = this.domainEventsFactory.CreateRemovedEvent(id, item);
+						if(domainEvent is not null)
+						{
+							item.RaiseDomainEvent(domainEvent);
+						}
 					}
 				}
 			}
@@ -196,19 +215,28 @@
 		async Task ICanRemove<TAggregateRoot, TKey>.RemoveRangeAsync(ISpecification<TAggregateRoot> specification, CancellationToken cancellationToken)
 		{
 			IReadOnlyCollection<TAggregateRoot> items = await this.innerRepository.FindManyAsync(specification, cancellationToken: cancellationToken).ConfigureAwait(false);
-			IDictionary<TKey, TAggregateRoot> itemsDict = items.ToDictionary(x => x.ID, x => x);
+
+			// Retrieve the state of the items before removing for CRUD domain events creation.
+			IDictionary<TKey, TAggregateRoot> itemsDict = null;
+			if(this.domainEventsOptions.IsAutomaticCrudDomainEventsEnabled)
+			{
+				itemsDict = items.ToDictionary(x => x.ID, x => x);
+			}
 
 			await this.innerRepository.RemoveRangeAsync(specification, cancellationToken).ConfigureAwait(false);
 
-			// Add event to dispatch 'item removed' event only to committed event handlers.
+			// Add event to dispatch 'item removed' event to event handlers.
 			if(this.domainEventsOptions.IsAutomaticCrudDomainEventsEnabled)
 			{
-				foreach((TKey id, TAggregateRoot item) in itemsDict)
+				if(itemsDict is not null)
 				{
-					IDomainEvent domainEvent = this.domainEventsFactory.CreateRemovedEvent(id, item);
-					if(domainEvent is not null)
+					foreach((TKey id, TAggregateRoot item) in itemsDict)
 					{
-						item.RaiseDomainEvent(domainEvent);
+						IDomainEvent domainEvent = this.domainEventsFactory.CreateRemovedEvent(id, item);
+						if(domainEvent is not null)
+						{
+							item.RaiseDomainEvent(domainEvent);
+						}
 					}
 				}
 			}
@@ -220,19 +248,28 @@
 		async Task ICanRemove<TAggregateRoot, TKey>.RemoveRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{
 			IEnumerable<TAggregateRoot> itemsList = items.ToList();
-			Dictionary<TKey, TAggregateRoot> itemsDict = itemsList.ToDictionary(x => x.ID, x => x);
+
+			// Retrieve the state of the items before removing for CRUD domain events creation.
+			IDictionary<TKey, TAggregateRoot> itemsDict = null;
+			if(this.domainEventsOptions.IsAutomaticCrudDomainEventsEnabled)
+			{
+				itemsDict = itemsList.ToDictionary(x => x.ID, x => x);
+			}
 
 			await this.innerRepository.RemoveRangeAsync(itemsList, cancellationToken).ConfigureAwait(false);
 
-			// Add event to dispatch 'item removed' event only to committed event handlers.
+			// Add event to dispatch 'item removed' event to event handlers.
 			if(this.domainEventsOptions.IsAutomaticCrudDomainEventsEnabled)
 			{
-				foreach((TKey id, TAggregateRoot item) in itemsDict)
+				if(itemsDict is not null)
 				{
-					IDomainEvent domainEvent = this.domainEventsFactory.CreateRemovedEvent(id, item);
-					if(domainEvent is not null)
+					foreach((TKey id, TAggregateRoot item) in itemsDict)
 					{
-						item.RaiseDomainEvent(domainEvent);
+						IDomainEvent domainEvent = this.domainEventsFactory.CreateRemovedEvent(id, item);
+						if(domainEvent is not null)
+						{
+							item.RaiseDomainEvent(domainEvent);
+						}
 					}
 				}
 			}
@@ -247,7 +284,7 @@
 
 			await this.innerRepository.RemoveAsync(id, cancellationToken).ConfigureAwait(false);
 
-			// Add event to dispatch 'item removed' event only to committed event handlers.
+			// Add event to dispatch 'item removed' event to event handlers.
 			if(this.domainEventsOptions.IsAutomaticCrudDomainEventsEnabled)
 			{
 				IDomainEvent domainEvent = this.domainEventsFactory.CreateRemovedEvent(id, item);
@@ -739,19 +776,25 @@
 
 		private async Task DispatchAsync(TAggregateRoot item)
 		{
-			this.logger.LogDispatchedDomainEvents(typeof(TAggregateRoot).Name, item.DomainEvents.Count);
-
-			foreach(IDomainEvent domainEvent in item.DomainEvents)
+			if(this.domainEventsOptions.IsEnabled)
 			{
-				await this.domainEventDispatcher.DispatchAsync(domainEvent).ConfigureAwait(false);
+				this.logger.LogDispatchedDomainEvents(typeof(TAggregateRoot).Name, item.DomainEvents.Count);
+
+				foreach(IDomainEvent domainEvent in item.DomainEvents)
+				{
+					await this.domainEventDispatcher.DispatchAsync(domainEvent).ConfigureAwait(false);
+				}
 			}
 		}
 
 		private async Task DispatchAsync(IEnumerable<TAggregateRoot> items)
 		{
-			foreach(TAggregateRoot item in items)
+			if(this.domainEventsOptions.IsEnabled)
 			{
-				await this.DispatchAsync(item).ConfigureAwait(false);
+				foreach(TAggregateRoot item in items)
+				{
+					await this.DispatchAsync(item).ConfigureAwait(false);
+				}
 			}
 		}
 
@@ -766,7 +809,7 @@
 		/// </summary>
 		/// <param name="id"></param>
 		/// <returns></returns>
-		private Expression<Func<TAggregateRoot, bool>> CreatePrimaryKeyPredicate(TKey id)
+		private static Expression<Func<TAggregateRoot, bool>> CreatePrimaryKeyPredicate(TKey id)
 		{
 			return id.CreatePrimaryKeyPredicate<TAggregateRoot, TKey>();
 		}
@@ -776,9 +819,9 @@
 		/// </summary>
 		/// <param name="id"></param>
 		/// <returns></returns>
-		private ISpecification<TAggregateRoot> CreatePrimaryKeySpecification(TKey id)
+		private static ISpecification<TAggregateRoot> CreatePrimaryKeySpecification(TKey id)
 		{
-			Expression<Func<TAggregateRoot, bool>> predicate = this.CreatePrimaryKeyPredicate(id);
+			Expression<Func<TAggregateRoot, bool>> predicate = CreatePrimaryKeyPredicate(id);
 			ISpecification<TAggregateRoot> specification = new Specification<TAggregateRoot>(predicate);
 			return specification;
 		}
