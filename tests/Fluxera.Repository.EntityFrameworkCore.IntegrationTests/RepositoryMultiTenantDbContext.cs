@@ -29,9 +29,9 @@
 					databaseName += $"-{this.tenantNameProvider.Name}";
 				}
 
-				databaseName = $"{databaseName}.db";
+				databaseName = $"{databaseName}";
 
-				optionsBuilder.UseSqlite($"Filename={databaseName}");
+				optionsBuilder.UseInMemoryDatabase(databaseName);
 			}
 		}
 
