@@ -12,7 +12,7 @@
 		/// <inheritdoc />
 		public Task HandleAsync(CompanyAdded domainEvent)
 		{
-			Console.WriteLine("HANDLE COMPANY ADDED");
+			Console.WriteLine($"HANDLE COMPANY ADDED: ID = {domainEvent.AddedItem.ID}");
 
 			return Task.CompletedTask;
 		}

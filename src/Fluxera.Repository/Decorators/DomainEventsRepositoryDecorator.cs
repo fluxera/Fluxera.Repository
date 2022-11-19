@@ -762,6 +762,8 @@
 				{
 					await this.domainEventDispatcher.DispatchAsync(domainEvent).ConfigureAwait(false);
 				}
+
+				item.ClearDomainEvents();
 			}
 
 			// We need to flush the domain event outbox immediately if the UoW is disabled.
@@ -781,6 +783,8 @@
 					{
 						await this.domainEventDispatcher.DispatchAsync(domainEvent).ConfigureAwait(false);
 					}
+
+					item.ClearDomainEvents();
 				}
 			}
 

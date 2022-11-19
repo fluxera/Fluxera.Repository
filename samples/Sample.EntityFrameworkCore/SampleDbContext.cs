@@ -22,7 +22,7 @@
 		{
 			if(!optionsBuilder.IsConfigured)
 			{
-				optionsBuilder.UseSqlite("Filename=sample.db");
+				optionsBuilder.UseInMemoryDatabase("sample");
 			}
 		}
 
