@@ -779,6 +779,8 @@
 			{
 				foreach(TAggregateRoot item in items)
 				{
+					this.logger.LogDispatchedDomainEvents(typeof(TAggregateRoot).Name, item.DomainEvents.Count);
+
 					foreach(IDomainEvent domainEvent in item.DomainEvents)
 					{
 						await this.domainEventDispatcher.DispatchAsync(domainEvent).ConfigureAwait(false);
