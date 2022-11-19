@@ -182,8 +182,11 @@ The layers of decorators a executed in the following order.
   the result of a query from the cache and if none was found executes the query and stores the
   result, in the cache.
 - **Domain Events**
-  This decorator executes added domain events before an item was added, updated or removed. 
-  After that it executes the events using specialized commit event handlers again.
+  This decorator dispatches added domain events after an item was added, updated or removed. 
+  The exact time of execution depends on the configuration of the repository. If UoW is enabled 
+  the domain events are dispatched to a outbox queue and flushed to the event handlers when the
+  UoW saves the work. If the UoW is disabled the domain events are immediately dispatched to the
+  event handlers after the item was added, updated or removed.
 - **Data Storage**
   This is the base layer around wich all decorators are configures. This is the storage specific
   repository implementation.
