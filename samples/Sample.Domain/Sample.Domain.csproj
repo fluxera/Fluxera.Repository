@@ -10,4 +10,12 @@
     <ProjectReference Include="..\..\src\Fluxera.Repository\Fluxera.Repository.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Company\Reducer\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Fluxera.Utilities" Version="7.0.4" />
+  </ItemGroup>
+
 </Project>

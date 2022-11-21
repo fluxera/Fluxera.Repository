@@ -2,8 +2,10 @@
 {
 	using System;
 	using System.Collections.Concurrent;
+	using System.Collections.Generic;
 	using System.Threading.Tasks;
 	using Fluxera.Entity.DomainEvents;
+	using Fluxera.Repository.DomainEvents;
 	using JetBrains.Annotations;
 
 	/// <summary>
@@ -13,12 +15,15 @@
 	[PublicAPI]
 	public sealed class OutboxDomainEventDispatcher : DomainEventDispatcher
 	{
+		private readonly IEnumerable<IDomainEventsReducer> reducers;
+
 		private readonly ConcurrentQueue<IDomainEvent> outbox = new ConcurrentQueue<IDomainEvent>();
 
 		/// <inheritdoc />
-		public OutboxDomainEventDispatcher(IServiceProvider serviceProvider)
+		public OutboxDomainEventDispatcher(IServiceProvider serviceProvider, IEnumerable<IDomainEventsReducer> reducers)
 			: base(serviceProvider)
 		{
+			this.reducers = reducers;
 		}
 
 		/// <inheritdoc />
@@ -37,7 +42,14 @@
 		{
 			try
 			{
-				foreach(IDomainEvent domainEvent in this.outbox)
+				IReadOnlyCollection<IDomainEvent> domainEvents = this.outbox;
+
+				foreach(IDomainEventsReducer domainEventsReducer in this.reducers)
+				{
+					domainEvents = domainEventsReducer.Reduce(domainEvents);
+				}
+
+				foreach(IDomainEvent domainEvent in domainEvents)
 				{
 					await base.DispatchAsync(domainEvent);
 				}

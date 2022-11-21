@@ -58,5 +58,12 @@
 		///     Enables the automatically added CRUD domain events.
 		/// </summary>
 		IDomainEventsOptionsBuilder EnableAutomaticCrudDomainEvents();
+
+		/// <summary>
+		///     Adds a domain events reducer.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <returns></returns>
+		IDomainEventsOptionsBuilder AddDomainEventsReducer<T>() where T : class, IDomainEventsReducer;
 	}
 }

@@ -4,10 +4,8 @@ namespace Sample.API
 	using Fluxera.StronglyTypedId.SystemTextJson;
 	using Microsoft.AspNetCore.Builder;
 	using Microsoft.AspNetCore.Http;
-	using Microsoft.EntityFrameworkCore;
 	using Microsoft.Extensions.DependencyInjection;
 	using Sample.Domain.Company;
-	using Sample.EntityFrameworkCore;
 	using Sample.LiteDB;
 
 	public static class Program
@@ -39,12 +37,12 @@ namespace Sample.API
 
 			WebApplication app = builder.Build();
 
-			using(IServiceScope scope = app.Services.CreateScope())
-			{
-				SampleDbContext context = scope.ServiceProvider.GetService<SampleDbContext>();
-				context?.Database.EnsureCreated();
-				context?.Database.Migrate();
-			}
+			//using(IServiceScope scope = app.Services.CreateScope())
+			//{
+			//	SampleDbContext context = scope.ServiceProvider.GetService<SampleDbContext>();
+			//	context?.Database.EnsureCreated();
+			//	context?.Database.Migrate();
+			//}
 
 			app.UseHttpsRedirection();
 
