@@ -22,7 +22,7 @@
 		///     Gets the name of the repository for the aggregate type.
 		/// </summary>
 		/// <returns>The name.</returns>
-		RepositoryName GetRepositoryNameFor(Type repositoryType);
+		RepositoryName GetRepositoryNameFor(Type aggregateType);
 
 		/// <summary>
 		///     Gets the repository options for the given repository name;

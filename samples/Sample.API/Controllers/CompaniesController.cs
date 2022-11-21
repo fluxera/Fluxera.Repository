@@ -23,7 +23,7 @@ namespace Sample.API.Controllers
 		{
 			this.options = options.Value;
 			this.repository = repository;
-			this.unitOfWork = unitOfWorkFactory.CreateUnitOfWork();
+			this.unitOfWork = unitOfWorkFactory.CreateUnitOfWork(repository.RepositoryName);
 		}
 
 		[HttpPost]
