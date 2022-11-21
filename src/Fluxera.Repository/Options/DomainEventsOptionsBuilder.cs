@@ -91,5 +91,13 @@
 
 			return this;
 		}
+
+		/// <inheritdoc />
+		public IDomainEventsOptionsBuilder AddDomainEventsReducer<T>() where T : class, IDomainEventsReducer
+		{
+			this.services.AddTransient<IDomainEventsReducer, T>();
+
+			return this;
+		}
 	}
 }

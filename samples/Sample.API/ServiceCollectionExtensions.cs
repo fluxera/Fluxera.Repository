@@ -9,6 +9,7 @@ namespace Sample.API
 	using Microsoft.Extensions.DependencyInjection;
 	using Sample.Domain.Company;
 	using Sample.Domain.Company.Handlers;
+	using Sample.Domain.Company.Reducer;
 	using Sample.EntityFrameworkCore;
 	using Sample.InMemory;
 	using Sample.LiteDB;
@@ -34,10 +35,13 @@ namespace Sample.API
 					repositoryOptionsBuilder.AddDomainEventHandling(domainEventsOptionsBuilder =>
 					{
 						domainEventsOptionsBuilder.AddDomainEventHandler<CompanyAddedHandler>();
+						domainEventsOptionsBuilder.AddDomainEventHandler<CompanyRemovedHandler>();
 
 						domainEventsOptionsBuilder.AddCrudDomainEventsFactory<SampleCrudDomainEventsFactory>();
 
 						domainEventsOptionsBuilder.EnableAutomaticCrudDomainEvents();
+
+						domainEventsOptionsBuilder.AddDomainEventsReducer<SampleDomainEventsReducer>();
 					});
 
 					if(enableUnitOfWork)
@@ -66,10 +70,13 @@ namespace Sample.API
 					repositoryOptionsBuilder.AddDomainEventHandling(domainEventsOptionsBuilder =>
 					{
 						domainEventsOptionsBuilder.AddDomainEventHandler<CompanyAddedHandler>();
+						domainEventsOptionsBuilder.AddDomainEventHandler<CompanyRemovedHandler>();
 
 						domainEventsOptionsBuilder.AddCrudDomainEventsFactory<SampleCrudDomainEventsFactory>();
 
 						domainEventsOptionsBuilder.EnableAutomaticCrudDomainEvents();
+
+						domainEventsOptionsBuilder.AddDomainEventsReducer<SampleDomainEventsReducer>();
 					});
 
 					if(enableUnitOfWork)
@@ -103,10 +110,13 @@ namespace Sample.API
 					repositoryOptionsBuilder.AddDomainEventHandling(domainEventsOptionsBuilder =>
 					{
 						domainEventsOptionsBuilder.AddDomainEventHandler<CompanyAddedHandler>();
+						domainEventsOptionsBuilder.AddDomainEventHandler<CompanyRemovedHandler>();
 
 						domainEventsOptionsBuilder.AddCrudDomainEventsFactory<SampleCrudDomainEventsFactory>();
 
 						domainEventsOptionsBuilder.EnableAutomaticCrudDomainEvents();
+
+						domainEventsOptionsBuilder.AddDomainEventsReducer<SampleDomainEventsReducer>();
 					});
 
 					if(enableUnitOfWork)
@@ -135,10 +145,13 @@ namespace Sample.API
 					repositoryOptionsBuilder.AddDomainEventHandling(domainEventsOptionsBuilder =>
 					{
 						domainEventsOptionsBuilder.AddDomainEventHandler<CompanyAddedHandler>();
+						domainEventsOptionsBuilder.AddDomainEventHandler<CompanyRemovedHandler>();
 
 						domainEventsOptionsBuilder.AddCrudDomainEventsFactory<SampleCrudDomainEventsFactory>();
 
 						domainEventsOptionsBuilder.EnableAutomaticCrudDomainEvents();
+
+						domainEventsOptionsBuilder.AddDomainEventsReducer<SampleDomainEventsReducer>();
 					});
 
 					if(enableUnitOfWork)
