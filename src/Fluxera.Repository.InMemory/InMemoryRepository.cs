@@ -28,6 +28,7 @@
 			InMemoryContextProvider contextProvider,
 			IRepositoryRegistry repositoryRegistry,
 			SequentialGuidGenerator sequentialGuidGenerator)
+			: base(repositoryRegistry)
 		{
 			Guard.Against.Null(contextProvider);
 			Guard.Against.Null(repositoryRegistry);

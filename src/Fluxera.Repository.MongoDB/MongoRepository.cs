@@ -24,6 +24,7 @@
 		public MongoRepository(
 			MongoContextProvider contextProvider,
 			IRepositoryRegistry repositoryRegistry)
+			: base(repositoryRegistry)
 		{
 			Guard.Against.Null(contextProvider);
 			Guard.Against.Null(repositoryRegistry);
@@ -425,7 +426,8 @@
 		}
 
 		/// <inheritdoc />
-		protected override async Task<IReadOnlyCollection<TAggregateRoot>> ToListAsync(IQueryable<TAggregateRoot> queryable, CancellationToken cancellationToken)
+		protected override async Task<IReadOnlyCollection<TAggregateRoot>> ToListAsync(IQueryable<TAggregateRoot> queryable,
+			CancellationToken cancellationToken)
 		{
 			return await queryable
 				.ToMongoQueryable()

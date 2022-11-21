@@ -28,14 +28,14 @@
 			this.repositoryMappings.Clear();
 		}
 
-		public RepositoryName GetRepositoryNameFor(Type repositoryType)
+		public RepositoryName GetRepositoryNameFor(Type aggregateType)
 		{
 			this.EnsureInitialized();
 
-			RepositoryName repositoryName = this.repositoryMappings.GetOrDefault(repositoryType);
+			RepositoryName repositoryName = this.repositoryMappings.GetOrDefault(aggregateType);
 			if(repositoryName is null)
 			{
-				throw Errors.NoRepositoryNameAvailable(repositoryType);
+				throw Errors.NoRepositoryNameAvailable(aggregateType);
 			}
 
 			return repositoryName;

@@ -14,10 +14,11 @@
 	/// <typeparam name="TAggregateRoot">The entity type.</typeparam>
 	/// <typeparam name="TKey">The type of the ID.</typeparam>
 	[PublicAPI]
-	public interface IReadOnlyRepository<TAggregateRoot, TKey> : IDisposableRepository,
+	public interface IReadOnlyRepository<TAggregateRoot, in TKey> : IDisposableRepository,
 		ICanGet<TAggregateRoot, TKey>,
 		ICanFind<TAggregateRoot, TKey>,
-		ICanAggregate<TAggregateRoot, TKey>
+		ICanAggregate<TAggregateRoot, TKey>,
+		IProvideRepositoryName<TAggregateRoot, TKey>
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 		where TKey : notnull, IComparable<TKey>, IEquatable<TKey>
 	{

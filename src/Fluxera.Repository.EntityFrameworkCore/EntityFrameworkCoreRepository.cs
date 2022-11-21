@@ -24,6 +24,7 @@
 		public EntityFrameworkCoreRepository(
 			EntityFrameworkCoreContextProvider contextProvider,
 			IRepositoryRegistry repositoryRegistry)
+			: base(repositoryRegistry)
 		{
 			Guard.Against.Null(contextProvider, nameof(contextProvider));
 			Guard.Against.Null(repositoryRegistry, nameof(repositoryRegistry));
@@ -145,7 +146,8 @@
 		}
 
 		/// <inheritdoc />
-		protected override async Task<IReadOnlyCollection<TAggregateRoot>> ToListAsync(IQueryable<TAggregateRoot> queryable, CancellationToken cancellationToken)
+		protected override async Task<IReadOnlyCollection<TAggregateRoot>> ToListAsync(IQueryable<TAggregateRoot> queryable,
+			CancellationToken cancellationToken)
 		{
 			return await queryable
 				.ToListAsync(cancellationToken)

@@ -13,7 +13,7 @@
 		}
 
 		/// <inheritdoc />
-		public RepositoryName GetRepositoryNameFor(Type repositoryType)
+		public RepositoryName GetRepositoryNameFor(Type aggregateType)
 		{
 			throw new NotImplementedException();
 		}

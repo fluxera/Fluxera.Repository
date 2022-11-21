@@ -17,7 +17,7 @@
 	/// <typeparam name="TAggregateRoot">Generic repository entity root type.</typeparam>
 	/// <typeparam name="TKey">The type of the ID.</typeparam>
 	[PublicAPI]
-	public interface ICanAdd<in TAggregateRoot, TKey>
+	public interface ICanAdd<in TAggregateRoot, in TKey> : IProvideRepositoryName<TAggregateRoot, TKey>
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 		where TKey : notnull, IComparable<TKey>, IEquatable<TKey>
 	{
