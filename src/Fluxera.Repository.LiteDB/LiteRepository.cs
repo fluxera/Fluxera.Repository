@@ -3,18 +3,17 @@
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
-	using System.Linq.Expressions;
 	using System.Threading;
 	using System.Threading.Tasks;
 	using Fluxera.Entity;
 	using Fluxera.Guards;
 	using Fluxera.Repository.Options;
-	using Fluxera.Repository.Query;
 	using Fluxera.Repository.Specifications;
 	using Fluxera.StronglyTypedId;
 	using global::LiteDB.Async;
+	using global::LiteDB.Queryable;
 
-	internal sealed class LiteRepository<TAggregateRoot, TKey> : RepositoryBase<TAggregateRoot, TKey>
+	internal sealed class LiteRepository<TAggregateRoot, TKey> : LinqRepositoryBase<TAggregateRoot, TKey>
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 		where TKey : IComparable<TKey>, IEquatable<TKey>
 	{
@@ -41,6 +40,9 @@
 		}
 
 		private static string Name => "Fluxera.Repository.LiteRepository";
+
+		/// <inheritdoc />
+		protected override IQueryable<TAggregateRoot> Queryable => this.collection.AsQueryable();
 
 		/// <inheritdoc />
 		public override string ToString()
@@ -191,271 +193,216 @@
 		}
 
 		/// <inheritdoc />
-		protected override async Task<TAggregateRoot> FindOneAsync(ISpecification<TAggregateRoot> specification, IQueryOptions<TAggregateRoot> queryOptions,
+		protected override async Task<TAggregateRoot> FirstOrDefaultAsync(IQueryable<TAggregateRoot> queryable, CancellationToken cancellationToken)
+		{
+			return await queryable
+				.FirstOrDefaultAsync(cancellationToken)
+				.ConfigureAwait(false);
+		}
+
+		/// <inheritdoc />
+		protected override async Task<TResult> FirstOrDefaultAsync<TResult>(IQueryable<TResult> queryable, CancellationToken cancellationToken)
+		{
+			return await queryable
+				.FirstOrDefaultAsync(cancellationToken)
+				.ConfigureAwait(false);
+		}
+
+		/// <inheritdoc />
+		protected override async Task<IReadOnlyCollection<TAggregateRoot>> ToListAsync(IQueryable<TAggregateRoot> queryable,
 			CancellationToken cancellationToken)
 		{
-			return await this.collection
-				.Query()
-				.Where(specification.Predicate)
-				.Apply(queryOptions)
-				.FirstOrDefaultAsync()
-				.ConfigureAwait(false);
-		}
-
-		/// <inheritdoc />
-		protected override async Task<TResult> FindOneAsync<TResult>(ISpecification<TAggregateRoot> specification,
-			Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot> queryOptions, CancellationToken cancellationToken)
-		{
-			return await this.collection
-				.Query()
-				.Where(specification.Predicate)
-				.Apply(queryOptions)
-				.Select(selector)
-				.FirstOrDefaultAsync()
-				.ConfigureAwait(false);
-		}
-
-		/// <inheritdoc />
-		protected override async Task<IReadOnlyCollection<TAggregateRoot>> FindManyAsync(ISpecification<TAggregateRoot> specification,
-			IQueryOptions<TAggregateRoot> queryOptions, CancellationToken cancellationToken)
-		{
-			return await this.collection
-				.Query()
-				.Where(specification.Predicate)
-				.Apply(queryOptions)
-				.ToListAsync()
+			return await queryable
+				.ToListAsync(cancellationToken)
 				.ConfigureAwait(false)
 				.AsReadOnly();
 		}
 
 		/// <inheritdoc />
-		protected override async Task<IReadOnlyCollection<TResult>> FindManyAsync<TResult>(ISpecification<TAggregateRoot> specification,
-			Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot> queryOptions, CancellationToken cancellationToken)
+		protected override async Task<IReadOnlyCollection<TResult>> ToListAsync<TResult>(IQueryable<TResult> queryable, CancellationToken cancellationToken)
 		{
-			return await this.collection
-				.Query()
-				.Where(specification.Predicate)
-				.Apply(queryOptions)
-				.Select(selector)
-				.ToListAsync()
+			return await queryable
+				.ToListAsync(cancellationToken)
 				.ConfigureAwait(false)
 				.AsReadOnly();
 		}
 
 		/// <inheritdoc />
-		protected override async Task<long> LongCountAsync(ISpecification<TAggregateRoot> specification, CancellationToken cancellationToken)
+		protected override async Task<long> LongCountAsync(IQueryable<TAggregateRoot> queryable, CancellationToken cancellationToken)
 		{
-			return await this.collection.LongCountAsync(specification.Predicate);
-		}
-
-		/// <inheritdoc />
-		protected override async Task<int> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, int>> selector,
-			CancellationToken cancellationToken)
-		{
-			IReadOnlyCollection<int> values = await this.FindManyAsync(specification, selector, QueryOptions<TAggregateRoot>.Empty(), cancellationToken);
-			return values.Sum();
-		}
-
-		/// <inheritdoc />
-		protected override async Task<int> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, int?>> selector,
-			CancellationToken cancellationToken)
-		{
-			IList<TAggregateRoot> values = await this.collection
-				.Query()
-				.Where(specification.Predicate)
-				.ToListAsync()
+			return await queryable
+				.LongCountAsync(cancellationToken)
 				.ConfigureAwait(false);
-
-			return values.AsQueryable().Sum(selector).GetValueOrDefault();
 		}
 
 		/// <inheritdoc />
-		protected override async Task<long> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, long>> selector,
-			CancellationToken cancellationToken)
+		protected override async Task<int> SumAsync(IQueryable<int> queryable, CancellationToken cancellationToken)
 		{
-			IReadOnlyCollection<long> values = await this.FindManyAsync(specification, selector, QueryOptions<TAggregateRoot>.Empty(), cancellationToken);
-			return values.Sum();
-		}
-
-		/// <inheritdoc />
-		protected override async Task<long> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, long?>> selector,
-			CancellationToken cancellationToken)
-		{
-			IList<TAggregateRoot> values = await this.collection
-				.Query()
-				.Where(specification.Predicate)
-				.ToListAsync()
+			return await queryable
+				.SumAsync(cancellationToken)
 				.ConfigureAwait(false);
-
-			return values.AsQueryable().Sum(selector).GetValueOrDefault();
 		}
 
 		/// <inheritdoc />
-		protected override async Task<decimal> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, decimal>> selector,
-			CancellationToken cancellationToken)
+		protected override async Task<int> SumAsync(IQueryable<int?> queryable, CancellationToken cancellationToken)
 		{
-			IReadOnlyCollection<decimal> values = await this.FindManyAsync(specification, selector, QueryOptions<TAggregateRoot>.Empty(), cancellationToken);
-			return values.Sum();
+			return await queryable
+				.SumAsync(cancellationToken)
+				.ConfigureAwait(false)
+				.GetValueOrDefault();
 		}
 
 		/// <inheritdoc />
-		protected override async Task<decimal> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, decimal?>> selector,
-			CancellationToken cancellationToken)
+		protected override async Task<long> SumAsync(IQueryable<long> queryable, CancellationToken cancellationToken)
 		{
-			IList<TAggregateRoot> values = await this.collection
-				.Query()
-				.Where(specification.Predicate)
-				.ToListAsync()
+			return await queryable
+				.SumAsync(cancellationToken)
 				.ConfigureAwait(false);
-
-			return values.AsQueryable().Sum(selector).GetValueOrDefault();
 		}
 
 		/// <inheritdoc />
-		protected override async Task<float> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, float>> selector,
-			CancellationToken cancellationToken)
+		protected override async Task<long> SumAsync(IQueryable<long?> queryable, CancellationToken cancellationToken)
 		{
-			IReadOnlyCollection<float> values = await this.FindManyAsync(specification, selector, QueryOptions<TAggregateRoot>.Empty(), cancellationToken);
-			return values.Sum();
+			return await queryable
+				.SumAsync(cancellationToken)
+				.ConfigureAwait(false)
+				.GetValueOrDefault();
 		}
 
 		/// <inheritdoc />
-		protected override async Task<float> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, float?>> selector,
-			CancellationToken cancellationToken)
+		protected override async Task<decimal> SumAsync(IQueryable<decimal> queryable, CancellationToken cancellationToken)
 		{
-			IList<TAggregateRoot> values = await this.collection
-				.Query()
-				.Where(specification.Predicate)
-				.ToListAsync()
+			return await queryable
+				.SumAsync(cancellationToken)
 				.ConfigureAwait(false);
-
-			return values.AsQueryable().Sum(selector).GetValueOrDefault();
 		}
 
 		/// <inheritdoc />
-		protected override async Task<double> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, double>> selector,
-			CancellationToken cancellationToken)
+		protected override async Task<decimal> SumAsync(IQueryable<decimal?> queryable, CancellationToken cancellationToken)
 		{
-			IReadOnlyCollection<double> values = await this.FindManyAsync(specification, selector, QueryOptions<TAggregateRoot>.Empty(), cancellationToken);
-			return values.Sum();
+			return await queryable
+				.SumAsync(cancellationToken)
+				.ConfigureAwait(false)
+				.GetValueOrDefault();
 		}
 
 		/// <inheritdoc />
-		protected override async Task<double> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, double?>> selector,
-			CancellationToken cancellationToken)
+		protected override async Task<float> SumAsync(IQueryable<float> queryable, CancellationToken cancellationToken)
 		{
-			IList<TAggregateRoot> values = await this.collection
-				.Query()
-				.Where(specification.Predicate)
-				.ToListAsync()
+			return await queryable
+				.SumAsync(cancellationToken)
 				.ConfigureAwait(false);
-
-			return values.AsQueryable().Sum(selector).GetValueOrDefault();
 		}
 
 		/// <inheritdoc />
-		protected override async Task<double> AverageAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, int>> selector,
-			CancellationToken cancellationToken)
+		protected override async Task<float> SumAsync(IQueryable<float?> queryable, CancellationToken cancellationToken)
 		{
-			IReadOnlyCollection<int> values = await this.FindManyAsync(specification, selector, QueryOptions<TAggregateRoot>.Empty(), cancellationToken);
-			return values.Average();
+			return await queryable
+				.SumAsync(cancellationToken)
+				.ConfigureAwait(false)
+				.GetValueOrDefault();
 		}
 
 		/// <inheritdoc />
-		protected override async Task<double> AverageAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, int?>> selector,
-			CancellationToken cancellationToken)
+		protected override async Task<double> SumAsync(IQueryable<double> queryable, CancellationToken cancellationToken)
 		{
-			IList<TAggregateRoot> values = await this.collection
-				.Query()
-				.Where(specification.Predicate)
-				.ToListAsync()
+			return await queryable
+				.SumAsync(cancellationToken)
 				.ConfigureAwait(false);
-
-			return values.AsQueryable().Average(selector).GetValueOrDefault();
 		}
 
 		/// <inheritdoc />
-		protected override async Task<double> AverageAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, long>> selector,
-			CancellationToken cancellationToken)
+		protected override async Task<double> SumAsync(IQueryable<double?> queryable, CancellationToken cancellationToken)
 		{
-			IReadOnlyCollection<long> values = await this.FindManyAsync(specification, selector, QueryOptions<TAggregateRoot>.Empty(), cancellationToken);
-			return values.Average();
+			return await queryable
+				.SumAsync(cancellationToken)
+				.ConfigureAwait(false)
+				.GetValueOrDefault();
 		}
 
 		/// <inheritdoc />
-		protected override async Task<double> AverageAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, long?>> selector,
-			CancellationToken cancellationToken)
+		protected override async Task<double> AverageAsync(IQueryable<int> queryable, CancellationToken cancellationToken)
 		{
-			IList<TAggregateRoot> values = await this.collection
-				.Query()
-				.Where(specification.Predicate)
-				.ToListAsync()
+			return await queryable
+				.AverageAsync(cancellationToken)
 				.ConfigureAwait(false);
-
-			return values.AsQueryable().Average(selector).GetValueOrDefault();
 		}
 
 		/// <inheritdoc />
-		protected override async Task<decimal> AverageAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, decimal>> selector,
-			CancellationToken cancellationToken)
+		protected override async Task<double> AverageAsync(IQueryable<int?> queryable, CancellationToken cancellationToken)
 		{
-			IReadOnlyCollection<decimal> values = await this.FindManyAsync(specification, selector, QueryOptions<TAggregateRoot>.Empty(), cancellationToken);
-			return values.Average();
+			return await queryable
+				.AverageAsync(cancellationToken)
+				.ConfigureAwait(false)
+				.GetValueOrDefault();
 		}
 
 		/// <inheritdoc />
-		protected override async Task<decimal> AverageAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, decimal?>> selector,
-			CancellationToken cancellationToken)
+		protected override async Task<double> AverageAsync(IQueryable<long> queryable, CancellationToken cancellationToken)
 		{
-			IList<TAggregateRoot> values = await this.collection
-				.Query()
-				.Where(specification.Predicate)
-				.ToListAsync()
+			return await queryable
+				.AverageAsync(cancellationToken)
 				.ConfigureAwait(false);
-
-			return values.AsQueryable().Average(selector).GetValueOrDefault();
 		}
 
 		/// <inheritdoc />
-		protected override async Task<float> AverageAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, float>> selector,
-			CancellationToken cancellationToken)
+		protected override async Task<double> AverageAsync(IQueryable<long?> queryable, CancellationToken cancellationToken)
 		{
-			IReadOnlyCollection<float> values = await this.FindManyAsync(specification, selector, QueryOptions<TAggregateRoot>.Empty(), cancellationToken);
-			return values.Average();
+			return await queryable
+				.AverageAsync(cancellationToken)
+				.ConfigureAwait(false)
+				.GetValueOrDefault();
 		}
 
 		/// <inheritdoc />
-		protected override async Task<float> AverageAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, float?>> selector,
-			CancellationToken cancellationToken)
+		protected override async Task<decimal> AverageAsync(IQueryable<decimal> queryable, CancellationToken cancellationToken)
 		{
-			IList<TAggregateRoot> values = await this.collection
-				.Query()
-				.Where(specification.Predicate)
-				.ToListAsync()
+			return await queryable
+				.AverageAsync(cancellationToken)
 				.ConfigureAwait(false);
-
-			return values.AsQueryable().Average(selector).GetValueOrDefault();
 		}
 
 		/// <inheritdoc />
-		protected override async Task<double> AverageAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, double>> selector,
-			CancellationToken cancellationToken)
+		protected override async Task<decimal> AverageAsync(IQueryable<decimal?> queryable, CancellationToken cancellationToken)
 		{
-			IReadOnlyCollection<double> values = await this.FindManyAsync(specification, selector, QueryOptions<TAggregateRoot>.Empty(), cancellationToken);
-			return values.Average();
+			return await queryable
+				.AverageAsync(cancellationToken)
+				.ConfigureAwait(false)
+				.GetValueOrDefault();
 		}
 
 		/// <inheritdoc />
-		protected override async Task<double> AverageAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, double?>> selector,
-			CancellationToken cancellationToken)
+		protected override async Task<float> AverageAsync(IQueryable<float> queryable, CancellationToken cancellationToken)
 		{
-			IList<TAggregateRoot> values = await this.collection
-				.Query()
-				.Where(specification.Predicate)
-				.ToListAsync()
+			return await queryable
+				.AverageAsync(cancellationToken)
 				.ConfigureAwait(false);
+		}
 
-			return values.AsQueryable().Average(selector).GetValueOrDefault();
+		/// <inheritdoc />
+		protected override async Task<float> AverageAsync(IQueryable<float?> queryable, CancellationToken cancellationToken)
+		{
+			return await queryable
+				.AverageAsync(cancellationToken)
+				.ConfigureAwait(false)
+				.GetValueOrDefault();
+		}
+
+		/// <inheritdoc />
+		protected override async Task<double> AverageAsync(IQueryable<double> queryable, CancellationToken cancellationToken)
+		{
+			return await queryable
+				.AverageAsync(cancellationToken)
+				.ConfigureAwait(false);
+		}
+
+		/// <inheritdoc />
+		protected override async Task<double> AverageAsync(IQueryable<double?> queryable, CancellationToken cancellationToken)
+		{
+			return await queryable
+				.AverageAsync(cancellationToken)
+				.ConfigureAwait(false)
+				.GetValueOrDefault();
 		}
 
 		private TKey GenerateKey()

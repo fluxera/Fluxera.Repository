@@ -37,20 +37,6 @@ namespace Fluxera.Repository.Query
 		ISortingOptions<T> ThenByDescending(Expression<Func<T, object>> sortExpression);
 
 		/// <summary>
-		///     Configures the optional paging.
-		/// </summary>
-		/// <param name="pageNumber">The page number.</param>
-		/// <param name="pageSize">The page size.</param>
-		/// <returns></returns>
-		IPagingOptions<T> Paging(int pageNumber, int pageSize);
-
-		/// <summary>
-		///     Configures the optional paging.
-		/// </summary>
-		/// <returns></returns>
-		IPagingOptions<T> Paging();
-
-		/// <summary>
 		///     Configures an optional skip amount.
 		/// </summary>
 		/// <param name="skip"></param>
@@ -71,5 +57,19 @@ namespace Fluxera.Repository.Query
 		/// <param name="take"></param>
 		/// <returns></returns>
 		ISkipTakeOptions<T> SkipTake(int skip, int take);
+
+		/// <summary>
+		///     Configures the optional paging.
+		/// </summary>
+		/// <param name="pageNumber">The page number.</param>
+		/// <param name="pageSize">The page size.</param>
+		/// <returns></returns>
+		IPagingOptions<T> Paging(int pageNumber, int pageSize);
+
+		/// <summary>
+		///     Configures the optional paging.
+		/// </summary>
+		/// <returns></returns>
+		IPagingOptions<T> Paging();
 	}
 }

@@ -99,3 +99,4 @@ namespace Fluxera.Repository.Query
 		}
 	}
 }
+
