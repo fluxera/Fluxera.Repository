@@ -42,20 +42,6 @@ namespace Fluxera.Repository.Query
 		}
 
 		/// <inheritdoc />
-		public IPagingOptions<T> Paging(int pageNumber, int pageSize)
-		{
-			this.queryOptions.PagingOptions ??= new PagingOptions<T>(this.queryOptions, pageNumber, pageSize);
-			return this.queryOptions.PagingOptions;
-		}
-
-		/// <inheritdoc />
-		public IPagingOptions<T> Paging()
-		{
-			this.queryOptions.PagingOptions ??= new PagingOptions<T>(this.queryOptions);
-			return this.queryOptions.PagingOptions;
-		}
-
-		/// <inheritdoc />
 		public ISkipTakeOptions<T> Skip(int skip)
 		{
 			this.queryOptions.SkipTakeOptions ??= new SkipTakeOptions<T>(this.queryOptions, skip);
@@ -74,6 +60,20 @@ namespace Fluxera.Repository.Query
 		{
 			this.queryOptions.SkipTakeOptions ??= new SkipTakeOptions<T>(this.queryOptions, skip, take);
 			return this.queryOptions.SkipTakeOptions;
+		}
+
+		/// <inheritdoc />
+		public IPagingOptions<T> Paging(int pageNumber, int pageSize)
+		{
+			this.queryOptions.PagingOptions ??= new PagingOptions<T>(this.queryOptions, pageNumber, pageSize);
+			return this.queryOptions.PagingOptions;
+		}
+
+		/// <inheritdoc />
+		public IPagingOptions<T> Paging()
+		{
+			this.queryOptions.PagingOptions ??= new PagingOptions<T>(this.queryOptions);
+			return this.queryOptions.PagingOptions;
 		}
 
 		/// <inheritdoc />

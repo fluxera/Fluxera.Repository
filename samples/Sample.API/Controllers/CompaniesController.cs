@@ -4,6 +4,7 @@ namespace Sample.API.Controllers
 	using System.Linq;
 	using System.Threading.Tasks;
 	using Fluxera.Repository;
+	using Fluxera.Repository.Query;
 	using Microsoft.AspNetCore.Mvc;
 	using Microsoft.Extensions.Options;
 	using Sample.Domain.Company;
@@ -46,7 +47,13 @@ namespace Sample.API.Controllers
 		[HttpGet]
 		public async Task<IActionResult> GetCompanies()
 		{
-			IReadOnlyCollection<Company> companies = await this.repository.FindManyAsync(x => true);
+			IQueryOptions<Company> queryOptions = QueryOptions<Company>
+					.OrderBy(x => x.Name)
+					.ThenByDescending(x => x.LegalType)
+				//.Include(x => x.Partners)
+				;
+
+			IReadOnlyCollection<Company> companies = await this.repository.FindManyAsync(x => true, queryOptions);
 
 			return this.Ok(companies.Select(x => new
 			{

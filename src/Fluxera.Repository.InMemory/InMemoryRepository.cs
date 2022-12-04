@@ -207,6 +207,30 @@
 		}
 
 		/// <inheritdoc />
+		protected override Task<TAggregateRoot> FirstOrDefaultAsync(IQueryable<TAggregateRoot> queryable, CancellationToken cancellationToken)
+		{
+			return Task.FromResult(queryable.FirstOrDefault());
+		}
+
+		/// <inheritdoc />
+		protected override Task<TResult> FirstOrDefaultAsync<TResult>(IQueryable<TResult> queryable, CancellationToken cancellationToken)
+		{
+			return Task.FromResult(queryable.FirstOrDefault());
+		}
+
+		/// <inheritdoc />
+		protected override Task<IReadOnlyCollection<TAggregateRoot>> ToListAsync(IQueryable<TAggregateRoot> queryable, CancellationToken cancellationToken)
+		{
+			return Task.FromResult<IReadOnlyCollection<TAggregateRoot>>(queryable.ToList());
+		}
+
+		/// <inheritdoc />
+		protected override Task<IReadOnlyCollection<TResult>> ToListAsync<TResult>(IQueryable<TResult> queryable, CancellationToken cancellationToken)
+		{
+			return Task.FromResult<IReadOnlyCollection<TResult>>(queryable.ToList());
+		}
+
+		/// <inheritdoc />
 		protected override Task<long> LongCountAsync(IQueryable<TAggregateRoot> queryable, CancellationToken cancellationToken)
 		{
 			return Task.FromResult(queryable.LongCount());
@@ -330,30 +354,6 @@
 		protected override Task<double> AverageAsync(IQueryable<double?> queryable, CancellationToken cancellationToken)
 		{
 			return Task.FromResult(queryable.Average().GetValueOrDefault());
-		}
-
-		/// <inheritdoc />
-		protected override Task<IReadOnlyCollection<TAggregateRoot>> ToListAsync(IQueryable<TAggregateRoot> queryable, CancellationToken cancellationToken)
-		{
-			return Task.FromResult<IReadOnlyCollection<TAggregateRoot>>(queryable.ToList());
-		}
-
-		/// <inheritdoc />
-		protected override Task<IReadOnlyCollection<TResult>> ToListAsync<TResult>(IQueryable<TResult> queryable, CancellationToken cancellationToken)
-		{
-			return Task.FromResult<IReadOnlyCollection<TResult>>(queryable.ToList());
-		}
-
-		/// <inheritdoc />
-		protected override Task<TAggregateRoot> FirstOrDefaultAsync(IQueryable<TAggregateRoot> queryable, CancellationToken cancellationToken)
-		{
-			return Task.FromResult(queryable.FirstOrDefault());
-		}
-
-		/// <inheritdoc />
-		protected override Task<TResult> FirstOrDefaultAsync<TResult>(IQueryable<TResult> queryable, CancellationToken cancellationToken)
-		{
-			return Task.FromResult(queryable.FirstOrDefault());
 		}
 
 		/// <summary>

@@ -214,7 +214,8 @@
 		{
 			return await queryable
 				.ToMongoQueryable()
-				.FirstOrDefaultAsync(cancellationToken);
+				.FirstOrDefaultAsync(cancellationToken)
+				.ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
