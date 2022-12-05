@@ -2,6 +2,7 @@
 {
 	using System;
 	using System.Threading.Tasks;
+	using Fluxera.Repository.Query;
 	using Fluxera.Repository.UnitTests.Core.CompanyAggregate;
 	using Fluxera.Repository.UnitTests.Core.EmployeeAggregate;
 	using Fluxera.Repository.UnitTests.Core.PersonAggregate;
@@ -31,6 +32,13 @@
 		protected IRepository<Reference, string> ReferenceRepository { get; private set; }
 
 		protected IUnitOfWork UnitOfWork { get; private set; }
+
+		protected QueryOptionsBuilder<T> CreateQueryOptionsBuilder<T>() where T : class
+		{
+			QueryOptionsBuilder<T> queryOptionsBuilder =
+				(QueryOptionsBuilder<T>)this.serviceProvider.GetRequiredService(typeof(QueryOptionsBuilder<>).MakeGenericType(typeof(T)));
+			return queryOptionsBuilder;
+		}
 
 		[SetUp]
 		public async Task SetUp()

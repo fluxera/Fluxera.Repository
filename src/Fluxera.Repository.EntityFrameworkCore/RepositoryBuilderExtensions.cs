@@ -3,6 +3,7 @@
 	using System;
 	using Fluxera.Extensions.DependencyInjection;
 	using Fluxera.Guards;
+	using Fluxera.Repository.Query;
 	using JetBrains.Annotations;
 	using Microsoft.Extensions.DependencyInjection;
 
@@ -78,6 +79,10 @@
 			builder.Services.AddNamedTransient<IUnitOfWork>(serviceBuilder =>
 			{
 				serviceBuilder.AddNameFor<EntityFrameworkCoreUnitOfWork>(repositoryName);
+			});
+			builder.Services.AddNamedTransient<IIncludeApplier>(serviceBuilder =>
+			{
+				serviceBuilder.AddNameFor<EntityFrameworkCoreIncludeApplier>(repositoryName);
 			});
 
 			return builder.AddRepository(repositoryName, typeof(EntityFrameworkCoreRepository<,>), contextType, configure);

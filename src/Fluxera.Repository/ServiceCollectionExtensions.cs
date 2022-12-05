@@ -11,6 +11,7 @@
 	using Fluxera.Repository.DomainEvents;
 	using Fluxera.Repository.Interception;
 	using Fluxera.Repository.Options;
+	using Fluxera.Repository.Query;
 	using Fluxera.Repository.Validation;
 	using Fluxera.Utilities.Extensions;
 	using JetBrains.Annotations;
@@ -39,6 +40,10 @@
 
 			// Add the unit-of-work factory.
 			services.AddTransient<IUnitOfWorkFactory, UnitOfWorkFactory>();
+
+			// Add the query options builder services.
+			services.AddTransient(typeof(QueryOptionsBuilder<>));
+			services.AddTransient<IQueryApplierFactory, QueryApplierFactory>();
 
 			// Build the options of the repositories.
 			IRepositoryBuilder repositoryBuilder = new RepositoryBuilder(services);

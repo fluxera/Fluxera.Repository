@@ -60,7 +60,7 @@
 
 			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 
-			IQueryOptions<Person> options = QueryOptions<Person>.OrderBy(x => x.Name);
+			IQueryOptions<Person> options = this.CreateQueryOptionsBuilder<Person>().OrderBy(x => x.Name).Build();
 			IReadOnlyCollection<Person> result = await this.PersonRepository.FindManyAsync(x => x.Age < 35, options);
 			IList<Person> resultList = new List<Person>(result);
 
@@ -107,7 +107,7 @@
 
 			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 
-			IQueryOptions<Person> options = QueryOptions<Person>.OrderBy(x => x.Name).ThenBy(x => x.Age);
+			IQueryOptions<Person> options = this.CreateQueryOptionsBuilder<Person>().OrderBy(x => x.Name).ThenBy(x => x.Age).Build();
 			IReadOnlyCollection<Person> result = await this.PersonRepository.FindManyAsync(x => x.Age < 35, options);
 			IList<Person> resultList = new List<Person>(result);
 
@@ -168,7 +168,7 @@
 
 			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 
-			IQueryOptions<Person> options = QueryOptions<Person>.OrderByDescending(x => x.Name);
+			IQueryOptions<Person> options = this.CreateQueryOptionsBuilder<Person>().OrderByDescending(x => x.Name).Build();
 			IReadOnlyCollection<Person> result = await this.PersonRepository.FindManyAsync(x => x.Age < 35, options);
 			IList<Person> resultList = new List<Person>(result);
 
@@ -215,7 +215,7 @@
 
 			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 
-			IQueryOptions<Person> options = QueryOptions<Person>.OrderByDescending(x => x.Name).ThenByDescending(x => x.Age);
+			IQueryOptions<Person> options = this.CreateQueryOptionsBuilder<Person>().OrderByDescending(x => x.Name).ThenByDescending(x => x.Age).Build();
 			IReadOnlyCollection<Person> result = await this.PersonRepository.FindManyAsync(x => x.Age < 35, options);
 			IList<Person> resultList = new List<Person>(result);
 

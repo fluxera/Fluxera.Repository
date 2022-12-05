@@ -15,7 +15,6 @@ namespace Fluxera.Repository.Query
 			this.PageSizeAmount = pageSize;
 		}
 
-		/// <inheritdoc />
 		public int TotalItemCount { get; private set; }
 
 		/// <inheritdoc />
@@ -35,19 +34,21 @@ namespace Fluxera.Repository.Query
 		}
 
 		/// <inheritdoc />
+		public IQueryOptions<T> Build()
+		{
+			return this.queryOptions;
+		}
+
 		public int PageNumberAmount { get; private set; }
 
-		/// <inheritdoc />
 		public int PageSizeAmount { get; private set; }
 
-		/// <inheritdoc />
 		public int SkipAmount => (this.PageNumberAmount - 1) * this.PageSizeAmount;
 
-		/// <inheritdoc />
 		public int TakeAmount => this.PageSizeAmount;
 
 		/// <inheritdoc />
-		public IQueryable<T> ApplyTo(IQueryable<T> queryable)
+		IQueryable<T> IPagingOptions<T>.ApplyTo(IQueryable<T> queryable)
 		{
 			this.TotalItemCount = queryable.Count();
 
@@ -57,30 +58,6 @@ namespace Fluxera.Repository.Query
 			}
 
 			return queryable;
-		}
-
-		/// <inheritdoc />
-		public bool IsEmpty()
-		{
-			return this.queryOptions.IsEmpty();
-		}
-
-		/// <inheritdoc />
-		public bool TryGetPagingOptions(out IPagingOptions<T> options)
-		{
-			return this.queryOptions.TryGetPagingOptions(out options);
-		}
-
-		/// <inheritdoc />
-		public bool TryGetSkipTakeOptions(out ISkipTakeOptions<T> options)
-		{
-			return this.queryOptions.TryGetSkipTakeOptions(out options);
-		}
-
-		/// <inheritdoc />
-		public bool TryGetSortingOptions(out ISortingOptions<T> options)
-		{
-			return this.queryOptions.TryGetSortingOptions(out options);
 		}
 
 		/// <inheritdoc />

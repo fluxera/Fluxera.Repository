@@ -1,58 +1,70 @@
 namespace Fluxera.Repository.Query
 {
 	using System;
+	using System.Diagnostics;
 	using System.Linq;
 	using System.Linq.Expressions;
 	using Fluxera.Utilities.Extensions;
 
-	internal sealed class QueryOptionsImpl<T> : IQueryOptions<T> where T : class
+	internal sealed class QueryOptionsImpl<T> : IQueryOptions<T>, IIncludeOptions<T>, ISortingOptions<T>, ISkipTakeOptions<T>, IPagingOptions<T>
+		where T : class
 	{
-		private ISortingOptions<T> SortingOptions { get; set; }
+		private readonly IIncludeApplier includeApplier;
+
+		public QueryOptionsImpl(IIncludeApplier includeApplier = null)
+		{
+			this.includeApplier = includeApplier;
+		}
+
+		internal IIncludeOptions<T> IncludeOptions { get; set; }
+
+		internal ISortingOptions<T> SortingOptions { get; set; }
 
 		internal ISkipTakeOptions<T> SkipTakeOptions { get; set; }
 
 		internal IPagingOptions<T> PagingOptions { get; set; }
 
 		/// <inheritdoc />
-		public IQueryable<T> ApplyTo(IQueryable<T> queryable)
+		IQueryable<T> IQueryOptions<T>.ApplyTo(IQueryable<T> queryable)
 		{
-			queryable = this.SortingOptions?.ApplyTo(queryable);
-			queryable = this.SkipTakeOptions?.ApplyTo(queryable);
-			queryable = this.PagingOptions?.ApplyTo(queryable);
+			if(this.IncludeOptions is not null)
+			{
+				queryable = this.IncludeOptions.ApplyTo(queryable);
+			}
+
+			if(this.SortingOptions is not null)
+			{
+				queryable = this.SortingOptions.ApplyTo(queryable);
+			}
+
+			if(this.SkipTakeOptions is not null)
+			{
+				queryable = this.SkipTakeOptions.ApplyTo(queryable);
+			}
+
+			if(this.PagingOptions is not null)
+			{
+				queryable = this.PagingOptions.ApplyTo(queryable);
+			}
 
 			return queryable;
 		}
 
 		/// <inheritdoc />
-		public bool IsEmpty()
+		bool IQueryOptions<T>.IsEmpty()
 		{
 			return false;
 		}
 
-		/// <inheritdoc />
-		public bool TryGetPagingOptions(out IPagingOptions<T> options)
+		internal IIncludeOptions<T> Include(Expression<Func<T, object>> includeExpression)
 		{
-			options = this.PagingOptions;
-			return this.PagingOptions is not null;
-		}
-
-		/// <inheritdoc />
-		public bool TryGetSkipTakeOptions(out ISkipTakeOptions<T> options)
-		{
-			options = this.SkipTakeOptions;
-			return this.SkipTakeOptions is not null;
-		}
-
-		/// <inheritdoc />
-		public bool TryGetSortingOptions(out ISortingOptions<T> options)
-		{
-			options = this.SortingOptions;
-			return this.SortingOptions is not null;
+			this.IncludeOptions ??= new IncludeOptions<T>(this, includeExpression, this.includeApplier);
+			return this.IncludeOptions;
 		}
 
 		internal ISortingOptions<T> OrderBy(Expression<Func<T, object>> sortExpression)
 		{
-			this.SortingOptions ??= new SortingOptions<T>(this, sortExpression);
+			this.SortingOptions ??= new SortingOptions<T>(this, sortExpression, false);
 			return this.SortingOptions;
 		}
 
@@ -106,6 +118,168 @@ namespace Fluxera.Repository.Query
 
 			return "QueryOptions<{0}>(Sorting: {1}, Paging: {2}, SkipTake: {3})"
 				.FormatInvariantWith(typeof(T).Name, sortingOptionsString, pagingOptionsString, skipTakeOptionsString);
+		}
+
+		/// <inheritdoc />
+		IIncludeOptions<T> IIncludeOptions<T>.Include(Expression<Func<T, object>> includeExpression)
+		{
+			throw new UnreachableException();
+		}
+
+		/// <inheritdoc />
+		ISortingOptions<T> IIncludeOptions<T>.OrderBy(Expression<Func<T, object>> sortExpression)
+		{
+			throw new UnreachableException();
+		}
+
+		/// <inheritdoc />
+		ISortingOptions<T> IIncludeOptions<T>.OrderByDescending(Expression<Func<T, object>> sortExpression)
+		{
+			throw new UnreachableException();
+		}
+
+		/// <inheritdoc />
+		ISortingOptions<T> ISortingOptions<T>.ThenBy(Expression<Func<T, object>> sortExpression)
+		{
+			throw new UnreachableException();
+		}
+
+		/// <inheritdoc />
+		ISortingOptions<T> ISortingOptions<T>.ThenByDescending(Expression<Func<T, object>> sortExpression)
+		{
+			throw new UnreachableException();
+		}
+
+		/// <inheritdoc />
+		ISkipTakeOptions<T> ISortingOptions<T>.Skip(int skip)
+		{
+			throw new UnreachableException();
+		}
+
+		/// <inheritdoc />
+		ISkipTakeOptions<T> ISkipTakeOptions<T>.Take(int takeAmount)
+		{
+			throw new UnreachableException();
+		}
+
+		/// <inheritdoc />
+		ISkipTakeOptions<T> ISkipTakeOptions<T>.Skip(int skipAmount)
+		{
+			throw new UnreachableException();
+		}
+
+		/// <inheritdoc />
+		ISkipTakeOptions<T> ISortingOptions<T>.Take(int take)
+		{
+			throw new UnreachableException();
+		}
+
+		/// <inheritdoc />
+		ISkipTakeOptions<T> ISortingOptions<T>.SkipTake(int skip, int take)
+		{
+			throw new UnreachableException();
+		}
+
+		/// <inheritdoc />
+		IPagingOptions<T> ISortingOptions<T>.Paging(int pageNumber, int pageSize)
+		{
+			throw new UnreachableException();
+		}
+
+		/// <inheritdoc />
+		IPagingOptions<T> ISortingOptions<T>.Paging()
+		{
+			throw new UnreachableException();
+		}
+
+		/// <inheritdoc />
+		ISkipTakeOptions<T> IIncludeOptions<T>.Skip(int skip)
+		{
+			throw new UnreachableException();
+		}
+
+		/// <inheritdoc />
+		ISkipTakeOptions<T> IIncludeOptions<T>.Take(int take)
+		{
+			throw new UnreachableException();
+		}
+
+		/// <inheritdoc />
+		ISkipTakeOptions<T> IIncludeOptions<T>.SkipTake(int skip, int take)
+		{
+			throw new UnreachableException();
+		}
+
+		/// <inheritdoc />
+		IPagingOptions<T> IIncludeOptions<T>.Paging(int pageNumber, int pageSize)
+		{
+			throw new UnreachableException();
+		}
+
+		/// <inheritdoc />
+		IPagingOptions<T> IIncludeOptions<T>.Paging()
+		{
+			throw new UnreachableException();
+		}
+
+		/// <inheritdoc />
+		IPagingOptions<T> IPagingOptions<T>.PageNumber(int pageNumberAmount)
+		{
+			throw new UnreachableException();
+		}
+
+		/// <inheritdoc />
+		IPagingOptions<T> IPagingOptions<T>.PageSize(int pageSizeAmount)
+		{
+			throw new UnreachableException();
+		}
+
+		/// <inheritdoc />
+		IQueryOptions<T> IIncludeOptions<T>.Build()
+		{
+			throw new UnreachableException();
+		}
+
+		/// <inheritdoc />
+		IQueryOptions<T> ISortingOptions<T>.Build()
+		{
+			throw new UnreachableException();
+		}
+
+		/// <inheritdoc />
+		IQueryOptions<T> ISkipTakeOptions<T>.Build()
+		{
+			throw new UnreachableException();
+		}
+
+		/// <inheritdoc />
+		IQueryOptions<T> IPagingOptions<T>.Build()
+		{
+			throw new UnreachableException();
+		}
+
+		/// <inheritdoc />
+		IQueryable<T> IIncludeOptions<T>.ApplyTo(IQueryable<T> queryable)
+		{
+			throw new UnreachableException();
+		}
+
+		/// <inheritdoc />
+		IQueryable<T> ISortingOptions<T>.ApplyTo(IQueryable<T> queryable)
+		{
+			throw new UnreachableException();
+		}
+
+		/// <inheritdoc />
+		IQueryable<T> ISkipTakeOptions<T>.ApplyTo(IQueryable<T> queryable)
+		{
+			throw new UnreachableException();
+		}
+
+		/// <inheritdoc />
+		IQueryable<T> IPagingOptions<T>.ApplyTo(IQueryable<T> queryable)
+		{
+			throw new UnreachableException();
 		}
 	}
 }

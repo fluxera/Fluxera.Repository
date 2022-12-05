@@ -1,8 +1,6 @@
 ﻿namespace Fluxera.Repository.Query
 {
-	using System;
 	using System.Linq;
-	using System.Linq.Expressions;
 	using JetBrains.Annotations;
 
 	/// <summary>
@@ -12,16 +10,6 @@
 	[PublicAPI]
 	public interface ISortExpression<T> where T : class
 	{
-		/// <summary>
-		///     Gets the sort expression.
-		/// </summary>
-		Expression<Func<T, object>> Expression { get; }
-
-		/// <summary>
-		///     Gets the sort direction.
-		/// </summary>
-		bool IsDescending { get; }
-
 		/// <summary>
 		///     Applies the sort expression and direction to the given <see cref="IQueryable{T}" />.
 		/// </summary>

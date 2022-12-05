@@ -18,27 +18,6 @@ namespace Fluxera.Repository.Query
 		}
 
 		/// <inheritdoc />
-		bool IQueryOptions<T>.TryGetPagingOptions(out IPagingOptions<T> options)
-		{
-			options = null;
-			return false;
-		}
-
-		/// <inheritdoc />
-		bool IQueryOptions<T>.TryGetSkipTakeOptions(out ISkipTakeOptions<T> options)
-		{
-			options = null;
-			return false;
-		}
-
-		/// <inheritdoc />
-		bool IQueryOptions<T>.TryGetSortingOptions(out ISortingOptions<T> options)
-		{
-			options = null;
-			return false;
-		}
-
-		/// <inheritdoc />
 		public override string ToString()
 		{
 			return "QueryOptions<{0}>(Empty)".FormatInvariantWith(typeof(T).Name);

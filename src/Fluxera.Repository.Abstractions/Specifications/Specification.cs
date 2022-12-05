@@ -39,7 +39,7 @@ namespace Fluxera.Repository.Specifications
 		/// <param name="predicate"></param>
 		public Specification(Expression<Func<T, bool>> predicate)
 		{
-			Guard.Against.Null(predicate, nameof(predicate));
+			Guard.Against.Null(predicate);
 
 			this.Predicate = predicate;
 		}
@@ -50,7 +50,7 @@ namespace Fluxera.Repository.Specifications
 		/// <param name="specification"></param>
 		public Specification(ISpecification<T> specification)
 		{
-			Guard.Against.Null(specification, nameof(specification));
+			Guard.Against.Null(specification);
 
 			this.Predicate = specification.Predicate;
 		}
@@ -58,7 +58,7 @@ namespace Fluxera.Repository.Specifications
 		/// <inheritdoc />
 		public bool IsSatisfiedBy(T item)
 		{
-			Guard.Against.Null(item, nameof(item));
+			Guard.Against.Null(item);
 
 			return this.Predicate == null || new T[] { item }.AsQueryable().Any(this.Predicate);
 		}
@@ -66,7 +66,7 @@ namespace Fluxera.Repository.Specifications
 		/// <inheritdoc />
 		public IQueryable<T> ApplyTo(IQueryable<T> queryable)
 		{
-			Guard.Against.Null(queryable, nameof(queryable));
+			Guard.Against.Null(queryable);
 
 			return this.Predicate == null
 				? queryable

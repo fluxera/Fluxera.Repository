@@ -25,6 +25,7 @@ namespace Fluxera.Repository.Query
 		/// </summary>
 		/// <param name="sortExpression"></param>
 		/// <returns></returns>
+		[Obsolete]
 		public static ISortingOptions<T> OrderBy(Expression<Func<T, object>> sortExpression)
 		{
 			QueryOptionsImpl<T> queryOptions = new QueryOptionsImpl<T>();
@@ -36,6 +37,7 @@ namespace Fluxera.Repository.Query
 		/// </summary>
 		/// <param name="sortExpression"></param>
 		/// <returns></returns>
+		[Obsolete]
 		public static ISortingOptions<T> OrderByDescending(Expression<Func<T, object>> sortExpression)
 		{
 			QueryOptionsImpl<T> queryOptions = new QueryOptionsImpl<T>();
@@ -47,6 +49,7 @@ namespace Fluxera.Repository.Query
 		/// </summary>
 		/// <param name="skipAmount"></param>
 		/// <returns></returns>
+		[Obsolete]
 		public static ISkipTakeOptions<T> Skip(int skipAmount)
 		{
 			QueryOptionsImpl<T> queryOptions = new QueryOptionsImpl<T>();
@@ -58,6 +61,7 @@ namespace Fluxera.Repository.Query
 		/// </summary>
 		/// <param name="takeAmount"></param>
 		/// <returns></returns>
+		[Obsolete]
 		public static ISkipTakeOptions<T> Take(int takeAmount)
 		{
 			QueryOptionsImpl<T> queryOptions = new QueryOptionsImpl<T>();
@@ -70,6 +74,7 @@ namespace Fluxera.Repository.Query
 		/// <param name="skipAmount"></param>
 		/// <param name="takeAmount"></param>
 		/// <returns></returns>
+		[Obsolete]
 		public static ISkipTakeOptions<T> SkipTake(int skipAmount, int takeAmount)
 		{
 			QueryOptionsImpl<T> queryOptions = new QueryOptionsImpl<T>();
@@ -82,6 +87,7 @@ namespace Fluxera.Repository.Query
 		/// <param name="pageNumber"></param>
 		/// <param name="pageSize"></param>
 		/// <returns></returns>
+		[Obsolete]
 		public static IPagingOptions<T> Paging(int pageNumber, int pageSize)
 		{
 			QueryOptionsImpl<T> queryOptions = new QueryOptionsImpl<T>();
@@ -92,6 +98,7 @@ namespace Fluxera.Repository.Query
 		///     Creates an entry point for configuring the paging options.
 		/// </summary>
 		/// <returns></returns>
+		[Obsolete]
 		public static IPagingOptions<T> Paging()
 		{
 			QueryOptionsImpl<T> queryOptions = new QueryOptionsImpl<T>();
@@ -99,4 +106,3 @@ namespace Fluxera.Repository.Query
 		}
 	}
 }
-
