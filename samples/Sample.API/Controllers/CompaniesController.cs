@@ -45,13 +45,13 @@ namespace Sample.API.Controllers
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> GetCompanies()
+		public async Task<IActionResult> GetCompanies([FromServices] QueryOptionsBuilder<Company> queryOptionsBuilder)
 		{
-			IQueryOptions<Company> queryOptions = QueryOptions<Company>
-					.OrderBy(x => x.Name)
-					.ThenByDescending(x => x.LegalType)
-				//.Include(x => x.Partners)
-				;
+			IQueryOptions<Company> queryOptions = queryOptionsBuilder
+				.Include(x => x.Partners)
+				.OrderBy(x => x.Name)
+				.ThenByDescending(x => x.LegalType)
+				.Build();
 
 			IReadOnlyCollection<Company> companies = await this.repository.FindManyAsync(x => true, queryOptions);
 

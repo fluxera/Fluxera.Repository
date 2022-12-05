@@ -1,5 +1,6 @@
 namespace Fluxera.Repository.Query
 {
+	using System.Linq;
 	using JetBrains.Annotations;
 
 	/// <summary>
@@ -7,18 +8,8 @@ namespace Fluxera.Repository.Query
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
 	[PublicAPI]
-	public interface ISkipTakeOptions<T> : IQueryOptions<T> where T : class
+	public interface ISkipTakeOptions<T> where T : class
 	{
-		/// <summary>
-		///     Gets the amount of items to skip.
-		/// </summary>
-		int? SkipAmount { get; }
-
-		/// <summary>
-		///     Gets the amount of items to take.
-		/// </summary>
-		int? TakeAmount { get; }
-
 		/// <summary>
 		///     Configures the amount of items to skip.
 		/// </summary>
@@ -32,5 +23,18 @@ namespace Fluxera.Repository.Query
 		/// <param name="takeAmount"></param>
 		/// <returns></returns>
 		ISkipTakeOptions<T> Take(int takeAmount);
+
+		/// <summary>
+		///     Builds a query options instance from this options.
+		/// </summary>
+		/// <returns></returns>
+		IQueryOptions<T> Build();
+
+		/// <summary>
+		///     Applies the query options to the given <see cref="IQueryable" />.
+		/// </summary>
+		/// <param name="queryable"></param>
+		/// <returns></returns>
+		internal IQueryable<T> ApplyTo(IQueryable<T> queryable);
 	}
 }

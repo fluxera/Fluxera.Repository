@@ -3,6 +3,7 @@
 	using System;
 	using Fluxera.Extensions.DependencyInjection;
 	using Fluxera.Guards;
+	using Fluxera.Repository.Query;
 	using global::LiteDB;
 	using JetBrains.Annotations;
 	using Microsoft.Extensions.DependencyInjection;
@@ -86,6 +87,10 @@
 			builder.Services.AddNamedTransient<IUnitOfWork>(serviceBuilder =>
 			{
 				serviceBuilder.AddNameFor<LiteUnitOfWork>(repositoryName);
+			});
+			builder.Services.AddNamedTransient<IIncludeApplier>(serviceBuilder =>
+			{
+				serviceBuilder.AddNameFor<LiteIncludeApplier>(repositoryName);
 			});
 
 			return builder.AddRepository(repositoryName, typeof(LiteRepository<,>), contextType, configure);

@@ -15,6 +15,10 @@
 		public static partial void LogInterceptingBeforeOperation(this ILogger logger, string operation, string aggregateRoot);
 
 		[DebuggerStepThrough]
+		[LoggerMessage(0, LogLevel.Warning, "The storage implementation '{StorageName}' doesn't support the Include query option.")]
+		public static partial void LogStorageNotSupportsIncludeQueryOption(this ILogger logger, string storageName);
+
+		[DebuggerStepThrough]
 		[LoggerMessage(0, LogLevel.Critical, "A critical error occurred trying to perform {Operation}: {AggregateRoot}")]
 		public static partial void LogErrorOccurredForOperation(this ILogger logger, string operation, string aggregateRoot, Exception exception);
 

@@ -1,5 +1,6 @@
 namespace Fluxera.Repository.Query
 {
+	using System.Linq;
 	using JetBrains.Annotations;
 
 	/// <summary>
@@ -7,33 +8,8 @@ namespace Fluxera.Repository.Query
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
 	[PublicAPI]
-	public interface IPagingOptions<T> : IQueryOptions<T> where T : class
+	public interface IPagingOptions<T> where T : class
 	{
-		/// <summary>
-		///     The page size.
-		/// </summary>
-		int PageSizeAmount { get; }
-
-		/// <summary>
-		///     The page number to request.
-		/// </summary>
-		int PageNumberAmount { get; }
-
-		/// <summary>
-		///     The total value to skip to get to the beginning of the page..
-		/// </summary>
-		int SkipAmount { get; }
-
-		/// <summary>
-		///     The amount of items to take (page size).
-		/// </summary>
-		int TakeAmount { get; }
-
-		/// <summary>
-		///     The total amount of items of the query.
-		/// </summary>
-		int TotalItemCount { get; }
-
 		/// <summary>
 		///     Set the page number.
 		/// </summary>
@@ -47,5 +23,18 @@ namespace Fluxera.Repository.Query
 		/// <param name="pageSizeAmount"></param>
 		/// <returns></returns>
 		IPagingOptions<T> PageSize(int pageSizeAmount);
+
+		/// <summary>
+		///     Builds a query options instance from this options.
+		/// </summary>
+		/// <returns></returns>
+		IQueryOptions<T> Build();
+
+		/// <summary>
+		///     Applies the query options to the given <see cref="IQueryable" />.
+		/// </summary>
+		/// <param name="queryable"></param>
+		/// <returns></returns>
+		internal IQueryable<T> ApplyTo(IQueryable<T> queryable);
 	}
 }

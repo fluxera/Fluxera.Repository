@@ -3,6 +3,7 @@
 	using System;
 	using Fluxera.Extensions.DependencyInjection;
 	using Fluxera.Guards;
+	using Fluxera.Repository.Query;
 	using global::MongoDB.Bson;
 	using global::MongoDB.Bson.Serialization;
 	using global::MongoDB.Bson.Serialization.Conventions;
@@ -98,6 +99,10 @@
 			builder.Services.AddNamedTransient<IUnitOfWork>(serviceBuilder =>
 			{
 				serviceBuilder.AddNameFor<MongoUnitOfWork>(repositoryName);
+			});
+			builder.Services.AddNamedTransient<IIncludeApplier>(serviceBuilder =>
+			{
+				serviceBuilder.AddNameFor<MongoIncludeApplier>(repositoryName);
 			});
 
 			return builder.AddRepository(repositoryName, typeof(MongoRepository<,>), contextType, configure);

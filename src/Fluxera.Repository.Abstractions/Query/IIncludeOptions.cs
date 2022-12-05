@@ -6,25 +6,32 @@ namespace Fluxera.Repository.Query
 	using JetBrains.Annotations;
 
 	/// <summary>
-	///     A contract for configuring the sorting options of a query.
+	///     A contract for configuring the include options of a query.
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
 	[PublicAPI]
-	public interface ISortingOptions<T> where T : class
+	public interface IIncludeOptions<T> where T : class
 	{
 		/// <summary>
-		///     Configures a secondary sort expression.
+		///     Configures an include expression.
 		/// </summary>
-		/// <param name="sortExpression"></param>
+		/// <param name="includeExpression"></param>
 		/// <returns></returns>
-		ISortingOptions<T> ThenBy(Expression<Func<T, object>> sortExpression);
+		IIncludeOptions<T> Include(Expression<Func<T, object>> includeExpression);
 
 		/// <summary>
-		///     Configures a secondary sort expression (descending).
+		///     Configures the primary sort expression.
 		/// </summary>
 		/// <param name="sortExpression"></param>
 		/// <returns></returns>
-		ISortingOptions<T> ThenByDescending(Expression<Func<T, object>> sortExpression);
+		ISortingOptions<T> OrderBy(Expression<Func<T, object>> sortExpression);
+
+		/// <summary>
+		///     Configures the primary sort expression (descending).
+		/// </summary>
+		/// <param name="sortExpression"></param>
+		/// <returns></returns>
+		ISortingOptions<T> OrderByDescending(Expression<Func<T, object>> sortExpression);
 
 		/// <summary>
 		///     Configures an optional skip amount.
