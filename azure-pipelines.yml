@@ -1,5 +1,3 @@
-# CI pipeline for a NuGet package solution.
-
 trigger:
   branches:
     include: [ '*' ]
@@ -8,6 +6,12 @@ trigger:
 variables:
   BuildConfiguration: Release
   DotNetCoreVersion: 6.0.x
+
+parameters:
+- name: publishPackages
+  displayName: "Publish NuGet packages"
+  type: boolean
+  default: false
 
 stages:
 - stage: BuildAndTest
@@ -61,7 +65,7 @@ stages:
 - stage: PublishPackages
   dependsOn: BuildAndTest
   # Only publish packages for main branch.
-  condition: and(succeeded('BuildAndTest'), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+  condition: and(succeeded('BuildAndTest'), eq(variables['Build.SourceBranch'], 'refs/heads/main'), eq(${{ parameters.publishPackages }}, true))
   jobs:
   - job: PublishPackages
     pool:
