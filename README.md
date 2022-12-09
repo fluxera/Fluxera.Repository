@@ -1,4 +1,4 @@
-[![Build Status](https://dev.azure.com/fluxera/Foundation/_apis/build/status/GitHub/fluxera.Fluxera.Repository?branchName=main)](https://dev.azure.com/fluxera/Foundation/_build/latest?definitionId=66&branchName=main)
+[![Build Status](https://dev.azure.com/fluxera/Foundation/_apis/build/status/GitHub/fluxera.Fluxera.Repository?branchName=main&stageName=BuildAndTest)](https://dev.azure.com/fluxera/Foundation/_build/latest?definitionId=88&branchName=main)
 
 # Fluxera.Repository
 A generic repository implementation.
