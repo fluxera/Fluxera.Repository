@@ -360,23 +360,27 @@
 					if(attachedEntity is not null)
 					{
 						this.context.Entry(attachedEntity).CurrentValues.SetValues(item);
+
+						this.PrepareItem(attachedEntity, EntityState.Modified);
+
+						// Return in this case to prevent the default behavior.
+						return;
 					}
 				}
 			}
 			catch
 			{
-				// Ignore and try the default behavior.
-				entry.State = EntityState.Modified;
+				// Ignored; try the default behavior.
 			}
-			finally
-			{
-				this.PrepareItem(item, EntityState.Modified);
-			}
+
+			// Default behavior.
+			entry.State = EntityState.Modified;
+			this.PrepareItem(item, EntityState.Modified);
 		}
 
 		private void PrepareItem(TAggregateRoot item, EntityState entityState)
 		{
-			foreach(PropertyInfo propertyInfo in typeof(TAggregateRoot).GetProperties())
+			foreach(PropertyInfo propertyInfo in typeof(TAggregateRoot).GetRuntimeProperties())
 			{
 				if(propertyInfo.PropertyType.IsAggregateRoot())
 				{
