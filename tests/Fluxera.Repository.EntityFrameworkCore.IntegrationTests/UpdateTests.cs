@@ -27,6 +27,7 @@
 		}
 
 		// --- Tests for reproducing issue #70 (https://github.com/fluxera/Fluxera.Repository/issues/70)
+		// --- Thanks to Jeff (https://github.com/jeffward01)
 
 		[Test]
 		public async Task ShouldAddNewPerson()
