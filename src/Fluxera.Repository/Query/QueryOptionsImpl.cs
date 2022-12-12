@@ -235,25 +235,25 @@ namespace Fluxera.Repository.Query
 		}
 
 		/// <inheritdoc />
-		IQueryOptions<T> IIncludeOptions<T>.Build()
+		IQueryOptions<T> IIncludeOptions<T>.Build(Func<IQueryable<T>, IQueryable<T>> applyFunc)
 		{
 			throw new UnreachableException();
 		}
 
 		/// <inheritdoc />
-		IQueryOptions<T> ISortingOptions<T>.Build()
+		IQueryOptions<T> ISortingOptions<T>.Build(Func<IQueryable<T>, IQueryable<T>> applyFunc)
 		{
 			throw new UnreachableException();
 		}
 
 		/// <inheritdoc />
-		IQueryOptions<T> ISkipTakeOptions<T>.Build()
+		IQueryOptions<T> ISkipTakeOptions<T>.Build(Func<IQueryable<T>, IQueryable<T>> applyFunc)
 		{
 			throw new UnreachableException();
 		}
 
 		/// <inheritdoc />
-		IQueryOptions<T> IPagingOptions<T>.Build()
+		IQueryOptions<T> IPagingOptions<T>.Build(Func<IQueryable<T>, IQueryable<T>> applyFunc)
 		{
 			throw new UnreachableException();
 		}

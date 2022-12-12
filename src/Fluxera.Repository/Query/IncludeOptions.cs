@@ -13,6 +13,8 @@ namespace Fluxera.Repository.Query
 
 		private readonly IList<Expression<Func<T, object>>> includeExpressions = new List<Expression<Func<T, object>>>();
 
+		private Func<IQueryable<T>, IQueryable<T>> applyAdditionalQueryable;
+
 		public IncludeOptions(QueryOptionsImpl<T> queryOptions, Expression<Func<T, object>> includeExpression, IIncludeApplier includeApplier)
 		{
 			this.queryOptions = queryOptions;
@@ -79,15 +81,21 @@ namespace Fluxera.Repository.Query
 		}
 
 		/// <inheritdoc />
-		public IQueryOptions<T> Build()
+		public IQueryOptions<T> Build(Func<IQueryable<T>, IQueryable<T>> applyFunc)
 		{
+			this.applyAdditionalQueryable = applyFunc;
+
 			return this.queryOptions;
 		}
 
 		/// <inheritdoc />
 		IQueryable<T> IIncludeOptions<T>.ApplyTo(IQueryable<T> queryable)
 		{
-			return this.includeApplier?.ApplyTo(queryable, this.includeExpressions) ?? queryable;
+			queryable = this.includeApplier?.ApplyTo(queryable, this.includeExpressions) ?? queryable;
+
+			queryable = this.applyAdditionalQueryable?.Invoke(queryable) ?? queryable;
+
+			return queryable;
 		}
 	}
 }
