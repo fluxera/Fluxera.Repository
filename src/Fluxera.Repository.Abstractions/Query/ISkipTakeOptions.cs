@@ -1,5 +1,6 @@
 namespace Fluxera.Repository.Query
 {
+	using System;
 	using System.Linq;
 	using JetBrains.Annotations;
 
@@ -27,8 +28,9 @@ namespace Fluxera.Repository.Query
 		/// <summary>
 		///     Builds a query options instance from this options.
 		/// </summary>
+		/// <param name="applyFunc">A function which can be used to apply additional configuration to the queryable.</param>
 		/// <returns></returns>
-		IQueryOptions<T> Build();
+		IQueryOptions<T> Build(Func<IQueryable<T>, IQueryable<T>> applyFunc = null);
 
 		/// <summary>
 		///     Applies the query options to the given <see cref="IQueryable" />.

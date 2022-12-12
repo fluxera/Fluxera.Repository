@@ -1,11 +1,14 @@
 namespace Fluxera.Repository.Query
 {
+	using System;
 	using System.Linq;
 	using Fluxera.Utilities.Extensions;
 
 	internal sealed class PagingOptions<T> : IPagingOptions<T> where T : class
 	{
 		private readonly QueryOptionsImpl<T> queryOptions;
+
+		private Func<IQueryable<T>, IQueryable<T>> applyAdditionalQueryable;
 
 		public PagingOptions(QueryOptionsImpl<T> queryOptions, int pageNumber = 1, int pageSize = 25)
 		{
@@ -16,6 +19,14 @@ namespace Fluxera.Repository.Query
 		}
 
 		public int TotalItemCount { get; private set; }
+
+		public int PageNumberAmount { get; private set; }
+
+		public int PageSizeAmount { get; private set; }
+
+		public int SkipAmount => (this.PageNumberAmount - 1) * this.PageSizeAmount;
+
+		public int TakeAmount => this.PageSizeAmount;
 
 		/// <inheritdoc />
 		public IPagingOptions<T> PageNumber(int pageNumberAmount)
@@ -34,18 +45,12 @@ namespace Fluxera.Repository.Query
 		}
 
 		/// <inheritdoc />
-		public IQueryOptions<T> Build()
+		public IQueryOptions<T> Build(Func<IQueryable<T>, IQueryable<T>> applyFunc)
 		{
+			this.applyAdditionalQueryable = applyFunc;
+
 			return this.queryOptions;
 		}
-
-		public int PageNumberAmount { get; private set; }
-
-		public int PageSizeAmount { get; private set; }
-
-		public int SkipAmount => (this.PageNumberAmount - 1) * this.PageSizeAmount;
-
-		public int TakeAmount => this.PageSizeAmount;
 
 		/// <inheritdoc />
 		IQueryable<T> IPagingOptions<T>.ApplyTo(IQueryable<T> queryable)
@@ -56,6 +61,8 @@ namespace Fluxera.Repository.Query
 			{
 				return queryable.Skip(this.SkipAmount).Take(this.TakeAmount);
 			}
+
+			queryable = this.applyAdditionalQueryable?.Invoke(queryable);
 
 			return queryable;
 		}

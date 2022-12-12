@@ -14,6 +14,8 @@ namespace Fluxera.Repository.Query
 
 		private readonly IList<ISortExpression<T>> secondaryExpressions = new List<ISortExpression<T>>();
 
+		private Func<IQueryable<T>, IQueryable<T>> applyAdditionalQueryable;
+
 		public SortingOptions(QueryOptionsImpl<T> queryOptions, Expression<Func<T, object>> sortExpression, bool isDescending)
 		{
 			this.queryOptions = queryOptions;
@@ -73,8 +75,10 @@ namespace Fluxera.Repository.Query
 		}
 
 		/// <inheritdoc />
-		public IQueryOptions<T> Build()
+		public IQueryOptions<T> Build(Func<IQueryable<T>, IQueryable<T>> applyFunc = null)
 		{
+			this.applyAdditionalQueryable = applyFunc;
+
 			return this.queryOptions;
 		}
 
@@ -87,6 +91,8 @@ namespace Fluxera.Repository.Query
 				IOrderedQueryable<T> orderedQueryable = (IOrderedQueryable<T>)queryable;
 				queryable = secondaryExpression.ApplyTo(orderedQueryable);
 			}
+
+			queryable = this.applyAdditionalQueryable?.Invoke(queryable);
 
 			return queryable;
 		}
