@@ -62,7 +62,7 @@ namespace Fluxera.Repository.Query
 				return queryable.Skip(this.SkipAmount).Take(this.TakeAmount);
 			}
 
-			queryable = this.applyAdditionalQueryable?.Invoke(queryable);
+			queryable = this.applyAdditionalQueryable?.Invoke(queryable) ?? queryable;
 
 			return queryable;
 		}

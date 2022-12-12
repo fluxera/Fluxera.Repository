@@ -92,7 +92,7 @@ namespace Fluxera.Repository.Query
 				queryable = secondaryExpression.ApplyTo(orderedQueryable);
 			}
 
-			queryable = this.applyAdditionalQueryable?.Invoke(queryable);
+			queryable = this.applyAdditionalQueryable?.Invoke(queryable) ?? queryable;
 
 			return queryable;
 		}
