@@ -38,6 +38,11 @@
 				entity.UseRepositoryDefaults();
 			});
 
+			modelBuilder.Entity<Company>(entity =>
+			{
+				entity.UseRepositoryDefaults();
+			});
+
 			modelBuilder.Entity<Employee>(entity =>
 			{
 				entity
@@ -48,6 +53,11 @@
 					.Property(x => x.SalaryNullableDecimal)
 					.HasConversion<double?>();
 
+				entity.UseRepositoryDefaults();
+			});
+
+			modelBuilder.Entity<Reference>(entity =>
+			{
 				entity.UseRepositoryDefaults();
 			});
 		}
