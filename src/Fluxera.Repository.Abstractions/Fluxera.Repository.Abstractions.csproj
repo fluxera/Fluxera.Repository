@@ -30,7 +30,7 @@
 		<PackageReference Include="Fluxera.Entity" Version="7.0.5" />
 		<PackageReference Include="Fluxera.Extensions.Validation.Abstractions" Version="7.0.3" />
 		<PackageReference Include="Fluxera.Linq.Expressions" Version="7.0.3" />
-		<PackageReference Include="Fluxera.ValueObject" Version="7.0.3" />
+		<PackageReference Include="Fluxera.ValueObject" Version="7.0.4" />
 		<PackageReference Include="GitVersion.MsBuild" Version="5.11.1">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

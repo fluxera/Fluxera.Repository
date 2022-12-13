@@ -34,6 +34,8 @@
 			{
 				entity.ToTable("People");
 				entity.OwnsOne(x => x.Address);
+
+				entity.UseRepositoryDefaults();
 			});
 
 			modelBuilder.Entity<Employee>(entity =>
@@ -45,9 +47,9 @@
 				entity
 					.Property(x => x.SalaryNullableDecimal)
 					.HasConversion<double?>();
-			});
 
-			modelBuilder.UseRepositoryDefaults();
+				entity.UseRepositoryDefaults();
+			});
 		}
 	}
 }

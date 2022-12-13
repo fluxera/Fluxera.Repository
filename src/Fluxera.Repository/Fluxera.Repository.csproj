@@ -27,7 +27,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Fluxera.Entity" Version="7.0.5" />
-		<PackageReference Include="Fluxera.Enumeration" Version="7.0.4" />
+		<PackageReference Include="Fluxera.Enumeration" Version="7.0.5" />
 		<PackageReference Include="Fluxera.Extensions.Caching" Version="7.0.3" />
 		<PackageReference Include="Fluxera.Extensions.Common" Version="7.0.3" />
 		<PackageReference Include="Fluxera.Extensions.DependencyInjection" Version="7.0.3" />
@@ -36,7 +36,7 @@
 		<PackageReference Include="Fluxera.Spatial" Version="7.0.4" />
 		<PackageReference Include="Fluxera.Temporal" Version="7.0.3" />
 		<PackageReference Include="Fluxera.Utilities" Version="7.0.4" />
-		<PackageReference Include="Fluxera.ValueObject" Version="7.0.3" />
+		<PackageReference Include="Fluxera.ValueObject" Version="7.0.4" />
 		<PackageReference Include="GitVersion.MsBuild" Version="5.11.1">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

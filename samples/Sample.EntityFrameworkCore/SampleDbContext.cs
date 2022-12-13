@@ -32,9 +32,9 @@
 			modelBuilder.Entity<Company>(entity =>
 			{
 				entity.ToTable("Companies");
-			});
 
-			modelBuilder.UseRepositoryDefaults();
+				entity.UseRepositoryDefaults();
+			});
 		}
 	}
 }
