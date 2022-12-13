@@ -42,9 +42,9 @@
 			{
 				entity.ToTable("People");
 				entity.OwnsOne(x => x.Address);
-			});
 
-			modelBuilder.UseRepositoryDefaults();
+				entity.UseRepositoryDefaults();
+			});
 		}
 	}
 }
