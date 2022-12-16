@@ -41,7 +41,7 @@ stages:
     - task: DotNetCoreCLI@2
       displayName: 'Execute Tests'
       inputs:
-        command: test
+        command: 'test'
         projects: '**/*Tests/*.csproj'
         arguments: '--configuration $(BuildConfiguration)'
         nobuild: true
