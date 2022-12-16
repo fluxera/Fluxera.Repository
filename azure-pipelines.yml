@@ -35,16 +35,15 @@ stages:
     - task: DotNetCoreCLI@2
       displayName: 'Build Projects'
       inputs:
-        projects: '**/*.csproj'
+        projects: 'src/**/*.csproj'
         arguments: '--configuration $(BuildConfiguration)'
     # Run all available tests.
     - task: DotNetCoreCLI@2
       displayName: 'Execute Tests'
       inputs:
         command: 'test'
-        projects: '**/*Tests/*.csproj'
+        projects: 'tests/*Tests/*.csproj'
         arguments: '--configuration $(BuildConfiguration)'
-        nobuild: true
     # Create the NuGet packages.
     - task: DotNetCoreCLI@2
       displayName: 'Pack Packages'
