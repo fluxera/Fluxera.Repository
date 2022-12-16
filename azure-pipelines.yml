@@ -25,12 +25,12 @@ stages:
       persistCredentials: 'true'
       clean: true
     # Install the desired .NET SDK.   
-    #- task: UseDotNet@2
-    #  displayName: 'Acquire .NET SDK'
-    #  inputs:
-    #    packageType: 'sdk'
-    #    version: $(DotNetCoreVersion)
-    #    includePreviewVersions: false   
+    - task: UseDotNet@2
+      displayName: 'Acquire .NET SDK'
+      inputs:
+        packageType: 'sdk'
+        version: $(DotNetCoreVersion)
+        includePreviewVersions: false   
     # Build all projects.
     - task: DotNetCoreCLI@2
       displayName: 'Build Projects'
