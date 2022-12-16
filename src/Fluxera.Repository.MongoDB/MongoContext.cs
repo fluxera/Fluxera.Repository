@@ -7,6 +7,7 @@
 	using System.Threading;
 	using System.Threading.Tasks;
 	using Fluxera.Guards;
+	using Fluxera.Repository.Options;
 	using Fluxera.Utilities;
 	using Fluxera.Utilities.Extensions;
 	using global::MongoDB.Driver;
@@ -14,6 +15,7 @@
 	using global::MongoDB.Driver.Core.Extensions.DiagnosticSources;
 	using JetBrains.Annotations;
 	using Microsoft.Extensions.DependencyInjection;
+	using Microsoft.Extensions.Logging;
 
 	/// <summary>
 	///     A base class for context implementations for the MongoDB repository.
@@ -77,29 +79,33 @@
 
 			try
 			{
-				ClusterType clusterType = this.client.Cluster.Description.Type;
-				if(clusterType == ClusterType.ReplicaSet)
+				await this.ExecuteCommandsAsync(cancellationToken);
+				await this.DispatchDomainEventsAsync();
+
+				// Commit the transaction if a session with a transaction exists.
+				if(this.Session is not null && this.Session.IsInTransaction)
 				{
-					using(this.Session = await this.client.StartSessionAsync(cancellationToken: cancellationToken))
-					{
-						this.Session.StartTransaction();
-
-						await this.ExecuteCommandsAsync(cancellationToken);
-						await this.DispatchDomainEventsAsync();
-
-						await this.Session.CommitTransactionAsync(cancellationToken);
-					}
+					await this.Session.CommitTransactionAsync(cancellationToken);
 				}
-				else
+			}
+			catch
+			{
+				// Abort the transaction on error, if a session with a transaction exists
+				if(this.Session is not null && this.Session.IsInTransaction)
 				{
-					await this.ExecuteCommandsAsync(cancellationToken);
-					await this.DispatchDomainEventsAsync();
+					await this.Session.AbortTransactionAsync(cancellationToken);
 				}
 			}
 			finally
 			{
 				this.ClearCommands();
 				this.ClearDomainEvents();
+
+				// Start a new transaction, if a session without transaction exists.
+				if(this.Session is not null && !this.Session.IsInTransaction)
+				{
+					this.Session.StartTransaction();
+				}
 			}
 		}
 
@@ -140,14 +146,11 @@
 
 				this.ConfigureOptions(options);
 
-				string connectionString = options.ConnectionString;
-				string databaseName = options.Database;
+				string connectionString = Guard.Against.NullOrWhiteSpace(options.ConnectionString);
+				string databaseName = Guard.Against.NullOrWhiteSpace(options.Database);
 
-				Guard.Against.NullOrWhiteSpace(connectionString);
-				Guard.Against.NullOrWhiteSpace(databaseName);
-
-				// Create the client instance and cache it for the connection string. It is recommended to only have
-				// a single client instance.
+				// Create the client instance and cache it for the connection string.
+				// It is recommended to only have a single client instance.
 				// See: https://mongodb.github.io/mongo-csharp-driver/2.18/reference/driver/connecting/
 				if(!Clients.ContainsKey(connectionString))
 				{
@@ -167,8 +170,7 @@
 						};
 					}
 
-					IMongoClient mongoClient = new MongoClient(settings);
-					if(!Clients.TryAdd(connectionString, mongoClient))
+					if(!Clients.TryAdd(connectionString, new MongoClient(settings)))
 					{
 						throw new InvalidOperationException("The MongoDB client could not be added to the client cache.");
 					}
@@ -176,6 +178,25 @@
 
 				this.client = Clients[connectionString];
 				this.database = this.client.GetDatabase(databaseName);
+
+				// Start a transaction, if UoW is configured and the cluster is a replica set..
+				IRepositoryRegistry repositoryRegistry = serviceProvider.GetRequiredService<IRepositoryRegistry>();
+				RepositoryOptions repositoryOptions = repositoryRegistry.GetRepositoryOptionsFor(repositoryName);
+
+				if(repositoryOptions.IsUnitOfWorkEnabled)
+				{
+					if(this.client.Cluster.Description.Type == ClusterType.ReplicaSet)
+					{
+						this.Session = this.client.StartSession();
+						this.Session.StartTransaction();
+					}
+					else
+					{
+						ILoggerFactory loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
+						ILogger logger = loggerFactory.CreateLogger(typeof(MongoContext));
+						logger.LogUnitOfWorkEnabledWithoutReplicaSet(repositoryName);
+					}
+				}
 
 				this.RepositoryName = repositoryName;
 				this.ServiceProvider = serviceProvider;

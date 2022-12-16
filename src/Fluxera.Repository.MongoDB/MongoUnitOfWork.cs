@@ -41,6 +41,7 @@
 		void IUnitOfWork.Initialize(RepositoryName repositoryName)
 		{
 			this.context = this.contextProvider.GetContextFor(repositoryName);
+
 			this.isInitialized = true;
 		}
 
