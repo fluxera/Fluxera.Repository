@@ -18,7 +18,7 @@ stages:
   jobs:
   - job: BuildAndTest
     pool:
-      vmImage: 'windows-latest'
+      name: Default
     steps:
     - checkout: self
       fetchDepth: 0
@@ -68,7 +68,7 @@ stages:
   jobs:
   - job: PublishPackages
     pool:
-      vmImage: 'windows-latest'
+      name: Default
     steps:
     # Download the created packages.
     - task: DownloadBuildArtifacts@0
