@@ -50,6 +50,11 @@
 		/// <inheritdoc />
 		protected override async Task AddAsync(TAggregateRoot item, CancellationToken cancellationToken)
 		{
+			// 1. UnitOfWork deaktiviert
+			// 2. UnitOfWork aktiviert.
+			//    a) Server supports transactions.
+			//    b) Server doesn't support transactions.
+
 			Task PerformAddAsync()
 			{
 				Task result = this.context.Session is not null
