@@ -23,7 +23,7 @@
 		{
 			if(!optionsBuilder.IsConfigured)
 			{
-				optionsBuilder.UseInMemoryDatabase("test");
+				optionsBuilder.UseSqlServer(GlobalFixture.ConnectionString);
 			}
 		}
 

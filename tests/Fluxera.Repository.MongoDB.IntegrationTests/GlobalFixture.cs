@@ -11,7 +11,7 @@
 	{
 		private static TestcontainerDatabase container;
 
-		private readonly MongoDbTestcontainerConfiguration configuration = new MongoDbTestcontainerConfiguration
+		private readonly TestcontainerDatabaseConfiguration configuration = new MongoDbTestcontainerConfiguration
 		{
 			Database = "test",
 			Username = null,
@@ -24,6 +24,7 @@
 				.WithDatabase(this.configuration)
 				.WithPortBinding(37017, 27017)
 				.WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(27017))
+				.WithImage("mongo:latest")
 				.Build();
 		}
 
