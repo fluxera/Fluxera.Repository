@@ -18,7 +18,7 @@ stages:
   jobs:
   - job: BuildAndTest
     pool:
-      name: Default
+      vmImage: 'ubuntu-latest'
     steps:
     - checkout: self
       fetchDepth: 0
