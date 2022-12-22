@@ -10,6 +10,17 @@
 	[PublicAPI]
 	public sealed class RepositoryDbContext : DbContext
 	{
+		private readonly string databaseName;
+
+		public RepositoryDbContext()
+		{
+		}
+
+		internal RepositoryDbContext(string databaseName)
+		{
+			this.databaseName = databaseName;
+		}
+
 		public DbSet<Person> People { get; set; }
 
 		public DbSet<Company> Companies { get; set; }
@@ -23,7 +34,9 @@
 		{
 			if(!optionsBuilder.IsConfigured)
 			{
-				optionsBuilder.UseSqlServer(GlobalFixture.ConnectionString);
+				optionsBuilder.UseSqlServer(this.databaseName is null
+					? GlobalFixture.ConnectionString
+					: GlobalFixture.ConnectionString.Replace($"Database={GlobalFixture.Database}", $"Database={this.databaseName}"));
 			}
 		}
 

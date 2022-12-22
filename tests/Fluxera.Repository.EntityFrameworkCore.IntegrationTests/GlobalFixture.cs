@@ -28,9 +28,11 @@
 				.Build();
 		}
 
-		public static string ConnectionString => $"{container.ConnectionString}TrustServerCertificate=True;";
+		public static string ConnectionString => container is not null
+			? $"{container?.ConnectionString}TrustServerCertificate=True;"
+			: null;
 
-		public static string Database => container.Database;
+		public static string Database => container?.Database;
 
 		[OneTimeSetUp]
 		public async Task OneTimeSetUp()
@@ -38,6 +40,16 @@
 			await container.StartAsync();
 
 			await using(RepositoryDbContext context = new RepositoryDbContext())
+			{
+				await context.Database.MigrateAsync();
+			}
+
+			await using(RepositoryDbContext context = new RepositoryDbContext($"{Database}-1"))
+			{
+				await context.Database.MigrateAsync();
+			}
+
+			await using(RepositoryDbContext context = new RepositoryDbContext($"{Database}-2"))
 			{
 				await context.Database.MigrateAsync();
 			}
