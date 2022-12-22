@@ -8,8 +8,8 @@
 		/// <inheritdoc />
 		protected override void ConfigureOptions(MongoContextOptions options)
 		{
-			options.ConnectionString = "mongodb://localhost:27017";
-			options.Database = "test";
+			options.ConnectionString = GlobalFixture.ConnectionString;
+			options.Database = GlobalFixture.Database;
 		}
 	}
 }

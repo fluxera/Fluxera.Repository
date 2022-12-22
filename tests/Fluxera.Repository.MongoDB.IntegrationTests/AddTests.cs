@@ -26,8 +26,8 @@
 		/// <inheritdoc />
 		protected override async Task TearDownAsync()
 		{
-			MongoClient client = new MongoClient("mongodb://localhost:27017");
-			await client.DropDatabaseAsync("test");
+			MongoClient client = new MongoClient(GlobalFixture.ConnectionString);
+			await client.DropDatabaseAsync(GlobalFixture.Database);
 		}
 	}
 }

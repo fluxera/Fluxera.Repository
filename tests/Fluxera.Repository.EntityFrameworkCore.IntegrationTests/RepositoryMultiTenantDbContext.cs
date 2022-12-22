@@ -22,7 +22,7 @@
 		{
 			if(!optionsBuilder.IsConfigured)
 			{
-				string databaseName = "test";
+				string databaseName = GlobalFixture.Database;
 
 				if(!string.IsNullOrWhiteSpace(this.tenantNameProvider?.Name))
 				{
@@ -31,7 +31,7 @@
 
 				databaseName = $"{databaseName}";
 
-				optionsBuilder.UseInMemoryDatabase(databaseName);
+				optionsBuilder.UseSqlServer(GlobalFixture.ConnectionString.Replace($"Database={GlobalFixture.Database}", $"Database={databaseName}"));
 			}
 		}
 
