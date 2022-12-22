@@ -16,9 +16,9 @@
 		/// <inheritdoc />
 		protected override void ConfigureOptions(MongoContextOptions options)
 		{
-			options.ConnectionString = "mongodb://localhost:27017";
+			options.ConnectionString = GlobalFixture.ConnectionString;
 
-			string databaseName = "test";
+			string databaseName = GlobalFixture.Database;
 
 			if(!string.IsNullOrWhiteSpace(this.tenantNameProvider?.Name))
 			{

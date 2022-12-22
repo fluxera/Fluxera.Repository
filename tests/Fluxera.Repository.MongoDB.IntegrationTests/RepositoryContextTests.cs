@@ -17,7 +17,8 @@
 		}
 
 		/// <inheritdoc />
-		protected override void AddRepositoryUnderTestWithWrongContextBaseClass(IRepositoryBuilder repositoryBuilder, string repositoryName, Action<IRepositoryOptionsBuilder> configureOptions)
+		protected override void AddRepositoryUnderTestWithWrongContextBaseClass(IRepositoryBuilder repositoryBuilder, string repositoryName,
+			Action<IRepositoryOptionsBuilder> configureOptions)
 		{
 			repositoryBuilder.AddMongoRepository(repositoryName, typeof(WrongBaseClassContext), configureOptions);
 		}
@@ -25,10 +26,10 @@
 		/// <inheritdoc />
 		protected override async Task TearDownAsync()
 		{
-			MongoClient client = new MongoClient("mongodb://localhost:27017");
-			await client.DropDatabaseAsync("test");
-			await client.DropDatabaseAsync("test-1");
-			await client.DropDatabaseAsync("test-2");
+			MongoClient client = new MongoClient(GlobalFixture.ConnectionString);
+			await client.DropDatabaseAsync(GlobalFixture.Database);
+			await client.DropDatabaseAsync($"{GlobalFixture.Database}-1");
+			await client.DropDatabaseAsync($"{GlobalFixture.Database}-2");
 		}
 	}
 }
