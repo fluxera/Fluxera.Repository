@@ -8,7 +8,7 @@
 		/// <inheritdoc />
 		protected override void ConfigureOptions(MongoContextOptions options)
 		{
-			options.ConnectionString = "mongodb://localhost:27017";
+			options.ConnectionString = "mongodb://localhost:37017";
 			options.Database = "test";
 		}
 	}
