@@ -3,8 +3,9 @@
 	using System;
 	using JetBrains.Annotations;
 
+	/// <inheritdoc />
 	[UsedImplicitly]
-	internal sealed class EntityFrameworkCoreContextProvider : ContextProviderBase<EntityFrameworkCoreContext>
+	public sealed class EntityFrameworkCoreContextProvider : ContextProviderBase<EntityFrameworkCoreContext>
 	{
 		private readonly IServiceProvider serviceProvider;
 

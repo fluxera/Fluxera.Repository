@@ -3,8 +3,9 @@
 	using System;
 	using JetBrains.Annotations;
 
+	/// <inheritdoc />
 	[UsedImplicitly]
-	internal sealed class LiteContextProvider : ContextProviderBase<LiteContext>
+	public sealed class LiteContextProvider : ContextProviderBase<LiteContext>
 	{
 		/// <inheritdoc />
 		public LiteContextProvider(

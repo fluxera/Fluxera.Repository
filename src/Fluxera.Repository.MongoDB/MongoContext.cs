@@ -25,9 +25,7 @@
 	{
 		private static readonly ConcurrentDictionary<string, IMongoClient> Clients = new ConcurrentDictionary<string, IMongoClient>();
 
-		private IMongoClient client;
 		private ConcurrentQueue<Func<Task>> commands;
-		private IMongoDatabase database;
 
 		private bool isConfigured;
 
@@ -51,6 +49,16 @@
 		///     Gets the session for this context.
 		/// </summary>
 		public IClientSessionHandle Session { get; private set; }
+
+		/// <summary>
+		///     Gets the client for this context.
+		/// </summary>
+		public IMongoClient Client { get; private set; }
+
+		/// <summary>
+		///     Gets the database for this context.
+		/// </summary>
+		public IMongoDatabase Database { get; private set; }
 
 		/// <summary>
 		///     Adds a command for execution.
@@ -176,8 +184,8 @@
 					}
 				}
 
-				this.client = Clients[connectionString];
-				this.database = this.client.GetDatabase(databaseName);
+				this.Client = Clients[connectionString];
+				this.Database = this.Client.GetDatabase(databaseName);
 
 				// Start a transaction, if UoW is configured and the cluster is a replica set..
 				IRepositoryRegistry repositoryRegistry = serviceProvider.GetRequiredService<IRepositoryRegistry>();
@@ -185,9 +193,9 @@
 
 				if(repositoryOptions.IsUnitOfWorkEnabled)
 				{
-					if(this.client.Cluster.Description.Type == ClusterType.ReplicaSet)
+					if(this.Client.Cluster.Description.Type == ClusterType.ReplicaSet)
 					{
-						this.Session = this.client.StartSession();
+						this.Session = this.Client.StartSession();
 						this.Session.StartTransaction();
 					}
 					else
@@ -213,7 +221,7 @@
 		internal IMongoCollection<T> GetCollection<T>()
 		{
 			string collectionName = typeof(T).Name.Pluralize();
-			return this.database.GetCollection<T>(collectionName);
+			return this.Database.GetCollection<T>(collectionName);
 		}
 
 		private void ClearCommands()

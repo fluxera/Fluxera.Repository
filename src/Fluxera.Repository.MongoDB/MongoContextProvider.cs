@@ -3,8 +3,9 @@
 	using System;
 	using JetBrains.Annotations;
 
+	/// <inheritdoc />
 	[UsedImplicitly]
-	internal sealed class MongoContextProvider : ContextProviderBase<MongoContext>
+	public sealed class MongoContextProvider : ContextProviderBase<MongoContext>
 	{
 		/// <inheritdoc />
 		public MongoContextProvider(
