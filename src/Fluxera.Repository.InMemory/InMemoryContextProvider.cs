@@ -3,8 +3,9 @@
 	using System;
 	using JetBrains.Annotations;
 
+	/// <inheritdoc />
 	[UsedImplicitly]
-	internal sealed class InMemoryContextProvider : ContextProviderBase<InMemoryContext>
+	public sealed class InMemoryContextProvider : ContextProviderBase<InMemoryContext>
 	{
 		/// <inheritdoc />
 		public InMemoryContextProvider(
