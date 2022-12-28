@@ -307,7 +307,7 @@
 					{
 						ILoggerFactory loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
 						ILogger logger = loggerFactory.CreateLogger(typeof(MongoContext));
-						logger.LogUnitOfWorkEnabledWithoutReplicaSet(repositoryName);
+						logger.LogUnitOfWorkEnabledWithoutReplicaSet(repositoryName.Name);
 					}
 				}
 
