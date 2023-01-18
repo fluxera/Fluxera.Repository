@@ -1,7 +1,7 @@
 <Project>
 
 	<PropertyGroup>
-		<LangVersion>latest</LangVersion>
+		<LangVersion>11</LangVersion>
 		<Nullable>disable</Nullable>
 		<ImplicitUsings>disable</ImplicitUsings>
 		<GenerateDocumentationFile>false</GenerateDocumentationFile>
@@ -11,7 +11,7 @@
 	<PropertyGroup>
 		<Company>Fluxera Software Development GmbH</Company>
 		<Product>Fluxera Software Foundation</Product>
-		<Copyright>Copyright © 2014-2022 Fluxera Software Development GmbH. All rights reserved.</Copyright>
+		<Copyright>Copyright © 2014-2023 Fluxera Software Development GmbH. All rights reserved.</Copyright>
 	</PropertyGroup>
 
 </Project>
