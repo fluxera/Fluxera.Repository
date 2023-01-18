@@ -68,7 +68,7 @@ stages:
   jobs:
   - job: PublishPackages
     pool:
-      name: Default
+      vmImage: 'ubuntu-latest'
     steps:
     # Download the created packages.
     - task: DownloadBuildArtifacts@0
