@@ -24,14 +24,14 @@
 	<ItemGroup>
 		<PackageReference Include="Fluxera.Enumeration.LiteDB" Version="7.1.0" />
 		<PackageReference Include="Fluxera.Spatial.LiteDB" Version="7.1.0" />
-		<PackageReference Include="Fluxera.StronglyTypedId.LiteDB" Version="7.1.0" />
+		<PackageReference Include="Fluxera.StronglyTypedId.LiteDB" Version="7.1.1" />
 		<PackageReference Include="Fluxera.ValueObject.LiteDB" Version="7.1.0" />
 		<PackageReference Include="GitVersion.MsBuild" Version="5.11.1">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="LiteDB" Version="5.0.15" />
-		<PackageReference Include="LiteDB.Async" Version="0.1.4" />
+		<PackageReference Include="LiteDB.Async" Version="0.1.5" />
 		<PackageReference Include="LiteDB.Queryable" Version="1.0.3" />
 	</ItemGroup>
 
