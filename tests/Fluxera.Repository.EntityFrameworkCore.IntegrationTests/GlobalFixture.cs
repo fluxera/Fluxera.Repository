@@ -20,7 +20,7 @@
 
 		public GlobalFixture()
 		{
-			container = new TestcontainersBuilder<MsSqlTestcontainer>()
+			container = new ContainerBuilder<MsSqlTestcontainer>()
 				.WithDatabase(this.configuration)
 				.WithPortBinding(3433, 1433)
 				.WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(1433))

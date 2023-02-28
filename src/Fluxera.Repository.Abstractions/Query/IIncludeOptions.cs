@@ -24,14 +24,14 @@ namespace Fluxera.Repository.Query
 		/// </summary>
 		/// <param name="sortExpression"></param>
 		/// <returns></returns>
-		ISortingOptions<T> OrderBy(Expression<Func<T, object>> sortExpression);
+		ISortingOptions<T> OrderBy<TValue>(Expression<Func<T, TValue>> sortExpression);
 
 		/// <summary>
 		///     Configures the primary sort expression (descending).
 		/// </summary>
 		/// <param name="sortExpression"></param>
 		/// <returns></returns>
-		ISortingOptions<T> OrderByDescending(Expression<Func<T, object>> sortExpression);
+		ISortingOptions<T> OrderByDescending<TValue>(Expression<Func<T, TValue>> sortExpression);
 
 		/// <summary>
 		///     Configures an optional skip amount.

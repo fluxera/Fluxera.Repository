@@ -16,25 +16,25 @@ namespace Fluxera.Repository.Query
 
 		private Func<IQueryable<T>, IQueryable<T>> applyAdditionalQueryable;
 
-		public SortingOptions(QueryOptionsImpl<T> queryOptions, Expression<Func<T, object>> sortExpression, bool isDescending)
+		public SortingOptions(QueryOptionsImpl<T> queryOptions, ISortExpression<T> primaryExpression)
 		{
 			this.queryOptions = queryOptions;
 
-			this.primaryExpression = new SortExpression<T>(sortExpression, isDescending);
+			this.primaryExpression = primaryExpression;
 		}
 
 		/// <inheritdoc />
-		public ISortingOptions<T> ThenBy(Expression<Func<T, object>> sortExpression)
+		public ISortingOptions<T> ThenBy<TValue>(Expression<Func<T, TValue>> sortExpression)
 		{
-			this.secondaryExpressions.Add(new SortExpression<T>(sortExpression));
+			this.secondaryExpressions.Add(new SortExpression<T, TValue>(sortExpression));
 
 			return this;
 		}
 
 		/// <inheritdoc />
-		public ISortingOptions<T> ThenByDescending(Expression<Func<T, object>> sortExpression)
+		public ISortingOptions<T> ThenByDescending<TValue>(Expression<Func<T, TValue>> sortExpression)
 		{
-			this.secondaryExpressions.Add(new SortExpression<T>(sortExpression, true));
+			this.secondaryExpressions.Add(new SortExpression<T, TValue>(sortExpression, true));
 
 			return this;
 		}

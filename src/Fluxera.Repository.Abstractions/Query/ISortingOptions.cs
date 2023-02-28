@@ -17,14 +17,14 @@ namespace Fluxera.Repository.Query
 		/// </summary>
 		/// <param name="sortExpression"></param>
 		/// <returns></returns>
-		ISortingOptions<T> ThenBy(Expression<Func<T, object>> sortExpression);
+		ISortingOptions<T> ThenBy<TValue>(Expression<Func<T, TValue>> sortExpression);
 
 		/// <summary>
 		///     Configures a secondary sort expression (descending).
 		/// </summary>
 		/// <param name="sortExpression"></param>
 		/// <returns></returns>
-		ISortingOptions<T> ThenByDescending(Expression<Func<T, object>> sortExpression);
+		ISortingOptions<T> ThenByDescending<TValue>(Expression<Func<T, TValue>> sortExpression);
 
 		/// <summary>
 		///     Configures an optional skip amount.

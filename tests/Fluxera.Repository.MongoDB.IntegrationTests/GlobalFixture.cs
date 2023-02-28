@@ -9,7 +9,7 @@
 	[SetUpFixture]
 	public class GlobalFixture
 	{
-		private static TestcontainerDatabase container;
+		private static MongoDbTestcontainer container;
 
 		private readonly TestcontainerDatabaseConfiguration configuration = new MongoDbTestcontainerConfiguration
 		{
@@ -20,7 +20,7 @@
 
 		public GlobalFixture()
 		{
-			container = new TestcontainersBuilder<MongoDbTestcontainer>()
+			container = new ContainerBuilder<MongoDbTestcontainer>()
 				.WithDatabase(this.configuration)
 				.WithPortBinding(37017, 27017)
 				.WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(27017))
