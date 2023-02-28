@@ -50,7 +50,7 @@ namespace Fluxera.Repository.Query
 		/// </summary>
 		/// <param name="sortExpression"></param>
 		/// <returns></returns>
-		public ISortingOptions<T> OrderBy(Expression<Func<T, object>> sortExpression)
+		public ISortingOptions<T> OrderBy<TValue>(Expression<Func<T, TValue>> sortExpression)
 		{
 			this.queryOptions = new QueryOptionsImpl<T>();
 			return queryOptions.OrderBy(sortExpression);

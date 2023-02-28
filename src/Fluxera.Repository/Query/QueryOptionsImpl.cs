@@ -62,15 +62,15 @@ namespace Fluxera.Repository.Query
 			return this.IncludeOptions;
 		}
 
-		internal ISortingOptions<T> OrderBy(Expression<Func<T, object>> sortExpression)
+		internal ISortingOptions<T> OrderBy<TValue>(Expression<Func<T, TValue>> sortExpression)
 		{
-			this.SortingOptions ??= new SortingOptions<T>(this, sortExpression, false);
+			this.SortingOptions ??= new SortingOptions<T>(this, new SortExpression<T,TValue>(sortExpression, false));
 			return this.SortingOptions;
 		}
 
-		internal ISortingOptions<T> OrderByDescending(Expression<Func<T, object>> sortExpression)
+		internal ISortingOptions<T> OrderByDescending<TValue>(Expression<Func<T, TValue>> sortExpression)
 		{
-			this.SortingOptions ??= new SortingOptions<T>(this, sortExpression, true);
+			this.SortingOptions ??= new SortingOptions<T>(this, new SortExpression<T,TValue>(sortExpression, true));
 			return this.SortingOptions;
 		}
 
@@ -127,25 +127,25 @@ namespace Fluxera.Repository.Query
 		}
 
 		/// <inheritdoc />
-		ISortingOptions<T> IIncludeOptions<T>.OrderBy(Expression<Func<T, object>> sortExpression)
+		ISortingOptions<T> IIncludeOptions<T>.OrderBy<TValue>(Expression<Func<T, TValue>> sortExpression)
 		{
 			throw new UnreachableException();
 		}
 
 		/// <inheritdoc />
-		ISortingOptions<T> IIncludeOptions<T>.OrderByDescending(Expression<Func<T, object>> sortExpression)
+		ISortingOptions<T> IIncludeOptions<T>.OrderByDescending<TValue>(Expression<Func<T, TValue>> sortExpression)
 		{
 			throw new UnreachableException();
 		}
 
 		/// <inheritdoc />
-		ISortingOptions<T> ISortingOptions<T>.ThenBy(Expression<Func<T, object>> sortExpression)
+		ISortingOptions<T> ISortingOptions<T>.ThenBy<TValue>(Expression<Func<T, TValue>> sortExpression)
 		{
 			throw new UnreachableException();
 		}
 
 		/// <inheritdoc />
-		ISortingOptions<T> ISortingOptions<T>.ThenByDescending(Expression<Func<T, object>> sortExpression)
+		ISortingOptions<T> ISortingOptions<T>.ThenByDescending<TValue>(Expression<Func<T, TValue>> sortExpression)
 		{
 			throw new UnreachableException();
 		}

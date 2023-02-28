@@ -32,16 +32,16 @@ namespace Fluxera.Repository.Query
 		}
 
 		/// <inheritdoc />
-		public ISortingOptions<T> OrderBy(Expression<Func<T, object>> sortExpression)
+		public ISortingOptions<T> OrderBy<TValue>(Expression<Func<T, TValue>> sortExpression)
 		{
-			this.queryOptions.SortingOptions ??= new SortingOptions<T>(this.queryOptions, sortExpression, false);
+			this.queryOptions.SortingOptions ??= new SortingOptions<T>(this.queryOptions, new SortExpression<T,TValue>(sortExpression, false));
 			return this.queryOptions.SortingOptions;
 		}
 
 		/// <inheritdoc />
-		public ISortingOptions<T> OrderByDescending(Expression<Func<T, object>> sortExpression)
+		public ISortingOptions<T> OrderByDescending<TValue>(Expression<Func<T, TValue>> sortExpression)
 		{
-			this.queryOptions.SortingOptions ??= new SortingOptions<T>(this.queryOptions, sortExpression, true);
+			this.queryOptions.SortingOptions ??= new SortingOptions<T>(this.queryOptions, new SortExpression<T, TValue>(sortExpression, true));
 			return this.queryOptions.SortingOptions;
 		}
 
