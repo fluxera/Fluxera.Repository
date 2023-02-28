@@ -49,7 +49,6 @@ namespace Fluxera.Repository.MongoDB
 
 						IBsonSerializer serializer = BsonSerializer.SerializerRegistry.GetSerializer(memberType);
 						IChildSerializerConfigurable listSerializer = (IChildSerializerConfigurable)serializer;
-						IChildSerializerConfigurable itemSerializer = (IChildSerializerConfigurable)listSerializer.ChildSerializer;
 
 						Type idType = elementType.BaseType?.GenericTypeArguments[1];
 						IBsonSerializer referenceSerializer = this.GetReferenceSerializer(idType, databaseName, collectionName);
@@ -59,8 +58,7 @@ namespace Fluxera.Repository.MongoDB
 
 						IBsonSerializer aggregateRootSerializer = (IBsonSerializer)Activator.CreateInstance(serializerType, new object[] { referenceSerializer });
 
-						IBsonSerializer newListSerializer = itemSerializer.WithChildSerializer(aggregateRootSerializer);
-						serializer = listSerializer.WithChildSerializer(newListSerializer);
+						serializer = listSerializer.WithChildSerializer(aggregateRootSerializer);
 						memberMap.SetSerializer(serializer);
 					}
 				}
