@@ -14,7 +14,8 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Testcontainers" Version="2.4.0" />
+		<PackageReference Include="Testcontainers" Version="3.0.0" />
+		<PackageReference Include="Testcontainers.MongoDb" Version="3.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>

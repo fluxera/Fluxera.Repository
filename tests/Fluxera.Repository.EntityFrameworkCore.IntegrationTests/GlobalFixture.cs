@@ -2,37 +2,27 @@
 {
 	using System.Threading.Tasks;
 	using DotNet.Testcontainers.Builders;
-	using DotNet.Testcontainers.Configurations;
-	using DotNet.Testcontainers.Containers;
 	using Microsoft.EntityFrameworkCore;
 	using NUnit.Framework;
+	using Testcontainers.MsSql;
 
 	[SetUpFixture]
 	public class GlobalFixture
 	{
-		private static TestcontainerDatabase container;
-
-		private readonly TestcontainerDatabaseConfiguration configuration = new MsSqlTestcontainerConfiguration
-		{
-			Database = "test",
-			Password = "yourStrong(!)Password"
-		};
+		private static MsSqlContainer container;
 
 		public GlobalFixture()
 		{
-			container = new ContainerBuilder<MsSqlTestcontainer>()
-				.WithDatabase(this.configuration)
-				.WithPortBinding(3433, 1433)
+			container = new MsSqlBuilder()
+				.WithPortBinding(3433, MsSqlBuilder.MsSqlPort)
 				.WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(1433))
 				.WithImage("mcr.microsoft.com/mssql/server:2019-latest")
 				.Build();
 		}
 
-		public static string ConnectionString => container is not null
-			? $"{container?.ConnectionString}TrustServerCertificate=True;"
-			: null;
+		public static string ConnectionString => container?.GetConnectionString();
 
-		public static string Database => container?.Database;
+		public static string Database => MsSqlBuilder.DefaultDatabase;
 
 		[OneTimeSetUp]
 		public async Task OneTimeSetUp()
