@@ -26,7 +26,7 @@ namespace Fluxera.Repository.Query
 		/// <inheritdoc />
 		public ISortingOptions<T> ThenBy<TValue>(Expression<Func<T, TValue>> sortExpression)
 		{
-			this.secondaryExpressions.Add(new SortExpression<T, TValue>(sortExpression));
+			this.secondaryExpressions.Add(new SortExpression<T, TValue>(sortExpression, false));
 
 			return this;
 		}
