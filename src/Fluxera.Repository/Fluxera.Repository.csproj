@@ -26,17 +26,17 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Fluxera.Entity" Version="7.1.2" />
-		<PackageReference Include="Fluxera.Enumeration" Version="7.1.1" />
-		<PackageReference Include="Fluxera.Extensions.Caching" Version="7.1.1" />
-		<PackageReference Include="Fluxera.Extensions.Common" Version="7.1.1" />
-		<PackageReference Include="Fluxera.Extensions.DependencyInjection" Version="7.1.1" />
-		<PackageReference Include="Fluxera.Extensions.Validation" Version="7.1.1" />
+		<PackageReference Include="Fluxera.Entity" Version="7.1.3" />
+		<PackageReference Include="Fluxera.Enumeration" Version="7.1.2" />
+		<PackageReference Include="Fluxera.Extensions.Caching" Version="7.1.2" />
+		<PackageReference Include="Fluxera.Extensions.Common" Version="7.1.2" />
+		<PackageReference Include="Fluxera.Extensions.DependencyInjection" Version="7.1.2" />
+		<PackageReference Include="Fluxera.Extensions.Validation" Version="7.1.2" />
 		<PackageReference Include="Fluxera.Guards" Version="7.1.0" />
-		<PackageReference Include="Fluxera.Spatial" Version="7.1.1" />
+		<PackageReference Include="Fluxera.Spatial" Version="7.1.2" />
 		<PackageReference Include="Fluxera.Temporal" Version="7.1.1" />
 		<PackageReference Include="Fluxera.Utilities" Version="7.1.0" />
-		<PackageReference Include="Fluxera.ValueObject" Version="7.1.1" />
+		<PackageReference Include="Fluxera.ValueObject" Version="7.1.2" />
 		<PackageReference Include="GitVersion.MsBuild" Version="5.12.0">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

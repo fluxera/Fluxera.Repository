@@ -2,35 +2,26 @@
 {
 	using System.Threading.Tasks;
 	using DotNet.Testcontainers.Builders;
-	using DotNet.Testcontainers.Configurations;
-	using DotNet.Testcontainers.Containers;
 	using NUnit.Framework;
+	using Testcontainers.MongoDb;
 
 	[SetUpFixture]
 	public class GlobalFixture
 	{
-		private static MongoDbTestcontainer container;
-
-		private readonly TestcontainerDatabaseConfiguration configuration = new MongoDbTestcontainerConfiguration
-		{
-			Database = "test",
-			Username = null,
-			Password = null
-		};
+		private static MongoDbContainer container;
 
 		public GlobalFixture()
 		{
-			container = new ContainerBuilder<MongoDbTestcontainer>()
-				.WithDatabase(this.configuration)
-				.WithPortBinding(37017, 27017)
+			container = new MongoDbBuilder()
+				.WithPortBinding(37017, MongoDbBuilder.MongoDbPort)
 				.WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(27017))
 				.WithImage("mongo:latest")
 				.Build();
 		}
 
-		public static string ConnectionString => container.ConnectionString;
+		public static string ConnectionString => container.GetConnectionString();
 
-		public static string Database => container.Database;
+		public static string Database => "test";
 
 		[OneTimeSetUp]
 		public async Task OneTimeSetUp()
