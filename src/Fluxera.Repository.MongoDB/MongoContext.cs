@@ -3,17 +3,15 @@
 	using System;
 	using System.Collections.Concurrent;
 	using System.Linq;
-	using System.Security.Authentication;
 	using System.Threading;
 	using System.Threading.Tasks;
 	using Fluxera.Guards;
 	using Fluxera.Repository.Options;
 	using Fluxera.Utilities;
-	using Fluxera.Utilities.Extensions;
 	using global::MongoDB.Driver;
 	using global::MongoDB.Driver.Core.Clusters;
-	using global::MongoDB.Driver.Core.Extensions.DiagnosticSources;
 	using JetBrains.Annotations;
+	using MadEyeMatt.MongoDB.DbContext;
 	using Microsoft.Extensions.DependencyInjection;
 	using Microsoft.Extensions.Logging;
 
@@ -28,14 +26,10 @@
 			DefaultTransactionOptions = new TransactionOptions(ReadConcern.Majority, ReadPreference.Primary, WriteConcern.WMajority)
 		};
 
-		private static readonly ConcurrentDictionary<string, IMongoClient> Clients = new ConcurrentDictionary<string, IMongoClient>();
-		private readonly object lockObject = new object();
-
+		private MongoDbContext context;
 		private ConcurrentQueue<Func<Task>> commands;
 
 		private bool isConfigured;
-
-		private Task<IClientSessionHandle> sessionTask;
 
 		/// <summary>
 		///     Initializes a new instance of the <see cref="MongoContext" /> type.
@@ -49,24 +43,14 @@
 		private IServiceProvider ServiceProvider { get; set; }
 
 		/// <summary>
-		///     Gets the name of the repository this context belong to.
-		/// </summary>
-		protected RepositoryName RepositoryName { get; private set; }
-
-		/// <summary>
-		///     Gets the session for this context.
+		///		Gets the current session.
 		/// </summary>
 		public IClientSessionHandle Session { get; private set; }
 
 		/// <summary>
-		///     Gets the client for this context.
+		///     Gets the name of the repository this context belong to.
 		/// </summary>
-		public IMongoClient Client { get; private set; }
-
-		/// <summary>
-		///     Gets the database for this context.
-		/// </summary>
-		public IMongoDatabase Database { get; private set; }
+		protected RepositoryName RepositoryName { get; private set; }
 
 		/// <summary>
 		///     Adds a command for execution.
@@ -99,7 +83,7 @@
 				await this.DispatchDomainEventsAsync();
 
 				// Commit the transaction if a session with a transaction exists.
-				if(this.Session is not null && this.Session.IsInTransaction)
+				if(this.context.Session is not null && this.context.Session.IsInTransaction)
 				{
 					await this.CommitTransactionAsync(cancellationToken);
 				}
@@ -107,7 +91,7 @@
 			catch
 			{
 				// Abort the transaction on error, if a session with a transaction exists
-				if(this.Session is not null && this.Session.IsInTransaction)
+				if(this.context.Session is not null && this.context.Session.IsInTransaction)
 				{
 					await this.AbortTransactionAsync(cancellationToken);
 				}
@@ -118,7 +102,7 @@
 				this.ClearDomainEvents();
 
 				// Start a new transaction, if a session without transaction exists.
-				if(this.Session is not null && !this.Session.IsInTransaction)
+				if(this.context.Session is not null && !this.context.Session.IsInTransaction)
 				{
 					await this.BeginTransactionAsync(cancellationToken);
 				}
@@ -147,28 +131,10 @@
 		/// </summary>
 		/// <param name="cancellationToken"></param>
 		/// <returns></returns>
-		public Task<IClientSessionHandle> StartSessionAsync(CancellationToken cancellationToken = default)
+		public async Task<IClientSessionHandle> StartSessionAsync(CancellationToken cancellationToken = default)
 		{
-			async Task<IClientSessionHandle> Start()
-			{
-				IClientSessionHandle handle = await this.Client.StartSessionAsync(SessionOptions, cancellationToken);
-
-				this.Session = handle;
-
-				return handle;
-			}
-
-			lock(this.lockObject)
-			{
-				if(this.sessionTask != null)
-				{
-					return this.sessionTask;
-				}
-
-				this.sessionTask = Start();
-
-				return this.sessionTask;
-			}
+			this.Session = await this.context.StartSessionAsync(SessionOptions, cancellationToken);
+			return this.Session;
 		}
 
 		/// <summary>
@@ -194,17 +160,17 @@
 		/// <exception cref="InvalidOperationException"></exception>
 		public Task CommitTransactionAsync(CancellationToken cancellationToken = default)
 		{
-			if(this.Session is null)
+			if(this.context.Session is null)
 			{
 				throw new InvalidOperationException("The session hasn't been created.");
 			}
 
-			if(!this.Session.IsInTransaction)
+			if(!this.context.Session.IsInTransaction)
 			{
 				throw new InvalidOperationException("The session isn't in an active transaction.");
 			}
 
-			return this.Session.CommitTransactionAsync(cancellationToken);
+			return this.context.Session.CommitTransactionAsync(cancellationToken);
 		}
 
 		/// <summary>
@@ -215,17 +181,17 @@
 		/// <exception cref="InvalidOperationException"></exception>
 		public Task AbortTransactionAsync(CancellationToken cancellationToken = default)
 		{
-			if(this.Session is null)
+			if(this.context.Session is null)
 			{
 				throw new InvalidOperationException("The session hasn't been created.");
 			}
 
-			if(!this.Session.IsInTransaction)
+			if(!this.context.Session.IsInTransaction)
 			{
 				throw new InvalidOperationException("The session isn't in an active transaction.");
 			}
 
-			return this.Session.AbortTransactionAsync(cancellationToken);
+			return this.context.Session.AbortTransactionAsync(cancellationToken);
 		}
 
 		/// <summary>
@@ -235,15 +201,14 @@
 		/// <returns></returns>
 		public IMongoCollection<T> GetCollection<T>()
 		{
-			string collectionName = typeof(T).Name.Pluralize();
-			return this.Database.GetCollection<T>(collectionName);
+			return this.context.GetCollection<T>();
 		}
 
 		/// <inheritdoc />
 		protected override void DisposeManaged()
 		{
 			this.ClearCommands();
-			this.Session?.Dispose();
+			this.context?.Dispose();
 		}
 
 		/// <summary>
@@ -255,42 +220,11 @@
 		{
 			if(!this.isConfigured)
 			{
-				MongoContextOptions options = new MongoContextOptions(repositoryName);
+				MongoContextOptions options = new MongoContextOptions();
 
 				this.ConfigureOptions(options);
 
-				string connectionString = Guard.Against.NullOrWhiteSpace(options.ConnectionString);
-				string databaseName = Guard.Against.NullOrWhiteSpace(options.Database);
-
-				// Create the client instance and cache it for the connection string.
-				// It is recommended to only have a single client instance.
-				// See: https://mongodb.github.io/mongo-csharp-driver/2.18/reference/driver/connecting/
-				if(!Clients.ContainsKey(connectionString))
-				{
-					MongoClientSettings settings = MongoClientSettings.FromUrl(new MongoUrl(connectionString));
-
-					InstrumentationOptions instrumentationOptions = new InstrumentationOptions
-					{
-						CaptureCommandText = options.CaptureCommandText
-					};
-					settings.ClusterConfigurator = clusterBuilder => clusterBuilder.Subscribe(new DiagnosticsActivityEventSubscriber(instrumentationOptions));
-
-					if(options.UseSsl)
-					{
-						settings.SslSettings = new SslSettings
-						{
-							EnabledSslProtocols = SslProtocols.Tls12 | SslProtocols.Tls13
-						};
-					}
-
-					if(!Clients.TryAdd(connectionString, new MongoClient(settings)))
-					{
-						throw new InvalidOperationException("The MongoDB client could not be added to the client cache.");
-					}
-				}
-
-				this.Client = Clients[connectionString];
-				this.Database = this.Client.GetDatabase(databaseName);
+				this.context = (MongoDbContext)serviceProvider.GetRequiredService(options.DbContextType);
 
 				// Start a transaction, if UoW is configured and the cluster is a replica set..
 				IRepositoryRegistry repositoryRegistry = serviceProvider.GetRequiredService<IRepositoryRegistry>();
@@ -298,9 +232,9 @@
 
 				if(repositoryOptions.IsUnitOfWorkEnabled)
 				{
-					if(this.Client.Cluster.Description.Type == ClusterType.ReplicaSet)
+					if(this.context.Client.Cluster.Description.Type == ClusterType.ReplicaSet)
 					{
-						this.Session ??= this.StartSession();
+						this.StartSession();
 						this.BeginTransaction();
 					}
 					else

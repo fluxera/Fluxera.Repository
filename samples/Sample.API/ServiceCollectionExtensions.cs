@@ -6,6 +6,7 @@ namespace Sample.API
 	using Fluxera.Repository.LiteDB;
 	using Fluxera.Repository.MongoDB;
 	using global::LiteDB;
+	using MadEyeMatt.MongoDB.DbContext;
 	using Microsoft.Extensions.DependencyInjection;
 	using Sample.Domain.Company;
 	using Sample.Domain.Company.Handlers;
@@ -100,6 +101,8 @@ namespace Sample.API
 			{
 				options.EnableUnitOfWork = enableUnitOfWork;
 			});
+
+			services.AddMongoDbContext<SampleMongoDbContext>();
 
 			services.AddRepository(repositoryBuilder =>
 			{

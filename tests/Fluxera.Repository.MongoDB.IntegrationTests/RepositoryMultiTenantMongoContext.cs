@@ -16,16 +16,7 @@
 		/// <inheritdoc />
 		protected override void ConfigureOptions(MongoContextOptions options)
 		{
-			options.ConnectionString = GlobalFixture.ConnectionString;
-
-			string databaseName = GlobalFixture.Database;
-
-			if(!string.IsNullOrWhiteSpace(this.tenantNameProvider?.Name))
-			{
-				databaseName += $"-{this.tenantNameProvider.Name}";
-			}
-
-			options.Database = databaseName;
+			options.UseDbContext<RepositoryMultiTenantMongoDbContext>();
 		}
 	}
 }
