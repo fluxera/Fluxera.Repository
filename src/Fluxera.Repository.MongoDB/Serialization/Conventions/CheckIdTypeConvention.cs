@@ -13,6 +13,11 @@
 		public void PostProcess(BsonClassMap classMap)
 		{
 			BsonMemberMap idMemberMap = classMap.IdMemberMap;
+			if(idMemberMap == null)
+			{
+				return;
+			}
+
 			Type idMemberType = idMemberMap.MemberType.UnwrapNullableType();
 
 			if(idMemberType != typeof(string) &&
