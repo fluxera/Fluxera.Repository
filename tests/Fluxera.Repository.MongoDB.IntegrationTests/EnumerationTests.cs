@@ -4,6 +4,7 @@
 	using System.Threading.Tasks;
 	using Fluxera.Repository.UnitTests.Core;
 	using global::MongoDB.Driver;
+	using MadEyeMatt.MongoDB.DbContext;
 	using NUnit.Framework;
 
 	[TestFixture(true)]
@@ -20,6 +21,8 @@
 		protected override void AddRepositoryUnderTest(IRepositoryBuilder repositoryBuilder,
 			string repositoryName, Action<IRepositoryOptionsBuilder> configureOptions)
 		{
+			repositoryBuilder.Services.AddMongoDbContext<RepositoryMongoDbContext>();
+
 			repositoryBuilder.AddMongoRepository<RepositoryMongoContext>(repositoryName, configureOptions);
 		}
 

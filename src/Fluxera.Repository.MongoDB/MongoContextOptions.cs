@@ -1,6 +1,9 @@
 ﻿namespace Fluxera.Repository.MongoDB
 {
+	using Fluxera.Guards;
 	using JetBrains.Annotations;
+	using System;
+	using MadEyeMatt.MongoDB.DbContext;
 
 	/// <summary>
 	///     Provides the options for the MongoDB repository implementation.
@@ -9,37 +12,30 @@
 	public sealed class MongoContextOptions
 	{
 		/// <summary>
-		///     Initializes a new instance of the <see cref="MongoContextOptions" /> type.
+		///     Gets the configured db context type.
 		/// </summary>
-		/// <param name="repositoryName"></param>
-		public MongoContextOptions(RepositoryName repositoryName)
+		public Type DbContextType { get; private set; }
+
+		/// <summary>
+		///     Configures the db context to use for the repository context.
+		/// </summary>
+		/// <typeparam name="TContext"></typeparam>
+		public void UseDbContext<TContext>() where TContext : MongoDbContext
 		{
-			this.RepositoryName = repositoryName;
+			this.UseDbContext(typeof(TContext));
 		}
 
 		/// <summary>
-		///     Gets the name of the repository this options belong to.
+		///     Configures the db context to use for the repository context.
 		/// </summary>
-		public RepositoryName RepositoryName { get; }
+		/// <param name="dbContextType"></param>
+		public void UseDbContext(Type dbContextType)
+		{
+			Guard.Against.Null(dbContextType);
+			Guard.Against.False(dbContextType.IsAssignableTo(typeof(MongoDbContext)),
+				message: $"The db context type must inherit from '{nameof(MongoDbContext)}'.");
 
-		/// <summary>
-		///     Gets or sets the connection string.
-		/// </summary>
-		public string ConnectionString { get; set; }
-
-		/// <summary>
-		///     Gets or sets the database name.
-		/// </summary>
-		public string Database { get; set; }
-
-		/// <summary>
-		///     Flag, if the connection uses SSL.
-		/// </summary>
-		public bool UseSsl { get; set; }
-
-		/// <summary>
-		///     Flag, if the diagnostics instrumentation should record the command text used.
-		/// </summary>
-		public bool CaptureCommandText { get; set; } = true;
+			this.DbContextType = dbContextType;
+		}
 	}
 }

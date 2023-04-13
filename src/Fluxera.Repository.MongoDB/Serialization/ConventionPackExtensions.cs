@@ -1,17 +1,18 @@
-﻿namespace Fluxera.Repository.MongoDB
+﻿namespace Fluxera.Repository.MongoDB.Serialization
 {
 	using Fluxera.Enumeration.MongoDB;
 	using Fluxera.Guards;
+	using Fluxera.Repository.MongoDB.Serialization.Conventions;
 	using Fluxera.Spatial.MongoDB;
 	using Fluxera.StronglyTypedId.MongoDB;
-	using Fluxera.Temporal.MongoDB;
 	using Fluxera.ValueObject.MongoDB;
-	using global::MongoDB.Bson;
 	using global::MongoDB.Bson.Serialization.Conventions;
+	using JetBrains.Annotations;
 
 	/// <summary>
 	///     Extension methods for the <see cref="ConventionPack" /> type.
 	/// </summary>
+	[PublicAPI]
 	public static class ConventionPackExtensions
 	{
 		/// <summary>
@@ -23,17 +24,12 @@
 		{
 			Guard.Against.Null(conventionPack);
 
-			conventionPack.Add(new NamedIdMemberConvention("ID"));
-			conventionPack.Add(new IdGeneratorConvention());
+			conventionPack.Add(new CheckIdTypeConvention());
+			conventionPack.Add(new StronglyTypedIdGeneratorConvention());
 			conventionPack.Add(new ReferenceConvention());
-			conventionPack.Add(new EnumRepresentationConvention(BsonType.String));
-			conventionPack.Add(new CamelCaseElementNameConvention());
-			conventionPack.Add(new IgnoreExtraElementsConvention(true));
-			conventionPack.Add(new NamedExtraElementsMemberConvention("ExtraElements"));
 			conventionPack.Add(new EntitiesNotSupportedConvention());
 
 			conventionPack.UseSpatial();
-			conventionPack.UseTemporal();
 			conventionPack.UseEnumeration();
 			conventionPack.UsePrimitiveValueObject();
 			conventionPack.UseStronglyTypedId();

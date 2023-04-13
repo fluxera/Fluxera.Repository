@@ -29,8 +29,6 @@
 
 		private IServiceProvider ServiceProvider { get; set; }
 
-		private RepositoryOptions RepositoryOptions { get; set; }
-
 		/// <summary>
 		///     Gets the name of the repository this context belong to.
 		/// </summary>
@@ -90,10 +88,6 @@
 				this.ConfigureOptions(options);
 
 				this.context = (DbContext)serviceProvider.GetRequiredService(options.DbContextType);
-
-				IRepositoryRegistry repositoryRegistry = serviceProvider.GetRequiredService<IRepositoryRegistry>();
-				RepositoryOptions repositoryOptions = repositoryRegistry.GetRepositoryOptionsFor(repositoryName);
-				this.RepositoryOptions = repositoryOptions;
 
 				this.RepositoryName = repositoryName;
 				this.ServiceProvider = serviceProvider;

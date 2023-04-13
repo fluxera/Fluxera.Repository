@@ -1,4 +1,4 @@
-﻿namespace Fluxera.Repository.MongoDB
+﻿namespace Fluxera.Repository.MongoDB.Serialization.Conventions
 {
 	using System;
 	using Fluxera.Entity;
