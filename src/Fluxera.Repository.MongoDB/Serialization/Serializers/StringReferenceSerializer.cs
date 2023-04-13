@@ -1,4 +1,4 @@
-﻿namespace Fluxera.Repository.MongoDB
+﻿namespace Fluxera.Repository.MongoDB.Serialization.Serializers
 {
 	using global::MongoDB.Bson;
 	using global::MongoDB.Bson.Serialization;

@@ -1,4 +1,4 @@
-﻿namespace Fluxera.Repository.MongoDB
+﻿namespace Fluxera.Repository.MongoDB.Serialization
 {
 	using System;
 	using Fluxera.StronglyTypedId;

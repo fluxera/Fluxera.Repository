@@ -1,11 +1,12 @@
 ﻿// ReSharper disable AssignNullToNotNullAttribute
 
-namespace Fluxera.Repository.MongoDB
+namespace Fluxera.Repository.MongoDB.Serialization.Conventions
 {
 	using System;
 	using System.Reflection;
 	using Fluxera.ComponentModel.Annotations;
 	using Fluxera.Entity;
+	using Fluxera.Repository.MongoDB.Serialization.Serializers;
 	using Fluxera.StronglyTypedId;
 	using Fluxera.Utilities.Extensions;
 	using global::MongoDB.Bson.Serialization;

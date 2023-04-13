@@ -3,9 +3,8 @@
 	using System;
 	using Fluxera.Extensions.DependencyInjection;
 	using Fluxera.Guards;
+	using Fluxera.Repository.MongoDB.Serialization;
 	using Fluxera.Repository.Query;
-	using global::MongoDB.Bson;
-	using global::MongoDB.Bson.Serialization;
 	using global::MongoDB.Bson.Serialization.Conventions;
 	using JetBrains.Annotations;
 	using Microsoft.Extensions.DependencyInjection;
@@ -16,16 +15,6 @@
 	[PublicAPI]
 	public static class RepositoryBuilderExtensions
 	{
-		static RepositoryBuilderExtensions()
-		{
-#pragma warning disable CS0618
-			BsonDefaults.GuidRepresentationMode = GuidRepresentationMode.V3;
-#pragma warning restore CS0618
-
-			BsonSerializer.RegisterSerializationProvider(new GuidSerializationProvider());
-			BsonSerializer.RegisterSerializationProvider(new DecimalSerializationProvider());
-		}
-
 		/// <summary>
 		///     Add a MongoDB repository for the "Default" repository name. The repository options
 		///     are configured using the given configure action.
