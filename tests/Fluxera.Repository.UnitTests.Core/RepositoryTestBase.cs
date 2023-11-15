@@ -105,7 +105,10 @@
 					await this.EmployeeRepository.RemoveRangeAsync(x => true);
 				}
 
-				await this.UnitOfWork.SaveChangesAsync();
+				if(this.UnitOfWork != null)
+				{
+					await this.UnitOfWork.SaveChangesAsync();
+				}
 
 				if(this.ReferenceRepository != null)
 				{

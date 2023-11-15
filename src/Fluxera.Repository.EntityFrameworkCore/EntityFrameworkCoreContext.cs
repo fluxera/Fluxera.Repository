@@ -3,7 +3,6 @@
 	using System;
 	using System.Threading;
 	using System.Threading.Tasks;
-	using Fluxera.Repository.Options;
 	using Fluxera.Utilities;
 	using JetBrains.Annotations;
 	using Microsoft.EntityFrameworkCore;

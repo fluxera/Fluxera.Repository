@@ -34,7 +34,13 @@ namespace Sample.API.Controllers
 			await this.repository.AddAsync(new Company
 			{
 				Name = request.Name,
-				LegalType = LegalType.LimitedLiabilityCompany
+				LegalType = LegalType.LimitedLiabilityCompany,
+				Address = new Address
+				{
+					City = "Test Town",
+					Street = "Test Street",
+					Number = "42"
+				}
 			});
 
 			if(this.options.EnableUnitOfWork)

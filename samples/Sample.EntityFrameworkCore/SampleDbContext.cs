@@ -33,6 +33,8 @@
 			{
 				entity.ToTable("Companies");
 
+				entity.OwnsOne(x => x.Address);
+
 				entity.UseRepositoryDefaults();
 			});
 		}

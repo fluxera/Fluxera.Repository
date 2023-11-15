@@ -1,4 +1,5 @@
-﻿namespace Fluxera.Repository.UnitTests
+﻿#pragma warning disable CA2021
+namespace Fluxera.Repository.UnitTests
 {
 	using System;
 	using System.Collections.Generic;
