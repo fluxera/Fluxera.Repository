@@ -73,9 +73,9 @@ namespace Fluxera.Repository
 			Tuple<Type, Type> key = Tuple.Create(aggregateRootType, keyType);
 
 			// Check the cache for already existing property info instance.
-			if(PropertyInfoCache.PrimaryKeyDict.ContainsKey(key))
+			if(PropertyInfoCache.PrimaryKeyDict.TryGetValue(key, out PropertyInfo property))
 			{
-				return PropertyInfoCache.PrimaryKeyDict[key];
+				return property;
 			}
 
 			const string keyPropertyName = "ID";

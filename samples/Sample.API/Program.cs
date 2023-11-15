@@ -1,12 +1,10 @@
 namespace Sample.API
 {
-	using System.IO;
 	using Fluxera.StronglyTypedId.SystemTextJson;
 	using Microsoft.AspNetCore.Builder;
 	using Microsoft.AspNetCore.Http;
 	using Microsoft.Extensions.DependencyInjection;
 	using Sample.Domain.Company;
-	using Sample.LiteDB;
 
 	public static class Program
 	{
@@ -23,8 +21,8 @@ namespace Sample.API
 
 			builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-			//builder.Services.AddEntityFrameworkCore(true);
-			builder.Services.AddMongoDB(true);
+			builder.Services.AddEntityFrameworkCore(true);
+			//builder.Services.AddMongoDB(true);
 			//builder.Services.AddLiteDB(true);
 			//builder.Services.AddInMemory(true);
 
@@ -52,7 +50,7 @@ namespace Sample.API
 
 			app.Run();
 
-			File.Delete(SampleLiteContext.DatabaseFile);
+			//File.Delete(SampleLiteContext.DatabaseFile);
 		}
 	}
 }

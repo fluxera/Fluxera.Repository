@@ -13,6 +13,8 @@
 		[Required]
 		public LegalType LegalType { get; set; }
 
+		public Address Address { get; set; }
+
 		[Reference("Company")]
 		public IList<Company> Partners { get; set; }
 	}

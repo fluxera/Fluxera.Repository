@@ -23,7 +23,7 @@
 				.CurrentDomain
 				.GetAssemblies()
 				.SelectMany(assembly => assembly
-					.GetTypes()
+					.GetExportedTypes()
 					.Where(type => !type.IsAbstract && !type.IsInterface && type.IsAssignableTo<ICrudDomainEvent>()));
 
 			foreach(Type type in types)

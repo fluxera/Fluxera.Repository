@@ -6,6 +6,7 @@ namespace Sample.API
 	using Fluxera.Repository.LiteDB;
 	using Fluxera.Repository.MongoDB;
 	using global::LiteDB;
+	using JetBrains.Annotations;
 	using MadEyeMatt.MongoDB.DbContext;
 	using Microsoft.Extensions.DependencyInjection;
 	using Sample.Domain.Company;
@@ -16,6 +17,7 @@ namespace Sample.API
 	using Sample.LiteDB;
 	using Sample.MongoDB;
 
+	[PublicAPI]
 	public static class ServiceCollectionExtensions
 	{
 		public static IServiceCollection AddEntityFrameworkCore(this IServiceCollection services, bool enableUnitOfWork)
