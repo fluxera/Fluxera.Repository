@@ -4,6 +4,9 @@
 	using Fluxera.Entity.DomainEvents;
 	using Fluxera.Repository.DomainEvents;
 	using JetBrains.Annotations;
+#if NET6_0
+	using Fluxera.Utilities.Extensions;
+#endif
 
 	[PublicAPI]
 	public sealed class SampleDomainEventsReducer : IDomainEventsReducer

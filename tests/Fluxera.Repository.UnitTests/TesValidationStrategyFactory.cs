@@ -6,6 +6,9 @@
 	using Fluxera.Extensions.Validation;
 	using Fluxera.Repository.Validation;
 	using Microsoft.Extensions.DependencyInjection;
+#if NET6_0
+	using Fluxera.Utilities.Extensions;
+#endif
 
 	public class TesValidationStrategyFactory : IValidationStrategyFactory
 	{
