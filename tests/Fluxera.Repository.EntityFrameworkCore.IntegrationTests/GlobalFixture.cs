@@ -1,5 +1,6 @@
 ﻿namespace Fluxera.Repository.EntityFrameworkCore.IntegrationTests
 {
+	using System;
 	using System.Threading.Tasks;
 	using DotNet.Testcontainers.Builders;
 	using Microsoft.EntityFrameworkCore;
@@ -13,8 +14,10 @@
 
 		public GlobalFixture()
 		{
-			container = new MsSqlBuilder()
-				.WithPortBinding(3433, MsSqlBuilder.MsSqlPort)
+			int port = Random.Shared.Next(3400, 3499);
+
+			container ??= new MsSqlBuilder()
+				.WithPortBinding(port, MsSqlBuilder.MsSqlPort)
 				.WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(1433))
 				.WithImage("mcr.microsoft.com/mssql/server:2019-latest")
 				.Build();

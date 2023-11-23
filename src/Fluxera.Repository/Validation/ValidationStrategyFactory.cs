@@ -8,6 +8,9 @@
 	using Fluxera.Guards;
 	using Fluxera.Repository.Options;
 	using JetBrains.Annotations;
+#if NET6_0
+	using Fluxera.Utilities.Extensions;
+#endif
 
 	[UsedImplicitly]
 	internal sealed class ValidationStrategyFactory : IValidationStrategyFactory

@@ -1,5 +1,6 @@
 ﻿namespace Fluxera.Repository.MongoDB.IntegrationTests
 {
+	using System;
 	using System.Threading.Tasks;
 	using DotNet.Testcontainers.Builders;
 	using NUnit.Framework;
@@ -12,8 +13,10 @@
 
 		public GlobalFixture()
 		{
+			int port = Random.Shared.Next(37000, 37999);
+
 			container = new MongoDbBuilder()
-				.WithPortBinding(37017, MongoDbBuilder.MongoDbPort)
+				.WithPortBinding(port, MongoDbBuilder.MongoDbPort)
 				.WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(27017))
 				.WithImage("mongo:latest")
 				.Build();

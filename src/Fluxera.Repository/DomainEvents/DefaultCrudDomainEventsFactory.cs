@@ -19,12 +19,23 @@
 
 		public DefaultCrudDomainEventsFactory()
 		{
+#if NET7_0_OR_GREATER
 			IEnumerable<Type> types = AppDomain
 				.CurrentDomain
 				.GetAssemblies()
 				.SelectMany(assembly => assembly
 					.GetExportedTypes()
 					.Where(type => !type.IsAbstract && !type.IsInterface && type.IsAssignableTo<ICrudDomainEvent>()));
+#endif
+#if NET6_0
+			IEnumerable<Type> types = AppDomain
+				.CurrentDomain
+				.GetAssemblies()
+				.SelectMany(assembly => assembly
+					.GetTypes()
+					.Where(type => !type.IsAbstract && !type.IsInterface && type.IsAssignableTo<ICrudDomainEvent>()));
+
+#endif
 
 			foreach(Type type in types)
 			{

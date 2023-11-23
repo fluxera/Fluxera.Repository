@@ -123,163 +123,271 @@ namespace Fluxera.Repository.Query
 		/// <inheritdoc />
 		IIncludeOptions<T> IIncludeOptions<T>.Include(Expression<Func<T, object>> includeExpression)
 		{
+#if NET6_0
+			throw new NotSupportedException();
+#else
 			throw new UnreachableException();
+#endif
 		}
 
 		/// <inheritdoc />
 		ISortingOptions<T> IIncludeOptions<T>.OrderBy<TValue>(Expression<Func<T, TValue>> sortExpression)
 		{
+#if NET6_0
+			throw new NotSupportedException();
+#else
 			throw new UnreachableException();
+#endif
 		}
 
 		/// <inheritdoc />
 		ISortingOptions<T> IIncludeOptions<T>.OrderByDescending<TValue>(Expression<Func<T, TValue>> sortExpression)
 		{
+#if NET6_0
+			throw new NotSupportedException();
+#else
 			throw new UnreachableException();
+#endif
 		}
 
 		/// <inheritdoc />
 		ISortingOptions<T> ISortingOptions<T>.ThenBy<TValue>(Expression<Func<T, TValue>> sortExpression)
 		{
+#if NET6_0
+			throw new NotSupportedException();
+#else
 			throw new UnreachableException();
+#endif
 		}
 
 		/// <inheritdoc />
 		ISortingOptions<T> ISortingOptions<T>.ThenByDescending<TValue>(Expression<Func<T, TValue>> sortExpression)
 		{
+#if NET6_0
+			throw new NotSupportedException();
+#else
 			throw new UnreachableException();
+#endif
 		}
 
 		/// <inheritdoc />
 		ISkipTakeOptions<T> ISortingOptions<T>.Skip(int skip)
 		{
+#if NET6_0
+			throw new NotSupportedException();
+#else
 			throw new UnreachableException();
+#endif
 		}
 
 		/// <inheritdoc />
 		ISkipTakeOptions<T> ISkipTakeOptions<T>.Take(int takeAmount)
 		{
+#if NET6_0
+			throw new NotSupportedException();
+#else
 			throw new UnreachableException();
+#endif
 		}
 
 		/// <inheritdoc />
 		ISkipTakeOptions<T> ISkipTakeOptions<T>.Skip(int skipAmount)
 		{
+#if NET6_0
+			throw new NotSupportedException();
+#else
 			throw new UnreachableException();
+#endif
 		}
 
 		/// <inheritdoc />
 		ISkipTakeOptions<T> ISortingOptions<T>.Take(int take)
 		{
+#if NET6_0
+			throw new NotSupportedException();
+#else
 			throw new UnreachableException();
+#endif
 		}
 
 		/// <inheritdoc />
 		ISkipTakeOptions<T> ISortingOptions<T>.SkipTake(int skip, int take)
 		{
+#if NET6_0
+			throw new NotSupportedException();
+#else
 			throw new UnreachableException();
+#endif
 		}
 
 		/// <inheritdoc />
 		IPagingOptions<T> ISortingOptions<T>.Paging(int pageNumber, int pageSize)
 		{
+#if NET6_0
+			throw new NotSupportedException();
+#else
 			throw new UnreachableException();
+#endif
 		}
 
 		/// <inheritdoc />
 		IPagingOptions<T> ISortingOptions<T>.Paging()
 		{
+#if NET6_0
+			throw new NotSupportedException();
+#else
 			throw new UnreachableException();
+#endif
 		}
 
 		/// <inheritdoc />
 		ISkipTakeOptions<T> IIncludeOptions<T>.Skip(int skip)
 		{
+#if NET6_0
+			throw new NotSupportedException();
+#else
 			throw new UnreachableException();
+#endif
 		}
 
 		/// <inheritdoc />
 		ISkipTakeOptions<T> IIncludeOptions<T>.Take(int take)
 		{
+#if NET6_0
+			throw new NotSupportedException();
+#else
 			throw new UnreachableException();
+#endif
 		}
 
 		/// <inheritdoc />
 		ISkipTakeOptions<T> IIncludeOptions<T>.SkipTake(int skip, int take)
 		{
+#if NET6_0
+			throw new NotSupportedException();
+#else
 			throw new UnreachableException();
+#endif
 		}
 
 		/// <inheritdoc />
 		IPagingOptions<T> IIncludeOptions<T>.Paging(int pageNumber, int pageSize)
 		{
+#if NET6_0
+			throw new NotSupportedException();
+#else
 			throw new UnreachableException();
+#endif
 		}
 
 		/// <inheritdoc />
 		IPagingOptions<T> IIncludeOptions<T>.Paging()
 		{
+#if NET6_0
+			throw new NotSupportedException();
+#else
 			throw new UnreachableException();
+#endif
 		}
 
 		/// <inheritdoc />
 		IPagingOptions<T> IPagingOptions<T>.PageNumber(int pageNumberAmount)
 		{
+#if NET6_0
+			throw new NotSupportedException();
+#else
 			throw new UnreachableException();
+#endif
 		}
 
 		/// <inheritdoc />
 		IPagingOptions<T> IPagingOptions<T>.PageSize(int pageSizeAmount)
 		{
+#if NET6_0
+			throw new NotSupportedException();
+#else
 			throw new UnreachableException();
+#endif
 		}
 
 		/// <inheritdoc />
 		IQueryOptions<T> IIncludeOptions<T>.Build(Func<IQueryable<T>, IQueryable<T>> applyFunc)
 		{
+#if NET6_0
+			throw new NotSupportedException();
+#else
 			throw new UnreachableException();
+#endif
 		}
 
 		/// <inheritdoc />
 		IQueryOptions<T> ISortingOptions<T>.Build(Func<IQueryable<T>, IQueryable<T>> applyFunc)
 		{
+#if NET6_0
+			throw new NotSupportedException();
+#else
 			throw new UnreachableException();
+#endif
 		}
 
 		/// <inheritdoc />
 		IQueryOptions<T> ISkipTakeOptions<T>.Build(Func<IQueryable<T>, IQueryable<T>> applyFunc)
 		{
+#if NET6_0
+			throw new NotSupportedException();
+#else
 			throw new UnreachableException();
+#endif
 		}
 
 		/// <inheritdoc />
 		IQueryOptions<T> IPagingOptions<T>.Build(Func<IQueryable<T>, IQueryable<T>> applyFunc)
 		{
+#if NET6_0
+			throw new NotSupportedException();
+#else
 			throw new UnreachableException();
+#endif
 		}
 
 		/// <inheritdoc />
 		IQueryable<T> IIncludeOptions<T>.ApplyTo(IQueryable<T> queryable)
 		{
+#if NET6_0
+			throw new NotSupportedException();
+#else
 			throw new UnreachableException();
+#endif
 		}
 
 		/// <inheritdoc />
 		IQueryable<T> ISortingOptions<T>.ApplyTo(IQueryable<T> queryable)
 		{
+#if NET6_0
+			throw new NotSupportedException();
+#else
 			throw new UnreachableException();
+#endif
 		}
 
 		/// <inheritdoc />
 		IQueryable<T> ISkipTakeOptions<T>.ApplyTo(IQueryable<T> queryable)
 		{
+#if NET6_0
+			throw new NotSupportedException();
+#else
 			throw new UnreachableException();
+#endif
 		}
 
 		/// <inheritdoc />
 		IQueryable<T> IPagingOptions<T>.ApplyTo(IQueryable<T> queryable)
 		{
+#if NET6_0
+			throw new NotSupportedException();
+#else
 			throw new UnreachableException();
+#endif
 		}
 	}
 }
