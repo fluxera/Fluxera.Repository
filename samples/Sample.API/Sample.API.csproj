@@ -6,9 +6,9 @@
 		<ImplicitUsings>disable</ImplicitUsings>
 	</PropertyGroup>
 
-	<ItemGroup>
-		<PackageReference Include="Fluxera.StronglyTypedId.SystemTextJson" Version="8.0.2" />
-	</ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Fluxera.StronglyTypedId.SystemTextJson" Version="8.0.2" />
+  </ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\Sample.EntityFrameworkCore\Sample.EntityFrameworkCore.csproj" />
