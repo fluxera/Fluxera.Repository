@@ -1,4 +1,6 @@
-﻿namespace Fluxera.Repository.EntityFrameworkCore.IntegrationTests
+﻿using NUnit.Framework.Legacy;
+
+namespace Fluxera.Repository.EntityFrameworkCore.IntegrationTests
 {
 	using System;
 	using System.Threading.Tasks;
@@ -6,6 +8,7 @@
 	using Fluxera.Repository.UnitTests.Core.PersonAggregate;
 	using Microsoft.Extensions.DependencyInjection;
 	using NUnit.Framework;
+	using Assert = ClassicAssert;
 
 	[TestFixture(true)]
 	[TestFixture(false)]
