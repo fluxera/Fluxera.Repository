@@ -1,14 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
-    <ImplicitUsings>disable</ImplicitUsings>
-    <Nullable>disable</Nullable>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFrameworks>net8.0</TargetFrameworks>
+		<ImplicitUsings>disable</ImplicitUsings>
+		<Nullable>disable</Nullable>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\Fluxera.Repository.LiteDB\Fluxera.Repository.LiteDB.csproj" />
-    <ProjectReference Include="..\Sample.Domain\Sample.Domain.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\src\Fluxera.Repository.LiteDB\Fluxera.Repository.LiteDB.csproj" />
+		<ProjectReference Include="..\Sample.Domain\Sample.Domain.csproj" />
+	</ItemGroup>
 
 </Project>
