@@ -41,6 +41,9 @@
 			modelBuilder.Entity<Person>(entity =>
 			{
 				entity.ToTable("People");
+//#if NET8_0_OR_GREATER
+//				entity.ComplexProperty(x => x.Address);
+//#endif
 				entity.OwnsOne(x => x.Address);
 
 				entity.UseRepositoryDefaults();
