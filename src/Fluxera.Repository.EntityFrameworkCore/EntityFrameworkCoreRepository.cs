@@ -382,7 +382,7 @@
 		{
 			foreach(PropertyInfo propertyInfo in typeof(TAggregateRoot).GetRuntimeProperties())
 			{
-				if(propertyInfo.PropertyType.IsAggregateRoot())
+				if(propertyInfo.PropertyType.IsAggregateRoot()/* || propertyInfo.PropertyType.IsEntity()*/)
 				{
 					object value = propertyInfo.GetValue(item);
 					if(value is not null)
