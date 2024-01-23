@@ -6,15 +6,12 @@ namespace Fluxera.Repository.Query
 	internal sealed class EmptyQueryOptions<T> : IQueryOptions<T> where T : class
 	{
 		/// <inheritdoc />
+		public bool IsEmpty => true;
+
+		/// <inheritdoc />
 		IQueryable<T> IQueryOptions<T>.ApplyTo(IQueryable<T> queryable)
 		{
 			return queryable;
-		}
-
-		/// <inheritdoc />
-		bool IQueryOptions<T>.IsEmpty()
-		{
-			return true;
 		}
 
 		/// <inheritdoc />

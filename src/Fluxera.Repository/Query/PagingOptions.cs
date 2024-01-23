@@ -18,15 +18,15 @@ namespace Fluxera.Repository.Query
 			this.PageSizeAmount = pageSize;
 		}
 
+		public int SkipAmount => (this.PageNumberAmount - 1) * this.PageSizeAmount;
+
+		public int TakeAmount => this.PageSizeAmount;
+
 		public int TotalItemCount { get; private set; }
 
 		public int PageNumberAmount { get; private set; }
 
 		public int PageSizeAmount { get; private set; }
-
-		public int SkipAmount => (this.PageNumberAmount - 1) * this.PageSizeAmount;
-
-		public int TakeAmount => this.PageSizeAmount;
 
 		/// <inheritdoc />
 		public IPagingOptions<T> PageNumber(int pageNumberAmount)

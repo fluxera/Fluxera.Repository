@@ -55,10 +55,9 @@ namespace Sample.API.Controllers
 		public async Task<IActionResult> GetCompanies([FromServices] QueryOptionsBuilder<Company> queryOptionsBuilder)
 		{
 			IQueryOptions<Company> queryOptions = queryOptionsBuilder
-				.Include(x => x.Partners)
 				.OrderBy(x => x.Name)
 				.ThenByDescending(x => x.LegalType)
-				.Build(queryable => queryable.AsNoTracking());
+				.Build(queryable => queryable.AsNoTracking().Include(x => x.Partners));
 
 			IReadOnlyCollection<Company> companies = await this.repository.FindManyAsync(x => true, queryOptions);
 

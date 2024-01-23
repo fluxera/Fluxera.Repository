@@ -43,7 +43,7 @@
 		private IServiceProvider ServiceProvider { get; set; }
 
 		/// <summary>
-		///		Gets the current session.
+		///     Gets the current session.
 		/// </summary>
 		public IClientSessionHandle Session { get; private set; }
 
@@ -212,7 +212,7 @@
 		}
 
 		/// <summary>
-		///     Configures the options to use for this context instance over it's lifetime.
+		///     Configures the options to use for this context instance over its lifetime.
 		/// </summary>
 		protected abstract void ConfigureOptions(MongoContextOptions options);
 
