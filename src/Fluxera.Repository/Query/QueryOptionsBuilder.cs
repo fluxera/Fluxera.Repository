@@ -8,41 +8,39 @@ namespace Fluxera.Repository.Query
 	///     A helper service to create entry points for building <see cref="IQueryOptions{T}" />.
 	/// </summary>
 	[PublicAPI]
-	public class QueryOptionsBuilder<T> where T : class
+	public static class QueryOptionsBuilder
 	{
-		private QueryOptionsImpl<T> queryOptions;
-
-		private readonly IIncludeApplier includeApplier;
-
 		/// <summary>
-		///     Initializes a new instance of the <see cref="QueryOptionsBuilder{T}" /> type.
+		///     Creates a builder instance.
 		/// </summary>
-		/// <param name="queryApplierFactory"></param>
-		/// <param name="repositoryRegistry"></param>
-		public QueryOptionsBuilder(IQueryApplierFactory queryApplierFactory, IRepositoryRegistry repositoryRegistry)
+		/// <returns></returns>
+		public static QueryOptionsBuilder<T> CreateFor<T>() where T : class
 		{
-			RepositoryName repositoryName = repositoryRegistry.GetRepositoryNameFor<T>();
-			this.includeApplier = queryApplierFactory.CreateIncludeApplier(repositoryName);
+			return new QueryOptionsBuilder<T>();
 		}
 
 		/// <summary>
 		///     Creates an empty options instance.
 		/// </summary>
 		/// <returns></returns>
-		public static IQueryOptions<T> Empty()
+		public static IQueryOptions<T> Empty<T>()
+			where T : class
 		{
 			return QueryOptions<T>.Empty();
 		}
+	}
 
-		/// <summary>
-		///     Creates an entry point for configuring the include options.
-		/// </summary>
-		/// <param name="includeExpression"></param>
-		/// <returns></returns>
-		public IIncludeOptions<T> Include(Expression<Func<T, object>> includeExpression)
+	/// <summary>
+	///     A helper service to create entry points for building <see cref="IQueryOptions{T}" />.
+	/// </summary>
+	[PublicAPI]
+	public class QueryOptionsBuilder<T> where T : class
+	{
+		private QueryOptionsImpl<T> queryOptions;
+
+		internal QueryOptionsBuilder()
 		{
-			this.queryOptions = new QueryOptionsImpl<T>(this.includeApplier);
-			return queryOptions.Include(includeExpression);
+			// Note: Intentionally left blank.
 		}
 
 		/// <summary>
@@ -52,8 +50,8 @@ namespace Fluxera.Repository.Query
 		/// <returns></returns>
 		public ISortingOptions<T> OrderBy<TValue>(Expression<Func<T, TValue>> sortExpression)
 		{
-			this.queryOptions = new QueryOptionsImpl<T>();
-			return queryOptions.OrderBy(sortExpression);
+			this.queryOptions ??= new QueryOptionsImpl<T>();
+			return this.queryOptions.OrderBy(sortExpression);
 		}
 
 		/// <summary>
@@ -63,8 +61,8 @@ namespace Fluxera.Repository.Query
 		/// <returns></returns>
 		public ISortingOptions<T> OrderByDescending(Expression<Func<T, object>> sortExpression)
 		{
-			this.queryOptions = new QueryOptionsImpl<T>();
-			return queryOptions.OrderByDescending(sortExpression);
+			this.queryOptions ??= new QueryOptionsImpl<T>();
+			return this.queryOptions.OrderByDescending(sortExpression);
 		}
 
 		/// <summary>
@@ -74,8 +72,8 @@ namespace Fluxera.Repository.Query
 		/// <returns></returns>
 		public ISkipTakeOptions<T> Skip(int skipAmount)
 		{
-			this.queryOptions = new QueryOptionsImpl<T>();
-			return queryOptions.Skip(skipAmount);
+			this.queryOptions ??= new QueryOptionsImpl<T>();
+			return this.queryOptions.Skip(skipAmount);
 		}
 
 		/// <summary>
@@ -85,8 +83,8 @@ namespace Fluxera.Repository.Query
 		/// <returns></returns>
 		public ISkipTakeOptions<T> Take(int takeAmount)
 		{
-			this.queryOptions = new QueryOptionsImpl<T>();
-			return queryOptions.Take(takeAmount);
+			this.queryOptions ??= new QueryOptionsImpl<T>();
+			return this.queryOptions.Take(takeAmount);
 		}
 
 		/// <summary>
@@ -97,8 +95,8 @@ namespace Fluxera.Repository.Query
 		/// <returns></returns>
 		public ISkipTakeOptions<T> SkipTake(int skipAmount, int takeAmount)
 		{
-			this.queryOptions = new QueryOptionsImpl<T>();
-			return queryOptions.SkipTake(skipAmount, takeAmount);
+			this.queryOptions ??= new QueryOptionsImpl<T>();
+			return this.queryOptions.SkipTake(skipAmount, takeAmount);
 		}
 
 		/// <summary>
@@ -109,8 +107,8 @@ namespace Fluxera.Repository.Query
 		/// <returns></returns>
 		public IPagingOptions<T> Paging(int pageNumber, int pageSize)
 		{
-			this.queryOptions = new QueryOptionsImpl<T>();
-			return queryOptions.Paging(pageNumber, pageSize);
+			this.queryOptions ??= new QueryOptionsImpl<T>();
+			return this.queryOptions.Paging(pageNumber, pageSize);
 		}
 
 		/// <summary>
@@ -119,8 +117,8 @@ namespace Fluxera.Repository.Query
 		/// <returns></returns>
 		public IPagingOptions<T> Paging()
 		{
-			this.queryOptions = new QueryOptionsImpl<T>();
-			return queryOptions.Paging();
+			this.queryOptions ??= new QueryOptionsImpl<T>();
+			return this.queryOptions.Paging();
 		}
 
 		/// <summary>

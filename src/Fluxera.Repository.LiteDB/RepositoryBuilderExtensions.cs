@@ -3,7 +3,6 @@
 	using System;
 	using Fluxera.Extensions.DependencyInjection;
 	using Fluxera.Guards;
-	using Fluxera.Repository.Query;
 	using global::LiteDB;
 	using JetBrains.Annotations;
 	using Microsoft.Extensions.DependencyInjection;
@@ -61,7 +60,7 @@
 		/// <summary>
 		///     Adds a LiteDB repository for the given repository name. The repository options
 		///     are configured using the options builder configure action. Additional LiteDB
-		///     related mappings can be configures using the mapper configuration action.
+		///     related mappings can be configured using the mapper configuration action.
 		/// </summary>
 		/// <param name="builder"></param>
 		/// <param name="repositoryName"></param>
@@ -87,10 +86,6 @@
 			builder.Services.AddNamedTransient<IUnitOfWork>(serviceBuilder =>
 			{
 				serviceBuilder.AddNameFor<LiteUnitOfWork>(repositoryName);
-			});
-			builder.Services.AddNamedTransient<IIncludeApplier>(serviceBuilder =>
-			{
-				serviceBuilder.AddNameFor<LiteIncludeApplier>(repositoryName);
 			});
 
 			return builder.AddRepository(repositoryName, typeof(LiteRepository<,>), contextType, configure);

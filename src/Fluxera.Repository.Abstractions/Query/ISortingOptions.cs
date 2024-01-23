@@ -1,6 +1,7 @@
 namespace Fluxera.Repository.Query
 {
 	using System;
+	using System.Collections.Generic;
 	using System.Linq;
 	using System.Linq.Expressions;
 	using JetBrains.Annotations;
@@ -12,6 +13,16 @@ namespace Fluxera.Repository.Query
 	[PublicAPI]
 	public interface ISortingOptions<T> where T : class
 	{
+		/// <summary>
+		///     Gets the primary sort expression.
+		/// </summary>
+		internal ISortExpression<T> PrimaryExpression { get; }
+
+		/// <summary>
+		///     Gets the secondary sort expressions.
+		/// </summary>
+		internal IList<ISortExpression<T>> SecondaryExpressions { get; }
+
 		/// <summary>
 		///     Configures a secondary sort expression.
 		/// </summary>
@@ -63,7 +74,7 @@ namespace Fluxera.Repository.Query
 		IPagingOptions<T> Paging();
 
 		/// <summary>
-		///     Builds a query options instance from this options.
+		///     Builds a query options instance from these options.
 		/// </summary>
 		/// <param name="applyFunc">A function which can be used to apply additional configuration to the queryable.</param>
 		/// <returns></returns>

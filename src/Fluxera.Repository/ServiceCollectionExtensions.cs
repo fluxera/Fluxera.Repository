@@ -43,7 +43,6 @@
 
 			// Add the query options builder services.
 			services.AddTransient(typeof(QueryOptionsBuilder<>));
-			services.AddTransient<IQueryApplierFactory, QueryApplierFactory>();
 
 			// Build the options of the repositories.
 			IRepositoryBuilder repositoryBuilder = new RepositoryBuilder(services);

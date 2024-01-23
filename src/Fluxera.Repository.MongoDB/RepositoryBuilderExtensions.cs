@@ -4,7 +4,6 @@
 	using Fluxera.Extensions.DependencyInjection;
 	using Fluxera.Guards;
 	using Fluxera.Repository.MongoDB.Serialization;
-	using Fluxera.Repository.Query;
 	using global::MongoDB.Bson.Serialization.Conventions;
 	using JetBrains.Annotations;
 	using Microsoft.Extensions.DependencyInjection;
@@ -88,10 +87,6 @@
 			builder.Services.AddNamedTransient<IUnitOfWork>(serviceBuilder =>
 			{
 				serviceBuilder.AddNameFor<MongoUnitOfWork>(repositoryName);
-			});
-			builder.Services.AddNamedTransient<IIncludeApplier>(serviceBuilder =>
-			{
-				serviceBuilder.AddNameFor<MongoIncludeApplier>(repositoryName);
 			});
 
 			return builder.AddRepository(repositoryName, typeof(MongoRepository<,>), contextType, configure);

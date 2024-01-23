@@ -9,24 +9,25 @@ namespace Fluxera.Repository.Query
 	internal sealed class SortingOptions<T> : ISortingOptions<T> where T : class
 	{
 		private readonly QueryOptionsImpl<T> queryOptions;
-
-		private readonly ISortExpression<T> primaryExpression;
-
-		private readonly IList<ISortExpression<T>> secondaryExpressions = new List<ISortExpression<T>>();
-
 		private Func<IQueryable<T>, IQueryable<T>> applyAdditionalQueryable;
 
 		public SortingOptions(QueryOptionsImpl<T> queryOptions, ISortExpression<T> primaryExpression)
 		{
 			this.queryOptions = queryOptions;
 
-			this.primaryExpression = primaryExpression;
+			this.PrimaryExpression = primaryExpression;
 		}
+
+		/// <inheritdoc />
+		public ISortExpression<T> PrimaryExpression { get; }
+
+		/// <inheritdoc />
+		public IList<ISortExpression<T>> SecondaryExpressions { get; } = new List<ISortExpression<T>>();
 
 		/// <inheritdoc />
 		public ISortingOptions<T> ThenBy<TValue>(Expression<Func<T, TValue>> sortExpression)
 		{
-			this.secondaryExpressions.Add(new SortExpression<T, TValue>(sortExpression, false));
+			this.SecondaryExpressions.Add(new SortExpression<T, TValue>(sortExpression, false));
 
 			return this;
 		}
@@ -34,7 +35,7 @@ namespace Fluxera.Repository.Query
 		/// <inheritdoc />
 		public ISortingOptions<T> ThenByDescending<TValue>(Expression<Func<T, TValue>> sortExpression)
 		{
-			this.secondaryExpressions.Add(new SortExpression<T, TValue>(sortExpression, true));
+			this.SecondaryExpressions.Add(new SortExpression<T, TValue>(sortExpression, true));
 
 			return this;
 		}
@@ -85,8 +86,8 @@ namespace Fluxera.Repository.Query
 		/// <inheritdoc />
 		IQueryable<T> ISortingOptions<T>.ApplyTo(IQueryable<T> queryable)
 		{
-			queryable = this.primaryExpression.ApplyTo(queryable);
-			foreach(ISortExpression<T> secondaryExpression in this.secondaryExpressions)
+			queryable = this.PrimaryExpression.ApplyTo(queryable);
+			foreach(ISortExpression<T> secondaryExpression in this.SecondaryExpressions)
 			{
 				IOrderedQueryable<T> orderedQueryable = (IOrderedQueryable<T>)queryable;
 				queryable = secondaryExpression.ApplyTo(orderedQueryable);
@@ -100,8 +101,8 @@ namespace Fluxera.Repository.Query
 		/// <inheritdoc />
 		public override string ToString()
 		{
-			string orderByString = this.primaryExpression.ToString();
-			string thenByString = this.secondaryExpressions.Select(x => x.ToString()).Aggregate((s1, s2) => string.Concat(s1, ", ", s2));
+			string orderByString = this.PrimaryExpression.ToString();
+			string thenByString = this.SecondaryExpressions.Select(x => x.ToString()).Aggregate((s1, s2) => string.Concat(s1, ", ", s2));
 			string sortingOptionsString = "(OrderBy: {0}, ThenBy: {1})".FormatInvariantWith(orderByString, thenByString);
 
 			string pagingOptionsString = this.queryOptions.PagingOptions != null ? this.queryOptions.PagingOptions.ToString() : "none";

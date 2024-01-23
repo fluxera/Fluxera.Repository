@@ -12,6 +12,21 @@ namespace Fluxera.Repository.Query
 	public interface IPagingOptions<T> where T : class
 	{
 		/// <summary>
+		///     Gets the page number.
+		/// </summary>
+		internal int PageNumberAmount { get; }
+
+		/// <summary>
+		///     Gets the page size.
+		/// </summary>
+		internal int PageSizeAmount { get; }
+
+		/// <summary>
+		///     Gets the total item count.
+		/// </summary>
+		internal int TotalItemCount { get; }
+
+		/// <summary>
 		///     Set the page number.
 		/// </summary>
 		/// <param name="pageNumberAmount"></param>
@@ -26,7 +41,7 @@ namespace Fluxera.Repository.Query
 		IPagingOptions<T> PageSize(int pageSizeAmount);
 
 		/// <summary>
-		///     Builds a query options instance from this options.
+		///     Builds a query options instance from these options.
 		/// </summary>
 		/// <param name="applyFunc">A function which can be used to apply additional configuration to the queryable.</param>
 		/// <returns></returns>

@@ -35,8 +35,7 @@
 
 		protected QueryOptionsBuilder<T> CreateQueryOptionsBuilder<T>() where T : class
 		{
-			QueryOptionsBuilder<T> queryOptionsBuilder =
-				(QueryOptionsBuilder<T>)this.serviceProvider.GetRequiredService(typeof(QueryOptionsBuilder<>).MakeGenericType(typeof(T)));
+			QueryOptionsBuilder<T> queryOptionsBuilder = QueryOptionsBuilder.CreateFor<T>();
 			return queryOptionsBuilder;
 		}
 
