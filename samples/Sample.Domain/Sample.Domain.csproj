@@ -1,21 +1,21 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
-    <ImplicitUsings>disable</ImplicitUsings>
-    <Nullable>disable</Nullable>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFrameworks>net8.0</TargetFrameworks>
+		<ImplicitUsings>disable</ImplicitUsings>
+		<Nullable>disable</Nullable>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\Fluxera.Repository\Fluxera.Repository.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\src\Fluxera.Repository\Fluxera.Repository.csproj" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Company\Reducer\" />
-  </ItemGroup>
+	<ItemGroup>
+		<Folder Include="Company\Reducer\" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Fluxera.Utilities" Version="8.0.1" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Fluxera.Utilities" Version="8.0.1" />
+	</ItemGroup>
 
 </Project>

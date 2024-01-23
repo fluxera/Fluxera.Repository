@@ -23,5 +23,22 @@
 
 			repositoryBuilder.AddEntityFrameworkRepository<RepositoryContext>(repositoryName, configureOptions.Invoke);
 		}
+
+		// TODO: Add Invoice/InvoiceItem tests here to check if referenced entites are add/updated
+		//[Test]
+		//public async Task ShouldAddEntity()
+		//{
+		//	Person person = new Person
+		//	{
+		//		Name = "Tester"
+		//	};
+		//	await this.PersonRepository.AddAsync(person);
+		//	await this.UnitOfWork.SaveChangesAsync();
+
+		//	person.ID.Should().NotBeEmpty();
+
+		//	Person result = await this.PersonRepository.GetAsync(person.ID);
+		//	result.Should().NotBeNull();
+		//}
 	}
 }

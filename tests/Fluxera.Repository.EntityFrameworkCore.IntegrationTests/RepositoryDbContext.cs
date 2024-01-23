@@ -1,5 +1,6 @@
 ﻿namespace Fluxera.Repository.EntityFrameworkCore.IntegrationTests
 {
+	using Fluxera.Repository.EntityFrameworkCore.IntegrationTests.InvoiceAggregate;
 	using Fluxera.Repository.UnitTests.Core.CompanyAggregate;
 	using Fluxera.Repository.UnitTests.Core.EmployeeAggregate;
 	using Fluxera.Repository.UnitTests.Core.PersonAggregate;
@@ -29,6 +30,8 @@
 
 		public DbSet<Reference> References { get; set; }
 
+		public DbSet<Invoice> Invoices { get; set; }
+
 		/// <inheritdoc />
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
@@ -46,10 +49,14 @@
 			modelBuilder.Entity<Person>(entity =>
 			{
 				entity.ToTable("People");
+//#if NET8_0_OR_GREATER
+//				entity.ComplexProperty(x => x.Address);
+//#endif
 				entity.OwnsOne(x => x.Address);
 
 				entity.UseRepositoryDefaults();
 			});
+
 
 			modelBuilder.Entity<Company>(entity =>
 			{
@@ -71,6 +78,22 @@
 
 			modelBuilder.Entity<Reference>(entity =>
 			{
+				entity.UseRepositoryDefaults();
+			});
+
+			modelBuilder.Entity<Invoice>(entity =>
+			{
+				entity.UseRepositoryDefaults();
+			});
+
+			modelBuilder.Entity<InvoiceItem>(entity =>
+			{
+				entity.HasKey(x => x.ID);
+
+				entity
+					.Property(x => x.Amount)
+					.HasConversion<double>();
+
 				entity.UseRepositoryDefaults();
 			});
 		}
