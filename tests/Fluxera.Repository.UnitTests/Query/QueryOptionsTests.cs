@@ -12,15 +12,15 @@
 	[TestFixture]
 	public class QueryOptionsTests
 	{
+		private IMapper mapper;
+		private MapperConfiguration config;
+
 		[SetUp]
 		public void Setup()
 		{
 			this.config = new MapperConfiguration(cfg => cfg.AddProfile<PersonProfile>());
 			this.mapper = this.config.CreateMapper();
 		}
-
-		private IMapper mapper;
-		private MapperConfiguration config;
 
 		[Test]
 		public void ShouldConvertQueryOptions_OnlyPaging()
