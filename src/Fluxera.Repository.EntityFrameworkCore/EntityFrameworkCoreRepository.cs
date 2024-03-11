@@ -50,7 +50,6 @@
 		/// <inheritdoc />
 		protected override async Task AddAsync(TAggregateRoot item, CancellationToken cancellationToken)
 		{
-			this.PrepareItem(item, EntityState.Added);
 			await this.dbSet.AddAsync(item, cancellationToken).ConfigureAwait(false);
 
 			if(!this.options.IsUnitOfWorkEnabled)
@@ -63,11 +62,6 @@
 		protected override async Task AddRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{
 			IList<TAggregateRoot> itemList = items.ToList();
-
-			foreach(TAggregateRoot item in itemList)
-			{
-				this.PrepareItem(item, EntityState.Added);
-			}
 
 			await this.dbSet.AddRangeAsync(itemList, cancellationToken).ConfigureAwait(false);
 
