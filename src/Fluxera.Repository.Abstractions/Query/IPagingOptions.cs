@@ -24,7 +24,7 @@ namespace Fluxera.Repository.Query
 		/// <summary>
 		///     Gets the total item count.
 		/// </summary>
-		internal int TotalItemCount { get; }
+		int TotalItemCount { get; }
 
 		/// <summary>
 		///     Set the page number.
