@@ -87,6 +87,7 @@ namespace Fluxera.Repository.Query
 		IQueryable<T> ISortingOptions<T>.ApplyTo(IQueryable<T> queryable)
 		{
 			queryable = this.PrimaryExpression.ApplyTo(queryable);
+
 			foreach(ISortExpression<T> secondaryExpression in this.SecondaryExpressions)
 			{
 				IOrderedQueryable<T> orderedQueryable = (IOrderedQueryable<T>)queryable;

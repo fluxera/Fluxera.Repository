@@ -59,7 +59,8 @@ namespace Fluxera.Repository.Query
 
 			if(this.SkipAmount > 0 || this.TakeAmount > 0)
 			{
-				return queryable.Skip(this.SkipAmount).Take(this.TakeAmount);
+				queryable = queryable.Skip(this.SkipAmount);
+				queryable = queryable.Take(this.TakeAmount);
 			}
 
 			queryable = this.applyAdditionalQueryable?.Invoke(queryable) ?? queryable;
