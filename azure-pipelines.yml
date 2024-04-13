@@ -86,7 +86,7 @@ stages:
     steps:
     # Download the created packages.
     - task: DownloadBuildArtifacts@0
-      displayName: 'Download NuGet Packges'
+      displayName: 'Download NuGet Packages'
       inputs:
         buildType: 'current'
         downloadType: 'single'
@@ -94,7 +94,7 @@ stages:
         downloadPath: '$(System.ArtifactsDirectory)'
     # Publish the NuGet packages to the package feed.
     - task: DotNetCoreCLI@2
-      displayName: Push Nuget Package
+      displayName: Push Nuget Packages
       inputs:
         command: custom
         custom: nuget
