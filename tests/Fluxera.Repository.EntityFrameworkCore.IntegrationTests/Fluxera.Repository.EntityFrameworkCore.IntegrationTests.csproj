@@ -19,36 +19,36 @@
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="[6.0.28]">
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="[6.0.29]">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="[6.0.28]" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="[6.0.28]">
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="[6.0.29]" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="[6.0.29]">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net7.0'">
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="[7.0.17]">
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="[7.0.18]">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="[7.0.17]" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="[7.0.17]">
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="[7.0.18]" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="[7.0.18]">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.3">
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.4">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.3" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.3">
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.4" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.4">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
