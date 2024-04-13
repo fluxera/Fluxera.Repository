@@ -22,14 +22,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Fluxera.Enumeration.EntityFrameworkCore" Version="8.0.5" />
-		<PackageReference Include="Fluxera.Guards" Version="8.0.1" />
-		<PackageReference Include="Fluxera.StronglyTypedId.EntityFrameworkCore" Version="8.0.5" />
-		<PackageReference Include="Fluxera.ValueObject.EntityFrameworkCore" Version="8.0.5" />
+		<PackageReference Include="Fluxera.Enumeration.EntityFrameworkCore" Version="8.0.6" />
+		<PackageReference Include="Fluxera.Guards" Version="8.0.2" />
+		<PackageReference Include="Fluxera.StronglyTypedId.EntityFrameworkCore" Version="8.0.6" />
+		<PackageReference Include="Fluxera.ValueObject.EntityFrameworkCore" Version="8.0.6" />
 		<PackageReference Include="GitVersion.MsBuild" Version="5.12.0">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
+		<PackageReference Include="JetBrains.Annotations" Version="2023.3.0" PrivateAssets="All" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
