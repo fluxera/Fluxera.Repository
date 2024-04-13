@@ -4,19 +4,19 @@
 	using System.Linq.Expressions;
 	using Fluxera.Repository.Specifications;
 
-	public sealed class PersonByNameSpecification : Specification<Person>
+	public sealed class PersonByAgeSpecification : Specification<Person>
 	{
-		private readonly string name;
+		private readonly int age;
 
-		public PersonByNameSpecification(string name)
+		public PersonByAgeSpecification(int age)
 		{
-			this.name = name;
+			this.age = age;
 		}
 
 		/// <inheritdoc />
 		protected override Expression<Func<Person, bool>> BuildQuery()
 		{
-			return x => x.Name == this.name;
+			return x => x.Age == this.age;
 		}
 	}
 }
