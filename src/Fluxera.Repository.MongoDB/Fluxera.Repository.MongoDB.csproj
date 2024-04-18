@@ -26,17 +26,17 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Fluxera.ComponentModel.Annotations" Version="8.0.2" />
+		<PackageReference Include="Fluxera.ComponentModel.Annotations" Version="8.0.4" />
 		<PackageReference Include="Fluxera.Enumeration.MongoDB" Version="8.0.6" />
 		<PackageReference Include="Fluxera.Spatial.MongoDB" Version="8.0.6" />
-		<PackageReference Include="Fluxera.StronglyTypedId.MongoDB" Version="8.0.6" />
-		<PackageReference Include="Fluxera.ValueObject.MongoDB" Version="8.0.6" />
+		<PackageReference Include="Fluxera.StronglyTypedId.MongoDB" Version="8.0.7" />
+		<PackageReference Include="Fluxera.ValueObject.MongoDB" Version="8.0.7" />
 		<PackageReference Include="GitVersion.MsBuild" Version="5.12.0">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="JetBrains.Annotations" Version="2023.3.0" PrivateAssets="All" />
-		<PackageReference Include="MadEyeMatt.MongoDB.DbContext" Version="8.1.1" />
+		<PackageReference Include="MadEyeMatt.MongoDB.DbContext" Version="8.1.2" />
 		<PackageReference Include="MongoDB.Driver" Version="2.25.0" />
 	</ItemGroup>
 

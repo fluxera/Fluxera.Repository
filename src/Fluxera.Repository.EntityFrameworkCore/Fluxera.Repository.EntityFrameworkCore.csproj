@@ -24,8 +24,8 @@
 	<ItemGroup>
 		<PackageReference Include="Fluxera.Enumeration.EntityFrameworkCore" Version="8.0.6" />
 		<PackageReference Include="Fluxera.Guards" Version="8.0.2" />
-		<PackageReference Include="Fluxera.StronglyTypedId.EntityFrameworkCore" Version="8.0.6" />
-		<PackageReference Include="Fluxera.ValueObject.EntityFrameworkCore" Version="8.0.6" />
+		<PackageReference Include="Fluxera.StronglyTypedId.EntityFrameworkCore" Version="8.0.7" />
+		<PackageReference Include="Fluxera.ValueObject.EntityFrameworkCore" Version="8.0.7" />
 		<PackageReference Include="GitVersion.MsBuild" Version="5.12.0">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
