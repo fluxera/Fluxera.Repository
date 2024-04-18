@@ -16,7 +16,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="JetBrains.Annotations" Version="2023.3.0" />
-		<PackageReference Include="Fluxera.Utilities" Version="8.0.3" />
+		<PackageReference Include="Fluxera.Utilities" Version="8.0.4" />
 	</ItemGroup>
 
 </Project>

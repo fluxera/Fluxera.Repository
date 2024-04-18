@@ -7,7 +7,7 @@
 	</PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Fluxera.StronglyTypedId.SystemTextJson" Version="8.0.6" />
+    <PackageReference Include="Fluxera.StronglyTypedId.SystemTextJson" Version="8.0.7" />
   </ItemGroup>
 
 	<ItemGroup>
