@@ -24,6 +24,7 @@
 
 	<ItemGroup>
 		<InternalsVisibleTo Include="Fluxera.Repository" />
+		<InternalsVisibleTo Include="Fluxera.Repository.UnitTests" />
 	</ItemGroup>
 
 	<ItemGroup>

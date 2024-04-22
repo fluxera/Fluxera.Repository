@@ -3,6 +3,7 @@
 	using System;
 	using System.Threading.Tasks;
 	using Fluxera.Repository.Query;
+	using Fluxera.Repository.Query.Impl;
 	using Fluxera.Repository.UnitTests.Core.CompanyAggregate;
 	using Fluxera.Repository.UnitTests.Core.EmployeeAggregate;
 	using Fluxera.Repository.UnitTests.Core.PersonAggregate;
@@ -33,9 +34,9 @@
 
 		protected IUnitOfWork UnitOfWork { get; private set; }
 
-		protected QueryOptionsBuilder<T> CreateQueryOptionsBuilder<T>() where T : class
+		protected static IQueryOptionsBuilder<T> CreateQueryOptionsBuilder<T>() where T : class
 		{
-			QueryOptionsBuilder<T> queryOptionsBuilder = QueryOptionsBuilder.CreateFor<T>();
+			IQueryOptionsBuilder<T> queryOptionsBuilder = QueryOptionsBuilder.CreateFor<T>();
 			return queryOptionsBuilder;
 		}
 
