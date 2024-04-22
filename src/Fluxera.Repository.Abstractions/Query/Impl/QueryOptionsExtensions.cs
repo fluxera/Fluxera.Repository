@@ -1,4 +1,4 @@
-﻿namespace Fluxera.Repository.Query
+﻿namespace Fluxera.Repository.Query.Impl
 {
 	using System;
 	using System.Collections.Generic;
@@ -35,7 +35,7 @@
 			}
 
 			QueryOptionsImpl<T> queryOptionsImpl = (QueryOptionsImpl<T>)queryOptions;
-			QueryOptionsBuilder<TOther> queryOptionsBuilder = QueryOptionsBuilder.CreateFor<TOther>();
+			IQueryOptionsBuilder<TOther> queryOptionsBuilder = QueryOptionsBuilder.CreateFor<TOther>();
 
 			if(queryOptionsImpl.SortingOptions is not null)
 			{

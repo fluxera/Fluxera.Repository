@@ -13,6 +13,7 @@
 	using Fluxera.Repository.Interception;
 	using Fluxera.Repository.Options;
 	using Fluxera.Repository.Query;
+	using Fluxera.Repository.Query.Impl;
 	using Fluxera.Repository.Specifications;
 	using Fluxera.Repository.Traits;
 	using Microsoft.Extensions.Logging;

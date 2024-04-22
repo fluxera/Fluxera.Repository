@@ -5,6 +5,7 @@ namespace Sample.API.Controllers
 	using System.Threading.Tasks;
 	using Fluxera.Repository;
 	using Fluxera.Repository.Query;
+	using Fluxera.Repository.Query.Impl;
 	using Microsoft.AspNetCore.Mvc;
 	using Microsoft.EntityFrameworkCore;
 	using Microsoft.Extensions.Options;
@@ -52,7 +53,7 @@ namespace Sample.API.Controllers
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> GetCompanies([FromServices] QueryOptionsBuilder<Company> queryOptionsBuilder)
+		public async Task<IActionResult> GetCompanies([FromServices] IQueryOptionsBuilder<Company> queryOptionsBuilder)
 		{
 			IQueryOptions<Company> queryOptions = queryOptionsBuilder
 				.OrderBy(x => x.Name)

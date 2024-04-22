@@ -1,4 +1,4 @@
-namespace Fluxera.Repository.Query
+namespace Fluxera.Repository.Query.Impl
 {
 	using System.Linq;
 	using Fluxera.Utilities.Extensions;

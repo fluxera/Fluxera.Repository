@@ -8,6 +8,7 @@
 	using System.Threading.Tasks;
 	using Fluxera.Entity;
 	using Fluxera.Repository.Query;
+	using Fluxera.Repository.Query.Impl;
 	using Fluxera.Repository.Specifications;
 	using Fluxera.Repository.Traits;
 	using Fluxera.Utilities;

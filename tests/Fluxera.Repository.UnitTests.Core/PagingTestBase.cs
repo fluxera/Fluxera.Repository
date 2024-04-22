@@ -32,7 +32,14 @@
 
 			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 
+
+/* Unmerged change from project 'Fluxera.Repository.UnitTests.Core (net7.0)'
+Before:
 			IQueryOptions<Person> options = this.CreateQueryOptionsBuilder<Person>().Paging(5, 10).Build();
+After:
+			IQueryOptions<Person> options = CreateQueryOptionsBuilder<Person>().Paging(5, 10).Build();
+*/
+			IQueryOptions<Person> options = RepositoryTestBase.CreateQueryOptionsBuilder<Person>().Paging(5, 10).Build();
 			IReadOnlyCollection<Person> result = await this.PersonRepository.FindManyAsync(x => x.Age < 40, options);
 
 			result.Count.Should().Be(10);
@@ -52,7 +59,14 @@
 
 			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 
+
+/* Unmerged change from project 'Fluxera.Repository.UnitTests.Core (net7.0)'
+Before:
 			IQueryOptions<Person> options = this.CreateQueryOptionsBuilder<Person>().Skip(100).Build();
+After:
+			IQueryOptions<Person> options = CreateQueryOptionsBuilder<Person>().Skip(100).Build();
+*/
+			IQueryOptions<Person> options = RepositoryTestBase.CreateQueryOptionsBuilder<Person>().Skip(100).Build();
 			IReadOnlyCollection<Person> result = await this.PersonRepository.FindManyAsync(x => true, options);
 
 			result.Count.Should().Be(150);
@@ -71,7 +85,14 @@
 
 			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 
+
+/* Unmerged change from project 'Fluxera.Repository.UnitTests.Core (net7.0)'
+Before:
 			IQueryOptions<Person> options = this.CreateQueryOptionsBuilder<Person>().Take(75).Build();
+After:
+			IQueryOptions<Person> options = CreateQueryOptionsBuilder<Person>().Take(75).Build();
+*/
+			IQueryOptions<Person> options = RepositoryTestBase.CreateQueryOptionsBuilder<Person>().Take(75).Build();
 			IReadOnlyCollection<Person> result = await this.PersonRepository.FindManyAsync(x => true, options);
 
 			result.Count.Should().Be(75);
@@ -90,7 +111,14 @@
 
 			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 
+
+/* Unmerged change from project 'Fluxera.Repository.UnitTests.Core (net7.0)'
+Before:
 			IQueryOptions<Person> options = this.CreateQueryOptionsBuilder<Person>().SkipTake(200, 75).Build();
+After:
+			IQueryOptions<Person> options = CreateQueryOptionsBuilder<Person>().SkipTake(200, 75).Build();
+*/
+			IQueryOptions<Person> options = RepositoryTestBase.CreateQueryOptionsBuilder<Person>().SkipTake(200, 75).Build();
 			IReadOnlyCollection<Person> result = await this.PersonRepository.FindManyAsync(x => true, options);
 
 			result.Count.Should().Be(50);
@@ -109,7 +137,14 @@
 
 			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 
+
+/* Unmerged change from project 'Fluxera.Repository.UnitTests.Core (net7.0)'
+Before:
 			IQueryOptions<Person> options = this.CreateQueryOptionsBuilder<Person>().Skip(200).Take(75).Build();
+After:
+			IQueryOptions<Person> options = CreateQueryOptionsBuilder<Person>().Skip(200).Take(75).Build();
+*/
+			IQueryOptions<Person> options = RepositoryTestBase.CreateQueryOptionsBuilder<Person>().Skip(200).Take(75).Build();
 			IReadOnlyCollection<Person> result = await this.PersonRepository.FindManyAsync(x => true, options);
 
 			result.Count.Should().Be(50);

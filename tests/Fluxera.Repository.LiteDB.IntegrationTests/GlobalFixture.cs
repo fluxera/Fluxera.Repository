@@ -8,21 +8,25 @@
 	public class GlobalFixture
 	{
 		[OneTimeSetUp]
-		public async Task OneTimeSetUp()
+		public Task OneTimeSetUp()
 		{
 			foreach(string file in Directory.EnumerateFiles(".", "*.db"))
 			{
 				File.Delete(file);
 			}
+
+			return Task.CompletedTask;
 		}
 
 		[OneTimeTearDown]
-		public async Task OneTimeTearDown()
+		public Task OneTimeTearDown()
 		{
 			foreach(string file in Directory.EnumerateFiles(".", "*.db"))
 			{
 				File.Delete(file);
 			}
+
+			return Task.CompletedTask;
 		}
 	}
 }

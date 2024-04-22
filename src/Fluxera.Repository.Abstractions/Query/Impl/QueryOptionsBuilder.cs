@@ -1,7 +1,8 @@
-namespace Fluxera.Repository.Query
+namespace Fluxera.Repository.Query.Impl
 {
 	using System;
 	using System.Linq.Expressions;
+	using Fluxera.Repository.Query;
 	using JetBrains.Annotations;
 
 	/// <summary>
@@ -14,7 +15,7 @@ namespace Fluxera.Repository.Query
 		///     Creates a builder instance.
 		/// </summary>
 		/// <returns></returns>
-		public static QueryOptionsBuilder<T> CreateFor<T>() where T : class
+		public static IQueryOptionsBuilder<T> CreateFor<T>() where T : class
 		{
 			return new QueryOptionsBuilder<T>();
 		}
@@ -29,19 +30,14 @@ namespace Fluxera.Repository.Query
 			return QueryOptions<T>.Empty();
 		}
 	}
-
+	
 	/// <summary>
 	///     A helper service to create entry points for building <see cref="IQueryOptions{T}" />.
 	/// </summary>
-	[PublicAPI]
-	public class QueryOptionsBuilder<T> where T : class
+	[UsedImplicitly]
+	internal sealed class QueryOptionsBuilder<T> : IQueryOptionsBuilder<T> where T : class
 	{
 		private QueryOptionsImpl<T> queryOptions;
-
-		internal QueryOptionsBuilder()
-		{
-			// Note: Intentionally left blank.
-		}
 
 		/// <summary>
 		///     Creates an entry point for configuring the sorting options.

@@ -12,6 +12,7 @@
 	using Fluxera.Repository.Interception;
 	using Fluxera.Repository.Options;
 	using Fluxera.Repository.Query;
+	using Fluxera.Repository.Query.Impl;
 	using Fluxera.Repository.Validation;
 	using Fluxera.Utilities.Extensions;
 	using JetBrains.Annotations;
@@ -42,7 +43,7 @@
 			services.AddTransient<IUnitOfWorkFactory, UnitOfWorkFactory>();
 
 			// Add the query options builder services.
-			services.AddTransient(typeof(QueryOptionsBuilder<>));
+			services.AddTransient(typeof(IQueryOptionsBuilder<>), typeof(QueryOptionsBuilder<>));
 
 			// Build the options of the repositories.
 			IRepositoryBuilder repositoryBuilder = new RepositoryBuilder(services);

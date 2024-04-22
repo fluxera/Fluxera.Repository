@@ -60,7 +60,14 @@
 
 			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 
+
+/* Unmerged change from project 'Fluxera.Repository.UnitTests.Core (net7.0)'
+Before:
 			IQueryOptions<Person> options = this.CreateQueryOptionsBuilder<Person>().OrderBy(x => x.Name).Build();
+After:
+			IQueryOptions<Person> options = CreateQueryOptionsBuilder<Person>().OrderBy(x => x.Name).Build();
+*/
+			IQueryOptions<Person> options = RepositoryTestBase.CreateQueryOptionsBuilder<Person>().OrderBy(x => x.Name).Build();
 			IReadOnlyCollection<Person> result = await this.PersonRepository.FindManyAsync(x => x.Age < 35, options);
 			IList<Person> resultList = new List<Person>(result);
 
@@ -107,7 +114,14 @@
 
 			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 
+
+/* Unmerged change from project 'Fluxera.Repository.UnitTests.Core (net7.0)'
+Before:
 			IQueryOptions<Person> options = this.CreateQueryOptionsBuilder<Person>().OrderBy(x => x.Name).ThenBy(x => x.Age).Build();
+After:
+			IQueryOptions<Person> options = CreateQueryOptionsBuilder<Person>().OrderBy(x => x.Name).ThenBy(x => x.Age).Build();
+*/
+			IQueryOptions<Person> options = RepositoryTestBase.CreateQueryOptionsBuilder<Person>().OrderBy(x => x.Name).ThenBy(x => x.Age).Build();
 			IReadOnlyCollection<Person> result = await this.PersonRepository.FindManyAsync(x => x.Age < 35, options);
 			IList<Person> resultList = new List<Person>(result);
 
@@ -168,7 +182,14 @@
 
 			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 
+
+/* Unmerged change from project 'Fluxera.Repository.UnitTests.Core (net7.0)'
+Before:
 			IQueryOptions<Person> options = this.CreateQueryOptionsBuilder<Person>().OrderByDescending(x => x.Name).Build();
+After:
+			IQueryOptions<Person> options = CreateQueryOptionsBuilder<Person>().OrderByDescending(x => x.Name).Build();
+*/
+			IQueryOptions<Person> options = RepositoryTestBase.CreateQueryOptionsBuilder<Person>().OrderByDescending(x => x.Name).Build();
 			IReadOnlyCollection<Person> result = await this.PersonRepository.FindManyAsync(x => x.Age < 35, options);
 			IList<Person> resultList = new List<Person>(result);
 
@@ -215,7 +236,14 @@
 
 			persons.ForEach(x => x.ID.Should().NotBeEmpty());
 
+
+/* Unmerged change from project 'Fluxera.Repository.UnitTests.Core (net7.0)'
+Before:
 			IQueryOptions<Person> options = this.CreateQueryOptionsBuilder<Person>().OrderByDescending(x => x.Name).ThenByDescending(x => x.Age).Build();
+After:
+			IQueryOptions<Person> options = CreateQueryOptionsBuilder<Person>().OrderByDescending(x => x.Name).ThenByDescending(x => x.Age).Build();
+*/
+			IQueryOptions<Person> options = RepositoryTestBase.CreateQueryOptionsBuilder<Person>().OrderByDescending(x => x.Name).ThenByDescending(x => x.Age).Build();
 			IReadOnlyCollection<Person> result = await this.PersonRepository.FindManyAsync(x => x.Age < 35, options);
 			IList<Person> resultList = new List<Person>(result);
 

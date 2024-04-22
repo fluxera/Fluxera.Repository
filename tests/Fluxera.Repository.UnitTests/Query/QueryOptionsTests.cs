@@ -7,6 +7,7 @@
 	using FluentAssertions;
 	using Fluxera.Entity;
 	using Fluxera.Repository.Query;
+	using Fluxera.Repository.Query.Impl;
 	using NUnit.Framework;
 
 	[TestFixture]
