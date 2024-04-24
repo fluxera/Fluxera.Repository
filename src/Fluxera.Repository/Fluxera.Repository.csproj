@@ -28,10 +28,10 @@
 	<ItemGroup>
 		<PackageReference Include="Fluxera.Entity" Version="8.0.7" />
 		<PackageReference Include="Fluxera.Enumeration" Version="8.0.6" />
-		<PackageReference Include="Fluxera.Extensions.Caching" Version="8.1.0" />
-		<PackageReference Include="Fluxera.Extensions.Common" Version="8.1.0" />
-		<PackageReference Include="Fluxera.Extensions.DependencyInjection" Version="8.1.0" />
-		<PackageReference Include="Fluxera.Extensions.Validation" Version="8.1.0" />
+		<PackageReference Include="Fluxera.Extensions.Caching" Version="8.2.0" />
+		<PackageReference Include="Fluxera.Extensions.Common" Version="8.2.0" />
+		<PackageReference Include="Fluxera.Extensions.DependencyInjection" Version="8.2.0" />
+		<PackageReference Include="Fluxera.Extensions.Validation" Version="8.2.0" />
 		<PackageReference Include="Fluxera.Guards" Version="8.0.2" />
 		<PackageReference Include="Fluxera.Spatial" Version="8.0.6" />
 		<PackageReference Include="Fluxera.Utilities" Version="8.0.4" />

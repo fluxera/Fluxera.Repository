@@ -3,9 +3,10 @@
 	using System;
 	using System.Threading.Tasks;
 	using FluentAssertions;
+	using FluentValidation;
 	using Fluxera.Extensions.Validation;
-	using Fluxera.Extensions.Validation.DataAnnotations;
 	using Fluxera.Repository.Decorators;
+	using Fluxera.Repository.UnitTests.Core;
 	using Fluxera.Repository.UnitTests.Core.PersonAggregate;
 	using Fluxera.Repository.Validation;
 	using Microsoft.Extensions.DependencyInjection;
@@ -14,7 +15,7 @@
 	[TestFixture]
 	public class ValidationRepositoryDecoratorTests : DecoratorTestBase
 	{
-		private void ShouldGuardAgainstInvalid(Func<Task> innerFunc)
+		private static void ShouldGuardAgainstInvalid(Func<Task> innerFunc)
 		{
 			Func<Task> func = async () =>
 			{
@@ -29,12 +30,11 @@
 		/// <inheritdoc />
 		protected override void ConfigureServices(IServiceCollection services)
 		{
-			services.AddValidation(builder =>
-			{
-				builder.AddDataAnnotations();
-			});
+			services.AddValidation();
+			services.AddValidatorsFromAssembly(typeof(TestBase).Assembly);
+			services.AddValidatorsFromAssembly(typeof(TestBase).Assembly);
 
-			services.AddTransient<IValidationStrategyFactory, TesValidationStrategyFactory>();
+			services.AddTransient<IValidationStrategyFactory, TestValidationStrategyFactory>();
 		}
 
 		[Test]
@@ -45,13 +45,13 @@
 				new Person(),
 				new Person()
 			};
-			this.ShouldGuardAgainstInvalid(async () => await this.Repository.AddRangeAsync(persons));
+			ShouldGuardAgainstInvalid(async () => await this.Repository.AddRangeAsync(persons));
 		}
 
 		[Test]
 		public void ShouldValidate_AddAsync_Single()
 		{
-			this.ShouldGuardAgainstInvalid(async () => await this.Repository.AddAsync(new Person()));
+			ShouldGuardAgainstInvalid(async () => await this.Repository.AddAsync(new Person()));
 		}
 
 		[Test]
@@ -68,13 +68,13 @@
 					ID = Guid.NewGuid()
 				}
 			};
-			this.ShouldGuardAgainstInvalid(async () => await this.Repository.UpdateRangeAsync(persons));
+			ShouldGuardAgainstInvalid(async () => await this.Repository.UpdateRangeAsync(persons));
 		}
 
 		[Test]
 		public void ShouldValidate_UpdateAsync_Single()
 		{
-			this.ShouldGuardAgainstInvalid(async () => await this.Repository.UpdateAsync(new Person
+			ShouldGuardAgainstInvalid(async () => await this.Repository.UpdateAsync(new Person
 			{
 				ID = Guid.NewGuid()
 			}));

@@ -5,7 +5,6 @@
 	using System.Linq;
 	using System.Reflection;
 	using Fluxera.Entity;
-	using Fluxera.Extensions.Validation;
 	using Fluxera.Guards;
 	using JetBrains.Annotations;
 	using Microsoft.Extensions.DependencyInjection;
@@ -101,11 +100,8 @@
 					$"The validation was already enabled for repository '{this.repositoryOptions.RepositoryName}'.");
 			}
 
-			this.services.AddValidation(builder =>
-			{
-				IValidationOptionsBuilder validationOptionsBuilder = new ValidationOptionsBuilder(builder, this.repositoryOptions);
-				configure.Invoke(validationOptionsBuilder);
-			});
+			ValidationOptionsBuilder builder = new ValidationOptionsBuilder(this.repositoryOptions, this.services);
+			configure.Invoke(builder);
 
 			this.repositoryOptions.ValidationOptions.IsEnabled = true;
 

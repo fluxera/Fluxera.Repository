@@ -47,6 +47,11 @@ namespace Sample.API
 						domainEventsOptionsBuilder.AddDomainEventsReducer<SampleDomainEventsReducer>();
 					});
 
+					repositoryOptionsBuilder.AddValidation(validationOptionsBuilder =>
+					{
+						validationOptionsBuilder.AddValidators(typeof(Company).Assembly);
+					});
+
 					if(enableUnitOfWork)
 					{
 						repositoryOptionsBuilder.EnableUnitOfWork();
@@ -80,6 +85,11 @@ namespace Sample.API
 						domainEventsOptionsBuilder.EnableAutomaticCrudDomainEvents();
 
 						domainEventsOptionsBuilder.AddDomainEventsReducer<SampleDomainEventsReducer>();
+					});
+
+					repositoryOptionsBuilder.AddValidation(validationOptionsBuilder =>
+					{
+						validationOptionsBuilder.AddValidators(typeof(Company).Assembly);
 					});
 
 					if(enableUnitOfWork)
@@ -124,6 +134,11 @@ namespace Sample.API
 						domainEventsOptionsBuilder.AddDomainEventsReducer<SampleDomainEventsReducer>();
 					});
 
+					repositoryOptionsBuilder.AddValidation(validationOptionsBuilder =>
+					{
+						validationOptionsBuilder.AddValidators(typeof(Company).Assembly);
+					});
+
 					if(enableUnitOfWork)
 					{
 						repositoryOptionsBuilder.EnableUnitOfWork();
@@ -157,6 +172,11 @@ namespace Sample.API
 						domainEventsOptionsBuilder.EnableAutomaticCrudDomainEvents();
 
 						domainEventsOptionsBuilder.AddDomainEventsReducer<SampleDomainEventsReducer>();
+					});
+
+					repositoryOptionsBuilder.AddValidation(validationOptionsBuilder =>
+					{
+						validationOptionsBuilder.AddValidators(typeof(Company).Assembly);
 					});
 
 					if(enableUnitOfWork)

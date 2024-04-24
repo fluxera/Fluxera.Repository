@@ -2,7 +2,10 @@
 {
 	using System;
 	using System.Collections.Generic;
+	using System.Threading;
 	using System.Threading.Tasks;
+	using FluentValidation;
+	using FluentValidation.Results;
 	using Fluxera.Entity;
 	using Fluxera.Extensions.Validation;
 	using Fluxera.Repository.Validation;
@@ -11,31 +14,31 @@
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 		where TKey : IComparable<TKey>, IEquatable<TKey>
 	{
-		private readonly IReadOnlyCollection<IValidator> validators;
+		private readonly IValidationService validationService;
 
-		public TestValidationStrategy(IReadOnlyCollection<IValidator> validators)
+		public TestValidationStrategy(IValidationService validationService)
 		{
-			this.validators = validators;
+			this.validationService = validationService;
 		}
 
-		public async Task ValidateAsync(TAggregateRoot item)
+		public async Task ValidateAsync(TAggregateRoot item, CancellationToken cancellationToken = default)
 		{
-			ValidationResult validationResult = await this.validators.ValidateAsync(item);
+			ValidationResult validationResult = await this.validationService.ValidateAsync(item, cancellationToken);
 			if(!validationResult.IsValid)
 			{
-				ValidationException exception = new ValidationException("Validation failed.", validationResult.ValidationErrors);
+				ValidationException exception = new ValidationException("Validation failed.", validationResult.Errors);
 				throw exception;
 			}
 		}
 
-		public async Task ValidateAsync(IEnumerable<TAggregateRoot> items)
+		public async Task ValidateAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken = default)
 		{
 			foreach(TAggregateRoot item in items)
 			{
-				ValidationResult validationResult = await this.validators.ValidateAsync(item);
+				ValidationResult validationResult = await this.validationService.ValidateAsync(item, cancellationToken);
 				if(!validationResult.IsValid)
 				{
-					ValidationException exception = new ValidationException("Validation failed.", validationResult.ValidationErrors);
+					ValidationException exception = new ValidationException("Validation failed.", validationResult.Errors);
 					throw exception;
 				}
 			}

@@ -1,8 +1,8 @@
 ﻿namespace Fluxera.Repository
 {
-	using System;
-	using Fluxera.Extensions.Validation;
 	using JetBrains.Annotations;
+	using System.Collections.Generic;
+	using System.Reflection;
 
 	/// <summary>
 	///     A contract for a validation options builder service.
@@ -16,10 +16,17 @@
 		string RepositoryName { get; }
 
 		/// <summary>
-		///     Adds a validator factory. <see cref="IValidationBuilder" /> for infos.
+		///		Adds the validators available in the given assemblies.
 		/// </summary>
-		/// <param name="configure"></param>
+		/// <param name="assemblies"></param>
 		/// <returns></returns>
-		IValidationOptionsBuilder AddValidatorFactory(Action<IValidationBuilder> configure);
+		IValidationOptionsBuilder AddValidators(IEnumerable<Assembly> assemblies);
+
+		/// <summary>
+		///		Adds the validators available in the given assembly.
+		/// </summary>
+		/// <param name="assembly"></param>
+		/// <returns></returns>
+		IValidationOptionsBuilder AddValidators(Assembly assembly);
 	}
 }

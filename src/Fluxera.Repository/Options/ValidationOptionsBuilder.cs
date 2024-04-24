@@ -1,27 +1,33 @@
 ﻿namespace Fluxera.Repository.Options
 {
-	using System;
-	using Fluxera.Extensions.Validation;
-	using Fluxera.Guards;
+	using System.Collections.Generic;
+	using System.Reflection;
+	using FluentValidation;
+	using Microsoft.Extensions.DependencyInjection;
 
 	internal sealed class ValidationOptionsBuilder : IValidationOptionsBuilder
 	{
-		private readonly IValidationBuilder validationBuilder;
+		private readonly IServiceCollection services;
 
-		public ValidationOptionsBuilder(IValidationBuilder validationBuilder, RepositoryOptions repositoryOptions)
+		public ValidationOptionsBuilder(RepositoryOptions repositoryOptions, IServiceCollection services)
 		{
-			this.validationBuilder = validationBuilder;
 			this.RepositoryName = (string)repositoryOptions.RepositoryName;
+			this.services = services;
 		}
 
 		public string RepositoryName { get; }
 
-		public IValidationOptionsBuilder AddValidatorFactory(Action<IValidationBuilder> configureBuilder)
+		/// <inheritdoc />
+		public IValidationOptionsBuilder AddValidators(IEnumerable<Assembly> assemblies)
 		{
-			Guard.Against.Null(configureBuilder, nameof(configureBuilder));
+			this.services.AddValidatorsFromAssemblies(assemblies);
+			return this;
+		}
 
-			configureBuilder.Invoke(this.validationBuilder);
-
+		/// <inheritdoc />
+		public IValidationOptionsBuilder AddValidators(Assembly assembly)
+		{
+			this.services.AddValidatorsFromAssembly(assembly);
 			return this;
 		}
 	}

@@ -1,30 +1,24 @@
 ﻿namespace Fluxera.Repository.Validation
 {
 	using System;
-	using System.Collections.Generic;
 	using Fluxera.Entity;
-	using Fluxera.Extensions.DependencyInjection;
 	using Fluxera.Extensions.Validation;
 	using Fluxera.Guards;
 	using Fluxera.Repository.Options;
 	using JetBrains.Annotations;
-#if NET6_0
-	using Fluxera.Utilities.Extensions;
-#endif
 
 	[UsedImplicitly]
 	internal sealed class ValidationStrategyFactory : IValidationStrategyFactory
 	{
 		private readonly IRepositoryRegistry repositoryRegistry;
-		private readonly IServiceProvider serviceProvider;
+		private readonly IValidationService validationService;
 
-		public ValidationStrategyFactory(IRepositoryRegistry repositoryRegistry, IServiceProvider serviceProvider)
+		public ValidationStrategyFactory(IRepositoryRegistry repositoryRegistry, IValidationService validationService)
 		{
 			Guard.Against.Null(repositoryRegistry, nameof(repositoryRegistry));
-			Guard.Against.Null(serviceProvider, nameof(serviceProvider));
 
 			this.repositoryRegistry = repositoryRegistry;
-			this.serviceProvider = serviceProvider;
+			this.validationService = validationService;
 		}
 
 		/// <inheritdoc />
@@ -37,24 +31,10 @@
 
 			if(repositoryOptions.ValidationOptions.IsEnabled)
 			{
-				return new StandardValidationStrategy<TAggregateRoot, TKey>(this.GetValidators(repositoryName));
+				return new StandardValidationStrategy<TAggregateRoot, TKey>(this.validationService);
 			}
 
 			return new NoValidationStrategy<TAggregateRoot, TKey>();
-		}
-
-		private IReadOnlyCollection<IValidator> GetValidators(RepositoryName repositoryName)
-		{
-			IList<IValidator> validators = new List<IValidator>();
-
-			IEnumerable<IValidatorFactory> validatorFactories = this.serviceProvider.GetNamedServices<IValidatorFactory>((string)repositoryName);
-			foreach(IValidatorFactory validatorFactory in validatorFactories)
-			{
-				IValidator validator = validatorFactory.CreateValidator();
-				validators.Add(validator);
-			}
-
-			return validators.AsReadOnly();
 		}
 	}
 }

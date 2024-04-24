@@ -2,6 +2,7 @@
 {
 	using System;
 	using System.Collections.Generic;
+	using System.Threading;
 	using System.Threading.Tasks;
 	using Fluxera.Entity;
 	using JetBrains.Annotations;
@@ -20,14 +21,16 @@
 		///     Validates a single item.
 		/// </summary>
 		/// <param name="item"></param>
+		/// <param name="cancellationToken"></param>
 		/// <returns></returns>
-		Task ValidateAsync(TAggregateRoot item);
+		Task ValidateAsync(TAggregateRoot item, CancellationToken cancellationToken = default);
 
 		/// <summary>
 		///     Validates multiple items.
 		/// </summary>
 		/// <param name="items"></param>
+		/// <param name="cancellationToken"></param>
 		/// <returns></returns>
-		Task ValidateAsync(IEnumerable<TAggregateRoot> items);
+		Task ValidateAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken = default);
 	}
 }
