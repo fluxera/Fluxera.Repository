@@ -2,18 +2,18 @@
 {
 	using System;
 	using System.Collections.Generic;
-	using System.Linq;
 	using System.Runtime.CompilerServices;
-	using Fluxera.Extensions.Validation;
+	using FluentValidation;
+	using FluentValidation.Results;
 	using JetBrains.Annotations;
 
 	[PublicAPI]
 	internal static class Errors
 	{
-		public static Exception ItemNotValid(IEnumerable<ValidationError> errors, Exception innerException = null)
+		public static Exception ItemNotValid(IEnumerable<ValidationFailure> errors)
 		{
 			const string message = "The item is not valid. See validation errors for details.";
-			ValidationException exception = new ValidationException(message, innerException, errors.ToList());
+			ValidationException exception = new ValidationException(message, errors);
 			return exception;
 		}
 

@@ -5,6 +5,7 @@
 	using Fluxera.Entity.DomainEvents;
 	using Fluxera.Extensions.Common;
 	using Fluxera.Extensions.DependencyInjection;
+	using Fluxera.Extensions.Validation;
 	using Fluxera.Guards;
 	using Fluxera.Repository.Caching;
 	using Fluxera.Repository.Decorators;
@@ -64,6 +65,9 @@
 
 			// Add hash calculation service.
 			services.AddHashCalculator();
+
+			// Add the validation service.
+			services.AddValidation();
 
 			// Add the domain infrastructure with domain event handlers.
 			services.AddDomainEvents(builder =>

@@ -5,7 +5,6 @@ namespace Sample.API.Controllers
 	using System.Threading.Tasks;
 	using Fluxera.Repository;
 	using Fluxera.Repository.Query;
-	using Fluxera.Repository.Query.Impl;
 	using Microsoft.AspNetCore.Mvc;
 	using Microsoft.EntityFrameworkCore;
 	using Microsoft.Extensions.Options;

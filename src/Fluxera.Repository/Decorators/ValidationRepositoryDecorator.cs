@@ -50,7 +50,7 @@
 		/// <inheritdoc />
 		async Task ICanAdd<TAggregateRoot, TKey>.AddAsync(TAggregateRoot item, CancellationToken cancellationToken)
 		{
-			await this.validationStrategy.ValidateAsync(item);
+			await this.validationStrategy.ValidateAsync(item, cancellationToken);
 
 			await this.innerRepository.AddAsync(item, cancellationToken).ConfigureAwait(false);
 		}
@@ -60,7 +60,7 @@
 		{
 			IEnumerable<TAggregateRoot> itemsList = items.ToList();
 
-			await this.validationStrategy.ValidateAsync(itemsList);
+			await this.validationStrategy.ValidateAsync(itemsList, cancellationToken);
 
 			await this.innerRepository.AddRangeAsync(itemsList, cancellationToken).ConfigureAwait(false);
 		}
@@ -68,7 +68,7 @@
 		/// <inheritdoc />
 		async Task ICanUpdate<TAggregateRoot, TKey>.UpdateAsync(TAggregateRoot item, CancellationToken cancellationToken)
 		{
-			await this.validationStrategy.ValidateAsync(item);
+			await this.validationStrategy.ValidateAsync(item, cancellationToken);
 
 			await this.innerRepository.UpdateAsync(item, cancellationToken).ConfigureAwait(false);
 		}
@@ -78,7 +78,7 @@
 		{
 			IEnumerable<TAggregateRoot> itemsList = items.ToList();
 
-			await this.validationStrategy.ValidateAsync(itemsList);
+			await this.validationStrategy.ValidateAsync(itemsList, cancellationToken);
 
 			await this.innerRepository.UpdateRangeAsync(itemsList, cancellationToken).ConfigureAwait(false);
 		}
