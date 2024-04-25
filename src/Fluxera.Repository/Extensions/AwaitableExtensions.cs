@@ -1,4 +1,4 @@
-﻿namespace Fluxera.Repository
+﻿namespace Fluxera.Repository.Extensions
 {
 	using System.Collections.Generic;
 	using System.Runtime.CompilerServices;

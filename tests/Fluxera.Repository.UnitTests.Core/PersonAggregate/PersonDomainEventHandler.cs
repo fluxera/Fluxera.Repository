@@ -1,5 +1,6 @@
 ﻿namespace Fluxera.Repository.UnitTests.Core.PersonAggregate
 {
+	using System.Threading;
 	using System.Threading.Tasks;
 	using Fluxera.Entity.DomainEvents;
 	using JetBrains.Annotations;
@@ -16,7 +17,7 @@
 		}
 
 		/// <inheritdoc />
-		public Task HandleAsync(PersonDomainEvent domainEvent)
+		public Task HandleAsync(PersonDomainEvent domainEvent, CancellationToken cancellationToken)
 		{
 			this.logger.LogInformation("PersonDomainEventHandler called.");
 			return Task.CompletedTask;

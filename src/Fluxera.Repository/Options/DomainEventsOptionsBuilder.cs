@@ -1,12 +1,10 @@
 ﻿namespace Fluxera.Repository.Options
 {
-	using System;
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Reflection;
-	using Fluxera.Entity.DomainEvents;
+	using Fluxera.Guards;
 	using Fluxera.Repository.DomainEvents;
-	using Fluxera.Utilities.Extensions;
 	using JetBrains.Annotations;
 	using Microsoft.Extensions.DependencyInjection;
 	using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -28,50 +26,23 @@
 		{
 			assemblies ??= Enumerable.Empty<Assembly>();
 
-			foreach(Assembly assembly in assemblies)
+			this.services.AddMediatR(cfg =>
 			{
-				this.AddDomainEventHandlers(assembly);
-			}
+				cfg.RegisterServicesFromAssemblies(assemblies.ToArray());
+			});
 
 			return this;
 		}
 
 		public IDomainEventsOptionsBuilder AddDomainEventHandlers(Assembly assembly)
 		{
-			IEnumerable<Type> types = assembly.GetTypes().Where(x => x.Implements<IDomainEventHandler>());
+			assembly = Guard.Against.Null(assembly);
 
-			this.AddDomainEventHandlers(types);
-
-			return this;
-		}
-
-		/// <inheritdoc />
-		public IDomainEventsOptionsBuilder AddDomainEventHandlers(IEnumerable<Type> types)
-		{
-			types ??= Enumerable.Empty<Type>();
-			foreach(Type type in types)
+			this.services.AddMediatR(cfg =>
 			{
-				this.AddDomainEventHandler(type);
-			}
+				cfg.RegisterServicesFromAssembly(assembly);
+			});
 
-			return this;
-		}
-
-		/// <inheritdoc />
-		public IDomainEventsOptionsBuilder AddDomainEventHandler<T>() where T : IDomainEventHandler
-		{
-			return this.AddDomainEventHandler(typeof(T));
-		}
-
-		/// <inheritdoc />
-		public IDomainEventsOptionsBuilder AddDomainEventHandler(Type type)
-		{
-			if(!type.Implements<IDomainEventHandler>())
-			{
-				throw new ArgumentException("The given type was no domain event handler.", nameof(type));
-			}
-
-			this.DomainEventsOptions.DomainEventHandlerTypes.Add(type);
 			return this;
 		}
 

@@ -3,6 +3,7 @@
 	using System;
 	using System.Threading;
 	using System.Threading.Tasks;
+	using Fluxera.Repository.DomainEvents;
 	using Fluxera.Utilities;
 	using JetBrains.Annotations;
 	using Microsoft.EntityFrameworkCore;
@@ -74,7 +75,7 @@
 		}
 
 		/// <summary>
-		///     Configures the options to use for this context instance over it's lifetime.
+		///     Configures the options to use for this context instance over its lifetime.
 		/// </summary>
 		protected abstract void ConfigureOptions(EntityFrameworkCoreContextOptions options);
 
@@ -107,7 +108,7 @@
 		}
 
 		/// <summary>
-		///     Gets an <see cref="EntityEntry{TEntity}" /> for the given entity. The entry provides
+		///     Gets a <see cref="EntityEntry{TEntity}" /> for the given entity. The entry provides
 		///     access to change tracking information and operations for the entity.
 		/// </summary>
 		/// <typeparam name="TEntity"></typeparam>
@@ -120,13 +121,13 @@
 
 		private void ClearDomainEvents()
 		{
-			OutboxDomainEventDispatcher outboxDispatcher = this.ServiceProvider.GetRequiredService<OutboxDomainEventDispatcher>();
+			IOutboxDomainEventDispatcher outboxDispatcher = this.ServiceProvider.GetRequiredService<IOutboxDomainEventDispatcher>();
 			outboxDispatcher.Clear();
 		}
 
 		private async Task DispatchDomainEventsAsync()
 		{
-			OutboxDomainEventDispatcher outboxDispatcher = this.ServiceProvider.GetRequiredService<OutboxDomainEventDispatcher>();
+			IOutboxDomainEventDispatcher outboxDispatcher = this.ServiceProvider.GetRequiredService<IOutboxDomainEventDispatcher>();
 			await outboxDispatcher.FlushAsync();
 		}
 	}

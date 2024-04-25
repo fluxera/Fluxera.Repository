@@ -1,27 +1,26 @@
-﻿namespace Fluxera.Repository
+﻿namespace Fluxera.Repository.DomainEvents
 {
-	using System;
 	using System.Collections.Concurrent;
 	using System.Collections.Generic;
 	using System.Threading.Tasks;
 	using Fluxera.Entity.DomainEvents;
-	using Fluxera.Repository.DomainEvents;
 	using JetBrains.Annotations;
+	using MediatR;
 
 	/// <summary>
 	///     A specialized <see cref="DomainEventDispatcher" /> that buffers the events in
 	///     a queue on dispatch and flushes them all at one to the domain event handlers.
 	/// </summary>
 	[PublicAPI]
-	public sealed class OutboxDomainEventDispatcher : DomainEventDispatcher
+	internal sealed class OutboxDomainEventDispatcher : DomainEventDispatcher, IOutboxDomainEventDispatcher
 	{
 		private readonly IEnumerable<IDomainEventsReducer> reducers;
 
 		private readonly ConcurrentQueue<IDomainEvent> outbox = new ConcurrentQueue<IDomainEvent>();
 
 		/// <inheritdoc />
-		public OutboxDomainEventDispatcher(IServiceProvider serviceProvider, IEnumerable<IDomainEventsReducer> reducers)
-			: base(serviceProvider)
+		public OutboxDomainEventDispatcher(IPublisher publisher, IEnumerable<IDomainEventsReducer> reducers)
+			: base(publisher)
 		{
 			this.reducers = reducers;
 		}

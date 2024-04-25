@@ -6,6 +6,7 @@
 	using System.Threading;
 	using System.Threading.Tasks;
 	using Fluxera.Guards;
+	using Fluxera.Repository.DomainEvents;
 	using Fluxera.Utilities;
 	using Fluxera.Utilities.Extensions;
 	using global::LiteDB.Async;
@@ -149,7 +150,7 @@
 
 		private void ClearDomainEvents()
 		{
-			OutboxDomainEventDispatcher outboxDispatcher = this.ServiceProvider.GetRequiredService<OutboxDomainEventDispatcher>();
+			IOutboxDomainEventDispatcher outboxDispatcher = this.ServiceProvider.GetRequiredService<IOutboxDomainEventDispatcher>();
 			outboxDispatcher.Clear();
 		}
 
@@ -165,7 +166,7 @@
 
 		private async Task DispatchDomainEventsAsync()
 		{
-			OutboxDomainEventDispatcher outboxDispatcher = this.ServiceProvider.GetRequiredService<OutboxDomainEventDispatcher>();
+			IOutboxDomainEventDispatcher outboxDispatcher = this.ServiceProvider.GetRequiredService<IOutboxDomainEventDispatcher>();
 			await outboxDispatcher.FlushAsync();
 		}
 	}

@@ -37,8 +37,8 @@ namespace Sample.API
 
 					repositoryOptionsBuilder.AddDomainEventHandling(domainEventsOptionsBuilder =>
 					{
-						domainEventsOptionsBuilder.AddDomainEventHandler<CompanyAddedHandler>();
-						domainEventsOptionsBuilder.AddDomainEventHandler<CompanyRemovedHandler>();
+						domainEventsOptionsBuilder.AddDomainEventHandlers(typeof(CompanyAddedHandler).Assembly);
+						domainEventsOptionsBuilder.AddDomainEventHandlers(typeof(CompanyRemovedHandler).Assembly);
 
 						domainEventsOptionsBuilder.AddCrudDomainEventsFactory<SampleCrudDomainEventsFactory>();
 
@@ -77,8 +77,8 @@ namespace Sample.API
 
 					repositoryOptionsBuilder.AddDomainEventHandling(domainEventsOptionsBuilder =>
 					{
-						domainEventsOptionsBuilder.AddDomainEventHandler<CompanyAddedHandler>();
-						domainEventsOptionsBuilder.AddDomainEventHandler<CompanyRemovedHandler>();
+						domainEventsOptionsBuilder.AddDomainEventHandlers(typeof(CompanyAddedHandler).Assembly);
+						domainEventsOptionsBuilder.AddDomainEventHandlers(typeof(CompanyRemovedHandler).Assembly);
 
 						domainEventsOptionsBuilder.AddCrudDomainEventsFactory<SampleCrudDomainEventsFactory>();
 
@@ -124,8 +124,8 @@ namespace Sample.API
 
 					repositoryOptionsBuilder.AddDomainEventHandling(domainEventsOptionsBuilder =>
 					{
-						domainEventsOptionsBuilder.AddDomainEventHandler<CompanyAddedHandler>();
-						domainEventsOptionsBuilder.AddDomainEventHandler<CompanyRemovedHandler>();
+						domainEventsOptionsBuilder.AddDomainEventHandlers(typeof(CompanyAddedHandler).Assembly);
+						domainEventsOptionsBuilder.AddDomainEventHandlers(typeof(CompanyRemovedHandler).Assembly);
 
 						domainEventsOptionsBuilder.AddCrudDomainEventsFactory<SampleCrudDomainEventsFactory>();
 
@@ -164,8 +164,8 @@ namespace Sample.API
 
 					repositoryOptionsBuilder.AddDomainEventHandling(domainEventsOptionsBuilder =>
 					{
-						domainEventsOptionsBuilder.AddDomainEventHandler<CompanyAddedHandler>();
-						domainEventsOptionsBuilder.AddDomainEventHandler<CompanyRemovedHandler>();
+						domainEventsOptionsBuilder.AddDomainEventHandlers(typeof(CompanyAddedHandler).Assembly);
+						domainEventsOptionsBuilder.AddDomainEventHandlers(typeof(CompanyRemovedHandler).Assembly);
 
 						domainEventsOptionsBuilder.AddCrudDomainEventsFactory<SampleCrudDomainEventsFactory>();
 

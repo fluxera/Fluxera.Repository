@@ -10,6 +10,7 @@
 	using Fluxera.Entity.DomainEvents;
 	using Fluxera.Guards;
 	using Fluxera.Repository.DomainEvents;
+	using Fluxera.Repository.Extensions;
 	using Fluxera.Repository.Options;
 	using Fluxera.Repository.Query;
 	using Fluxera.Repository.Specifications;
@@ -28,7 +29,7 @@
 		private readonly ILogger logger;
 
 		private readonly IRepository<TAggregateRoot, TKey> innerRepository;
-		private readonly IDomainEventDispatcher domainEventDispatcher;
+		private readonly IOutboxDomainEventDispatcher domainEventDispatcher;
 		private readonly ICrudDomainEventsFactory domainEventsFactory;
 		private readonly RepositoryOptions repositoryOptions;
 		private readonly DomainEventsOptions domainEventsOptions;
@@ -43,7 +44,7 @@
 		/// <param name="loggerFactory"></param>
 		public DomainEventsRepositoryDecorator(
 			IRepository<TAggregateRoot, TKey> innerRepository,
-			IDomainEventDispatcher domainEventDispatcher,
+			IOutboxDomainEventDispatcher domainEventDispatcher,
 			ICrudDomainEventsFactory domainEventsFactory,
 			IRepositoryRegistry repositoryRegistry,
 			ILoggerFactory loggerFactory)
@@ -865,15 +866,13 @@
 
 		private async Task FlushDomainEventsOutboxAsync()
 		{
-			OutboxDomainEventDispatcher outboxDispatcher = (OutboxDomainEventDispatcher)this.domainEventDispatcher;
-
 			try
 			{
-				await outboxDispatcher.FlushAsync();
+				await this.domainEventDispatcher.FlushAsync();
 			}
 			finally
 			{
-				outboxDispatcher.Clear();
+				this.domainEventDispatcher.Clear();
 			}
 		}
 

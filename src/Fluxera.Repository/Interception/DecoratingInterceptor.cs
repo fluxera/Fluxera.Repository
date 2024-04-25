@@ -5,6 +5,7 @@
 	using System.Linq.Expressions;
 	using System.Threading.Tasks;
 	using Fluxera.Entity;
+	using Fluxera.Repository.Extensions;
 	using Fluxera.Repository.Query;
 	using Fluxera.Repository.Specifications;
 	using Microsoft.Extensions.Logging;

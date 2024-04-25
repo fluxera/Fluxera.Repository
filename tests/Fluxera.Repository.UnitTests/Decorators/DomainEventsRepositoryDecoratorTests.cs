@@ -36,13 +36,13 @@
 
 			services.AddDomainEvents(builder =>
 			{
-				builder.AddDomainEventHandler<PersonDomainEventHandler>();
+				builder.AddDomainEventHandlers(typeof(PersonDomainEventHandler).Assembly);
 				builder.AddDomainEventDispatcher<OutboxDomainEventDispatcher>();
 			});
 			services.AddScoped(serviceProvider =>
 			{
 				IDomainEventDispatcher domainEventDispatcher = serviceProvider.GetRequiredService<IDomainEventDispatcher>();
-				return (OutboxDomainEventDispatcher)domainEventDispatcher;
+				return (IOutboxDomainEventDispatcher)domainEventDispatcher;
 			});
 
 			services.AddSingleton<IRepositoryRegistry, TestRepositoryRegistry>();

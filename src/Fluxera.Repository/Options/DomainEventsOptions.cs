@@ -1,7 +1,5 @@
 ﻿namespace Fluxera.Repository.Options
 {
-	using System;
-	using System.Collections.Generic;
 	using JetBrains.Annotations;
 
 	/// <summary>
@@ -43,10 +41,5 @@
 			get => this.IsEnabled && this.isAutomaticCrudDomainEventsEnabled;
 			set => this.isAutomaticCrudDomainEventsEnabled = value;
 		}
-
-		/// <summary>
-		///     Gets the event handler types.
-		/// </summary>
-		public IList<Type> DomainEventHandlerTypes { get; } = new List<Type>();
 	}
 }

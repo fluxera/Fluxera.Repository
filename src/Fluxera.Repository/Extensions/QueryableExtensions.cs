@@ -1,4 +1,4 @@
-﻿namespace Fluxera.Repository
+﻿namespace Fluxera.Repository.Extensions
 {
 	using System.Linq;
 	using Fluxera.Guards;
