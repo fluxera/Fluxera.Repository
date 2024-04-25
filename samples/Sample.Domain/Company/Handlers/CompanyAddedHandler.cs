@@ -1,6 +1,7 @@
 ﻿namespace Sample.Domain.Company.Handlers
 {
 	using System;
+	using System.Threading;
 	using System.Threading.Tasks;
 	using Fluxera.Entity.DomainEvents;
 	using JetBrains.Annotations;
@@ -10,7 +11,7 @@
 	public sealed class CompanyAddedHandler : IDomainEventHandler<CompanyAdded>
 	{
 		/// <inheritdoc />
-		public Task HandleAsync(CompanyAdded domainEvent)
+		public Task HandleAsync(CompanyAdded domainEvent, CancellationToken cancellationToken)
 		{
 			Console.WriteLine($"HANDLE COMPANY ADDED: ID = {domainEvent.AddedItem.ID}");
 

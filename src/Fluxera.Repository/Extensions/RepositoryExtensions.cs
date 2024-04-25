@@ -1,10 +1,11 @@
-﻿namespace Fluxera.Repository
+﻿namespace Fluxera.Repository.Extensions
 {
 	using System;
 	using System.Collections.Generic;
 	using System.Threading.Tasks;
 	using Fluxera.Entity;
 	using Fluxera.Guards;
+	using Fluxera.Repository;
 	using JetBrains.Annotations;
 
 	/// <summary>

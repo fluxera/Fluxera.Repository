@@ -1,9 +1,7 @@
 ﻿namespace Fluxera.Repository
 {
-	using System;
 	using System.Collections.Generic;
 	using System.Reflection;
-	using Fluxera.Entity.DomainEvents;
 	using Fluxera.Repository.DomainEvents;
 	using JetBrains.Annotations;
 
@@ -26,26 +24,6 @@
 		/// <param name="assembly"></param>
 		/// <returns></returns>
 		IDomainEventsOptionsBuilder AddDomainEventHandlers(Assembly assembly);
-
-		/// <summary>
-		///     Adds the given domain event handlers.
-		/// </summary>
-		/// <param name="types"></param>
-		/// <returns></returns>
-		IDomainEventsOptionsBuilder AddDomainEventHandlers(IEnumerable<Type> types);
-
-		/// <summary>
-		///     Adds the given domain event handler.
-		/// </summary>
-		/// <returns></returns>
-		IDomainEventsOptionsBuilder AddDomainEventHandler<T>() where T : IDomainEventHandler;
-
-		/// <summary>
-		///     Adds the given domain event handler.
-		/// </summary>
-		/// <param name="type"></param>
-		/// <returns></returns>
-		IDomainEventsOptionsBuilder AddDomainEventHandler(Type type);
 
 		/// <summary>
 		///     Replace the default CRUD domain event factory.

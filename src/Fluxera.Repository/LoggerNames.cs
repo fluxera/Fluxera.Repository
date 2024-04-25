@@ -4,7 +4,7 @@
 	{
 		public const string Repository = "Fluxera.Repository.Repository";
 
-		public const string EventsDispatcher = "Fluxera.Repository.EventsDispatcher";
+		public const string EventsDispatcher = "Fluxera.Repository.DomainEventDispatcher";
 
 		public const string Interception = "Fluxera.Repository.Interception";
 

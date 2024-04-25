@@ -1,19 +1,20 @@
 ﻿// ReSharper disable PossibleMultipleEnumeration
 
-namespace Fluxera.Repository
+namespace Fluxera.Repository.Extensions
 {
 	using System;
 	using System.Collections.Generic;
 	using System.Runtime.CompilerServices;
 	using Fluxera.Entity;
 	using Fluxera.Guards;
+	using Fluxera.Repository;
 	using JetBrains.Annotations;
 	using static Fluxera.Guards.ExceptionHelpers;
 
 	[PublicAPI]
 	internal static class GuardExtensions
 	{
-		public static void NotTransient<TAggregateRoot, TKey>(this IGuard guard, TAggregateRoot input, [InvokerParameterName] [CallerArgumentExpression("input")] string parameterName = null, string message = null)
+		public static void NotTransient<TAggregateRoot, TKey>(this IGuard guard, TAggregateRoot input, [InvokerParameterName][CallerArgumentExpression("input")] string parameterName = null, string message = null)
 			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 			where TKey : IComparable<TKey>, IEquatable<TKey>
 		{
@@ -25,7 +26,7 @@ namespace Fluxera.Repository
 			}
 		}
 
-		public static void NotTransient<TAggregateRoot, TKey>(this IGuard guard, IEnumerable<TAggregateRoot> input, [InvokerParameterName] [CallerArgumentExpression("input")] string parameterName = null, string message = null)
+		public static void NotTransient<TAggregateRoot, TKey>(this IGuard guard, IEnumerable<TAggregateRoot> input, [InvokerParameterName][CallerArgumentExpression("input")] string parameterName = null, string message = null)
 			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 			where TKey : IComparable<TKey>, IEquatable<TKey>
 		{
@@ -37,7 +38,7 @@ namespace Fluxera.Repository
 			}
 		}
 
-		public static void Transient<TAggregateRoot, TKey>(this IGuard guard, TAggregateRoot input, [InvokerParameterName] [CallerArgumentExpression("input")] string parameterName = null, string message = null)
+		public static void Transient<TAggregateRoot, TKey>(this IGuard guard, TAggregateRoot input, [InvokerParameterName][CallerArgumentExpression("input")] string parameterName = null, string message = null)
 			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 			where TKey : IComparable<TKey>, IEquatable<TKey>
 		{
@@ -49,7 +50,7 @@ namespace Fluxera.Repository
 			}
 		}
 
-		public static void Transient<TAggregateRoot, TKey>(this IGuard guard, IEnumerable<TAggregateRoot> input, [InvokerParameterName] [CallerArgumentExpression("input")] string parameterName = null, string message = null)
+		public static void Transient<TAggregateRoot, TKey>(this IGuard guard, IEnumerable<TAggregateRoot> input, [InvokerParameterName][CallerArgumentExpression("input")] string parameterName = null, string message = null)
 			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 			where TKey : IComparable<TKey>, IEquatable<TKey>
 		{

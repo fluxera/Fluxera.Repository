@@ -6,6 +6,7 @@
 	using System.Threading;
 	using System.Threading.Tasks;
 	using Fluxera.Guards;
+	using Fluxera.Repository.DomainEvents;
 	using Fluxera.Repository.Options;
 	using Fluxera.Utilities;
 	using global::MongoDB.Driver;
@@ -21,7 +22,7 @@
 	[PublicAPI]
 	public abstract class MongoContext : Disposable, IDisposable
 	{
-		private static readonly ClientSessionOptions SessionOptions = new ClientSessionOptions
+		private static readonly ClientSessionOptions sessionOptions = new ClientSessionOptions
 		{
 			DefaultTransactionOptions = new TransactionOptions(ReadConcern.Majority, ReadPreference.Primary, WriteConcern.WMajority)
 		};
@@ -133,7 +134,7 @@
 		/// <returns></returns>
 		public async Task<IClientSessionHandle> StartSessionAsync(CancellationToken cancellationToken = default)
 		{
-			this.Session = await this.context.StartSessionAsync(SessionOptions, cancellationToken);
+			this.Session = await this.context.StartSessionAsync(sessionOptions, cancellationToken);
 			return this.Session;
 		}
 
@@ -269,7 +270,7 @@
 
 		private void ClearDomainEvents()
 		{
-			OutboxDomainEventDispatcher outboxDispatcher = this.ServiceProvider.GetRequiredService<OutboxDomainEventDispatcher>();
+			IOutboxDomainEventDispatcher outboxDispatcher = this.ServiceProvider.GetRequiredService<IOutboxDomainEventDispatcher>();
 			outboxDispatcher.Clear();
 		}
 
@@ -285,7 +286,7 @@
 
 		private async Task DispatchDomainEventsAsync()
 		{
-			OutboxDomainEventDispatcher outboxDispatcher = this.ServiceProvider.GetRequiredService<OutboxDomainEventDispatcher>();
+			IOutboxDomainEventDispatcher outboxDispatcher = this.ServiceProvider.GetRequiredService<IOutboxDomainEventDispatcher>();
 			await outboxDispatcher.FlushAsync();
 		}
 	}

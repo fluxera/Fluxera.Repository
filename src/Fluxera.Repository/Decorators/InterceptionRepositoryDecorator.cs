@@ -10,6 +10,7 @@
 	using Fluxera.Entity;
 	using Fluxera.Guards;
 	using Fluxera.Linq.Expressions;
+	using Fluxera.Repository.Extensions;
 	using Fluxera.Repository.Interception;
 	using Fluxera.Repository.Options;
 	using Fluxera.Repository.Query;

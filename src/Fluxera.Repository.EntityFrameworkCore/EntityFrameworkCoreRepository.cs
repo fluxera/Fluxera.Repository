@@ -8,6 +8,7 @@
 	using System.Threading.Tasks;
 	using Fluxera.Entity;
 	using Fluxera.Guards;
+	using Fluxera.Repository.Extensions;
 	using Fluxera.Repository.Options;
 	using Fluxera.Repository.Specifications;
 	using Microsoft.EntityFrameworkCore;

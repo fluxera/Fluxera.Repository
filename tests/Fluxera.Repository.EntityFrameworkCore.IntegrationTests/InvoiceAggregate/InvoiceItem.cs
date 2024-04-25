@@ -1,4 +1,6 @@
-﻿namespace Fluxera.Repository.EntityFrameworkCore.IntegrationTests.InvoiceAggregate
+﻿// ReSharper disable EntityFramework.ModelValidation.UnlimitedStringLength
+
+namespace Fluxera.Repository.EntityFrameworkCore.IntegrationTests.InvoiceAggregate
 {
 	using Fluxera.Entity;
 

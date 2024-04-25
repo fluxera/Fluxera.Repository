@@ -27,9 +27,9 @@ namespace Fluxera.Repository.Decorators
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 		where TKey : notnull, IComparable<TKey>, IEquatable<TKey>
 	{
-		private static readonly AssemblyName AssemblyName = Assembly.GetExecutingAssembly().GetName();
-		private static readonly string ActivitySourceName = AssemblyName.Name;
-		private static readonly Version Version = AssemblyName.Version;
+		private static readonly AssemblyName assemblyName = Assembly.GetExecutingAssembly().GetName();
+		private static readonly string activitySourceName = assemblyName.Name;
+		private static readonly Version version = assemblyName.Version;
 
 		private readonly IRepository<TAggregateRoot, TKey> innerRepository;
 		private readonly RepositoryOptions repositoryOptions;
@@ -50,9 +50,9 @@ namespace Fluxera.Repository.Decorators
 			this.repositoryOptions = repositoryRegistry.GetRepositoryOptionsFor(repositoryName);
 		}
 
-		private static ActivitySource ActivitySource { get; } = new ActivitySource(ActivitySourceName, Version.ToString());
+		private static ActivitySource ActivitySource { get; } = new ActivitySource(activitySourceName, version.ToString());
 
-		private static string ActivityName { get; } = $"{ActivitySourceName}.Diagnostic";
+		private static string ActivityName { get; } = $"{activitySourceName}.Diagnostic";
 
 		private static string AggregateRootName { get; } = typeof(TAggregateRoot).Name;
 

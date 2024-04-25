@@ -17,7 +17,7 @@
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 		where TKey : IComparable<TKey>, IEquatable<TKey>
 	{
-		private static readonly InMemoryStorage<TKey, TAggregateRoot> Storage = new InMemoryStorage<TKey, TAggregateRoot>();
+		private static readonly InMemoryStorage<TKey, TAggregateRoot> storage = new InMemoryStorage<TKey, TAggregateRoot>();
 
 		private readonly InMemoryContext context;
 		private readonly RepositoryOptions options;
@@ -45,7 +45,7 @@
 		/// <inheritdoc />
 		protected override IQueryable<TAggregateRoot> Queryable => this.Store.Values.AsQueryable();
 
-		private ConcurrentDictionary<TKey, TAggregateRoot> Store => Storage.GetStore(this.context.Database);
+		private ConcurrentDictionary<TKey, TAggregateRoot> Store => storage.GetStore(this.context.Database);
 
 		/// <inheritdoc />
 		public override string ToString()
