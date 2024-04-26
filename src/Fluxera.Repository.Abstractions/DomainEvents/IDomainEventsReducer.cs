@@ -6,7 +6,7 @@
 
 	/// <summary>
 	///     A contract for a reducer that takes the raised domain events and reduces
-	///     this list by it's custom rules and returns the new list of domain events
+	///     this list by its custom rules and returns the new list of domain events
 	///     that are then dispatched to their handlers.
 	/// </summary>
 	[PublicAPI]

@@ -23,29 +23,6 @@ namespace Fluxera.Repository.Traits
 		where TKey : notnull, IComparable<TKey>, IEquatable<TKey>
 	{
 		/// <summary>
-		///     Gets the count of existing items of the underlying store.
-		/// </summary>
-		/// <param name="cancellationToken">The cancellation token.</param>
-		/// <returns>The item count.</returns>
-		Task<long> CountAsync(CancellationToken cancellationToken = default);
-
-		/// <summary>
-		///     Gets the count of items of the underlying store that match the given predicate.
-		/// </summary>
-		/// <param name="predicate">The predicate to match.</param>
-		/// <param name="cancellationToken">The cancellation token.</param>
-		/// <returns>The item count.</returns>
-		Task<long> CountAsync(Expression<Func<TAggregateRoot, bool>> predicate, CancellationToken cancellationToken = default);
-
-		/// <summary>
-		///     Gets the count of items of the underlying store that match the given specification.
-		/// </summary>
-		/// <param name="specification">The specification to match.</param>
-		/// <param name="cancellationToken">The cancellation token.</param>
-		/// <returns>The item count.</returns>
-		Task<long> CountAsync(ISpecification<TAggregateRoot> specification, CancellationToken cancellationToken = default);
-
-		/// <summary>
 		///     Forms the sum of the selected value for all available items.
 		/// </summary>
 		/// <param name="selector"></param>

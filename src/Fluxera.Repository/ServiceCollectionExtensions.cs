@@ -16,7 +16,6 @@
 	using Fluxera.Repository.Validation;
 	using JetBrains.Annotations;
 	using Microsoft.Extensions.DependencyInjection;
-	using Microsoft.Extensions.DependencyInjection.Extensions;
 
 	/// <summary>
 	///     The configuration extensions methods for the repository.
@@ -79,9 +78,6 @@
 				IDomainEventDispatcher domainEventDispatcher = serviceProvider.GetRequiredService<IDomainEventDispatcher>();
 				return (IOutboxDomainEventDispatcher)domainEventDispatcher;
 			});
-
-			// Add the default CRUD domain events factory it no other factory was already added.
-			services.TryAddSingleton<ICrudDomainEventsFactory, DefaultCrudDomainEventsFactory>();
 
 			// Register caching strategy factory.
 			services.AddTransient<ICachingStrategyFactory, CachingStrategyFactory>();

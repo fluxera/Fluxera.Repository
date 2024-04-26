@@ -14,7 +14,7 @@
 	using Microsoft.Extensions.Logging;
 
 	/// <summary>
-	///     A repository decorator that handles unhandled exceptions of the pipeline and logs the errors.
+	///     A repository decorator that handles unhandled exceptions thrown and logs the errors.
 	/// </summary>
 	/// <typeparam name="TAggregateRoot"></typeparam>
 	/// <typeparam name="TKey"></typeparam>
@@ -358,7 +358,7 @@
 		}
 
 		/// <inheritdoc />
-		async Task<long> ICanAggregate<TAggregateRoot, TKey>.CountAsync(CancellationToken cancellationToken)
+		async Task<long> ICanGet<TAggregateRoot, TKey>.CountAsync(CancellationToken cancellationToken)
 		{
 			try
 			{
@@ -372,7 +372,7 @@
 		}
 
 		/// <inheritdoc />
-		async Task<long> ICanAggregate<TAggregateRoot, TKey>.CountAsync(Expression<Func<TAggregateRoot, bool>> predicate, CancellationToken cancellationToken)
+		async Task<long> ICanGet<TAggregateRoot, TKey>.CountAsync(Expression<Func<TAggregateRoot, bool>> predicate, CancellationToken cancellationToken)
 		{
 			try
 			{
@@ -386,7 +386,7 @@
 		}
 
 		/// <inheritdoc />
-		public async Task<long> CountAsync(ISpecification<TAggregateRoot> specification, CancellationToken cancellationToken = default)
+		async Task<long> ICanGet<TAggregateRoot, TKey>.CountAsync(ISpecification<TAggregateRoot> specification, CancellationToken cancellationToken)
 		{
 			try
 			{

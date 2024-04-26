@@ -1,4 +1,4 @@
-﻿namespace Sample.Domain.Company.Events
+﻿namespace Sample.Domain.Company.DomainEvents
 {
 	using Fluxera.Entity.DomainEvents;
 	using JetBrains.Annotations;
