@@ -30,7 +30,6 @@
 				DomainEventsOptions =
 				{
 					IsEnabled = true,
-					IsAutomaticCrudDomainEventsEnabled = true
 				}
 			};
 		}

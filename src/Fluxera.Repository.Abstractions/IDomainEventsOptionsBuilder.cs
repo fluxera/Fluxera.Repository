@@ -26,18 +26,6 @@
 		IDomainEventsOptionsBuilder AddDomainEventHandlers(Assembly assembly);
 
 		/// <summary>
-		///     Replace the default CRUD domain event factory.
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <returns></returns>
-		IDomainEventsOptionsBuilder AddCrudDomainEventsFactory<T>() where T : class, ICrudDomainEventsFactory;
-
-		/// <summary>
-		///     Enables the automatically added CRUD domain events.
-		/// </summary>
-		IDomainEventsOptionsBuilder EnableAutomaticCrudDomainEvents();
-
-		/// <summary>
 		///     Adds a domain events reducer.
 		/// </summary>
 		/// <typeparam name="T"></typeparam>

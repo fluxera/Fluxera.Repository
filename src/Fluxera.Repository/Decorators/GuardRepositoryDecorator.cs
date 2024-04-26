@@ -224,7 +224,7 @@
 		}
 
 		/// <inheritdoc />
-		async Task<long> ICanAggregate<TAggregateRoot, TKey>.CountAsync(CancellationToken cancellationToken)
+		async Task<long> ICanGet<TAggregateRoot, TKey>.CountAsync(CancellationToken cancellationToken)
 		{
 			Guard.Against.Disposed(this);
 
@@ -232,7 +232,7 @@
 		}
 
 		/// <inheritdoc />
-		async Task<long> ICanAggregate<TAggregateRoot, TKey>.CountAsync(Expression<Func<TAggregateRoot, bool>> predicate, CancellationToken cancellationToken)
+		async Task<long> ICanGet<TAggregateRoot, TKey>.CountAsync(Expression<Func<TAggregateRoot, bool>> predicate, CancellationToken cancellationToken)
 		{
 			Guard.Against.Disposed(this);
 			Guard.Against.Null(predicate);
@@ -241,7 +241,7 @@
 		}
 
 		/// <inheritdoc />
-		async Task<long> ICanAggregate<TAggregateRoot, TKey>.CountAsync(ISpecification<TAggregateRoot> specification, CancellationToken cancellationToken)
+		async Task<long> ICanGet<TAggregateRoot, TKey>.CountAsync(ISpecification<TAggregateRoot> specification, CancellationToken cancellationToken)
 		{
 			Guard.Against.Disposed(this);
 			Guard.Against.Null(specification);

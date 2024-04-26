@@ -46,7 +46,6 @@
 			});
 
 			services.AddSingleton<IRepositoryRegistry, TestRepositoryRegistry>();
-			services.AddSingleton<ICrudDomainEventsFactory, TestCrudDomainEventsFactory>();
 		}
 
 		private Task ShouldHaveUsedDispatcher(bool expected = true)

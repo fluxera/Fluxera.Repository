@@ -5,10 +5,10 @@
 	using System.Threading.Tasks;
 	using Fluxera.Entity.DomainEvents;
 	using JetBrains.Annotations;
-	using Sample.Domain.Company.Events;
+	using Sample.Domain.Company.DomainEvents;
 
 	[UsedImplicitly]
-	public sealed class CompanyRemovedHandler : IDomainEventHandler<CompanyRemoved>
+	public sealed class CompanyRemovedDomainEventHandler : IDomainEventHandler<CompanyRemoved>
 	{
 		/// <inheritdoc />
 		public Task HandleAsync(CompanyRemoved domainEvent, CancellationToken cancellationToken)

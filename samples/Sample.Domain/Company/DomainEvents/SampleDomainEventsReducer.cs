@@ -1,4 +1,4 @@
-﻿namespace Sample.Domain.Company.Reducer
+﻿namespace Sample.Domain.Company.DomainEvents
 {
 	using System.Collections.Generic;
 	using Fluxera.Entity.DomainEvents;

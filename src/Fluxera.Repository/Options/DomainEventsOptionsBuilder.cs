@@ -7,20 +7,18 @@
 	using Fluxera.Repository.DomainEvents;
 	using JetBrains.Annotations;
 	using Microsoft.Extensions.DependencyInjection;
-	using Microsoft.Extensions.DependencyInjection.Extensions;
 
 	[PublicAPI]
 	internal sealed class DomainEventsOptionsBuilder : IDomainEventsOptionsBuilder
 	{
+		private readonly RepositoryOptions repositoryOptions;
 		private readonly IServiceCollection services;
 
 		public DomainEventsOptionsBuilder(RepositoryOptions repositoryOptions, IServiceCollection services)
 		{
-			this.DomainEventsOptions = repositoryOptions.DomainEventsOptions;
+			this.repositoryOptions = repositoryOptions;
 			this.services = services;
 		}
-
-		private DomainEventsOptions DomainEventsOptions { get; }
 
 		public IDomainEventsOptionsBuilder AddDomainEventHandlers(IEnumerable<Assembly> assemblies)
 		{
@@ -42,23 +40,6 @@
 			{
 				cfg.RegisterServicesFromAssembly(assembly);
 			});
-
-			return this;
-		}
-
-		/// <inheritdoc />
-		public IDomainEventsOptionsBuilder AddCrudDomainEventsFactory<T>() where T : class, ICrudDomainEventsFactory
-		{
-			this.services.RemoveAll<ICrudDomainEventsFactory>();
-			this.services.TryAddSingleton<ICrudDomainEventsFactory, T>();
-
-			return this;
-		}
-
-		/// <inheritdoc />
-		public IDomainEventsOptionsBuilder EnableAutomaticCrudDomainEvents()
-		{
-			this.DomainEventsOptions.IsAutomaticCrudDomainEventsEnabled = true;
 
 			return this;
 		}

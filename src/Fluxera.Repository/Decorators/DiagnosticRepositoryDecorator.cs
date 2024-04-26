@@ -199,19 +199,19 @@ namespace Fluxera.Repository.Decorators
 		}
 
 		/// <inheritdoc />
-		async Task<long> ICanAggregate<TAggregateRoot, TKey>.CountAsync(CancellationToken cancellationToken)
+		async Task<long> ICanGet<TAggregateRoot, TKey>.CountAsync(CancellationToken cancellationToken)
 		{
 			return await this.RunDiagnosticAsync(async () => await this.innerRepository.CountAsync(cancellationToken));
 		}
 
 		/// <inheritdoc />
-		async Task<long> ICanAggregate<TAggregateRoot, TKey>.CountAsync(Expression<Func<TAggregateRoot, bool>> predicate, CancellationToken cancellationToken)
+		async Task<long> ICanGet<TAggregateRoot, TKey>.CountAsync(Expression<Func<TAggregateRoot, bool>> predicate, CancellationToken cancellationToken)
 		{
 			return await this.RunDiagnosticAsync(async () => await this.innerRepository.CountAsync(predicate, cancellationToken));
 		}
 
 		/// <inheritdoc />
-		public async Task<long> CountAsync(ISpecification<TAggregateRoot> specification, CancellationToken cancellationToken = default)
+		async Task<long> ICanGet<TAggregateRoot, TKey>.CountAsync(ISpecification<TAggregateRoot> specification, CancellationToken cancellationToken)
 		{
 			return await this.RunDiagnosticAsync(async () => await this.innerRepository.CountAsync(specification, cancellationToken));
 		}
@@ -719,11 +719,10 @@ namespace Fluxera.Repository.Decorators
 				activity.AddTag("db.repository.aggregate", AggregateRootName);
 
 				activity.AddTag("db.repository.options.validation.enabled", repositoryOptions.ValidationOptions.IsEnabled);
-				activity.AddTag("db.repository.options.events.enabled", repositoryOptions.DomainEventsOptions.IsEnabled);
-				activity.AddTag("db.repository.options.events.auto.enabled", repositoryOptions.DomainEventsOptions.IsAutomaticCrudDomainEventsEnabled);
+				activity.AddTag("db.repository.options.domainevents.enabled", repositoryOptions.DomainEventsOptions.IsEnabled);
 				activity.AddTag("db.repository.options.caching.enabled", repositoryOptions.CachingOptions.IsEnabled);
 				activity.AddTag("db.repository.options.interception.enabled", repositoryOptions.InterceptionOptions.IsEnabled);
-				activity.AddTag("db.repository.options.uow.enabled", repositoryOptions.IsUnitOfWorkEnabled);
+				activity.AddTag("db.repository.options.unitofwork.enabled", repositoryOptions.IsUnitOfWorkEnabled);
 				activity.AddTag("db.repository.options.context", repositoryOptions.RepositoryContextType.FullName);
 			}
 
