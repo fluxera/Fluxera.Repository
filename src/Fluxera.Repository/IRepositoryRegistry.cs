@@ -1,7 +1,6 @@
 ﻿namespace Fluxera.Repository
 {
 	using System;
-	using System.Collections.Generic;
 	using Fluxera.Repository.Options;
 	using JetBrains.Annotations;
 
@@ -32,9 +31,10 @@
 		RepositoryOptions GetRepositoryOptionsFor(RepositoryName repositoryName);
 
 		/// <summary>
-		///     Gets all options for the existing repositories.
+		///     Gets the repository options for the given repository name;
 		/// </summary>
-		/// <returns>The options collection.</returns>
-		IReadOnlyCollection<RepositoryOptions> GetRepositoryOptions();
+		/// <param name="repositoryName">The name.</param>
+		/// <returns>The options.</returns>
+		RepositoryOptions GetRepositoryOptionsFor(string repositoryName);
 	}
 }

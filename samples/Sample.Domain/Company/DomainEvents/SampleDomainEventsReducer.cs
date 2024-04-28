@@ -1,7 +1,7 @@
 ﻿namespace Sample.Domain.Company.DomainEvents
 {
 	using System.Collections.Generic;
-	using Fluxera.Entity.DomainEvents;
+	using Fluxera.DomainEvents.Abstractions;
 	using Fluxera.Repository.DomainEvents;
 	using JetBrains.Annotations;
 #if NET6_0

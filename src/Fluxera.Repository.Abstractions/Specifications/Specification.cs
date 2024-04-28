@@ -73,6 +73,38 @@ namespace Fluxera.Repository.Specifications
 				: queryable.Where(this.Predicate);
 		}
 
+		/// <summary>
+		///		Combines the specifications by using the <see cref="AndAlsoSpecification{T}" />.
+		/// </summary>
+		/// <param name="left"></param>
+		/// <param name="right"></param>
+		/// <returns></returns>
+		public static Specification<T> operator &(Specification<T> left, Specification<T> right)
+		{
+			return new AndAlsoSpecification<T>(left, right);
+		}
+
+		/// <summary>
+		///		Combines the specifications by using the <see cref="OrElseSpecification{T}" />.
+		/// </summary>
+		/// <param name="left"></param>
+		/// <param name="right"></param>
+		/// <returns></returns>
+		public static Specification<T> operator |(Specification<T> left, Specification<T> right)
+		{
+			return new OrElseSpecification<T>(left, right);
+		}
+
+		/// <summary>
+		///		Negates the specification by using the <see cref="NotSpecification{T}" />.
+		/// </summary>
+		/// <param name="operand"></param>
+		/// <returns></returns>
+		public static Specification<T> operator !(Specification<T> operand)
+		{
+			return new NotSpecification<T>(operand);
+		}
+
 		/// <inheritdoc />
 		public ISpecification<T> And(ISpecification<T> specification)
 		{

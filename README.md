@@ -74,7 +74,7 @@ the trait interfaces yo want to support.
 - **```ICanAdd```**
   Provides methods to add items.
 - **```ICanAggregate```**
-  Provides methods to aggregate results, like ```Count``` and ```Sum```.
+  Provides methods to aggregate results, like ```Average``` and ```Sum```.
 - **```ICanFind```**
   Provides methods to find single and multiple results.
 - **```ICanGet```**
@@ -258,39 +258,33 @@ services.AddRepository(builder =>
     // Add default services and the repositories.
     builder.AddMongoRepository<SampleMongoContext>("MongoDB", options =>
     {
-        // Enabled UoW for this repository.
+        // Enable UoW for this repository.
         options.EnableUnitOfWork();
 
         // Configure for what aggregate root types this repository uses.
         options.UseFor<Person>();
 
-        // Configure the domain events (optional).
-        options.AddDomainEventHandling(events =>
+        // Enable the domain events (optional).
+        options.EnableDomainEventHandling();
+
+        // Enable validation providers (optional).
+        options.EnableValidation(validation =>
         {
-            events.AddEventHandlers(typeof(Person).Assembly);
+            validation.AddValidatorsFromAssembly(typeof(Person).Assembly);
         });
 
-        // Configure validation providers (optional).
-        options.AddValidation(validation =>
-        {
-            validation.AddValidatorFactory(factory =>
-            {
-                factory.AddDataAnnotations(validation.RepositoryName);
-            });
-        });
-
-        // Configure caching (optional).
-        options.AddCaching((caching =>
+        // Enable caching (optional).
+        options.EnableCaching((caching =>
         {
             caching
                 .UseStandard()
                 .UseTimeoutFor<Person>(TimeSpan.FromSeconds(20));
         });
 
-        // Configure the interceptors (optional).
-        options.AddInterception(interception =>
+        // Enable the interceptors (optional).
+        options.EnableInterception(interception =>
         {
-            interception.AddInterceptors(typeof(Person).Assembly);
+            interception.AddInterceptorsFromAssembly(typeof(Person).Assembly);
         });
 
         // Set storage specific settings.

@@ -3,7 +3,7 @@
 	using System;
 	using System.Threading;
 	using System.Threading.Tasks;
-	using Fluxera.Entity.DomainEvents;
+	using Fluxera.DomainEvents.MediatR;
 	using JetBrains.Annotations;
 	using Sample.Domain.Company.DomainEvents;
 

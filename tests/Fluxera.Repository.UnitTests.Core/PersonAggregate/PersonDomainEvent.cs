@@ -1,6 +1,6 @@
 ﻿namespace Fluxera.Repository.UnitTests.Core.PersonAggregate
 {
-	using Fluxera.Entity.DomainEvents;
+	using Fluxera.DomainEvents.Abstractions;
 
 	public class PersonDomainEvent : IDomainEvent
 	{

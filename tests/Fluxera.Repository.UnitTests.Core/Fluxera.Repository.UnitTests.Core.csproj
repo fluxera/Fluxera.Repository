@@ -7,7 +7,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Bogus" Version="35.5.0" />
+		<PackageReference Include="Bogus" Version="35.5.1" />
 		<PackageReference Include="FluentAssertions" Version="6.12.0" />
 		<PackageReference Include="Fluxera.Utilities" Version="8.0.4" />
 		<PackageReference Include="Fluxera.Guards" Version="8.0.2" />
@@ -18,6 +18,10 @@
 		<PackageReference Include="NUnit3TestAdapter" Version="4.5.0" />
 	</ItemGroup>
 
+	<ItemGroup>
+		<InternalsVisibleTo Include="Fluxera.Repository.UnitTests" /> 
+	</ItemGroup>
+	
 	<ItemGroup>
 		<ProjectReference Include="..\..\src\Fluxera.Repository.Abstractions\Fluxera.Repository.Abstractions.csproj" />
 		<ProjectReference Include="..\..\src\Fluxera.Repository\Fluxera.Repository.csproj" />

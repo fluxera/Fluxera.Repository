@@ -20,13 +20,13 @@
 		/// </summary>
 		/// <param name="assemblies"></param>
 		/// <returns></returns>
-		IValidationOptionsBuilder AddValidators(IEnumerable<Assembly> assemblies);
+		IValidationOptionsBuilder AddValidatorsFromAssemblies(IEnumerable<Assembly> assemblies);
 
 		/// <summary>
 		///		Adds the validators available in the given assembly.
 		/// </summary>
 		/// <param name="assembly"></param>
 		/// <returns></returns>
-		IValidationOptionsBuilder AddValidators(Assembly assembly);
+		IValidationOptionsBuilder AddValidatorsFromAssembly(Assembly assembly);
 	}
 }

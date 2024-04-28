@@ -45,29 +45,34 @@
 		{
 			RepositoryName repositoryName = new RepositoryName("RepositoryUnderTest");
 
-			this.serviceProvider = BuildServiceProvider(services =>
-			{
-				services.AddRepository(rb =>
+			this.serviceProvider = BuildServiceProvider(
+				services =>
 				{
-					this.AddRepositoryUnderTest(rb, (string)repositoryName, rob =>
+					services.AddRepository(rb =>
 					{
-						rob.UseFor<Person>();
-						rob.UseFor<Company>();
-						rob.UseFor<Employee>();
-						rob.UseFor<Reference>();
-
-						if(this.isUnitOfWorkEnabled)
+						this.AddRepositoryUnderTest(rb, (string)repositoryName, rob =>
 						{
-							rob.EnableUnitOfWork();
-						}
-					});
-				});
+							rob.UseFor<Person>();
+							rob.UseFor<Company>();
+							rob.UseFor<Employee>();
+							rob.UseFor<Reference>();
 
-				services.AddTransient<IPersonRepository, PersonRepository>();
-				services.AddTransient<ICompanyRepository, CompanyRepository>();
-				services.AddTransient<IEmployeeRepository, EmployeeRepository>();
-				services.AddTransient<IReferenceRepository, ReferenceRepository>();
-			});
+							if(this.isUnitOfWorkEnabled)
+							{
+								rob.EnableUnitOfWork();
+							}
+						});
+					});
+
+					services.AddTransient<IPersonRepository, PersonRepository>();
+					services.AddTransient<ICompanyRepository, CompanyRepository>();
+					services.AddTransient<IEmployeeRepository, EmployeeRepository>();
+					services.AddTransient<IReferenceRepository, ReferenceRepository>();
+				},
+				configuration =>
+				{
+					configuration.RegisterServicesFromAssembly(RepositoryTestsCore.Assembly);
+				});
 
 			this.PersonRepository = this.serviceProvider.GetRequiredService<IPersonRepository>();
 			this.CompanyRepository = this.serviceProvider.GetRequiredService<ICompanyRepository>();

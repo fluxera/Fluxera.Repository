@@ -8,7 +8,7 @@
 	using Fluxera.Repository.Query;
 	using Fluxera.Repository.Specifications;
 
-	public class TestDecoratingInterceptor<T, TKey> : IInterceptor<T, TKey>
+	public class TestDecoratingInterceptor<T, TKey> : IInterceptor<T, TKey>, IDecoratingInterceptor
 		where T : AggregateRoot<T, TKey>
 		where TKey : IComparable<TKey>, IEquatable<TKey>
 	{

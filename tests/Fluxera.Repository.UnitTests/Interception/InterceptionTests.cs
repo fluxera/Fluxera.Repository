@@ -18,24 +18,30 @@
 		[SetUp]
 		public void SetUp()
 		{
-			this.serviceProvider = BuildServiceProvider(services =>
-			{
-				services.AddRepository(rb =>
+			this.serviceProvider = BuildServiceProvider(
+				services =>
 				{
-					rb.AddInMemoryRepository<RepositoryInMemoryContext>("Repository", rob =>
+					services.AddRepository(rb =>
 					{
-						rob.UseFor<Person>();
-
-						rob.AddInterception(iob =>
+						rb.AddInMemoryRepository<RepositoryInMemoryContext>("Repository", rob =>
 						{
-							iob.AddInterceptor<PersonInterceptor>();
+							rob.UseFor<Person>();
+
+							rob.EnableInterception(iob =>
+							{
+								iob.AddInterceptorsFromAssembly(typeof(CountingPersonInterceptor).Assembly);
+							});
 						});
 					});
-				});
 
-				services.AddTransient<IPersonRepository, PersonRepository>();
-				services.AddSingleton(new InterceptorCounter());
-			});
+					services.AddTransient<IPersonRepository, PersonRepository>();
+					services.AddSingleton(new InterceptorCounter());
+				},
+				configuration =>
+				{
+					configuration.RegisterServicesFromAssembly(RepositoryTestsCore.Assembly);
+					configuration.RegisterServicesFromAssembly(RepositoryTests.Assembly);
+				});
 		}
 
 		[TearDown]
@@ -73,7 +79,6 @@
 
 			InterceptorCounter counter = this.serviceProvider.GetRequiredService<InterceptorCounter>();
 			counter.BeforeAddCalled.Should().BeGreaterThan(0);
-			//counter.AfterAddCalled.Should().BeGreaterThan(0);
 		}
 
 		[Test]
@@ -96,7 +101,6 @@
 
 			InterceptorCounter counter = this.serviceProvider.GetRequiredService<InterceptorCounter>();
 			counter.BeforeRemoveCalled.Should().BeGreaterThan(0);
-			//counter.AfterRemoveCalled.Should().BeGreaterThan(0);
 		}
 
 		[Test]
@@ -119,7 +123,6 @@
 
 			InterceptorCounter counter = this.serviceProvider.GetRequiredService<InterceptorCounter>();
 			counter.BeforeUpdateCalled.Should().BeGreaterThan(0);
-			//counter.AfterUpdateCalled.Should().BeGreaterThan(0);
 		}
 	}
 }

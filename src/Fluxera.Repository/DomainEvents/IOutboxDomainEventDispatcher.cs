@@ -1,7 +1,8 @@
 ﻿namespace Fluxera.Repository.DomainEvents
 {
+	using System.Threading;
 	using System.Threading.Tasks;
-	using Fluxera.Entity.DomainEvents;
+	using Fluxera.DomainEvents.Abstractions;
 	using JetBrains.Annotations;
 
 	/// <summary>
@@ -12,10 +13,10 @@
 	public interface IOutboxDomainEventDispatcher : IDomainEventDispatcher
 	{
 		/// <summary>
-		///     Flushes the outbox context to the domain event handlers.
+		///     Flushes the outbox content to the domain event handlers.
 		/// </summary>
 		/// <returns></returns>
-		Task FlushAsync();
+		Task FlushAsync(CancellationToken cancellationToken = default);
 
 		/// <summary>
 		///     Clears the outbox queue.

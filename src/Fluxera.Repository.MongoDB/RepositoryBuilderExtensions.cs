@@ -33,13 +33,13 @@
 		///     are configured using the given configure action.
 		/// </summary>
 		/// <param name="builder"></param>
-		/// <param name="dbContextType"></param>
+		/// <param name="contextType"></param>
 		/// <param name="configure"></param>
 		/// <returns></returns>
 		public static IRepositoryBuilder AddMongoRepository(this IRepositoryBuilder builder,
-			Type dbContextType, Action<IRepositoryOptionsBuilder> configure)
+			Type contextType, Action<IRepositoryOptionsBuilder> configure)
 		{
-			return builder.AddMongoRepository("Default", dbContextType, configure);
+			return builder.AddMongoRepository("Default", contextType, configure);
 		}
 
 		/// <summary>

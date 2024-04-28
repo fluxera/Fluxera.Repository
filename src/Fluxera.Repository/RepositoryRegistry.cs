@@ -61,6 +61,14 @@
 			return repositoryOptions;
 		}
 
+		/// <inheritdoc />
+		public RepositoryOptions GetRepositoryOptionsFor(string repositoryName)
+		{
+			this.EnsureInitialized();
+
+			return this.GetRepositoryOptionsFor((RepositoryName)repositoryName);
+		}
+
 		public IReadOnlyCollection<RepositoryOptions> GetRepositoryOptions()
 		{
 			this.EnsureInitialized();

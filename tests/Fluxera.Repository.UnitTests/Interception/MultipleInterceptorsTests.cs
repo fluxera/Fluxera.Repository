@@ -3,6 +3,7 @@
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
+	using System.Reflection;
 	using FluentAssertions;
 	using Fluxera.Repository.InMemory;
 	using Fluxera.Repository.Interception;
@@ -18,26 +19,30 @@
 		[SetUp]
 		public void SetUp()
 		{
-			this.serviceProvider = BuildServiceProvider(services =>
-			{
-				services.AddRepository(rb =>
+			this.serviceProvider = BuildServiceProvider(
+				services =>
 				{
-					rb.AddInMemoryRepository<RepositoryInMemoryContext>("Repository", rob =>
+					services.AddRepository(rb =>
 					{
-						rob.UseFor<Person>();
-
-						rob.AddInterception(iob =>
+						rb.AddInMemoryRepository<RepositoryInMemoryContext>("Repository", rob =>
 						{
-							iob.AddInterceptor<FirstPersonInterceptor>();
-							iob.AddInterceptor<LastPersonInterceptor>();
-							iob.AddInterceptor<MiddlePersonInterceptor>();
+							rob.UseFor<Person>();
+
+							rob.EnableInterception(iob =>
+							{
+								iob.AddInterceptorsFromAssembly(Assembly.GetExecutingAssembly());
+							});
 						});
 					});
-				});
 
-				services.AddTransient<IPersonRepository, PersonRepository>();
-				services.AddSingleton(new InterceptorCounter());
-			});
+					services.AddTransient<IPersonRepository, PersonRepository>();
+					services.AddSingleton(new InterceptorCounter());
+				},
+				configuration =>
+				{
+					configuration.RegisterServicesFromAssembly(RepositoryTestsCore.Assembly);
+					configuration.RegisterServicesFromAssembly(RepositoryTests.Assembly);
+				});
 		}
 
 		[TearDown]
@@ -56,7 +61,7 @@
 
 			options.InterceptionOptions.IsEnabled.Should().BeTrue();
 			IEnumerable<IInterceptor<Person, Guid>> interceptors = this.serviceProvider.GetServices<IInterceptor<Person, Guid>>();
-			interceptors.Count().Should().Be(3);
+			interceptors.Count().Should().Be(4);
 		}
 
 		[Test]
@@ -70,8 +75,7 @@
 			});
 
 			InterceptorCounter counter = this.serviceProvider.GetRequiredService<InterceptorCounter>();
-			counter.BeforeAddCalled.Should().Be(3);
-			//counter.AfterAddCalled.Should().Be(3);
+			counter.BeforeAddCalled.Should().Be(4);
 
 			counter.BeforeAddCall[0].Should().Be("First");
 			counter.BeforeAddCall[1].Should().Be("Middle");

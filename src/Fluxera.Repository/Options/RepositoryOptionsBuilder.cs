@@ -90,10 +90,8 @@
 			return this.UseFor(typeof(TAggregateRoot));
 		}
 
-		public IRepositoryOptionsBuilder AddValidation(Action<IValidationOptionsBuilder> configure)
+		public IRepositoryOptionsBuilder EnableValidation(Action<IValidationOptionsBuilder> configure = null)
 		{
-			Guard.Against.Null(configure);
-
 			if(this.repositoryOptions.ValidationOptions.IsEnabled)
 			{
 				throw new InvalidOperationException(
@@ -101,17 +99,15 @@
 			}
 
 			ValidationOptionsBuilder builder = new ValidationOptionsBuilder(this.repositoryOptions, this.services);
-			configure.Invoke(builder);
+			configure?.Invoke(builder);
 
 			this.repositoryOptions.ValidationOptions.IsEnabled = true;
 
 			return this;
 		}
 
-		public IRepositoryOptionsBuilder AddDomainEventHandling(Action<IDomainEventsOptionsBuilder> configure)
+		public IRepositoryOptionsBuilder EnableDomainEventHandling(Action<IDomainEventsOptionsBuilder> configure = null)
 		{
-			Guard.Against.Null(configure);
-
 			if(this.repositoryOptions.DomainEventsOptions.IsEnabled)
 			{
 				throw new InvalidOperationException(
@@ -119,15 +115,17 @@
 			}
 
 			DomainEventsOptionsBuilder builder = new DomainEventsOptionsBuilder(this.repositoryOptions, this.services);
-			configure.Invoke(builder);
+			configure?.Invoke(builder);
 
 			this.repositoryOptions.DomainEventsOptions.IsEnabled = true;
 
 			return this;
 		}
 
-		public IRepositoryOptionsBuilder AddCaching(Action<ICachingOptionsBuilder> configure = null)
+		public IRepositoryOptionsBuilder EnableCaching(Action<ICachingOptionsBuilder> configure)
 		{
+			Guard.Against.Null(configure);
+
 			if(this.repositoryOptions.CachingOptions.IsEnabled)
 			{
 				throw new InvalidOperationException(
@@ -135,7 +133,7 @@
 			}
 
 			CachingOptionsBuilder builder = new CachingOptionsBuilder(this.repositoryOptions);
-			configure?.Invoke(builder);
+			configure.Invoke(builder);
 
 			this.repositoryOptions.CachingOptions.IsEnabled = true;
 
@@ -143,7 +141,7 @@
 		}
 
 		/// <inheritdoc />
-		public IRepositoryOptionsBuilder AddInterception(Action<IInterceptionOptionsBuilder> configure)
+		public IRepositoryOptionsBuilder EnableInterception(Action<IInterceptionOptionsBuilder> configure)
 		{
 			Guard.Against.Null(configure);
 

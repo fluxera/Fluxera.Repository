@@ -6,6 +6,7 @@
 	using System.Reflection;
 	using Fluxera.Guards;
 	using Fluxera.Repository.Interception;
+	using Fluxera.Utilities.Extensions;
 	using Microsoft.Extensions.DependencyInjection;
 
 	internal sealed class InterceptionOptionsBuilder : IInterceptionOptionsBuilder
@@ -18,35 +19,27 @@
 		}
 
 		/// <inheritdoc />
-		public IInterceptionOptionsBuilder AddInterceptors(IEnumerable<Assembly> assemblies)
+		public IInterceptionOptionsBuilder AddInterceptorsFromAssemblies(IEnumerable<Assembly> assemblies)
 		{
 			assemblies ??= Enumerable.Empty<Assembly>();
 
 			foreach(Assembly assembly in assemblies)
 			{
-				this.AddInterceptors(assembly);
+				this.AddInterceptorsFromAssembly(assembly);
 			}
 
 			return this;
 		}
 
 		/// <inheritdoc />
-		public IInterceptionOptionsBuilder AddInterceptors(Assembly assembly)
+		public IInterceptionOptionsBuilder AddInterceptorsFromAssembly(Assembly assembly)
 		{
 			Guard.Against.Null(assembly, nameof(assembly));
 
-			foreach(Type type in assembly.GetTypes())
-			{
-				this.AddInterceptor(type);
-			}
-
-			return this;
-		}
-
-		/// <inheritdoc />
-		public IInterceptionOptionsBuilder AddInterceptors(IEnumerable<Type> types)
-		{
-			types ??= Enumerable.Empty<Type>();
+			IEnumerable<Type> types = assembly
+				.GetTypes()
+				.Where(x => x.Implements<IInterceptor>())
+				.Where(x => !x.Implements<IDecoratingInterceptor>()); // Do not add the interceptor decorator.
 
 			foreach(Type type in types)
 			{
@@ -56,8 +49,7 @@
 			return this;
 		}
 
-		/// <inheritdoc />
-		public IInterceptionOptionsBuilder AddInterceptor(Type interceptorType)
+		private IInterceptionOptionsBuilder AddInterceptor(Type interceptorType)
 		{
 			bool isInterceptor = interceptorType.GetInterfaces().Any(x => x.IsGenericType && (x.GetGenericTypeDefinition() == typeof(IInterceptor<,>)));
 			if(isInterceptor && !interceptorType.IsAbstract && !interceptorType.IsInterface)
@@ -72,13 +64,6 @@
 			}
 
 			return this;
-		}
-
-		/// <inheritdoc />
-		public IInterceptionOptionsBuilder AddInterceptor<TInterceptor>()
-			where TInterceptor : IInterceptor
-		{
-			return this.AddInterceptor(typeof(TInterceptor));
 		}
 	}
 }

@@ -1,7 +1,6 @@
 ﻿namespace Fluxera.Repository.UnitTests
 {
 	using System;
-	using System.Collections.Generic;
 	using Fluxera.Repository.Options;
 
 	public class TestRepositoryRegistry : IRepositoryRegistry
@@ -35,9 +34,9 @@
 		}
 
 		/// <inheritdoc />
-		public IReadOnlyCollection<RepositoryOptions> GetRepositoryOptions()
+		public RepositoryOptions GetRepositoryOptionsFor(string repositoryName)
 		{
-			throw new NotImplementedException();
+			return this.GetRepositoryOptionsFor((RepositoryName)repositoryName);
 		}
 	}
 }

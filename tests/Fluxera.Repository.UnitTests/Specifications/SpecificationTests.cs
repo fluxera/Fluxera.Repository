@@ -56,5 +56,40 @@
 
 			queryable.Count().Should().Be(0);
 		}
+
+		[Test]
+		public void ShouldCombineUsingAndOperator()
+		{
+			PersonByAgeSpecification byAge = new PersonByAgeSpecification(32);
+			PersonByNameSpecification byName = new PersonByNameSpecification("Anakin");
+
+			Specification<Person> specification = byAge & byName;
+
+			specification.Should().NotBeNull();
+			specification.Should().BeOfType<AndAlsoSpecification<Person>>();
+		}
+
+		[Test]
+		public void ShouldCombineUsingOrOperator()
+		{
+			PersonByAgeSpecification byAge = new PersonByAgeSpecification(32);
+			PersonByNameSpecification byName = new PersonByNameSpecification("Anakin");
+
+			Specification<Person> specification = byAge | byName;
+
+			specification.Should().NotBeNull();
+			specification.Should().BeOfType<OrElseSpecification<Person>>();
+		}
+
+		[Test]
+		public void ShouldNegateUsingOrOperator()
+		{
+			PersonByAgeSpecification byAge = new PersonByAgeSpecification(32);
+
+			Specification<Person> specification = !byAge;
+
+			specification.Should().NotBeNull();
+			specification.Should().BeOfType<NotSpecification<Person>>();
+		}
 	}
 }

@@ -6,7 +6,6 @@ namespace Sample.API.Controllers
 	using Fluxera.Repository;
 	using Fluxera.Repository.Query;
 	using Microsoft.AspNetCore.Mvc;
-	using Microsoft.EntityFrameworkCore;
 	using Microsoft.Extensions.Options;
 	using Sample.Domain.Company;
 
@@ -57,7 +56,7 @@ namespace Sample.API.Controllers
 			IQueryOptions<Company> queryOptions = queryOptionsBuilder
 				.OrderBy(x => x.Name)
 				.ThenByDescending(x => x.LegalType)
-				.Build(queryable => queryable.AsNoTracking().Include(x => x.Partners));
+				.Build(/*queryable => queryable.AsNoTracking().Include(x => x.Partners)*/);
 
 			IReadOnlyCollection<Company> companies = await this.repository.FindManyAsync(x => true, queryOptions);
 

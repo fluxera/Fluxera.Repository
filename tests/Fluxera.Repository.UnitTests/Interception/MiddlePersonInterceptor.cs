@@ -4,7 +4,7 @@
 	using Fluxera.Repository.Interception;
 	using Fluxera.Repository.UnitTests.Core.PersonAggregate;
 
-	public class MiddlePersonInterceptor : PersonInterceptor
+	public class MiddlePersonInterceptor : CountingPersonInterceptor
 	{
 		private readonly InterceptorCounter interceptorCounter;
 
