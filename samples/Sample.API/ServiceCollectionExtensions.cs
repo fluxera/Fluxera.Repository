@@ -11,7 +11,6 @@ namespace Sample.API
 	using Microsoft.Extensions.DependencyInjection;
 	using Sample.Domain.Company;
 	using Sample.Domain.Company.DomainEvents;
-	using Sample.Domain.Company.Handlers;
 	using Sample.EntityFrameworkCore;
 	using Sample.InMemory;
 	using Sample.LiteDB;
@@ -35,17 +34,14 @@ namespace Sample.API
 				{
 					repositoryOptionsBuilder.UseFor<Company>();
 
-					repositoryOptionsBuilder.AddDomainEventHandling(domainEventsOptionsBuilder =>
+					repositoryOptionsBuilder.EnableDomainEventHandling(domainEventsOptionsBuilder =>
 					{
-						domainEventsOptionsBuilder.AddDomainEventHandlers(typeof(CompanyAddedDomainEventHandler).Assembly);
-						domainEventsOptionsBuilder.AddDomainEventHandlers(typeof(CompanyRemovedDomainEventHandler).Assembly);
-
 						domainEventsOptionsBuilder.AddDomainEventsReducer<SampleDomainEventsReducer>();
 					});
 
-					repositoryOptionsBuilder.AddValidation(validationOptionsBuilder =>
+					repositoryOptionsBuilder.EnableValidation(validationOptionsBuilder =>
 					{
-						validationOptionsBuilder.AddValidators(typeof(Company).Assembly);
+						validationOptionsBuilder.AddValidatorsFromAssembly(typeof(Company).Assembly);
 					});
 
 					if(enableUnitOfWork)
@@ -71,17 +67,14 @@ namespace Sample.API
 				{
 					repositoryOptionsBuilder.UseFor<Company>();
 
-					repositoryOptionsBuilder.AddDomainEventHandling(domainEventsOptionsBuilder =>
+					repositoryOptionsBuilder.EnableDomainEventHandling(domainEventsOptionsBuilder =>
 					{
-						domainEventsOptionsBuilder.AddDomainEventHandlers(typeof(CompanyAddedDomainEventHandler).Assembly);
-						domainEventsOptionsBuilder.AddDomainEventHandlers(typeof(CompanyRemovedDomainEventHandler).Assembly);
-
 						domainEventsOptionsBuilder.AddDomainEventsReducer<SampleDomainEventsReducer>();
 					});
 
-					repositoryOptionsBuilder.AddValidation(validationOptionsBuilder =>
+					repositoryOptionsBuilder.EnableValidation(validationOptionsBuilder =>
 					{
-						validationOptionsBuilder.AddValidators(typeof(Company).Assembly);
+						validationOptionsBuilder.AddValidatorsFromAssembly(typeof(Company).Assembly);
 					});
 
 					if(enableUnitOfWork)
@@ -114,17 +107,14 @@ namespace Sample.API
 				{
 					repositoryOptionsBuilder.UseFor<Company>();
 
-					repositoryOptionsBuilder.AddDomainEventHandling(domainEventsOptionsBuilder =>
+					repositoryOptionsBuilder.EnableDomainEventHandling(domainEventsOptionsBuilder =>
 					{
-						domainEventsOptionsBuilder.AddDomainEventHandlers(typeof(CompanyAddedDomainEventHandler).Assembly);
-						domainEventsOptionsBuilder.AddDomainEventHandlers(typeof(CompanyRemovedDomainEventHandler).Assembly);
-
 						domainEventsOptionsBuilder.AddDomainEventsReducer<SampleDomainEventsReducer>();
 					});
 
-					repositoryOptionsBuilder.AddValidation(validationOptionsBuilder =>
+					repositoryOptionsBuilder.EnableValidation(validationOptionsBuilder =>
 					{
-						validationOptionsBuilder.AddValidators(typeof(Company).Assembly);
+						validationOptionsBuilder.AddValidatorsFromAssembly(typeof(Company).Assembly);
 					});
 
 					if(enableUnitOfWork)
@@ -150,17 +140,14 @@ namespace Sample.API
 				{
 					repositoryOptionsBuilder.UseFor<Company>();
 
-					repositoryOptionsBuilder.AddDomainEventHandling(domainEventsOptionsBuilder =>
+					repositoryOptionsBuilder.EnableDomainEventHandling(domainEventsOptionsBuilder =>
 					{
-						domainEventsOptionsBuilder.AddDomainEventHandlers(typeof(CompanyAddedDomainEventHandler).Assembly);
-						domainEventsOptionsBuilder.AddDomainEventHandlers(typeof(CompanyRemovedDomainEventHandler).Assembly);
-
 						domainEventsOptionsBuilder.AddDomainEventsReducer<SampleDomainEventsReducer>();
 					});
 
-					repositoryOptionsBuilder.AddValidation(validationOptionsBuilder =>
+					repositoryOptionsBuilder.EnableValidation(validationOptionsBuilder =>
 					{
-						validationOptionsBuilder.AddValidators(typeof(Company).Assembly);
+						validationOptionsBuilder.AddValidatorsFromAssembly(typeof(Company).Assembly);
 					});
 
 					if(enableUnitOfWork)

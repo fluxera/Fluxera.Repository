@@ -1,7 +1,8 @@
 ﻿namespace Fluxera.Repository
 {
 	using System;
-	using Fluxera.Entity.DomainEvents;
+	using Fluxera.DomainEvents.Abstractions;
+	using Fluxera.DomainEvents.MediatR;
 	using Fluxera.Extensions.Common;
 	using Fluxera.Extensions.DependencyInjection;
 	using Fluxera.Extensions.Validation;
@@ -66,11 +67,9 @@
 			// Add the validation service.
 			services.AddValidation();
 
-			// Add the domain infrastructure with domain event handlers.
-			services.AddDomainEvents(builder =>
-			{
-				builder.AddDomainEventDispatcher<OutboxDomainEventDispatcher>();
-			});
+			// Add the domain events infrastructure with the outbox dispatcher.
+			services.AddDomainEvents();
+			services.AddDomainEventDispatcher<OutboxDomainEventDispatcher>();
 
 			// Add the outbox domain event dispatcher service.
 			services.AddScoped(serviceProvider =>

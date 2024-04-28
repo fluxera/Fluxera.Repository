@@ -1,6 +1,6 @@
 ﻿namespace Sample.Domain.Company.DomainEvents
 {
-	using Fluxera.Entity.DomainEvents;
+	using Fluxera.DomainEvents.Abstractions;
 	using JetBrains.Annotations;
 
 	[PublicAPI]

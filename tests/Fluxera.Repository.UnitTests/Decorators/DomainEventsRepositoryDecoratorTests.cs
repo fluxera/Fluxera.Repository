@@ -2,7 +2,8 @@
 {
 	using System;
 	using System.Threading.Tasks;
-	using Fluxera.Entity.DomainEvents;
+	using Fluxera.DomainEvents.Abstractions;
+	using Fluxera.DomainEvents.MediatR;
 	using Fluxera.Repository.Decorators;
 	using Fluxera.Repository.DomainEvents;
 	using Fluxera.Repository.UnitTests.Core.PersonAggregate;
@@ -34,15 +35,17 @@
 				builder.AddMock(this.loggerMock);
 			});
 
-			services.AddDomainEvents(builder =>
-			{
-				builder.AddDomainEventHandlers(typeof(PersonDomainEventHandler).Assembly);
-				builder.AddDomainEventDispatcher<OutboxDomainEventDispatcher>();
-			});
+			services.AddDomainEvents();
+			services.AddDomainEventDispatcher<OutboxDomainEventDispatcher>();
 			services.AddScoped(serviceProvider =>
 			{
 				IDomainEventDispatcher domainEventDispatcher = serviceProvider.GetRequiredService<IDomainEventDispatcher>();
 				return (IOutboxDomainEventDispatcher)domainEventDispatcher;
+			});
+
+			services.AddMediatR(cfg =>
+			{
+				cfg.RegisterServicesFromAssembly(typeof(PersonDomainEventHandler).Assembly);
 			});
 
 			services.AddSingleton<IRepositoryRegistry, TestRepositoryRegistry>();

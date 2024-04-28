@@ -10,7 +10,7 @@
 	using Fluxera.Repository.Specifications;
 	using Microsoft.Extensions.Logging;
 
-	internal sealed class DecoratingInterceptor<TAggregateRoot, TKey> : IInterceptor<TAggregateRoot, TKey>
+	internal sealed class DecoratingInterceptor<TAggregateRoot, TKey> : IInterceptor<TAggregateRoot, TKey>, IDecoratingInterceptor
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 		where TKey : notnull, IComparable<TKey>, IEquatable<TKey>
 	{

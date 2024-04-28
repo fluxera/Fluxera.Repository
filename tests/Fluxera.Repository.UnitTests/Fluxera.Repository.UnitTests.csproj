@@ -9,7 +9,7 @@
 	<ItemGroup>
 		<PackageReference Include="AutoMapper" Version="13.0.1" />
 		<PackageReference Include="AutoMapper.Extensions.ExpressionMapping" Version="7.0.0" />
-		<PackageReference Include="Bogus" Version="35.5.0" />
+		<PackageReference Include="Bogus" Version="35.5.1" />
 		<PackageReference Include="Extensions.Logging.Mock" Version="1.2.2" />
 		<PackageReference Include="FluentAssertions" Version="6.12.0" />
 		<PackageReference Include="Fluxera.Extensions.Validation.DataAnnotations" Version="8.1.0" />

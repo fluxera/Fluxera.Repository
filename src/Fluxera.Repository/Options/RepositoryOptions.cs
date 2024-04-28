@@ -53,6 +53,7 @@
 		/// </summary>
 		public InterceptionOptions InterceptionOptions { get; }
 
+		// TODO: v9 => Make 'true' the default.
 		/// <summary>
 		///     Flag, indicating if the unit-of-work usage is enabled. The default is <c>false</c>.
 		/// </summary>

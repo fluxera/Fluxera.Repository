@@ -56,28 +56,28 @@
 		/// </summary>
 		/// <param name="configure"></param>
 		/// <returns></returns>
-		IRepositoryOptionsBuilder AddValidation(Action<IValidationOptionsBuilder> configure);
+		IRepositoryOptionsBuilder EnableValidation(Action<IValidationOptionsBuilder> configure = null);
 
 		/// <summary>
 		///     Adds the domain events handling feature to the repository.
 		/// </summary>
 		/// <param name="configure"></param>
 		/// <returns></returns>
-		IRepositoryOptionsBuilder AddDomainEventHandling(Action<IDomainEventsOptionsBuilder> configure);
+		IRepositoryOptionsBuilder EnableDomainEventHandling(Action<IDomainEventsOptionsBuilder> configure = null);
 
 		/// <summary>
 		///     Adds the caching feature to the repository.
 		/// </summary>
 		/// <param name="configure"></param>
 		/// <returns></returns>
-		IRepositoryOptionsBuilder AddCaching(Action<ICachingOptionsBuilder> configure = null);
+		IRepositoryOptionsBuilder EnableCaching(Action<ICachingOptionsBuilder> configure);
 
 		/// <summary>
 		///     Adds the interception feature to the repository.
 		/// </summary>
 		/// <param name="configure"></param>
 		/// <returns></returns>
-		IRepositoryOptionsBuilder AddInterception(Action<IInterceptionOptionsBuilder> configure);
+		IRepositoryOptionsBuilder EnableInterception(Action<IInterceptionOptionsBuilder> configure);
 
 		/// <summary>
 		///     Enabled the repository to use the unit-of-work implementation.

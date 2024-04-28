@@ -2,7 +2,7 @@
 {
 	using FluentValidation;
 
-	public class PersonValidator : AbstractValidator<Person>
+	internal class PersonValidator : AbstractValidator<Person>
 	{
 		public PersonValidator()
 		{

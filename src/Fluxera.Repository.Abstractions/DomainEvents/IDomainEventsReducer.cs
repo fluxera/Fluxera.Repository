@@ -1,7 +1,7 @@
 ﻿namespace Fluxera.Repository.DomainEvents
 {
 	using System.Collections.Generic;
-	using Fluxera.Entity.DomainEvents;
+	using Fluxera.DomainEvents.Abstractions;
 	using JetBrains.Annotations;
 
 	/// <summary>

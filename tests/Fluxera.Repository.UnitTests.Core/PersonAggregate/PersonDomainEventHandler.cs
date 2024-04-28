@@ -2,12 +2,12 @@
 {
 	using System.Threading;
 	using System.Threading.Tasks;
-	using Fluxera.Entity.DomainEvents;
+	using Fluxera.DomainEvents.MediatR;
 	using JetBrains.Annotations;
 	using Microsoft.Extensions.Logging;
 
 	[UsedImplicitly]
-	public class PersonDomainEventHandler : IDomainEventHandler<PersonDomainEvent>
+	internal class PersonDomainEventHandler : IDomainEventHandler<PersonDomainEvent>
 	{
 		private readonly ILogger<PersonDomainEventHandler> logger;
 

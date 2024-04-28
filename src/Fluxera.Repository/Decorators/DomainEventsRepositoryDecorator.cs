@@ -7,7 +7,7 @@
 	using System.Threading;
 	using System.Threading.Tasks;
 	using Fluxera.Entity;
-	using Fluxera.Entity.DomainEvents;
+	using Fluxera.DomainEvents.Abstractions;
 	using Fluxera.Guards;
 	using Fluxera.Repository.DomainEvents;
 	using Fluxera.Repository.Extensions;

@@ -18,18 +18,23 @@
 		{
 			Action action = () =>
 			{
-				BuildServiceProvider(services =>
-				{
-					RepositoryName repositoryName = new RepositoryName("RepositoryUnderTest");
-
-					services.AddRepository(rb =>
+				BuildServiceProvider(
+					services =>
 					{
-						this.AddRepositoryUnderTestWithWrongContextBaseClass(rb, (string)repositoryName, rob =>
+						RepositoryName repositoryName = new RepositoryName("RepositoryUnderTest");
+
+						services.AddRepository(rb =>
 						{
-							rob.UseFor<Person>();
+							this.AddRepositoryUnderTestWithWrongContextBaseClass(rb, (string)repositoryName, rob =>
+							{
+								rob.UseFor<Person>();
+							});
 						});
+					},
+					configuration =>
+					{
+						configuration.RegisterServicesFromAssembly(RepositoryTestsCore.Assembly);
 					});
-				});
 			};
 
 			action.Should().Throw<ArgumentException>();
@@ -40,21 +45,26 @@
 		{
 			RepositoryName repositoryName = new RepositoryName("RepositoryUnderTest");
 
-			this.serviceProvider = BuildServiceProvider(services =>
-			{
-				services.AddRepository(rb =>
+			this.serviceProvider = BuildServiceProvider(
+				services =>
 				{
-					this.AddRepositoryUnderTest(rb, (string)repositoryName, rob =>
+					services.AddRepository(rb =>
 					{
-						rob.UseFor<Person>();
+						this.AddRepositoryUnderTest(rb, (string)repositoryName, rob =>
+						{
+							rob.UseFor<Person>();
 
-						rob.EnableUnitOfWork();
+							rob.EnableUnitOfWork();
+						});
 					});
-				});
 
-				services.AddTransient<IPersonRepository, PersonRepository>();
-				services.AddScoped<TenantNameProvider>();
-			});
+					services.AddTransient<IPersonRepository, PersonRepository>();
+					services.AddScoped<TenantNameProvider>();
+				},
+				configuration =>
+				{
+					configuration.RegisterServicesFromAssembly(RepositoryTestsCore.Assembly);
+				});
 
 			await this.OnSetUpAsync();
 		}

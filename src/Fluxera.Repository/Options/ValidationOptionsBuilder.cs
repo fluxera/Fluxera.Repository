@@ -18,14 +18,14 @@
 		public string RepositoryName { get; }
 
 		/// <inheritdoc />
-		public IValidationOptionsBuilder AddValidators(IEnumerable<Assembly> assemblies)
+		public IValidationOptionsBuilder AddValidatorsFromAssemblies(IEnumerable<Assembly> assemblies)
 		{
 			this.services.AddValidatorsFromAssemblies(assemblies, includeInternalTypes: true);
 			return this;
 		}
 
 		/// <inheritdoc />
-		public IValidationOptionsBuilder AddValidators(Assembly assembly)
+		public IValidationOptionsBuilder AddValidatorsFromAssembly(Assembly assembly)
 		{
 			this.services.AddValidatorsFromAssembly(assembly, includeInternalTypes: true);
 			return this;

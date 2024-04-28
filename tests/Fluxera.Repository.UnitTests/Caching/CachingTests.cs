@@ -17,26 +17,32 @@
 		[SetUp]
 		public void SetUp()
 		{
-			this.serviceProvider = BuildServiceProvider(services =>
-			{
-				services.AddRepository(rb =>
+			this.serviceProvider = BuildServiceProvider(
+				services =>
 				{
-					rb.AddInMemoryRepository<RepositoryInMemoryContext>("Repository", rob =>
+					services.AddRepository(rb =>
 					{
-						rob.UseFor<Company>();
-						rob.UseFor<Person>();
-
-						rob.AddCaching(cob =>
+						rb.AddInMemoryRepository<RepositoryInMemoryContext>("Repository", rob =>
 						{
-							cob
-								.UseStandard()
-								.UseTimeoutFor<Person>(TimeSpan.FromSeconds(20));
+							rob.UseFor<Company>();
+							rob.UseFor<Person>();
+
+							rob.EnableCaching(cob =>
+							{
+								cob
+									.UseStandard()
+									.UseTimeoutFor<Person>(TimeSpan.FromSeconds(20));
+							});
 						});
 					});
-				});
 
-				services.AddTransient<IPersonRepository, PersonRepository>();
-			});
+					services.AddTransient<IPersonRepository, PersonRepository>();
+				},
+				configuration =>
+				{
+					configuration.RegisterServicesFromAssembly(RepositoryTestsCore.Assembly);
+					configuration.RegisterServicesFromAssembly(RepositoryTests.Assembly);
+				});
 		}
 
 		[TearDown]
