@@ -20,14 +20,14 @@
 		/// <inheritdoc />
 		public IValidationOptionsBuilder AddValidators(IEnumerable<Assembly> assemblies)
 		{
-			this.services.AddValidatorsFromAssemblies(assemblies);
+			this.services.AddValidatorsFromAssemblies(assemblies, includeInternalTypes: true);
 			return this;
 		}
 
 		/// <inheritdoc />
 		public IValidationOptionsBuilder AddValidators(Assembly assembly)
 		{
-			this.services.AddValidatorsFromAssembly(assembly);
+			this.services.AddValidatorsFromAssembly(assembly, includeInternalTypes: true);
 			return this;
 		}
 	}
