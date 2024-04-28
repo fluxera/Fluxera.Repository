@@ -8,7 +8,6 @@
 	using Fluxera.Entity;
 	using Fluxera.Guards;
 	using Fluxera.Repository.Specifications;
-	using Fluxera.Repository.Traits;
 
 	/// <summary>
 	///     A base class for specialized repository service implementations.
@@ -47,55 +46,55 @@
 		}
 
 		/// <inheritdoc />
-		async Task ICanAdd<TAggregateRoot, TKey>.AddAsync(TAggregateRoot item, CancellationToken cancellationToken)
+		public async Task AddAsync(TAggregateRoot item, CancellationToken cancellationToken)
 		{
 			await this.innerRepository.AddAsync(item, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task ICanAdd<TAggregateRoot, TKey>.AddRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
+		public async Task AddRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{
 			await this.innerRepository.AddRangeAsync(items, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task ICanUpdate<TAggregateRoot, TKey>.UpdateAsync(TAggregateRoot item, CancellationToken cancellationToken)
+		public async Task UpdateAsync(TAggregateRoot item, CancellationToken cancellationToken)
 		{
 			await this.innerRepository.UpdateAsync(item, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task ICanUpdate<TAggregateRoot, TKey>.UpdateRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
+		public async Task UpdateRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{
 			await this.innerRepository.UpdateRangeAsync(items, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task ICanRemove<TAggregateRoot, TKey>.RemoveAsync(TAggregateRoot item, CancellationToken cancellationToken)
+		public async Task RemoveAsync(TAggregateRoot item, CancellationToken cancellationToken)
 		{
 			await this.innerRepository.RemoveAsync(item, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task ICanRemove<TAggregateRoot, TKey>.RemoveAsync(TKey id, CancellationToken cancellationToken)
+		public async Task RemoveAsync(TKey id, CancellationToken cancellationToken)
 		{
 			await this.innerRepository.RemoveAsync(id, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task ICanRemove<TAggregateRoot, TKey>.RemoveRangeAsync(Expression<Func<TAggregateRoot, bool>> predicate, CancellationToken cancellationToken)
+		public async Task RemoveRangeAsync(Expression<Func<TAggregateRoot, bool>> predicate, CancellationToken cancellationToken)
 		{
 			await this.innerRepository.RemoveRangeAsync(predicate, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task ICanRemove<TAggregateRoot, TKey>.RemoveRangeAsync(ISpecification<TAggregateRoot> specification, CancellationToken cancellationToken)
+		public async Task RemoveRangeAsync(ISpecification<TAggregateRoot> specification, CancellationToken cancellationToken)
 		{
 			await this.innerRepository.RemoveRangeAsync(specification, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task ICanRemove<TAggregateRoot, TKey>.RemoveRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
+		public async Task RemoveRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{
 			await this.innerRepository.RemoveRangeAsync(items, cancellationToken);
 		}

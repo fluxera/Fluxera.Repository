@@ -9,7 +9,6 @@
 	using Fluxera.Guards;
 	using Fluxera.Repository.Query;
 	using Fluxera.Repository.Specifications;
-	using Fluxera.Repository.Traits;
 
 	/// <summary>
 	///     A base class for specialized repository service implementations.
@@ -50,26 +49,26 @@
 		}
 
 		/// <inheritdoc />
-		async Task<TAggregateRoot> ICanGet<TAggregateRoot, TKey>.GetAsync(TKey id, CancellationToken cancellationToken)
+		public async Task<TAggregateRoot> GetAsync(TKey id, CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.GetAsync(id, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<TResult> ICanGet<TAggregateRoot, TKey>.GetAsync<TResult>(TKey id, Expression<Func<TAggregateRoot, TResult>> selector,
+		public async Task<TResult> GetAsync<TResult>(TKey id, Expression<Func<TAggregateRoot, TResult>> selector,
 			CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.GetAsync(id, selector, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<bool> ICanGet<TAggregateRoot, TKey>.ExistsAsync(TKey id, CancellationToken cancellationToken)
+		public async Task<bool> ExistsAsync(TKey id, CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.ExistsAsync(id, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<TAggregateRoot> ICanFind<TAggregateRoot, TKey>.FindOneAsync(Expression<Func<TAggregateRoot, bool>> predicate,
+		public async Task<TAggregateRoot> FindOneAsync(Expression<Func<TAggregateRoot, bool>> predicate,
 			IQueryOptions<TAggregateRoot> queryOptions, CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.FindOneAsync(predicate, queryOptions, cancellationToken);
@@ -83,7 +82,7 @@
 		}
 
 		/// <inheritdoc />
-		async Task<TResult> ICanFind<TAggregateRoot, TKey>.FindOneAsync<TResult>(Expression<Func<TAggregateRoot, bool>> predicate,
+		public async Task<TResult> FindOneAsync<TResult>(Expression<Func<TAggregateRoot, bool>> predicate,
 			Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot> queryOptions, CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.FindOneAsync(predicate, selector, queryOptions, cancellationToken);
@@ -97,7 +96,7 @@
 		}
 
 		/// <inheritdoc />
-		async Task<bool> ICanFind<TAggregateRoot, TKey>.ExistsAsync(Expression<Func<TAggregateRoot, bool>> predicate, CancellationToken cancellationToken)
+		public async Task<bool> ExistsAsync(Expression<Func<TAggregateRoot, bool>> predicate, CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.ExistsAsync(predicate, cancellationToken);
 		}
@@ -109,7 +108,7 @@
 		}
 
 		/// <inheritdoc />
-		async Task<IReadOnlyCollection<TAggregateRoot>> ICanFind<TAggregateRoot, TKey>.FindManyAsync(Expression<Func<TAggregateRoot, bool>> predicate,
+		public async Task<IReadOnlyCollection<TAggregateRoot>> FindManyAsync(Expression<Func<TAggregateRoot, bool>> predicate,
 			IQueryOptions<TAggregateRoot> queryOptions, CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.FindManyAsync(predicate, queryOptions, cancellationToken);
@@ -123,7 +122,7 @@
 		}
 
 		/// <inheritdoc />
-		async Task<IReadOnlyCollection<TResult>> ICanFind<TAggregateRoot, TKey>.FindManyAsync<TResult>(Expression<Func<TAggregateRoot, bool>> predicate,
+		public async Task<IReadOnlyCollection<TResult>> FindManyAsync<TResult>(Expression<Func<TAggregateRoot, bool>> predicate,
 			Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot> queryOptions, CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.FindManyAsync(predicate, selector, queryOptions, cancellationToken);
@@ -138,436 +137,436 @@
 		}
 
 		/// <inheritdoc />
-		async Task<long> ICanGet<TAggregateRoot, TKey>.CountAsync(CancellationToken cancellationToken)
+		public async Task<long> CountAsync(CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.CountAsync(cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<long> ICanGet<TAggregateRoot, TKey>.CountAsync(Expression<Func<TAggregateRoot, bool>> predicate, CancellationToken cancellationToken)
+		public async Task<long> CountAsync(Expression<Func<TAggregateRoot, bool>> predicate, CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.CountAsync(predicate, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<long> ICanGet<TAggregateRoot, TKey>.CountAsync(ISpecification<TAggregateRoot> specification, CancellationToken cancellationToken)
+		public async Task<long> CountAsync(ISpecification<TAggregateRoot> specification, CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.CountAsync(specification, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<int> ICanAggregate<TAggregateRoot, TKey>.SumAsync(Expression<Func<TAggregateRoot, int>> selector, CancellationToken cancellationToken)
+		public async Task<int> SumAsync(Expression<Func<TAggregateRoot, int>> selector, CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.SumAsync(selector, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<int> ICanAggregate<TAggregateRoot, TKey>.SumAsync(Expression<Func<TAggregateRoot, int?>> selector, CancellationToken cancellationToken)
+		public async Task<int> SumAsync(Expression<Func<TAggregateRoot, int?>> selector, CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.SumAsync(selector, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<long> ICanAggregate<TAggregateRoot, TKey>.SumAsync(Expression<Func<TAggregateRoot, long>> selector, CancellationToken cancellationToken)
+		public async Task<long> SumAsync(Expression<Func<TAggregateRoot, long>> selector, CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.SumAsync(selector, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<long> ICanAggregate<TAggregateRoot, TKey>.SumAsync(Expression<Func<TAggregateRoot, long?>> selector, CancellationToken cancellationToken)
+		public async Task<long> SumAsync(Expression<Func<TAggregateRoot, long?>> selector, CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.SumAsync(selector, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<decimal> ICanAggregate<TAggregateRoot, TKey>.SumAsync(Expression<Func<TAggregateRoot, decimal>> selector,
+		public async Task<decimal> SumAsync(Expression<Func<TAggregateRoot, decimal>> selector,
 			CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.SumAsync(selector, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<decimal> ICanAggregate<TAggregateRoot, TKey>.SumAsync(Expression<Func<TAggregateRoot, decimal?>> selector,
+		public async Task<decimal> SumAsync(Expression<Func<TAggregateRoot, decimal?>> selector,
 			CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.SumAsync(selector, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<float> ICanAggregate<TAggregateRoot, TKey>.SumAsync(Expression<Func<TAggregateRoot, float>> selector, CancellationToken cancellationToken)
+		public async Task<float> SumAsync(Expression<Func<TAggregateRoot, float>> selector, CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.SumAsync(selector, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<float> ICanAggregate<TAggregateRoot, TKey>.SumAsync(Expression<Func<TAggregateRoot, float?>> selector, CancellationToken cancellationToken)
+		public async Task<float> SumAsync(Expression<Func<TAggregateRoot, float?>> selector, CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.SumAsync(selector, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<double> ICanAggregate<TAggregateRoot, TKey>.SumAsync(Expression<Func<TAggregateRoot, double>> selector, CancellationToken cancellationToken)
+		public async Task<double> SumAsync(Expression<Func<TAggregateRoot, double>> selector, CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.SumAsync(selector, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<double> ICanAggregate<TAggregateRoot, TKey>.SumAsync(Expression<Func<TAggregateRoot, double?>> selector, CancellationToken cancellationToken)
+		public async Task<double> SumAsync(Expression<Func<TAggregateRoot, double?>> selector, CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.SumAsync(selector, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<int> ICanAggregate<TAggregateRoot, TKey>.SumAsync(Expression<Func<TAggregateRoot, bool>> predicate,
+		public async Task<int> SumAsync(Expression<Func<TAggregateRoot, bool>> predicate,
 			Expression<Func<TAggregateRoot, int>> selector, CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.SumAsync(predicate, selector, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<int> ICanAggregate<TAggregateRoot, TKey>.SumAsync(Expression<Func<TAggregateRoot, bool>> predicate,
+		public async Task<int> SumAsync(Expression<Func<TAggregateRoot, bool>> predicate,
 			Expression<Func<TAggregateRoot, int?>> selector, CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.SumAsync(predicate, selector, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<long> ICanAggregate<TAggregateRoot, TKey>.SumAsync(Expression<Func<TAggregateRoot, bool>> predicate,
+		public async Task<long> SumAsync(Expression<Func<TAggregateRoot, bool>> predicate,
 			Expression<Func<TAggregateRoot, long>> selector, CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.SumAsync(predicate, selector, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<long> ICanAggregate<TAggregateRoot, TKey>.SumAsync(Expression<Func<TAggregateRoot, bool>> predicate,
+		public async Task<long> SumAsync(Expression<Func<TAggregateRoot, bool>> predicate,
 			Expression<Func<TAggregateRoot, long?>> selector, CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.SumAsync(predicate, selector, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<decimal> ICanAggregate<TAggregateRoot, TKey>.SumAsync(Expression<Func<TAggregateRoot, bool>> predicate,
+		public async Task<decimal> SumAsync(Expression<Func<TAggregateRoot, bool>> predicate,
 			Expression<Func<TAggregateRoot, decimal>> selector, CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.SumAsync(predicate, selector, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<decimal> ICanAggregate<TAggregateRoot, TKey>.SumAsync(Expression<Func<TAggregateRoot, bool>> predicate,
+		public async Task<decimal> SumAsync(Expression<Func<TAggregateRoot, bool>> predicate,
 			Expression<Func<TAggregateRoot, decimal?>> selector, CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.SumAsync(predicate, selector, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<float> ICanAggregate<TAggregateRoot, TKey>.SumAsync(Expression<Func<TAggregateRoot, bool>> predicate,
+		public async Task<float> SumAsync(Expression<Func<TAggregateRoot, bool>> predicate,
 			Expression<Func<TAggregateRoot, float>> selector, CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.SumAsync(predicate, selector, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<float> ICanAggregate<TAggregateRoot, TKey>.SumAsync(Expression<Func<TAggregateRoot, bool>> predicate,
+		public async Task<float> SumAsync(Expression<Func<TAggregateRoot, bool>> predicate,
 			Expression<Func<TAggregateRoot, float?>> selector, CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.SumAsync(predicate, selector, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<double> ICanAggregate<TAggregateRoot, TKey>.SumAsync(Expression<Func<TAggregateRoot, bool>> predicate,
+		public async Task<double> SumAsync(Expression<Func<TAggregateRoot, bool>> predicate,
 			Expression<Func<TAggregateRoot, double>> selector, CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.SumAsync(predicate, selector, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<double> ICanAggregate<TAggregateRoot, TKey>.SumAsync(Expression<Func<TAggregateRoot, bool>> predicate,
+		public async Task<double> SumAsync(Expression<Func<TAggregateRoot, bool>> predicate,
 			Expression<Func<TAggregateRoot, double?>> selector, CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.SumAsync(predicate, selector, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<int> ICanAggregate<TAggregateRoot, TKey>.SumAsync(ISpecification<TAggregateRoot> specification,
+		public async Task<int> SumAsync(ISpecification<TAggregateRoot> specification,
 			Expression<Func<TAggregateRoot, int>> selector, CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.SumAsync(specification, selector, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<int> ICanAggregate<TAggregateRoot, TKey>.SumAsync(ISpecification<TAggregateRoot> specification,
+		public async Task<int> SumAsync(ISpecification<TAggregateRoot> specification,
 			Expression<Func<TAggregateRoot, int?>> selector, CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.SumAsync(specification, selector, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<long> ICanAggregate<TAggregateRoot, TKey>.SumAsync(ISpecification<TAggregateRoot> specification,
+		public async Task<long> SumAsync(ISpecification<TAggregateRoot> specification,
 			Expression<Func<TAggregateRoot, long>> selector, CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.SumAsync(specification, selector, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<long> ICanAggregate<TAggregateRoot, TKey>.SumAsync(ISpecification<TAggregateRoot> specification,
+		public async Task<long> SumAsync(ISpecification<TAggregateRoot> specification,
 			Expression<Func<TAggregateRoot, long?>> selector, CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.SumAsync(specification, selector, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<decimal> ICanAggregate<TAggregateRoot, TKey>.SumAsync(ISpecification<TAggregateRoot> specification,
+		public async Task<decimal> SumAsync(ISpecification<TAggregateRoot> specification,
 			Expression<Func<TAggregateRoot, decimal>> selector, CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.SumAsync(specification, selector, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<decimal> ICanAggregate<TAggregateRoot, TKey>.SumAsync(ISpecification<TAggregateRoot> specification,
+		public async Task<decimal> SumAsync(ISpecification<TAggregateRoot> specification,
 			Expression<Func<TAggregateRoot, decimal?>> selector, CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.SumAsync(specification, selector, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<float> ICanAggregate<TAggregateRoot, TKey>.SumAsync(ISpecification<TAggregateRoot> specification,
+		public async Task<float> SumAsync(ISpecification<TAggregateRoot> specification,
 			Expression<Func<TAggregateRoot, float>> selector, CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.SumAsync(specification, selector, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<float> ICanAggregate<TAggregateRoot, TKey>.SumAsync(ISpecification<TAggregateRoot> specification,
+		public async Task<float> SumAsync(ISpecification<TAggregateRoot> specification,
 			Expression<Func<TAggregateRoot, float?>> selector, CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.SumAsync(specification, selector, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<double> ICanAggregate<TAggregateRoot, TKey>.SumAsync(ISpecification<TAggregateRoot> specification,
+		public async Task<double> SumAsync(ISpecification<TAggregateRoot> specification,
 			Expression<Func<TAggregateRoot, double>> selector, CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.SumAsync(specification, selector, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<double> ICanAggregate<TAggregateRoot, TKey>.SumAsync(ISpecification<TAggregateRoot> specification,
+		public async Task<double> SumAsync(ISpecification<TAggregateRoot> specification,
 			Expression<Func<TAggregateRoot, double?>> selector, CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.SumAsync(specification, selector, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<double> ICanAggregate<TAggregateRoot, TKey>.AverageAsync(Expression<Func<TAggregateRoot, int>> selector, CancellationToken cancellationToken)
+		public async Task<double> AverageAsync(Expression<Func<TAggregateRoot, int>> selector, CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.AverageAsync(selector, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<double> ICanAggregate<TAggregateRoot, TKey>.AverageAsync(Expression<Func<TAggregateRoot, int?>> selector,
+		public async Task<double> AverageAsync(Expression<Func<TAggregateRoot, int?>> selector,
 			CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.AverageAsync(selector, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<double> ICanAggregate<TAggregateRoot, TKey>.AverageAsync(Expression<Func<TAggregateRoot, long>> selector,
+		public async Task<double> AverageAsync(Expression<Func<TAggregateRoot, long>> selector,
 			CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.AverageAsync(selector, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<double> ICanAggregate<TAggregateRoot, TKey>.AverageAsync(Expression<Func<TAggregateRoot, long?>> selector,
+		public async Task<double> AverageAsync(Expression<Func<TAggregateRoot, long?>> selector,
 			CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.AverageAsync(selector, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<decimal> ICanAggregate<TAggregateRoot, TKey>.AverageAsync(Expression<Func<TAggregateRoot, decimal>> selector,
+		public async Task<decimal> AverageAsync(Expression<Func<TAggregateRoot, decimal>> selector,
 			CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.AverageAsync(selector, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<decimal> ICanAggregate<TAggregateRoot, TKey>.AverageAsync(Expression<Func<TAggregateRoot, decimal?>> selector,
+		public async Task<decimal> AverageAsync(Expression<Func<TAggregateRoot, decimal?>> selector,
 			CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.AverageAsync(selector, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<float> ICanAggregate<TAggregateRoot, TKey>.AverageAsync(Expression<Func<TAggregateRoot, float>> selector,
+		public async Task<float> AverageAsync(Expression<Func<TAggregateRoot, float>> selector,
 			CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.AverageAsync(selector, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<float> ICanAggregate<TAggregateRoot, TKey>.AverageAsync(Expression<Func<TAggregateRoot, float?>> selector,
+		public async Task<float> AverageAsync(Expression<Func<TAggregateRoot, float?>> selector,
 			CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.AverageAsync(selector, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<double> ICanAggregate<TAggregateRoot, TKey>.AverageAsync(Expression<Func<TAggregateRoot, double>> selector,
+		public async Task<double> AverageAsync(Expression<Func<TAggregateRoot, double>> selector,
 			CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.AverageAsync(selector, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<double> ICanAggregate<TAggregateRoot, TKey>.AverageAsync(Expression<Func<TAggregateRoot, double?>> selector,
+		public async Task<double> AverageAsync(Expression<Func<TAggregateRoot, double?>> selector,
 			CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.AverageAsync(selector, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<double> ICanAggregate<TAggregateRoot, TKey>.AverageAsync(Expression<Func<TAggregateRoot, bool>> predicate,
+		public async Task<double> AverageAsync(Expression<Func<TAggregateRoot, bool>> predicate,
 			Expression<Func<TAggregateRoot, int>> selector, CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.AverageAsync(predicate, selector, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<double> ICanAggregate<TAggregateRoot, TKey>.AverageAsync(Expression<Func<TAggregateRoot, bool>> predicate,
+		public async Task<double> AverageAsync(Expression<Func<TAggregateRoot, bool>> predicate,
 			Expression<Func<TAggregateRoot, int?>> selector, CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.AverageAsync(predicate, selector, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<double> ICanAggregate<TAggregateRoot, TKey>.AverageAsync(Expression<Func<TAggregateRoot, bool>> predicate,
+		public async Task<double> AverageAsync(Expression<Func<TAggregateRoot, bool>> predicate,
 			Expression<Func<TAggregateRoot, long>> selector, CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.AverageAsync(predicate, selector, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<double> ICanAggregate<TAggregateRoot, TKey>.AverageAsync(Expression<Func<TAggregateRoot, bool>> predicate,
+		public async Task<double> AverageAsync(Expression<Func<TAggregateRoot, bool>> predicate,
 			Expression<Func<TAggregateRoot, long?>> selector, CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.AverageAsync(predicate, selector, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<decimal> ICanAggregate<TAggregateRoot, TKey>.AverageAsync(Expression<Func<TAggregateRoot, bool>> predicate,
+		public async Task<decimal> AverageAsync(Expression<Func<TAggregateRoot, bool>> predicate,
 			Expression<Func<TAggregateRoot, decimal>> selector, CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.AverageAsync(predicate, selector, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<decimal> ICanAggregate<TAggregateRoot, TKey>.AverageAsync(Expression<Func<TAggregateRoot, bool>> predicate,
+		public async Task<decimal> AverageAsync(Expression<Func<TAggregateRoot, bool>> predicate,
 			Expression<Func<TAggregateRoot, decimal?>> selector, CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.AverageAsync(predicate, selector, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<float> ICanAggregate<TAggregateRoot, TKey>.AverageAsync(Expression<Func<TAggregateRoot, bool>> predicate,
+		public async Task<float> AverageAsync(Expression<Func<TAggregateRoot, bool>> predicate,
 			Expression<Func<TAggregateRoot, float>> selector, CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.AverageAsync(predicate, selector, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<float> ICanAggregate<TAggregateRoot, TKey>.AverageAsync(Expression<Func<TAggregateRoot, bool>> predicate,
+		public async Task<float> AverageAsync(Expression<Func<TAggregateRoot, bool>> predicate,
 			Expression<Func<TAggregateRoot, float?>> selector, CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.AverageAsync(predicate, selector, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<double> ICanAggregate<TAggregateRoot, TKey>.AverageAsync(Expression<Func<TAggregateRoot, bool>> predicate,
+		public async Task<double> AverageAsync(Expression<Func<TAggregateRoot, bool>> predicate,
 			Expression<Func<TAggregateRoot, double>> selector, CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.AverageAsync(predicate, selector, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<double> ICanAggregate<TAggregateRoot, TKey>.AverageAsync(Expression<Func<TAggregateRoot, bool>> predicate,
+		public async Task<double> AverageAsync(Expression<Func<TAggregateRoot, bool>> predicate,
 			Expression<Func<TAggregateRoot, double?>> selector, CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.AverageAsync(predicate, selector, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<double> ICanAggregate<TAggregateRoot, TKey>.AverageAsync(ISpecification<TAggregateRoot> specification,
+		public async Task<double> AverageAsync(ISpecification<TAggregateRoot> specification,
 			Expression<Func<TAggregateRoot, int>> selector, CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.AverageAsync(specification, selector, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<double> ICanAggregate<TAggregateRoot, TKey>.AverageAsync(ISpecification<TAggregateRoot> specification,
+		public async Task<double> AverageAsync(ISpecification<TAggregateRoot> specification,
 			Expression<Func<TAggregateRoot, int?>> selector, CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.AverageAsync(specification, selector, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<double> ICanAggregate<TAggregateRoot, TKey>.AverageAsync(ISpecification<TAggregateRoot> specification,
+		public async Task<double> AverageAsync(ISpecification<TAggregateRoot> specification,
 			Expression<Func<TAggregateRoot, long>> selector, CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.AverageAsync(specification, selector, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<double> ICanAggregate<TAggregateRoot, TKey>.AverageAsync(ISpecification<TAggregateRoot> specification,
+		public async Task<double> AverageAsync(ISpecification<TAggregateRoot> specification,
 			Expression<Func<TAggregateRoot, long?>> selector, CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.AverageAsync(specification, selector, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<decimal> ICanAggregate<TAggregateRoot, TKey>.AverageAsync(ISpecification<TAggregateRoot> specification,
+		public async Task<decimal> AverageAsync(ISpecification<TAggregateRoot> specification,
 			Expression<Func<TAggregateRoot, decimal>> selector, CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.AverageAsync(specification, selector, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<decimal> ICanAggregate<TAggregateRoot, TKey>.AverageAsync(ISpecification<TAggregateRoot> specification,
+		public async Task<decimal> AverageAsync(ISpecification<TAggregateRoot> specification,
 			Expression<Func<TAggregateRoot, decimal?>> selector, CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.AverageAsync(specification, selector, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<float> ICanAggregate<TAggregateRoot, TKey>.AverageAsync(ISpecification<TAggregateRoot> specification,
+		public async Task<float> AverageAsync(ISpecification<TAggregateRoot> specification,
 			Expression<Func<TAggregateRoot, float>> selector, CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.AverageAsync(specification, selector, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<float> ICanAggregate<TAggregateRoot, TKey>.AverageAsync(ISpecification<TAggregateRoot> specification,
+		public async Task<float> AverageAsync(ISpecification<TAggregateRoot> specification,
 			Expression<Func<TAggregateRoot, float?>> selector, CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.AverageAsync(specification, selector, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<double> ICanAggregate<TAggregateRoot, TKey>.AverageAsync(ISpecification<TAggregateRoot> specification,
+		public async Task<double> AverageAsync(ISpecification<TAggregateRoot> specification,
 			Expression<Func<TAggregateRoot, double>> selector, CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.AverageAsync(specification, selector, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		async Task<double> ICanAggregate<TAggregateRoot, TKey>.AverageAsync(ISpecification<TAggregateRoot> specification,
+		public async Task<double> AverageAsync(ISpecification<TAggregateRoot> specification,
 			Expression<Func<TAggregateRoot, double?>> selector, CancellationToken cancellationToken)
 		{
 			return await this.innerRepository.AverageAsync(specification, selector, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		void IDisposable.Dispose()
+		public void Dispose()
 		{
 			if(!this.innerRepository.IsDisposed)
 			{
@@ -576,10 +575,10 @@
 		}
 
 		/// <inheritdoc />
-		bool IDisposableRepository.IsDisposed => this.innerRepository.IsDisposed;
+		public bool IsDisposed => this.innerRepository.IsDisposed;
 
 		/// <inheritdoc />
-		async ValueTask IAsyncDisposable.DisposeAsync()
+		public async ValueTask DisposeAsync()
 		{
 			if(!this.innerRepository.IsDisposed)
 			{
