@@ -9,7 +9,7 @@
 	using JetBrains.Annotations;
 
 	/// <summary>
-	///     marker interface for interceptors.
+	///     Marker interface for interceptors.
 	/// </summary>
 	[PublicAPI]
 	public interface IInterceptor
@@ -17,7 +17,7 @@
 	}
 
 	/// <summary>
-	///     Contract for a service that is used to intercept calls tot he repository
+	///     Contract for a service that is used to intercept calls to the repository
 	///     before they hit the underlying storage.
 	/// </summary>
 	/// <typeparam name="TAggregateRoot">The type of the aggregate root.</typeparam>
