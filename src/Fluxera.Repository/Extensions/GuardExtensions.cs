@@ -14,7 +14,7 @@ namespace Fluxera.Repository.Extensions
 	[PublicAPI]
 	internal static class GuardExtensions
 	{
-		public static void NotTransient<TAggregateRoot, TKey>(this IGuard guard, TAggregateRoot input, [InvokerParameterName][CallerArgumentExpression("input")] string parameterName = null, string message = null)
+		public static void NotTransient<TAggregateRoot, TKey>(this IGuard guard, TAggregateRoot input, [InvokerParameterName][CallerArgumentExpression(nameof(input))] string parameterName = null, string message = null)
 			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 			where TKey : IComparable<TKey>, IEquatable<TKey>
 		{
@@ -26,7 +26,7 @@ namespace Fluxera.Repository.Extensions
 			}
 		}
 
-		public static void NotTransient<TAggregateRoot, TKey>(this IGuard guard, IEnumerable<TAggregateRoot> input, [InvokerParameterName][CallerArgumentExpression("input")] string parameterName = null, string message = null)
+		public static void NotTransient<TAggregateRoot, TKey>(this IGuard guard, IEnumerable<TAggregateRoot> input, [InvokerParameterName][CallerArgumentExpression(nameof(input))] string parameterName = null, string message = null)
 			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 			where TKey : IComparable<TKey>, IEquatable<TKey>
 		{
@@ -38,7 +38,7 @@ namespace Fluxera.Repository.Extensions
 			}
 		}
 
-		public static void Transient<TAggregateRoot, TKey>(this IGuard guard, TAggregateRoot input, [InvokerParameterName][CallerArgumentExpression("input")] string parameterName = null, string message = null)
+		public static void Transient<TAggregateRoot, TKey>(this IGuard guard, TAggregateRoot input, [InvokerParameterName][CallerArgumentExpression(nameof(input))] string parameterName = null, string message = null)
 			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 			where TKey : IComparable<TKey>, IEquatable<TKey>
 		{
@@ -50,7 +50,7 @@ namespace Fluxera.Repository.Extensions
 			}
 		}
 
-		public static void Transient<TAggregateRoot, TKey>(this IGuard guard, IEnumerable<TAggregateRoot> input, [InvokerParameterName][CallerArgumentExpression("input")] string parameterName = null, string message = null)
+		public static void Transient<TAggregateRoot, TKey>(this IGuard guard, IEnumerable<TAggregateRoot> input, [InvokerParameterName][CallerArgumentExpression(nameof(input))] string parameterName = null, string message = null)
 			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 			where TKey : IComparable<TKey>, IEquatable<TKey>
 		{
