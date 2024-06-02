@@ -29,14 +29,14 @@
 		<PackageReference Include="Fluxera.ComponentModel.Annotations" Version="8.1.0" />
 		<PackageReference Include="Fluxera.DomainEvents.MediatR" Version="8.3.0" />
 		<PackageReference Include="Fluxera.Entity" Version="8.3.0" />
-		<PackageReference Include="Fluxera.Enumeration" Version="8.1.0" />
-		<PackageReference Include="Fluxera.Extensions.Caching" Version="8.3.0" />
-		<PackageReference Include="Fluxera.Extensions.Common" Version="8.3.0" />
-		<PackageReference Include="Fluxera.Extensions.DependencyInjection" Version="8.3.0" />
-		<PackageReference Include="Fluxera.Extensions.Validation" Version="8.3.0" />
+		<PackageReference Include="Fluxera.Enumeration" Version="8.1.1" />
+		<PackageReference Include="Fluxera.Extensions.Caching" Version="8.3.1" />
+		<PackageReference Include="Fluxera.Extensions.Common" Version="8.3.1" />
+		<PackageReference Include="Fluxera.Extensions.DependencyInjection" Version="8.3.1" />
+		<PackageReference Include="Fluxera.Extensions.Validation" Version="8.3.1" />
 		<PackageReference Include="Fluxera.Spatial" Version="8.1.0" />
-		<PackageReference Include="Fluxera.StronglyTypedId" Version="8.1.0" />
-		<PackageReference Include="Fluxera.ValueObject" Version="8.1.0" />
+		<PackageReference Include="Fluxera.StronglyTypedId" Version="8.1.1" />
+		<PackageReference Include="Fluxera.ValueObject" Version="8.1.1" />
 		<PackageReference Include="GitVersion.MsBuild" Version="5.12.0">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
