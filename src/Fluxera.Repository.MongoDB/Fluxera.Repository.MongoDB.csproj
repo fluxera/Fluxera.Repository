@@ -26,7 +26,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Fluxera.ComponentModel.Annotations" Version="8.1.0" />
+		<PackageReference Include="Fluxera.ComponentModel.Annotations" Version="8.2.0" />
 		<PackageReference Include="Fluxera.Enumeration.MongoDB" Version="8.1.1" />
 		<PackageReference Include="Fluxera.Spatial.MongoDB" Version="8.1.0" />
 		<PackageReference Include="Fluxera.StronglyTypedId.MongoDB" Version="8.1.1" />
