@@ -22,7 +22,7 @@
 		public async Task ShouldFindOne()
 		{
 			Person[] persons =
-			{
+			[
 				new Person
 				{
 					Name = "Tester1"
@@ -35,7 +35,7 @@
 				{
 					Name = "Tester3"
 				}
-			};
+			];
 			await this.PersonRepository.AddRangeAsync(persons);
 			await this.UnitOfWork.SaveChangesAsync();
 
@@ -50,7 +50,7 @@
 		public async Task ShouldFindOneWithSelector()
 		{
 			Person[] persons =
-			{
+			[
 				new Person
 				{
 					Name = "Tester1"
@@ -63,7 +63,7 @@
 				{
 					Name = "Tester3"
 				}
-			};
+			];
 			await this.PersonRepository.AddRangeAsync(persons);
 			await this.UnitOfWork.SaveChangesAsync();
 
@@ -78,7 +78,7 @@
 		public async Task ShouldExistsByPredicate()
 		{
 			Person[] persons =
-			{
+			[
 				new Person
 				{
 					Name = "Tester1"
@@ -91,7 +91,7 @@
 				{
 					Name = "Tester3"
 				}
-			};
+			];
 			await this.PersonRepository.AddRangeAsync(persons);
 			await this.UnitOfWork.SaveChangesAsync();
 
@@ -105,7 +105,7 @@
 		public async Task ShouldFindManyWithPredicate()
 		{
 			Person[] persons =
-			{
+			[
 				new Person
 				{
 					Name = "Tester12"
@@ -118,7 +118,7 @@
 				{
 					Name = "Tester32"
 				}
-			};
+			];
 			await this.PersonRepository.AddRangeAsync(persons);
 			await this.UnitOfWork.SaveChangesAsync();
 
@@ -139,7 +139,7 @@
 		public async Task ShouldFindManyWithSelector()
 		{
 			Person[] persons =
-			{
+			[
 				new Person
 				{
 					Name = "Tester12"
@@ -152,7 +152,7 @@
 				{
 					Name = "Tester32"
 				}
-			};
+			];
 			await this.PersonRepository.AddRangeAsync(persons);
 			await this.UnitOfWork.SaveChangesAsync();
 
@@ -173,7 +173,7 @@
 		public async Task ShouldFindOneWithStronglyTypedId()
 		{
 			Employee[] employees =
-			{
+			[
 				new Employee
 				{
 					Name = "Tester1"
@@ -186,7 +186,7 @@
 				{
 					Name = "Tester3"
 				}
-			};
+			];
 			await this.EmployeeRepository.AddRangeAsync(employees);
 			await this.UnitOfWork.SaveChangesAsync();
 
@@ -202,7 +202,7 @@
 		public async Task ShouldFindOneWithSelectorWithStronglyTypedId()
 		{
 			Employee[] employees =
-			{
+			[
 				new Employee
 				{
 					Name = "Tester1"
@@ -215,7 +215,7 @@
 				{
 					Name = "Tester3"
 				}
-			};
+			];
 			await this.EmployeeRepository.AddRangeAsync(employees);
 			await this.UnitOfWork.SaveChangesAsync();
 
@@ -231,7 +231,7 @@
 		public async Task ShouldExistsByPredicateWithStronglyTypedId()
 		{
 			Employee[] employees =
-			{
+			[
 				new Employee
 				{
 					Name = "Tester1"
@@ -244,7 +244,7 @@
 				{
 					Name = "Tester3"
 				}
-			};
+			];
 			await this.EmployeeRepository.AddRangeAsync(employees);
 			await this.UnitOfWork.SaveChangesAsync();
 
@@ -259,7 +259,7 @@
 		public async Task ShouldFindManyWithPredicateWithStronglyTypedId()
 		{
 			Employee[] employees =
-			{
+			[
 				new Employee
 				{
 					Name = "Tester12"
@@ -272,7 +272,7 @@
 				{
 					Name = "Tester32"
 				}
-			};
+			];
 			await this.EmployeeRepository.AddRangeAsync(employees);
 			await this.UnitOfWork.SaveChangesAsync();
 
@@ -295,7 +295,7 @@
 		public async Task ShouldFindManyWithSelectorWithStronglyTypedId()
 		{
 			Employee[] employees =
-			{
+			[
 				new Employee
 				{
 					Name = "Tester12"
@@ -308,7 +308,7 @@
 				{
 					Name = "Tester32"
 				}
-			};
+			];
 			await this.EmployeeRepository.AddRangeAsync(employees);
 			await this.UnitOfWork.SaveChangesAsync();
 

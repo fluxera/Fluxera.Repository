@@ -27,10 +27,10 @@
 
 	<ItemGroup>
 		<PackageReference Include="Fluxera.ComponentModel.Annotations" Version="8.2.0" />
-		<PackageReference Include="Fluxera.Enumeration.MongoDB" Version="8.1.1" />
-		<PackageReference Include="Fluxera.Spatial.MongoDB" Version="8.1.0" />
-		<PackageReference Include="Fluxera.StronglyTypedId.MongoDB" Version="8.1.1" />
-		<PackageReference Include="Fluxera.ValueObject.MongoDB" Version="8.1.1" />
+		<PackageReference Include="Fluxera.Enumeration.MongoDB" Version="8.2.0" />
+		<PackageReference Include="Fluxera.Spatial.MongoDB" Version="8.1.1" />
+		<PackageReference Include="Fluxera.StronglyTypedId.MongoDB" Version="8.3.1" />
+		<PackageReference Include="Fluxera.ValueObject.MongoDB" Version="8.2.0" />
 		<PackageReference Include="GitVersion.MsBuild" Version="5.12.0">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

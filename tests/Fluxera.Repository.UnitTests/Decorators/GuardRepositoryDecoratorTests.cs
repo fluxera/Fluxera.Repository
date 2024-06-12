@@ -74,7 +74,7 @@
 		public void ShouldGuard_AddAsync_Multiple()
 		{
 			Person[] persons =
-			{
+			[
 				new Person
 				{
 					ID = Guid.NewGuid(),
@@ -85,7 +85,7 @@
 					ID = Guid.NewGuid(),
 					Name = "Tester"
 				}
-			};
+			];
 			this.ShouldGuardAgainstNull(async () => await this.Repository.AddRangeAsync(null));
 			this.ShouldGuardAgainstNotTransient(async () => await this.Repository.AddRangeAsync(persons));
 			this.ShouldGuardAgainstDisposed(async () => await this.Repository.AddRangeAsync(persons));
@@ -257,7 +257,7 @@
 		public void ShouldGuard_UpdateAsync_Multiple()
 		{
 			Person[] persons =
-			{
+			[
 				new Person
 				{
 					Name = "Tester"
@@ -266,9 +266,9 @@
 				{
 					Name = "Tester"
 				}
-			};
+			];
 			Person[] validPersons =
-			{
+			[
 				new Person
 				{
 					Name = "Tester"
@@ -277,7 +277,7 @@
 				{
 					Name = "Tester"
 				}
-			};
+			];
 			this.ShouldGuardAgainstNull(async () => await this.Repository.UpdateRangeAsync(null));
 			this.ShouldGuardAgainstTransient(async () => await this.Repository.UpdateRangeAsync(persons));
 			this.ShouldGuardAgainstDisposed(async () => await this.Repository.UpdateRangeAsync(validPersons));

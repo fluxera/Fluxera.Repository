@@ -106,7 +106,7 @@
 		}
 
 		/// <summary>
-		///     Configures the options to use for this context instance over it's lifetime.
+		///     Configures the options to use for this context instance over its lifetime.
 		/// </summary>
 		protected abstract void ConfigureOptions(LiteContextOptions options);
 

@@ -67,8 +67,8 @@
 		}
 
 		/// <summary>
-		///     Configure the <see cref="EntityTypeBuilder" /> to use the <see cref="SequentialGuidStringValueGenerator" /> for
-		///     string IDs.
+		///     Configure the <see cref="EntityTypeBuilder" /> to use the <see cref="SequentialGuidStringValueGenerator" />
+		///		for string IDs.
 		/// </summary>
 		/// <param name="entityTypeBuilder"></param>
 		public static void UseSequentialGuidStringIdValueGenerator(this EntityTypeBuilder entityTypeBuilder)
@@ -89,7 +89,7 @@
 		}
 
 		/// <summary>
-		///     Disables the delete cascading for references aggregate roots.
+		///     Disables delete cascading for references aggregate roots.
 		/// </summary>
 		/// <param name="entityTypeBuilder"></param>
 		public static void UseReferences(this EntityTypeBuilder entityTypeBuilder)

@@ -6,7 +6,7 @@
 	using global::MongoDB.Bson.Serialization.IdGenerators;
 
 	/// <summary>
-	///     Represents an Id generator for strongly-typed IDs.
+	///     An <see cref="IIdGenerator"/> for strongly-typed IDs.
 	/// </summary>
 	public class StronglyTypedIdGenerator : IIdGenerator
 	{
@@ -44,7 +44,7 @@
 				}
 			}
 
-			object id = Activator.CreateInstance(this.idType, new object[] { value });
+			object id = Activator.CreateInstance(this.idType, [value]);
 			return id;
 		}
 

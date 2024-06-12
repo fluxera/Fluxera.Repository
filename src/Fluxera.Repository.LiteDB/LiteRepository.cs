@@ -443,7 +443,7 @@
 						"A key could not be generated. The LiteDB repository only supports guid or string as type for strongly-typed keys.");
 				}
 
-				object instance = Activator.CreateInstance(keyType, new object[] { keyValue });
+				object instance = Activator.CreateInstance(keyType, [keyValue]);
 				return (TKey)instance;
 			}
 

@@ -22,7 +22,7 @@
 		public async Task ShouldCount()
 		{
 			Person[] persons =
-			{
+			[
 				new Person
 				{
 					Name = "Tester12"
@@ -35,7 +35,7 @@
 				{
 					Name = "Tester32"
 				}
-			};
+			];
 			await this.PersonRepository.AddRangeAsync(persons);
 			await this.UnitOfWork.SaveChangesAsync();
 
@@ -49,7 +49,7 @@
 		public async Task ShouldCountWithPredicate()
 		{
 			Person[] persons =
-			{
+			[
 				new Person
 				{
 					Name = "Tester12"
@@ -62,7 +62,7 @@
 				{
 					Name = "Tester32"
 				}
-			};
+			];
 			await this.PersonRepository.AddRangeAsync(persons);
 			await this.UnitOfWork.SaveChangesAsync();
 
@@ -76,7 +76,7 @@
 		public async Task ShouldCountWithSpecification()
 		{
 			Person[] persons =
-			{
+			[
 				new Person
 				{
 					Name = "Tester12"
@@ -89,7 +89,7 @@
 				{
 					Name = "Tester32"
 				}
-			};
+			];
 			await this.PersonRepository.AddRangeAsync(persons);
 			await this.UnitOfWork.SaveChangesAsync();
 
@@ -103,7 +103,7 @@
 		public async Task ShouldCountWithStronglyTypedId()
 		{
 			Employee[] employees =
-			{
+			[
 				new Employee
 				{
 					Name = "Tester12"
@@ -116,7 +116,7 @@
 				{
 					Name = "Tester32"
 				}
-			};
+			];
 			await this.EmployeeRepository.AddRangeAsync(employees);
 			await this.UnitOfWork.SaveChangesAsync();
 
@@ -131,7 +131,7 @@
 		public async Task ShouldCountWithPredicateWithStronglyTypedId()
 		{
 			Employee[] employees =
-			{
+			[
 				new Employee
 				{
 					Name = "Tester12"
@@ -144,7 +144,7 @@
 				{
 					Name = "Tester32"
 				}
-			};
+			];
 			await this.EmployeeRepository.AddRangeAsync(employees);
 			await this.UnitOfWork.SaveChangesAsync();
 
@@ -1060,7 +1060,7 @@
 		private Employee[] GetSumEmployees()
 		{
 			Employee[] employees =
-			{
+			[
 				new Employee
 				{
 					Name = "Tester12",
@@ -1103,7 +1103,7 @@
 					SalaryNullableFloat = 5_500,
 					SalaryNullableDouble = 5_500
 				}
-			};
+			];
 
 			return employees;
 		}

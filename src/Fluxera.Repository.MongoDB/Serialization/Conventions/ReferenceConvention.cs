@@ -37,7 +37,7 @@ namespace Fluxera.Repository.MongoDB.Serialization.Conventions
 					Type serializerTypeTemplate = typeof(AggregateRootReferenceSerializer<,>);
 					Type serializerType = serializerTypeTemplate.MakeGenericType(memberType, idType);
 
-					IBsonSerializer serializer = (IBsonSerializer)Activator.CreateInstance(serializerType, new object[] { referenceSerializer });
+					IBsonSerializer serializer = (IBsonSerializer)Activator.CreateInstance(serializerType, [referenceSerializer]);
 					memberMap.SetSerializer(serializer);
 				}
 
@@ -57,7 +57,7 @@ namespace Fluxera.Repository.MongoDB.Serialization.Conventions
 						Type serializerTypeTemplate = typeof(AggregateRootReferenceSerializer<,>);
 						Type serializerType = serializerTypeTemplate.MakeGenericType(elementType, idType);
 
-						IBsonSerializer aggregateRootSerializer = (IBsonSerializer)Activator.CreateInstance(serializerType, new object[] { referenceSerializer });
+						IBsonSerializer aggregateRootSerializer = (IBsonSerializer)Activator.CreateInstance(serializerType, [referenceSerializer]);
 
 						serializer = listSerializer.WithChildSerializer(aggregateRootSerializer);
 						memberMap.SetSerializer(serializer);
@@ -88,7 +88,7 @@ namespace Fluxera.Repository.MongoDB.Serialization.Conventions
 				Type serializerTypeTemplate = typeof(StronglyTypedIdReferenceSerializer<,>);
 				Type serializerType = serializerTypeTemplate.MakeGenericType(memberType, valueType);
 
-				serializer = (IBsonSerializer)Activator.CreateInstance(serializerType, new object[] { databaseName, collectionName });
+				serializer = (IBsonSerializer)Activator.CreateInstance(serializerType, [databaseName, collectionName]);
 			}
 			else
 			{

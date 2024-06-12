@@ -21,7 +21,7 @@ namespace Fluxera.Repository.UnitTests
 		public override Task<IReadOnlyCollection<TAggregateRoot>> FindManyAsync(ISpecification<TAggregateRoot> specification, IQueryOptions<TAggregateRoot> queryOptions = null, CancellationToken cancellationToken = default)
 		{
 			Person[] persons =
-			{
+			[
 				new Person
 				{
 					ID = Guid.Parse("8693cbd0-a564-47cf-9fe3-b1444392957d"),
@@ -37,7 +37,7 @@ namespace Fluxera.Repository.UnitTests
 					ID = Guid.Parse("fabb0b65-45c5-4aff-87b0-45b766074588"),
 					Name = "Tester"
 				}
-			};
+			];
 			IReadOnlyCollection<TAggregateRoot> items = persons.Cast<TAggregateRoot>().AsReadOnly();
 			return Task.FromResult(items);
 		}
@@ -46,7 +46,7 @@ namespace Fluxera.Repository.UnitTests
 		public override Task<IReadOnlyCollection<TAggregateRoot>> FindManyAsync(Expression<Func<TAggregateRoot, bool>> predicate, IQueryOptions<TAggregateRoot> queryOptions, CancellationToken cancellationToken)
 		{
 			Person[] persons =
-			{
+			[
 				new Person
 				{
 					ID = Guid.Parse("8693cbd0-a564-47cf-9fe3-b1444392957d"),
@@ -62,7 +62,7 @@ namespace Fluxera.Repository.UnitTests
 					ID = Guid.Parse("fabb0b65-45c5-4aff-87b0-45b766074588"),
 					Name = "Tester"
 				}
-			};
+			];
 			IReadOnlyCollection<TAggregateRoot> items = persons.Cast<TAggregateRoot>().AsReadOnly();
 			return Task.FromResult(items);
 		}

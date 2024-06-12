@@ -41,10 +41,10 @@
 		public void ShouldValidate_AddAsync_Multiple()
 		{
 			Person[] persons =
-			{
+			[
 				new Person(),
 				new Person()
-			};
+			];
 			ShouldGuardAgainstInvalid(async () => await this.Repository.AddRangeAsync(persons));
 		}
 
@@ -58,7 +58,7 @@
 		public void ShouldValidate_UpdateAsync_Multiple()
 		{
 			Person[] persons =
-			{
+			[
 				new Person
 				{
 					ID = Guid.NewGuid()
@@ -67,7 +67,7 @@
 				{
 					ID = Guid.NewGuid()
 				}
-			};
+			];
 			ShouldGuardAgainstInvalid(async () => await this.Repository.UpdateRangeAsync(persons));
 		}
 
