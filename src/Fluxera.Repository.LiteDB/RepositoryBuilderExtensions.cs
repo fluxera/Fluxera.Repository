@@ -44,7 +44,7 @@
 		/// <summary>
 		///     Adds a LiteDB repository for the given repository name. The repository options
 		///     are configured using the options builder configure action. Additional LiteDB
-		///     related mappings can be configures using the mapper configuration action.
+		///     related mappings can be configured using the mapper configuration action.
 		/// </summary>
 		/// <param name="builder"></param>
 		/// <param name="repositoryName"></param>

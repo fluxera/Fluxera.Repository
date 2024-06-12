@@ -21,7 +21,7 @@
 		/// <inheritdoc />
 		public IInterceptionOptionsBuilder AddInterceptorsFromAssemblies(IEnumerable<Assembly> assemblies)
 		{
-			assemblies ??= Enumerable.Empty<Assembly>();
+			assemblies ??= [];
 
 			foreach(Assembly assembly in assemblies)
 			{

@@ -10,7 +10,7 @@
 	[PublicAPI]
 	public class StronglyTypedIdValueGenerator<TStronglyTypedId, TValue> : ValueGenerator<TStronglyTypedId>
 		where TStronglyTypedId : StronglyTypedId<TStronglyTypedId, TValue>
-		where TValue : IComparable
+		where TValue : IComparable, IComparable<TValue>, IEquatable<TValue>
 	{
 		private readonly SequentialGuidValueGenerator sequentialGuidValueGenerator = new SequentialGuidValueGenerator();
 
@@ -32,12 +32,12 @@
 			if(typeof(TValue) == typeof(string))
 			{
 				Guid guid = this.sequentialGuidValueGenerator.Next(entry);
-				result = Activator.CreateInstance(typeof(TStronglyTypedId), new object[] { guid.ToString("D") });
+				result = Activator.CreateInstance(typeof(TStronglyTypedId), [guid.ToString("D")]);
 			}
 			else if(typeof(TValue) == typeof(Guid))
 			{
 				Guid guid = this.sequentialGuidValueGenerator.Next(entry);
-				result = Activator.CreateInstance(typeof(TStronglyTypedId), new object[] { guid });
+				result = Activator.CreateInstance(typeof(TStronglyTypedId), [guid]);
 			}
 			else
 			{

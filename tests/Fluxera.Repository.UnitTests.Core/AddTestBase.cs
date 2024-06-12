@@ -55,7 +55,7 @@
 		public async Task ShouldAddItems()
 		{
 			Person[] persons =
-			{
+			[
 				new Person
 				{
 					Name = "Tester"
@@ -64,7 +64,7 @@
 				{
 					Name = "Tester"
 				}
-			};
+			];
 			await this.PersonRepository.AddRangeAsync(persons);
 			await this.UnitOfWork.SaveChangesAsync();
 
@@ -98,7 +98,7 @@
 		public async Task ShouldAddItemsStronglyTypedId()
 		{
 			Employee[] employees =
-			{
+			[
 				new Employee
 				{
 					Name = "Tester"
@@ -107,7 +107,7 @@
 				{
 					Name = "Tester"
 				}
-			};
+			];
 			await this.EmployeeRepository.AddRangeAsync(employees);
 			await this.UnitOfWork.SaveChangesAsync();
 

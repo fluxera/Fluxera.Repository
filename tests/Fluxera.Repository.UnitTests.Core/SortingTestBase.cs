@@ -23,7 +23,7 @@
 		public async Task ShouldSortByPrimary()
 		{
 			Person[] persons =
-			{
+			[
 				new Person
 				{
 					Name = "Julie",
@@ -53,8 +53,8 @@
 				{
 					Name = "Peter",
 					Age = 52,
-				},
-			};
+				}
+			];
 			await this.PersonRepository.AddRangeAsync(persons);
 			await this.UnitOfWork.SaveChangesAsync();
 
@@ -82,7 +82,7 @@ After:
 		public virtual async Task ShouldSortByPrimaryAndSecondary()
 		{
 			Person[] persons =
-			{
+			[
 				new Person
 				{
 					Name = "Julie",
@@ -107,8 +107,8 @@ After:
 				{
 					Name = "Peter",
 					Age = 52,
-				},
-			};
+				}
+			];
 			await this.PersonRepository.AddRangeAsync(persons);
 			await this.UnitOfWork.SaveChangesAsync();
 
@@ -145,7 +145,7 @@ After:
 		public async Task ShouldSortByDescendingPrimary()
 		{
 			Person[] persons =
-			{
+			[
 				new Person
 				{
 					Name = "Julie",
@@ -175,8 +175,8 @@ After:
 				{
 					Name = "Peter",
 					Age = 52,
-				},
-			};
+				}
+			];
 			await this.PersonRepository.AddRangeAsync(persons);
 			await this.UnitOfWork.SaveChangesAsync();
 
@@ -204,7 +204,7 @@ After:
 		public virtual async Task ShouldSortByPrimaryAndSecondaryDescending()
 		{
 			Person[] persons =
-			{
+			[
 				new Person
 				{
 					Name = "Julie",
@@ -229,8 +229,8 @@ After:
 				{
 					Name = "Peter",
 					Age = 52,
-				},
-			};
+				}
+			];
 			await this.PersonRepository.AddRangeAsync(persons);
 			await this.UnitOfWork.SaveChangesAsync();
 

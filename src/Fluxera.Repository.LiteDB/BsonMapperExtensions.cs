@@ -34,7 +34,6 @@ namespace Fluxera.Repository.LiteDB
 			Guard.Against.Null(bsonMapper);
 
 			bsonMapper.UseSpatial();
-			//mapper.UseTemporal();
 			bsonMapper.UseEnumeration();
 			bsonMapper.UsePrimitiveValueObject();
 			bsonMapper.UseStronglyTypedId();
@@ -63,7 +62,7 @@ namespace Fluxera.Repository.LiteDB
 
 			foreach(Type aggregateRootType in aggregateRootTypes)
 			{
-				object entityBuilder = entityMethod?.MakeGenericMethod(aggregateRootType).Invoke(bsonMapper, Array.Empty<object>());
+				object entityBuilder = entityMethod?.MakeGenericMethod(aggregateRootType).Invoke(bsonMapper, []);
 				MethodInfo idMethod = entityBuilder?.GetType().GetMethod("Id");
 
 				// Configure the ID property to use.
@@ -71,7 +70,7 @@ namespace Fluxera.Repository.LiteDB
 				LambdaExpression keyPropertyExpression = CreatePropertyExpression(aggregateRootType, keyProperty);
 				entityBuilder = idMethod?
 					.MakeGenericMethod(keyProperty.PropertyType)
-					.Invoke(entityBuilder, new object[] { keyPropertyExpression, true });
+					.Invoke(entityBuilder, [keyPropertyExpression, true]);
 
 				// Configure reference properties.
 				foreach(PropertyInfo referenceProperty in EnumerateReferenceProperties(aggregateRootType))
@@ -113,7 +112,7 @@ namespace Fluxera.Repository.LiteDB
 			LambdaExpression referenceExpression = CreatePropertyExpression(aggregateRootType, property);
 			entityBuilder = dbRefMethod?
 				.MakeGenericMethod(propertyType)
-				.Invoke(entityBuilder, new object[] { referenceExpression, collectionName });
+				.Invoke(entityBuilder, [referenceExpression, collectionName]);
 
 			return entityBuilder;
 		}

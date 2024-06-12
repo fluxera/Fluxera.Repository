@@ -11,7 +11,7 @@
 	/// </summary>
 	public class StronglyTypedIdReferenceSerializer<TStronglyTypedId, TValue> : SerializerBase<TStronglyTypedId>
 		where TStronglyTypedId : StronglyTypedId<TStronglyTypedId, TValue>
-		where TValue : notnull, IComparable
+		where TValue : IComparable, IComparable<TValue>, IEquatable<TValue>
 	{
 		private readonly IBsonSerializer serializer;
 
@@ -50,7 +50,7 @@
 
 			if(value is not null)
 			{
-				id = (TStronglyTypedId)Activator.CreateInstance(typeof(TStronglyTypedId), new object[] { value });
+				id = (TStronglyTypedId)Activator.CreateInstance(typeof(TStronglyTypedId), [value]);
 			}
 
 			return id;

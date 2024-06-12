@@ -87,7 +87,7 @@
 		public async Task ShouldRemoveItems()
 		{
 			Person[] persons =
-			{
+			[
 				new Person
 				{
 					Name = "Tester"
@@ -104,7 +104,7 @@
 				{
 					Name = "Tester"
 				}
-			};
+			];
 			await this.PersonRepository.AddRangeAsync(persons);
 			await this.UnitOfWork.SaveChangesAsync();
 
@@ -127,7 +127,7 @@
 		public async Task ShouldRemoveItemsByPredicate()
 		{
 			Person[] persons =
-			{
+			[
 				new Person
 				{
 					Name = "Tester"
@@ -144,7 +144,7 @@
 				{
 					Name = "Tester"
 				}
-			};
+			];
 			await this.PersonRepository.AddRangeAsync(persons);
 			await this.UnitOfWork.SaveChangesAsync();
 
@@ -236,7 +236,7 @@
 		public async Task ShouldRemoveItemsWithStronglyTypedId()
 		{
 			Employee[] employees =
-			{
+			[
 				new Employee
 				{
 					Name = "Tester"
@@ -253,7 +253,7 @@
 				{
 					Name = "Tester"
 				}
-			};
+			];
 			await this.EmployeeRepository.AddRangeAsync(employees);
 			await this.UnitOfWork.SaveChangesAsync();
 

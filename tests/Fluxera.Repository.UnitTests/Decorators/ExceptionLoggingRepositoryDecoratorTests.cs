@@ -45,7 +45,7 @@
 			await this.ShouldLogException(async () =>
 			{
 				Person[] persons =
-				{
+				[
 					new Person
 					{
 						Name = "Tester"
@@ -54,7 +54,7 @@
 					{
 						Name = "Tester"
 					}
-				};
+				];
 				await this.Repository.AddRangeAsync(persons);
 			});
 		}
@@ -176,7 +176,7 @@
 			await this.ShouldLogException(async () =>
 			{
 				Person[] persons =
-				{
+				[
 					new Person
 					{
 						ID = Guid.NewGuid(),
@@ -187,7 +187,7 @@
 						ID = Guid.NewGuid(),
 						Name = "Tester"
 					}
-				};
+				];
 				await this.Repository.RemoveRangeAsync(persons);
 			});
 		}
@@ -207,7 +207,7 @@
 			await this.ShouldLogException(async () =>
 			{
 				Person[] persons =
-				{
+				[
 					new Person
 					{
 						ID = Guid.NewGuid(),
@@ -218,7 +218,7 @@
 						ID = Guid.NewGuid(),
 						Name = "Tester"
 					}
-				};
+				];
 				await this.Repository.UpdateRangeAsync(persons);
 			});
 		}

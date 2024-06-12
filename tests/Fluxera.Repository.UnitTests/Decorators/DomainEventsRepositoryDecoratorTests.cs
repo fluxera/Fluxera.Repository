@@ -69,7 +69,7 @@
 		public async Task Should_AddAsync_Multiple()
 		{
 			Person[] persons =
-			{
+			[
 				new Person
 				{
 					Name = "Tester"
@@ -78,7 +78,7 @@
 				{
 					Name = "Tester"
 				}
-			};
+			];
 			persons.ForEach(x => x.RaiseDomainEvent(new PersonDomainEvent()));
 
 			await this.Repository.AddRangeAsync(persons);
@@ -204,7 +204,7 @@
 		public async Task Should_UpdateAsync_Multiple()
 		{
 			Person[] persons =
-			{
+			[
 				new Person
 				{
 					ID = Guid.Parse("8693cbd0-a564-47cf-9fe3-b1444392957d"),
@@ -220,7 +220,7 @@
 					ID = Guid.Parse("fabb0b65-45c5-4aff-87b0-45b766074588"),
 					Name = "Tester"
 				}
-			};
+			];
 			persons.ForEach(x => x.RaiseDomainEvent(new PersonDomainEvent()));
 
 			await this.Repository.UpdateRangeAsync(persons);

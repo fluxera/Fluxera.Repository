@@ -39,7 +39,7 @@
 		public async Task Should_AddAsync_Multiple()
 		{
 			Person[] persons =
-			{
+			[
 				new Person
 				{
 					Name = "Tester"
@@ -48,7 +48,7 @@
 				{
 					Name = "Tester"
 				}
-			};
+			];
 			await this.Repository.AddRangeAsync(persons);
 
 			this.ShouldHaveUsedStrategy(x => x.AddMultipleWasCalled);
@@ -149,7 +149,7 @@
 		public async Task Should_RemoveAsync_Multiple_Predicate()
 		{
 			Person[] persons =
-			{
+			[
 				new Person
 				{
 					ID = Guid.NewGuid(),
@@ -160,7 +160,7 @@
 					ID = Guid.NewGuid(),
 					Name = "Tester"
 				}
-			};
+			];
 			await this.Repository.RemoveRangeAsync(persons);
 
 			this.ShouldHaveUsedStrategy(x => x.RemoveMultipleWasCalled);
@@ -190,7 +190,7 @@
 		public async Task Should_UpdateAsync_Multiple()
 		{
 			Person[] persons =
-			{
+			[
 				new Person
 				{
 					Name = "Tester"
@@ -199,7 +199,7 @@
 				{
 					Name = "Tester"
 				}
-			};
+			];
 			await this.Repository.UpdateRangeAsync(persons);
 
 			this.ShouldHaveUsedStrategy(x => x.UpdateMultipleWasCalled);

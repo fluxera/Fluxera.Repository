@@ -27,7 +27,7 @@
 
 		public IRepositoryOptionsBuilder UseFor(IEnumerable<Assembly> assemblies)
 		{
-			assemblies ??= Enumerable.Empty<Assembly>();
+			assemblies ??= [];
 
 			foreach(Assembly assembly in assemblies)
 			{
@@ -54,7 +54,7 @@
 
 		public IRepositoryOptionsBuilder UseFor(IEnumerable<Type> types)
 		{
-			types ??= Enumerable.Empty<Type>();
+			types ??= [];
 
 			foreach(Type type in types)
 			{

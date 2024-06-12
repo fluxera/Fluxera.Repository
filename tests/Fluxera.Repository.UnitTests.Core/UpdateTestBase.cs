@@ -66,7 +66,7 @@
 		public async Task ShouldUpdateItemsWithStronglyTypedId()
 		{
 			Employee[] employees =
-			{
+			[
 				new Employee
 				{
 					Name = "Tester"
@@ -75,7 +75,7 @@
 				{
 					Name = "Tester"
 				}
-			};
+			];
 			await this.EmployeeRepository.AddRangeAsync(employees);
 			await this.UnitOfWork.SaveChangesAsync();
 
@@ -95,7 +95,7 @@
 		public async Task ShouldUpdateItems()
 		{
 			Person[] persons =
-			{
+			[
 				new Person
 				{
 					Name = "Tester"
@@ -104,7 +104,7 @@
 				{
 					Name = "Tester"
 				}
-			};
+			];
 			persons.ForEach(x => x.RaiseDomainEvent(new PersonDomainEvent()));
 
 			await this.PersonRepository.AddRangeAsync(persons);

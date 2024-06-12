@@ -5,6 +5,7 @@
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Linq.Expressions;
+	using System.Reflection;
 	using System.Threading;
 	using System.Threading.Tasks;
 	using Fluxera.Entity;
@@ -408,7 +409,7 @@
 			{
 				Type valueType = keyType.GetStronglyTypedIdValueType();
 				object value = this.GenerateKey(valueType);
-				object key = Activator.CreateInstance(typeof(TKey), new object[] { value });
+				object key = Activator.CreateInstance(typeof(TKey), [value]);
 				return (TKey)key;
 			}
 
@@ -430,18 +431,22 @@
 
 			if(keyType == typeof(int))
 			{
-				IStronglyTypedId<TKey, int> pkValue = this.Store.LastOrDefault().Key as IStronglyTypedId<TKey, int>;
+				TKey key = this.Store.LastOrDefault().Key;
+				PropertyInfo property = typeof(TKey).GetProperty("Value");
+				int? value = property?.GetValue(key) as int?;
 
-				int nextInt = (pkValue?.Value ?? 0) + 1;
-				return nextInt;
+				int next = (value ?? 0) + 1;
+				return next;
 			}
 
 			if(keyType == typeof(long))
 			{
-				IStronglyTypedId<TKey, long> pkValue = this.Store.LastOrDefault().Key as IStronglyTypedId<TKey, long>;
+				TKey key = this.Store.LastOrDefault().Key;
+				PropertyInfo property = typeof(TKey).GetProperty("Value");
+				long? value = property?.GetValue(key) as int?;
 
-				long nextInt = (pkValue?.Value ?? 0) + 1;
-				return nextInt;
+				long next = (value ?? 0) + 1;
+				return next;
 			}
 
 			throw new InvalidOperationException("A key could not be generated. The in-memory repository only supports guid, string, int and long for keys.");

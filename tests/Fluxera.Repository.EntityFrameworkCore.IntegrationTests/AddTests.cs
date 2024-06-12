@@ -24,7 +24,7 @@
 			repositoryBuilder.AddEntityFrameworkRepository<RepositoryContext>(repositoryName, configureOptions.Invoke);
 		}
 
-		// TODO: Add Invoice/InvoiceItem tests here to check if referenced entites are add/updated
+		// TODO: Add Invoice/InvoiceItem tests here to check if referenced entities are add/updated
 		//[Test]
 		//public async Task ShouldAddEntity()
 		//{
