@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>net7.0;net8.0</TargetFrameworks>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<Title>Fluxera.Repository.Queries</Title>
+		<Description>The OData Queries support for the generic repository.</Description>
+		<PackageTags>fluxera;library;extensions;repository;queries;odata</PackageTags>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="..\..\README.md" Link="Properties\README.md">
+			<Pack>true</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+		<None Include="..\..\icon.png" Link="Properties\icon.png">
+			<Pack>true</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Fluxera.Queries" Version="8.0.1" />
+		<PackageReference Include="JetBrains.Annotations" Version="2023.3.0" PrivateAssets="All" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Fluxera.Repository.Abstractions\Fluxera.Repository.Abstractions.csproj" />
+	</ItemGroup>
+
+</Project>
