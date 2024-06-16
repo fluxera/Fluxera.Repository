@@ -23,6 +23,10 @@
 
 	<ItemGroup>
 		<PackageReference Include="Fluxera.Queries" Version="8.0.1" />
+		<PackageReference Include="GitVersion.MsBuild" Version="5.12.0">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
 		<PackageReference Include="JetBrains.Annotations" Version="2023.3.0" PrivateAssets="All" />
 	</ItemGroup>
 
