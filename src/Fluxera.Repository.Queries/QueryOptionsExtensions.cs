@@ -2,6 +2,7 @@
 {
 	using System.Collections.Generic;
 	using System.ComponentModel;
+	using Fluxera.Queries;
 	using Fluxera.Queries.Expressions;
 	using Fluxera.Queries.Options;
 	using Fluxera.Repository.Query;
@@ -58,7 +59,7 @@
 		{
 			if(orderByQueryOption is not null && orderByQueryOption.Properties.Count > 0)
 			{
-				IReadOnlyCollection<OrderByExpression<T>> orderByExpressions = orderByQueryOption.ToOrderByExpressions<T>();
+				IReadOnlyCollection<OrderByExpression<T>> orderByExpressions = orderByQueryOption.ToOrderBy<T>();
 
 				builder.Apply(orderByExpressions);
 			}
