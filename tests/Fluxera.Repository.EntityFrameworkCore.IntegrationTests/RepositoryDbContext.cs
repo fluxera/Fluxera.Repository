@@ -7,6 +7,8 @@
 	using Fluxera.Repository.UnitTests.Core.ReferenceAggregate;
 	using JetBrains.Annotations;
 	using Microsoft.EntityFrameworkCore;
+	using Microsoft.EntityFrameworkCore.Diagnostics;
+	using Microsoft.Extensions.Logging;
 
 	[PublicAPI]
 	public sealed class RepositoryDbContext : DbContext
@@ -40,6 +42,13 @@
 				optionsBuilder.UseSqlServer(this.databaseName is null
 					? GlobalFixture.ConnectionString
 					: GlobalFixture.ConnectionString.Replace($"Database={GlobalFixture.Database}", $"Database={this.databaseName}"));
+
+#if NET9_0
+				optionsBuilder.ConfigureWarnings(builder =>
+				{
+					builder.Ignore(RelationalEventId.PendingModelChangesWarning);
+				});
+#endif
 			}
 		}
 
@@ -49,10 +58,8 @@
 			modelBuilder.Entity<Person>(entity =>
 			{
 				entity.ToTable("People");
-//#if NET8_0_OR_GREATER
-//				entity.ComplexProperty(x => x.Address);
-//#endif
-				entity.OwnsOne(x => x.Address);
+				entity.ComplexProperty(x => x.Address).IsRequired();
+				//entity.OwnsOne(x => x.Address);
 
 				entity.UseRepositoryDefaults();
 			});

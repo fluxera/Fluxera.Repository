@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
+		<TargetFrameworks>net8.0;net9.0</TargetFrameworks>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -22,18 +22,18 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Fluxera.Enumeration.LiteDB" Version="8.2.4" />
-		<PackageReference Include="Fluxera.Spatial.LiteDB" Version="8.1.4" />
-		<PackageReference Include="Fluxera.StronglyTypedId.LiteDB" Version="8.3.7" />
-		<PackageReference Include="Fluxera.ValueObject.LiteDB" Version="8.2.4" />
-		<PackageReference Include="GitVersion.MsBuild" Version="6.0.4">
+		<PackageReference Include="Fluxera.Enumeration.LiteDB" Version="9.0.0" />
+		<PackageReference Include="Fluxera.Spatial.LiteDB" Version="9.0.0" />
+		<PackageReference Include="Fluxera.StronglyTypedId.LiteDB" Version="9.0.0" />
+		<PackageReference Include="Fluxera.ValueObject.LiteDB" Version="9.0.0" />
+		<PackageReference Include="GitVersion.MsBuild" Version="6.0.5">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="JetBrains.Annotations" Version="2024.3.0" PrivateAssets="All" />
 		<PackageReference Include="LiteDB" Version="5.0.21" />
 		<PackageReference Include="LiteDB.Async" Version="0.1.8" />
-		<PackageReference Include="LiteDB.Queryable" Version="2.3.3" />
+		<PackageReference Include="LiteDB.Queryable" Version="9.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
