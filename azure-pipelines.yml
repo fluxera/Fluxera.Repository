@@ -5,9 +5,8 @@ trigger:
 
 variables:
   BuildConfiguration: Release
-  DotNetCoreVersionPreviousPrevious: 6.x
-  DotNetCoreVersionPrevious: 7.x
-  DotNetCoreVersionLatest: 8.x
+  DotNetCoreVersionPrevious: 8.x
+  DotNetCoreVersionLatest: 9.x
 
 parameters:
 - name: publishPackages
@@ -27,12 +26,6 @@ stages:
       persistCredentials: 'true'
       clean: true
     # Install the desired .NET SDK.  
-    - task: UseDotNet@2
-      displayName: 'Acquire .NET $(DotNetCoreVersionPreviousPrevious) SDK'
-      inputs:
-        packageType: 'sdk'
-        version: $(DotNetCoreVersionPreviousPrevious)
-        includePreviewVersions: false
     - task: UseDotNet@2
       displayName: 'Acquire .NET $(DotNetCoreVersionPrevious) SDK'
       inputs:

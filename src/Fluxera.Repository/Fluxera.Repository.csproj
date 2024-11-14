@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
+		<TargetFrameworks>net8.0;net9.0</TargetFrameworks>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -26,24 +26,31 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Fluxera.ComponentModel.Annotations" Version="8.2.3" />
-		<PackageReference Include="Fluxera.DomainEvents.MediatR" Version="8.3.4" />
-		<PackageReference Include="Fluxera.Entity" Version="8.3.4" />
-		<PackageReference Include="Fluxera.Enumeration" Version="8.2.4" />
-		<PackageReference Include="Fluxera.Extensions.Caching" Version="8.3.4" />
-		<PackageReference Include="Fluxera.Extensions.Common" Version="8.3.4" />
-		<PackageReference Include="Fluxera.Extensions.DependencyInjection" Version="8.3.4" />
-		<PackageReference Include="Fluxera.Extensions.Validation" Version="8.3.4" />
-		<PackageReference Include="Fluxera.Spatial" Version="8.1.4" />
-		<PackageReference Include="Fluxera.StronglyTypedId" Version="8.3.7" />
-		<PackageReference Include="Fluxera.ValueObject" Version="8.2.4" />
-		<PackageReference Include="GitVersion.MsBuild" Version="6.0.4">
+		<PackageReference Include="Fluxera.ComponentModel.Annotations" Version="9.0.0" />
+		<PackageReference Include="Fluxera.DomainEvents.MediatR" Version="9.0.0" />
+		<PackageReference Include="Fluxera.Entity" Version="9.0.0" />
+		<PackageReference Include="Fluxera.Enumeration" Version="9.0.0" />
+		<PackageReference Include="Fluxera.Extensions.Caching" Version="9.0.1" />
+		<PackageReference Include="Fluxera.Extensions.Common" Version="9.0.1" />
+		<PackageReference Include="Fluxera.Extensions.DependencyInjection" Version="9.0.1" />
+		<PackageReference Include="Fluxera.Extensions.Validation" Version="9.0.1" />
+		<PackageReference Include="Fluxera.Spatial" Version="9.0.0" />
+		<PackageReference Include="Fluxera.StronglyTypedId" Version="9.0.0" />
+		<PackageReference Include="Fluxera.ValueObject" Version="9.0.0" />
+		<PackageReference Include="GitVersion.MsBuild" Version="6.0.5">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="JetBrains.Annotations" Version="2024.3.0" PrivateAssets="All" />
 		<PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-		<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="8.0.1" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
+		<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="[8.0.1]" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)' == 'net9.0'">
+		<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="9.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>

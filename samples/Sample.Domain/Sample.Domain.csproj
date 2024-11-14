@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net8.0</TargetFrameworks>
+		<TargetFrameworks>net9.0</TargetFrameworks>
 		<ImplicitUsings>disable</ImplicitUsings>
 		<Nullable>disable</Nullable>
 	</PropertyGroup>
@@ -11,10 +11,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Fluxera.ComponentModel.Annotations" Version="8.2.3" />
-		<PackageReference Include="Fluxera.StronglyTypedId" Version="8.3.7" />
+		<PackageReference Include="Fluxera.ComponentModel.Annotations" Version="9.0.0" />
+		<PackageReference Include="Fluxera.StronglyTypedId" Version="9.0.0" />
 		<PackageReference Include="JetBrains.Annotations" Version="2024.3.0" />
-		<PackageReference Include="Fluxera.Utilities" Version="8.2.3" />
+		<PackageReference Include="Fluxera.Utilities" Version="9.0.0" />
 	</ItemGroup>
 
 </Project>
