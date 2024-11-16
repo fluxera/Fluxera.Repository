@@ -22,10 +22,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Fluxera.Enumeration.LiteDB" Version="9.0.0" />
+		<PackageReference Include="Fluxera.Enumeration.LiteDB" Version="9.0.1" />
 		<PackageReference Include="Fluxera.Spatial.LiteDB" Version="9.0.0" />
-		<PackageReference Include="Fluxera.StronglyTypedId.LiteDB" Version="9.0.0" />
-		<PackageReference Include="Fluxera.ValueObject.LiteDB" Version="9.0.0" />
+		<PackageReference Include="Fluxera.StronglyTypedId.LiteDB" Version="9.0.1" />
+		<PackageReference Include="Fluxera.ValueObject.LiteDB" Version="9.0.1" />
 		<PackageReference Include="GitVersion.MsBuild" Version="6.0.5">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

@@ -8,7 +8,6 @@
 	using JetBrains.Annotations;
 	using Microsoft.EntityFrameworkCore;
 	using Microsoft.EntityFrameworkCore.Diagnostics;
-	using Microsoft.Extensions.Logging;
 
 	[PublicAPI]
 	public sealed class RepositoryDbContext : DbContext
@@ -43,12 +42,10 @@
 					? GlobalFixture.ConnectionString
 					: GlobalFixture.ConnectionString.Replace($"Database={GlobalFixture.Database}", $"Database={this.databaseName}"));
 
-#if NET9_0
 				optionsBuilder.ConfigureWarnings(builder =>
 				{
 					builder.Ignore(RelationalEventId.PendingModelChangesWarning);
 				});
-#endif
 			}
 		}
 
