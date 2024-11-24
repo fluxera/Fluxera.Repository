@@ -10,14 +10,19 @@
 	using global::LiteDB;
 	using NUnit.Framework;
 
-	[TestFixture(true)]
-	[TestFixture(false)]
+	[TestFixture(true, true)]
+	[TestFixture(true, false)]
+	[TestFixture(false, true)]
+	[TestFixture(false, false)]
 	public class EnumerationTests : EnumerationTestsBase
 	{
+		private readonly bool isPersistent;
+
 		/// <inheritdoc />
-		public EnumerationTests(bool isUnitOfWorkEnabled)
+		public EnumerationTests(bool isUnitOfWorkEnabled, bool isPersistent)
 			: base(isUnitOfWorkEnabled)
 		{
+			this.isPersistent = isPersistent;
 		}
 
 		/// <inheritdoc />
@@ -34,7 +39,14 @@
 				File.Delete(file);
 			}
 
-			repositoryBuilder.AddLiteRepository<RepositoryLiteContext>(repositoryName, configureOptions);
+			if(this.isPersistent)
+			{
+				repositoryBuilder.AddLiteRepository<RepositoryLiteContext>(repositoryName, configureOptions);
+			}
+			else
+			{
+				repositoryBuilder.AddLiteRepository<RepositoryLiteContextInMemory>(repositoryName, configureOptions);
+			}
 		}
 	}
 }

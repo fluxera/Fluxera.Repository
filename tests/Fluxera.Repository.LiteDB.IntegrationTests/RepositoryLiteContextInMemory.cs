@@ -4,12 +4,13 @@
 	using JetBrains.Annotations;
 
 	[PublicAPI]
-	public sealed class RepositoryLiteContext : LiteContext
+	public sealed class RepositoryLiteContextInMemory : LiteContext
 	{
 		/// <inheritdoc />
 		protected override void ConfigureOptions(LiteContextOptions options)
 		{
 			options.Database = $"{Guid.NewGuid():N}";
+			options.Persistent = false;
 		}
 	}
 }
