@@ -5,14 +5,19 @@
 	using Fluxera.Repository.UnitTests.Core;
 	using NUnit.Framework;
 
-	[TestFixture(true)]
-	[TestFixture(false)]
+	[TestFixture(true, true)]
+	[TestFixture(true, false)]
+	[TestFixture(false, true)]
+	[TestFixture(false, false)]
 	public class ReferenceTests : ReferenceTestsBase
 	{
+		private readonly bool isPersistent;
+
 		/// <inheritdoc />
-		public ReferenceTests(bool isUnitOfWorkEnabled)
+		public ReferenceTests(bool isUnitOfWorkEnabled, bool isPersistent)
 			: base(isUnitOfWorkEnabled)
 		{
+			this.isPersistent = isPersistent;
 		}
 
 		/// <inheritdoc />
@@ -24,7 +29,14 @@
 				File.Delete(file);
 			}
 
-			repositoryBuilder.AddLiteRepository<RepositoryLiteContext>(repositoryName, configureOptions);
+			if(this.isPersistent)
+			{
+				repositoryBuilder.AddLiteRepository<RepositoryLiteContext>(repositoryName, configureOptions);
+			}
+			else
+			{
+				repositoryBuilder.AddLiteRepository<RepositoryLiteContextInMemory>(repositoryName, configureOptions);
+			}
 		}
 	}
 }

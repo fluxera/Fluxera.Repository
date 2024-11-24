@@ -23,7 +23,7 @@
 				databaseName += $"-{this.tenantNameProvider.Name}";
 			}
 
-			options.Database = $"{databaseName}.db";
+			options.Database = $"{databaseName}";
 		}
 	}
 }

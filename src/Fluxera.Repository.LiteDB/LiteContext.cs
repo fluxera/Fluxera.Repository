@@ -123,7 +123,7 @@
 				Guard.Against.NullOrWhiteSpace(databaseName);
 
 				DatabaseProvider databaseProvider = serviceProvider.GetRequiredService<DatabaseProvider>();
-				this.database = databaseProvider.GetDatabase(repositoryName, databaseName);
+				this.database = databaseProvider.GetDatabase(repositoryName, databaseName, options.Persistent);
 
 				this.RepositoryName = repositoryName;
 				this.ServiceProvider = serviceProvider;

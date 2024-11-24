@@ -28,8 +28,8 @@ namespace Sample.API
 			builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 			//builder.Services.AddEntityFrameworkCore(true);
-			builder.Services.AddMongoDB(true);
-			//builder.Services.AddLiteDB(true);
+			//builder.Services.AddMongoDB(true);
+			builder.Services.AddLiteDB(true);
 			//builder.Services.AddInMemory(true);
 
 			//builder.Services.AddEntityFrameworkCore(false);

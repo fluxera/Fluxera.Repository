@@ -1,6 +1,7 @@
 ﻿namespace Fluxera.Repository.LiteDB
 {
 	using System.Collections.Concurrent;
+	using System.IO;
 	using Fluxera.Utilities;
 	using Fluxera.Utilities.Extensions;
 	using global::LiteDB.Async;
@@ -22,13 +23,15 @@
 		/// </summary>
 		/// <param name="repositoryName"></param>
 		/// <param name="databaseName"></param>
+		/// <param name="isPersistent"></param>
 		/// <returns></returns>
-		public LiteDatabaseAsync GetDatabase(RepositoryName repositoryName, string databaseName)
+		public LiteDatabaseAsync GetDatabase(RepositoryName repositoryName, string databaseName, bool isPersistent)
 		{
 			string key = $"{repositoryName}_{databaseName}";
 
-			LiteDatabaseAsync database = this.databases.GetOrAdd(key,
-				_ => new LiteDatabaseAsync(databaseName.EnsureEndsWith(".db")));
+			LiteDatabaseAsync database = this.databases.GetOrAdd(key, _ => isPersistent 
+				? new LiteDatabaseAsync(databaseName.EnsureEndsWith(".db")) 
+				: new LiteDatabaseAsync(new MemoryStream()));
 
 			return database;
 		}
