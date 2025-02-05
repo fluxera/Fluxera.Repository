@@ -14,12 +14,12 @@
 	using Microsoft.EntityFrameworkCore;
 	using Microsoft.EntityFrameworkCore.ChangeTracking;
 
-	internal sealed class EntityFrameworkCoreRepository<TAggregateRoot, TKey> : LinqRepositoryBase<TAggregateRoot, TKey>
-		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+	internal sealed class EntityFrameworkCoreRepository<TEntity, TKey> : LinqRepositoryBase<TEntity, TKey>
+		where TEntity : Entity<TEntity, TKey>
 		where TKey : IComparable<TKey>, IEquatable<TKey>
 	{
 		private readonly EntityFrameworkCoreContext context;
-		private readonly DbSet<TAggregateRoot> dbSet;
+		private readonly DbSet<TEntity> dbSet;
 		private readonly RepositoryOptions options;
 
 		public EntityFrameworkCoreRepository(
@@ -30,17 +30,17 @@
 			Guard.Against.Null(contextProvider, nameof(contextProvider));
 			Guard.Against.Null(repositoryRegistry, nameof(repositoryRegistry));
 
-			RepositoryName repositoryName = repositoryRegistry.GetRepositoryNameFor<TAggregateRoot>();
+			RepositoryName repositoryName = repositoryRegistry.GetRepositoryNameFor<TEntity>();
 			this.options = repositoryRegistry.GetRepositoryOptionsFor(repositoryName);
 
 			this.context = contextProvider.GetContextFor(repositoryName);
-			this.dbSet = this.context.Set<TAggregateRoot>();
+			this.dbSet = this.context.Set<TEntity>();
 		}
 
 		private static string Name => "Fluxera.Repository.EntityFrameworkCoreRepository";
 
 		/// <inheritdoc />
-		protected override IQueryable<TAggregateRoot> Queryable => this.dbSet;
+		protected override IQueryable<TEntity> Queryable => this.dbSet;
 
 		/// <inheritdoc />
 		public override string ToString()
@@ -49,7 +49,7 @@
 		}
 
 		/// <inheritdoc />
-		protected override async Task AddAsync(TAggregateRoot item, CancellationToken cancellationToken)
+		protected override async Task AddAsync(TEntity item, CancellationToken cancellationToken)
 		{
 			this.PrepareItem(item, EntityState.Added);
 			await this.dbSet.AddAsync(item, cancellationToken).ConfigureAwait(false);
@@ -61,11 +61,11 @@
 		}
 
 		/// <inheritdoc />
-		protected override async Task AddRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
+		protected override async Task AddRangeAsync(IEnumerable<TEntity> items, CancellationToken cancellationToken)
 		{
-			IList<TAggregateRoot> itemList = items.ToList();
+			IList<TEntity> itemList = items.ToList();
 
-			foreach(TAggregateRoot item in itemList)
+			foreach(TEntity item in itemList)
 			{
 				this.PrepareItem(item, EntityState.Added);
 			}
@@ -79,9 +79,9 @@
 		}
 
 		/// <inheritdoc />
-		protected override async Task RemoveRangeAsync(ISpecification<TAggregateRoot> specification, CancellationToken cancellationToken)
+		protected override async Task RemoveRangeAsync(ISpecification<TEntity> specification, CancellationToken cancellationToken)
 		{
-			IList<TAggregateRoot> items = await this.dbSet
+			IList<TEntity> items = await this.dbSet
 				.Where(specification.Predicate)
 				.ToListAsync(cancellationToken)
 				.ConfigureAwait(false);
@@ -95,7 +95,7 @@
 		}
 
 		/// <inheritdoc />
-		protected override async Task RemoveRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
+		protected override async Task RemoveRangeAsync(IEnumerable<TEntity> items, CancellationToken cancellationToken)
 		{
 			this.dbSet.RemoveRange(items);
 
@@ -106,7 +106,7 @@
 		}
 
 		/// <inheritdoc />
-		protected override async Task UpdateAsync(TAggregateRoot item, CancellationToken cancellationToken)
+		protected override async Task UpdateAsync(TEntity item, CancellationToken cancellationToken)
 		{
 			await this.PerformUpdateAsync(item).ConfigureAwait(false);
 
@@ -117,9 +117,9 @@
 		}
 
 		/// <inheritdoc />
-		protected override async Task UpdateRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
+		protected override async Task UpdateRangeAsync(IEnumerable<TEntity> items, CancellationToken cancellationToken)
 		{
-			foreach(TAggregateRoot item in items)
+			foreach(TEntity item in items)
 			{
 				await this.PerformUpdateAsync(item).ConfigureAwait(false);
 			}
@@ -131,7 +131,7 @@
 		}
 
 		/// <inheritdoc />
-		protected override async Task<TAggregateRoot> FirstOrDefaultAsync(IQueryable<TAggregateRoot> queryable, CancellationToken cancellationToken)
+		protected override async Task<TEntity> FirstOrDefaultAsync(IQueryable<TEntity> queryable, CancellationToken cancellationToken)
 		{
 			return await queryable
 				.FirstOrDefaultAsync(cancellationToken)
@@ -147,7 +147,7 @@
 		}
 
 		/// <inheritdoc />
-		protected override async Task<IReadOnlyCollection<TAggregateRoot>> ToListAsync(IQueryable<TAggregateRoot> queryable,
+		protected override async Task<IReadOnlyCollection<TEntity>> ToListAsync(IQueryable<TEntity> queryable,
 			CancellationToken cancellationToken)
 		{
 			return await queryable
@@ -166,7 +166,7 @@
 		}
 
 		/// <inheritdoc />
-		protected override async Task<long> LongCountAsync(IQueryable<TAggregateRoot> queryable, CancellationToken cancellationToken)
+		protected override async Task<long> LongCountAsync(IQueryable<TEntity> queryable, CancellationToken cancellationToken)
 		{
 			return await queryable
 				.LongCountAsync(cancellationToken)
@@ -343,9 +343,9 @@
 				.GetValueOrDefault();
 		}
 
-		private async Task PerformUpdateAsync(TAggregateRoot item)
+		private async Task PerformUpdateAsync(TEntity item)
 		{
-			EntityEntry<TAggregateRoot> entry = this.context.Entry(item);
+			EntityEntry<TEntity> entry = this.context.Entry(item);
 
 			try
 			{
@@ -357,7 +357,7 @@
 					// attached value instead of changing the State to modified since it will throw a duplicate key
 					// exception specifically: "An object with the same key already exists in the ObjectStateManager.
 					// The ObjectStateManager cannot track multiple objects with the same key."
-					TAggregateRoot attachedEntity = await this.dbSet.FindAsync(key).ConfigureAwait(false);
+					TEntity attachedEntity = await this.dbSet.FindAsync(key).ConfigureAwait(false);
 					if(attachedEntity is not null)
 					{
 						this.context.Entry(attachedEntity).CurrentValues.SetValues(item);
@@ -379,11 +379,11 @@
 			this.PrepareItem(item, EntityState.Modified);
 		}
 
-		private void PrepareItem(TAggregateRoot item, EntityState entityState)
+		private void PrepareItem(TEntity item, EntityState entityState)
 		{
-			foreach(PropertyInfo propertyInfo in typeof(TAggregateRoot).GetRuntimeProperties())
+			foreach(PropertyInfo propertyInfo in typeof(TEntity).GetRuntimeProperties())
 			{
-				if(propertyInfo.PropertyType.IsAggregateRoot()/* || propertyInfo.PropertyType.IsEntity()*/)
+				if(propertyInfo.PropertyType.IsEntity())
 				{
 					object value = propertyInfo.GetValue(item);
 					if(value is not null)

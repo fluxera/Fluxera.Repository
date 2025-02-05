@@ -25,19 +25,19 @@
 	///     }
 	///     }
 	/// </example>
-	/// <typeparam name="TAggregateRoot"></typeparam>
+	/// <typeparam name="TEntity"></typeparam>
 	/// <typeparam name="TKey"></typeparam>
-	public abstract class Repository<TAggregateRoot, TKey> : ReadOnlyRepository<TAggregateRoot, TKey>, IRepository<TAggregateRoot, TKey>
-		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+	public abstract class Repository<TEntity, TKey> : ReadOnlyRepository<TEntity, TKey>, IRepository<TEntity, TKey>
+		where TEntity : Entity<TEntity, TKey>
 		where TKey : IComparable<TKey>, IEquatable<TKey>
 	{
-		private readonly IRepository<TAggregateRoot, TKey> innerRepository;
+		private readonly IRepository<TEntity, TKey> innerRepository;
 
 		/// <summary>
 		///     Creates a new instance of the <see cref="Repository{TAggregateRoot,TKey}" /> type.
 		/// </summary>
 		/// <param name="innerRepository"></param>
-		protected Repository(IRepository<TAggregateRoot, TKey> innerRepository)
+		protected Repository(IRepository<TEntity, TKey> innerRepository)
 			: base(innerRepository)
 		{
 			Guard.Against.Null(innerRepository, nameof(innerRepository));
@@ -46,31 +46,31 @@
 		}
 
 		/// <inheritdoc />
-		public async Task AddAsync(TAggregateRoot item, CancellationToken cancellationToken)
+		public async Task AddAsync(TEntity item, CancellationToken cancellationToken)
 		{
 			await this.innerRepository.AddAsync(item, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		public async Task AddRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
+		public async Task AddRangeAsync(IEnumerable<TEntity> items, CancellationToken cancellationToken)
 		{
 			await this.innerRepository.AddRangeAsync(items, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		public async Task UpdateAsync(TAggregateRoot item, CancellationToken cancellationToken)
+		public async Task UpdateAsync(TEntity item, CancellationToken cancellationToken)
 		{
 			await this.innerRepository.UpdateAsync(item, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		public async Task UpdateRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
+		public async Task UpdateRangeAsync(IEnumerable<TEntity> items, CancellationToken cancellationToken)
 		{
 			await this.innerRepository.UpdateRangeAsync(items, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		public async Task RemoveAsync(TAggregateRoot item, CancellationToken cancellationToken)
+		public async Task RemoveAsync(TEntity item, CancellationToken cancellationToken)
 		{
 			await this.innerRepository.RemoveAsync(item, cancellationToken);
 		}
@@ -82,19 +82,19 @@
 		}
 
 		/// <inheritdoc />
-		public async Task RemoveRangeAsync(Expression<Func<TAggregateRoot, bool>> predicate, CancellationToken cancellationToken)
+		public async Task RemoveRangeAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken)
 		{
 			await this.innerRepository.RemoveRangeAsync(predicate, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		public async Task RemoveRangeAsync(ISpecification<TAggregateRoot> specification, CancellationToken cancellationToken)
+		public async Task RemoveRangeAsync(ISpecification<TEntity> specification, CancellationToken cancellationToken)
 		{
 			await this.innerRepository.RemoveRangeAsync(specification, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		public async Task RemoveRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
+		public async Task RemoveRangeAsync(IEnumerable<TEntity> items, CancellationToken cancellationToken)
 		{
 			await this.innerRepository.RemoveRangeAsync(items, cancellationToken);
 		}

@@ -96,14 +96,15 @@
 		{
 			IMutableEntityType entityType = entityTypeBuilder.Metadata;
 
-			if(!entityType.IsOwned() && entityType.ClrType.IsAggregateRoot())
+			if(!entityType.IsOwned() && entityType.ClrType.IsEntity())
 			{
-				IEnumerable<IMutableForeignKey> foreignKeys = entityType.GetForeignKeys();
+				// TODO
+				//IEnumerable<IMutableForeignKey> foreignKeys = entityType.GetForeignKeys();
 
-				foreach(IMutableForeignKey relationship in foreignKeys)
-				{
-					relationship.DeleteBehavior = DeleteBehavior.Restrict;
-				}
+				//foreach(IMutableForeignKey relationship in foreignKeys)
+				//{
+				//	relationship.DeleteBehavior = DeleteBehavior.Restrict;
+				//}
 			}
 		}
 	}

@@ -10,32 +10,32 @@ namespace Fluxera.Repository.UnitTests
 	using Fluxera.Repository.Query;
 	using Fluxera.Repository.Specifications;
 
-	public class NoopTestRepository<TAggregateRoot, TKey> : IRepository<TAggregateRoot, TKey>
-		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+	public class NoopTestRepository<TEntity, TKey> : IRepository<TEntity, TKey>
+		where TEntity : Entity<TEntity, TKey>
 		where TKey : IComparable<TKey>, IEquatable<TKey>
 	{
 		/// <inheritdoc />
-		public async Task AddAsync(TAggregateRoot item, CancellationToken cancellationToken)
+		public async Task AddAsync(TEntity item, CancellationToken cancellationToken)
 		{
 		}
 
 		/// <inheritdoc />
-		public async Task AddRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
+		public async Task AddRangeAsync(IEnumerable<TEntity> items, CancellationToken cancellationToken)
 		{
 		}
 
 		/// <inheritdoc />
-		public async Task UpdateAsync(TAggregateRoot item, CancellationToken cancellationToken)
+		public async Task UpdateAsync(TEntity item, CancellationToken cancellationToken)
 		{
 		}
 
 		/// <inheritdoc />
-		public async Task UpdateRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
+		public async Task UpdateRangeAsync(IEnumerable<TEntity> items, CancellationToken cancellationToken)
 		{
 		}
 
 		/// <inheritdoc />
-		public async Task RemoveAsync(TAggregateRoot item, CancellationToken cancellationToken)
+		public async Task RemoveAsync(TEntity item, CancellationToken cancellationToken)
 		{
 		}
 
@@ -45,17 +45,17 @@ namespace Fluxera.Repository.UnitTests
 		}
 
 		/// <inheritdoc />
-		public async Task RemoveRangeAsync(Expression<Func<TAggregateRoot, bool>> predicate, CancellationToken cancellationToken)
+		public async Task RemoveRangeAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken)
 		{
 		}
 
 		/// <inheritdoc />
-		public async Task RemoveRangeAsync(ISpecification<TAggregateRoot> specification, CancellationToken cancellationToken = default)
+		public async Task RemoveRangeAsync(ISpecification<TEntity> specification, CancellationToken cancellationToken = default)
 		{
 		}
 
 		/// <inheritdoc />
-		public async Task RemoveRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
+		public async Task RemoveRangeAsync(IEnumerable<TEntity> items, CancellationToken cancellationToken)
 		{
 		}
 
@@ -65,13 +65,13 @@ namespace Fluxera.Repository.UnitTests
 		}
 
 		/// <inheritdoc />
-		public virtual async Task<TAggregateRoot> GetAsync(TKey id, CancellationToken cancellationToken)
+		public virtual async Task<TEntity> GetAsync(TKey id, CancellationToken cancellationToken)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<TResult> GetAsync<TResult>(TKey id, Expression<Func<TAggregateRoot, TResult>> selector, CancellationToken cancellationToken)
+		public async Task<TResult> GetAsync<TResult>(TKey id, Expression<Func<TEntity, TResult>> selector, CancellationToken cancellationToken)
 		{
 			return default;
 		}
@@ -83,69 +83,69 @@ namespace Fluxera.Repository.UnitTests
 		}
 
 		/// <inheritdoc />
-		public async Task<TAggregateRoot> FindOneAsync(Expression<Func<TAggregateRoot, bool>> predicate, IQueryOptions<TAggregateRoot> queryOptions,
+		public async Task<TEntity> FindOneAsync(Expression<Func<TEntity, bool>> predicate, IQueryOptions<TEntity> queryOptions,
 			CancellationToken cancellationToken)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<TAggregateRoot> FindOneAsync(ISpecification<TAggregateRoot> specification, IQueryOptions<TAggregateRoot> queryOptions = null,
+		public async Task<TEntity> FindOneAsync(ISpecification<TEntity> specification, IQueryOptions<TEntity> queryOptions = null,
 			CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<TResult> FindOneAsync<TResult>(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, TResult>> selector,
-			IQueryOptions<TAggregateRoot> queryOptions, CancellationToken cancellationToken)
+		public async Task<TResult> FindOneAsync<TResult>(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TResult>> selector,
+			IQueryOptions<TEntity> queryOptions, CancellationToken cancellationToken)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<TResult> FindOneAsync<TResult>(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, TResult>> selector,
-			IQueryOptions<TAggregateRoot> queryOptions = null, CancellationToken cancellationToken = default)
+		public async Task<TResult> FindOneAsync<TResult>(ISpecification<TEntity> specification, Expression<Func<TEntity, TResult>> selector,
+			IQueryOptions<TEntity> queryOptions = null, CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<bool> ExistsAsync(Expression<Func<TAggregateRoot, bool>> predicate, CancellationToken cancellationToken)
+		public async Task<bool> ExistsAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken)
 		{
 			return false;
 		}
 
 		/// <inheritdoc />
-		public async Task<bool> ExistsAsync(ISpecification<TAggregateRoot> specification, CancellationToken cancellationToken = default)
+		public async Task<bool> ExistsAsync(ISpecification<TEntity> specification, CancellationToken cancellationToken = default)
 		{
 			return false;
 		}
 
 		/// <inheritdoc />
-		public virtual async Task<IReadOnlyCollection<TAggregateRoot>> FindManyAsync(Expression<Func<TAggregateRoot, bool>> predicate,
-			IQueryOptions<TAggregateRoot> queryOptions, CancellationToken cancellationToken)
+		public virtual async Task<IReadOnlyCollection<TEntity>> FindManyAsync(Expression<Func<TEntity, bool>> predicate,
+			IQueryOptions<TEntity> queryOptions, CancellationToken cancellationToken)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public virtual async Task<IReadOnlyCollection<TAggregateRoot>> FindManyAsync(ISpecification<TAggregateRoot> specification,
-			IQueryOptions<TAggregateRoot> queryOptions = null, CancellationToken cancellationToken = default)
+		public virtual async Task<IReadOnlyCollection<TEntity>> FindManyAsync(ISpecification<TEntity> specification,
+			IQueryOptions<TEntity> queryOptions = null, CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<IReadOnlyCollection<TResult>> FindManyAsync<TResult>(Expression<Func<TAggregateRoot, bool>> predicate,
-			Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot> queryOptions, CancellationToken cancellationToken)
+		public async Task<IReadOnlyCollection<TResult>> FindManyAsync<TResult>(Expression<Func<TEntity, bool>> predicate,
+			Expression<Func<TEntity, TResult>> selector, IQueryOptions<TEntity> queryOptions, CancellationToken cancellationToken)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<IReadOnlyCollection<TResult>> FindManyAsync<TResult>(ISpecification<TAggregateRoot> specification,
-			Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot> queryOptions = null,
+		public async Task<IReadOnlyCollection<TResult>> FindManyAsync<TResult>(ISpecification<TEntity> specification,
+			Expression<Func<TEntity, TResult>> selector, IQueryOptions<TEntity> queryOptions = null,
 			CancellationToken cancellationToken = default)
 		{
 			return default;
@@ -158,412 +158,412 @@ namespace Fluxera.Repository.UnitTests
 		}
 
 		/// <inheritdoc />
-		public async Task<long> CountAsync(Expression<Func<TAggregateRoot, bool>> predicate, CancellationToken cancellationToken)
+		public async Task<long> CountAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<long> CountAsync(ISpecification<TAggregateRoot> specification, CancellationToken cancellationToken = default)
+		public async Task<long> CountAsync(ISpecification<TEntity> specification, CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<int> SumAsync(Expression<Func<TAggregateRoot, int>> selector, CancellationToken cancellationToken = default)
+		public async Task<int> SumAsync(Expression<Func<TEntity, int>> selector, CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<int> SumAsync(Expression<Func<TAggregateRoot, int?>> selector, CancellationToken cancellationToken = default)
+		public async Task<int> SumAsync(Expression<Func<TEntity, int?>> selector, CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<long> SumAsync(Expression<Func<TAggregateRoot, long>> selector, CancellationToken cancellationToken = default)
+		public async Task<long> SumAsync(Expression<Func<TEntity, long>> selector, CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<long> SumAsync(Expression<Func<TAggregateRoot, long?>> selector, CancellationToken cancellationToken = default)
+		public async Task<long> SumAsync(Expression<Func<TEntity, long?>> selector, CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<decimal> SumAsync(Expression<Func<TAggregateRoot, decimal>> selector, CancellationToken cancellationToken = default)
+		public async Task<decimal> SumAsync(Expression<Func<TEntity, decimal>> selector, CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<decimal> SumAsync(Expression<Func<TAggregateRoot, decimal?>> selector, CancellationToken cancellationToken = default)
+		public async Task<decimal> SumAsync(Expression<Func<TEntity, decimal?>> selector, CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<float> SumAsync(Expression<Func<TAggregateRoot, float>> selector, CancellationToken cancellationToken = default)
+		public async Task<float> SumAsync(Expression<Func<TEntity, float>> selector, CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<float> SumAsync(Expression<Func<TAggregateRoot, float?>> selector, CancellationToken cancellationToken = default)
+		public async Task<float> SumAsync(Expression<Func<TEntity, float?>> selector, CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<double> SumAsync(Expression<Func<TAggregateRoot, double>> selector, CancellationToken cancellationToken = default)
+		public async Task<double> SumAsync(Expression<Func<TEntity, double>> selector, CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<double> SumAsync(Expression<Func<TAggregateRoot, double?>> selector, CancellationToken cancellationToken = default)
+		public async Task<double> SumAsync(Expression<Func<TEntity, double?>> selector, CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<int> SumAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, int>> selector,
+		public async Task<int> SumAsync(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, int>> selector,
 			CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<int> SumAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, int?>> selector,
+		public async Task<int> SumAsync(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, int?>> selector,
 			CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<long> SumAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, long>> selector,
+		public async Task<long> SumAsync(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, long>> selector,
 			CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<long> SumAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, long?>> selector,
+		public async Task<long> SumAsync(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, long?>> selector,
 			CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<decimal> SumAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, decimal>> selector,
+		public async Task<decimal> SumAsync(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, decimal>> selector,
 			CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<decimal> SumAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, decimal?>> selector,
+		public async Task<decimal> SumAsync(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, decimal?>> selector,
 			CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<float> SumAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, float>> selector,
+		public async Task<float> SumAsync(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, float>> selector,
 			CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<float> SumAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, float?>> selector,
+		public async Task<float> SumAsync(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, float?>> selector,
 			CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<double> SumAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, double>> selector,
+		public async Task<double> SumAsync(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, double>> selector,
 			CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<double> SumAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, double?>> selector,
+		public async Task<double> SumAsync(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, double?>> selector,
 			CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<int> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, int>> selector,
+		public async Task<int> SumAsync(ISpecification<TEntity> specification, Expression<Func<TEntity, int>> selector,
 			CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<int> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, int?>> selector,
+		public async Task<int> SumAsync(ISpecification<TEntity> specification, Expression<Func<TEntity, int?>> selector,
 			CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<long> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, long>> selector,
+		public async Task<long> SumAsync(ISpecification<TEntity> specification, Expression<Func<TEntity, long>> selector,
 			CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<long> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, long?>> selector,
+		public async Task<long> SumAsync(ISpecification<TEntity> specification, Expression<Func<TEntity, long?>> selector,
 			CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<decimal> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, decimal>> selector,
+		public async Task<decimal> SumAsync(ISpecification<TEntity> specification, Expression<Func<TEntity, decimal>> selector,
 			CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<decimal> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, decimal?>> selector,
+		public async Task<decimal> SumAsync(ISpecification<TEntity> specification, Expression<Func<TEntity, decimal?>> selector,
 			CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<float> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, float>> selector,
+		public async Task<float> SumAsync(ISpecification<TEntity> specification, Expression<Func<TEntity, float>> selector,
 			CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<float> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, float?>> selector,
+		public async Task<float> SumAsync(ISpecification<TEntity> specification, Expression<Func<TEntity, float?>> selector,
 			CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<double> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, double>> selector,
+		public async Task<double> SumAsync(ISpecification<TEntity> specification, Expression<Func<TEntity, double>> selector,
 			CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<double> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, double?>> selector,
+		public async Task<double> SumAsync(ISpecification<TEntity> specification, Expression<Func<TEntity, double?>> selector,
 			CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<double> AverageAsync(Expression<Func<TAggregateRoot, int>> selector, CancellationToken cancellationToken = default)
+		public async Task<double> AverageAsync(Expression<Func<TEntity, int>> selector, CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<double> AverageAsync(Expression<Func<TAggregateRoot, int?>> selector, CancellationToken cancellationToken = default)
+		public async Task<double> AverageAsync(Expression<Func<TEntity, int?>> selector, CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<double> AverageAsync(Expression<Func<TAggregateRoot, long>> selector, CancellationToken cancellationToken = default)
+		public async Task<double> AverageAsync(Expression<Func<TEntity, long>> selector, CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<double> AverageAsync(Expression<Func<TAggregateRoot, long?>> selector, CancellationToken cancellationToken = default)
+		public async Task<double> AverageAsync(Expression<Func<TEntity, long?>> selector, CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<decimal> AverageAsync(Expression<Func<TAggregateRoot, decimal>> selector, CancellationToken cancellationToken = default)
+		public async Task<decimal> AverageAsync(Expression<Func<TEntity, decimal>> selector, CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<decimal> AverageAsync(Expression<Func<TAggregateRoot, decimal?>> selector, CancellationToken cancellationToken = default)
+		public async Task<decimal> AverageAsync(Expression<Func<TEntity, decimal?>> selector, CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<float> AverageAsync(Expression<Func<TAggregateRoot, float>> selector, CancellationToken cancellationToken = default)
+		public async Task<float> AverageAsync(Expression<Func<TEntity, float>> selector, CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<float> AverageAsync(Expression<Func<TAggregateRoot, float?>> selector, CancellationToken cancellationToken = default)
+		public async Task<float> AverageAsync(Expression<Func<TEntity, float?>> selector, CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<double> AverageAsync(Expression<Func<TAggregateRoot, double>> selector, CancellationToken cancellationToken = default)
+		public async Task<double> AverageAsync(Expression<Func<TEntity, double>> selector, CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<double> AverageAsync(Expression<Func<TAggregateRoot, double?>> selector, CancellationToken cancellationToken = default)
+		public async Task<double> AverageAsync(Expression<Func<TEntity, double?>> selector, CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<double> AverageAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, int>> selector,
+		public async Task<double> AverageAsync(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, int>> selector,
 			CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<double> AverageAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, int?>> selector,
+		public async Task<double> AverageAsync(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, int?>> selector,
 			CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<double> AverageAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, long>> selector,
+		public async Task<double> AverageAsync(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, long>> selector,
 			CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<double> AverageAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, long?>> selector,
+		public async Task<double> AverageAsync(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, long?>> selector,
 			CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<decimal> AverageAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, decimal>> selector,
+		public async Task<decimal> AverageAsync(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, decimal>> selector,
 			CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<decimal> AverageAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, decimal?>> selector,
+		public async Task<decimal> AverageAsync(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, decimal?>> selector,
 			CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<float> AverageAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, float>> selector,
+		public async Task<float> AverageAsync(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, float>> selector,
 			CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<float> AverageAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, float?>> selector,
+		public async Task<float> AverageAsync(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, float?>> selector,
 			CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<double> AverageAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, double>> selector,
+		public async Task<double> AverageAsync(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, double>> selector,
 			CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<double> AverageAsync(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, double?>> selector,
+		public async Task<double> AverageAsync(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, double?>> selector,
 			CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<double> AverageAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, int>> selector,
+		public async Task<double> AverageAsync(ISpecification<TEntity> specification, Expression<Func<TEntity, int>> selector,
 			CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<double> AverageAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, int?>> selector,
+		public async Task<double> AverageAsync(ISpecification<TEntity> specification, Expression<Func<TEntity, int?>> selector,
 			CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<double> AverageAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, long>> selector,
+		public async Task<double> AverageAsync(ISpecification<TEntity> specification, Expression<Func<TEntity, long>> selector,
 			CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<double> AverageAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, long?>> selector,
+		public async Task<double> AverageAsync(ISpecification<TEntity> specification, Expression<Func<TEntity, long?>> selector,
 			CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<decimal> AverageAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, decimal>> selector,
+		public async Task<decimal> AverageAsync(ISpecification<TEntity> specification, Expression<Func<TEntity, decimal>> selector,
 			CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<decimal> AverageAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, decimal?>> selector,
+		public async Task<decimal> AverageAsync(ISpecification<TEntity> specification, Expression<Func<TEntity, decimal?>> selector,
 			CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<float> AverageAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, float>> selector,
+		public async Task<float> AverageAsync(ISpecification<TEntity> specification, Expression<Func<TEntity, float>> selector,
 			CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<float> AverageAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, float?>> selector,
+		public async Task<float> AverageAsync(ISpecification<TEntity> specification, Expression<Func<TEntity, float?>> selector,
 			CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<double> AverageAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, double>> selector,
+		public async Task<double> AverageAsync(ISpecification<TEntity> specification, Expression<Func<TEntity, double>> selector,
 			CancellationToken cancellationToken = default)
 		{
 			return default;
 		}
 
 		/// <inheritdoc />
-		public async Task<double> AverageAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, double?>> selector,
+		public async Task<double> AverageAsync(ISpecification<TEntity> specification, Expression<Func<TEntity, double?>> selector,
 			CancellationToken cancellationToken = default)
 		{
 			return default;

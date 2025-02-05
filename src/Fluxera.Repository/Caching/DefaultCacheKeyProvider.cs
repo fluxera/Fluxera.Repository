@@ -17,145 +17,145 @@
 	public class DefaultCacheKeyProvider : ICacheKeyProvider
 	{
 		/// <inheritdoc />
-		public string GetGenerationCacheKey<TAggregateRoot, TKey>(RepositoryName repositoryName)
-			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+		public string GetGenerationCacheKey<TEntity, TKey>(RepositoryName repositoryName)
+			where TEntity : Entity<TEntity, TKey>
 			where TKey : IComparable<TKey>, IEquatable<TKey>
 		{
 			// Repositories/{GlobalCounter}/Books/Acme.Books.Domain.Model.Book/Generation
-			string cacheKey = $"{this.GetCachePrefix(repositoryName, typeof(TAggregateRoot))}/Generation";
+			string cacheKey = $"{this.GetCachePrefix(repositoryName, typeof(TEntity))}/Generation";
 			return cacheKey;
 		}
 
 		/// <inheritdoc />
-		public string GetCountCacheKey<TAggregateRoot, TKey>(RepositoryName repositoryName, in long generation)
-			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+		public string GetCountCacheKey<TEntity, TKey>(RepositoryName repositoryName, in long generation)
+			where TEntity : Entity<TEntity, TKey>
 			where TKey : IComparable<TKey>, IEquatable<TKey>
 		{
 			// Repositories/Books/Acme.Books.Domain.Model.Book/{Generation}/Count
-			string cacheKey = $"{this.GetCachePrefix(repositoryName, typeof(TAggregateRoot))}/{generation}/Count";
+			string cacheKey = $"{this.GetCachePrefix(repositoryName, typeof(TEntity))}/{generation}/Count";
 
 			return cacheKey;
 		}
 
 		/// <inheritdoc />
-		public string GetCountCacheKey<TAggregateRoot, TKey>(RepositoryName repositoryName, in long generation,
-			Expression<Func<TAggregateRoot, bool>> predicate)
-			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+		public string GetCountCacheKey<TEntity, TKey>(RepositoryName repositoryName, in long generation,
+			Expression<Func<TEntity, bool>> predicate)
+			where TEntity : Entity<TEntity, TKey>
 			where TKey : IComparable<TKey>, IEquatable<TKey>
 		{
 			// Repositories/Books/Acme.Books.Domain.Model.Book/{Generation}/Count/{Predicate}
-			string cacheKey = $"{this.GetCachePrefix(repositoryName, typeof(TAggregateRoot))}/{generation}/Count";
+			string cacheKey = $"{this.GetCachePrefix(repositoryName, typeof(TEntity))}/{generation}/Count";
 			cacheKey = $"{cacheKey}/{predicate.ToExpressionString()}";
 
 			return cacheKey;
 		}
 
 		/// <inheritdoc />
-		public string GetSumCacheKey<TAggregateRoot, TKey>(RepositoryName repositoryName, in long generation)
-			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+		public string GetSumCacheKey<TEntity, TKey>(RepositoryName repositoryName, in long generation)
+			where TEntity : Entity<TEntity, TKey>
 			where TKey : notnull, IComparable<TKey>, IEquatable<TKey>
 		{
 			// Repositories/Books/Acme.Books.Domain.Model.Book/{Generation}/Sum
-			string cacheKey = $"{this.GetCachePrefix(repositoryName, typeof(TAggregateRoot))}/{generation}/Sum";
+			string cacheKey = $"{this.GetCachePrefix(repositoryName, typeof(TEntity))}/{generation}/Sum";
 
 			return cacheKey;
 		}
 
 		/// <inheritdoc />
-		public string GetAverageCacheKey<TAggregateRoot, TKey>(RepositoryName repositoryName, in long generation,
-			Expression<Func<TAggregateRoot, bool>> predicate)
-			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+		public string GetAverageCacheKey<TEntity, TKey>(RepositoryName repositoryName, in long generation,
+			Expression<Func<TEntity, bool>> predicate)
+			where TEntity : Entity<TEntity, TKey>
 			where TKey : notnull, IComparable<TKey>, IEquatable<TKey>
 		{
 			// Repositories/Books/Acme.Books.Domain.Model.Book/{Generation}/Average/{Predicate}
-			string cacheKey = $"{this.GetCachePrefix(repositoryName, typeof(TAggregateRoot))}/{generation}/Average";
+			string cacheKey = $"{this.GetCachePrefix(repositoryName, typeof(TEntity))}/{generation}/Average";
 			cacheKey = $"{cacheKey}/{predicate.ToExpressionString()}";
 
 			return cacheKey;
 		}
 
 		/// <inheritdoc />
-		public string GetAverageCacheKey<TAggregateRoot, TKey>(RepositoryName repositoryName, in long generation)
-			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+		public string GetAverageCacheKey<TEntity, TKey>(RepositoryName repositoryName, in long generation)
+			where TEntity : Entity<TEntity, TKey>
 			where TKey : notnull, IComparable<TKey>, IEquatable<TKey>
 		{
 			// Repositories/Books/Acme.Books.Domain.Model.Book/{Generation}/Average
-			string cacheKey = $"{this.GetCachePrefix(repositoryName, typeof(TAggregateRoot))}/{generation}/Average";
+			string cacheKey = $"{this.GetCachePrefix(repositoryName, typeof(TEntity))}/{generation}/Average";
 
 			return cacheKey;
 		}
 
 		/// <inheritdoc />
-		public string GetSumCacheKey<TAggregateRoot, TKey>(RepositoryName repositoryName, in long generation,
-			Expression<Func<TAggregateRoot, bool>> predicate)
-			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+		public string GetSumCacheKey<TEntity, TKey>(RepositoryName repositoryName, in long generation,
+			Expression<Func<TEntity, bool>> predicate)
+			where TEntity : Entity<TEntity, TKey>
 			where TKey : notnull, IComparable<TKey>, IEquatable<TKey>
 		{
 			// Repositories/Books/Acme.Books.Domain.Model.Book/{Generation}/Sum/{Predicate}
-			string cacheKey = $"{this.GetCachePrefix(repositoryName, typeof(TAggregateRoot))}/{generation}/Sum";
+			string cacheKey = $"{this.GetCachePrefix(repositoryName, typeof(TEntity))}/{generation}/Sum";
 			cacheKey = $"{cacheKey}/{predicate.ToExpressionString()}";
 
 			return cacheKey;
 		}
 
 		/// <inheritdoc />
-		public string GetAddCacheKey<TAggregateRoot, TKey>(RepositoryName repositoryName, TKey id)
-			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+		public string GetAddCacheKey<TEntity, TKey>(RepositoryName repositoryName, TKey id)
+			where TEntity : Entity<TEntity, TKey>
 			where TKey : IComparable<TKey>, IEquatable<TKey>
 		{
 			// Repositories/Books/Acme.Books.Domain.Model.Book/{ID}
-			return this.GetWriteThroughCacheKey<TAggregateRoot, TKey>(repositoryName, id);
+			return this.GetWriteThroughCacheKey<TEntity, TKey>(repositoryName, id);
 		}
 
 		/// <inheritdoc />
-		public string GetUpdateCacheKey<TAggregateRoot, TKey>(RepositoryName repositoryName, TKey id)
-			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+		public string GetUpdateCacheKey<TEntity, TKey>(RepositoryName repositoryName, TKey id)
+			where TEntity : Entity<TEntity, TKey>
 			where TKey : IComparable<TKey>, IEquatable<TKey>
 		{
 			// Repositories/Books/Acme.Books.Domain.Model.Book/{ID}
-			return this.GetWriteThroughCacheKey<TAggregateRoot, TKey>(repositoryName, id);
+			return this.GetWriteThroughCacheKey<TEntity, TKey>(repositoryName, id);
 		}
 
 		/// <inheritdoc />
-		public string GetDeleteCacheKey<TAggregateRoot, TKey>(RepositoryName repositoryName, TKey id)
-			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+		public string GetDeleteCacheKey<TEntity, TKey>(RepositoryName repositoryName, TKey id)
+			where TEntity : Entity<TEntity, TKey>
 			where TKey : IComparable<TKey>, IEquatable<TKey>
 		{
 			// Repositories/Books/Acme.Books.Domain.Model.Book/{ID}
-			return this.GetWriteThroughCacheKey<TAggregateRoot, TKey>(repositoryName, id);
+			return this.GetWriteThroughCacheKey<TEntity, TKey>(repositoryName, id);
 		}
 
 		/// <inheritdoc />
-		public string GetGetCacheKey<TAggregateRoot, TKey>(RepositoryName repositoryName, TKey id)
-			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+		public string GetGetCacheKey<TEntity, TKey>(RepositoryName repositoryName, TKey id)
+			where TEntity : Entity<TEntity, TKey>
 			where TKey : IComparable<TKey>, IEquatable<TKey>
 		{
 			// Repositories/Books/Acme.Books.Domain.Model.Book/{ID}
-			return this.GetWriteThroughCacheKey<TAggregateRoot, TKey>(repositoryName, id);
+			return this.GetWriteThroughCacheKey<TEntity, TKey>(repositoryName, id);
 		}
 
 		/// <inheritdoc />
-		public string GetGetCacheKey<TAggregateRoot, TKey, TResult>(RepositoryName repositoryName, TKey id,
-			Expression<Func<TAggregateRoot, TResult>> selector)
-			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+		public string GetGetCacheKey<TEntity, TKey, TResult>(RepositoryName repositoryName, TKey id,
+			Expression<Func<TEntity, TResult>> selector)
+			where TEntity : Entity<TEntity, TKey>
 			where TKey : IComparable<TKey>, IEquatable<TKey>
 		{
 			// Repositories/Books/Acme.Books.Domain.Model.Book/{ID}/{Selector}
-			string cacheKey = this.GetWriteThroughCacheKey<TAggregateRoot, TKey>(repositoryName, id);
+			string cacheKey = this.GetWriteThroughCacheKey<TEntity, TKey>(repositoryName, id);
 			cacheKey = $"{cacheKey}/{selector.ToExpressionString()}";
 
 			return cacheKey;
 		}
 
 		/// <inheritdoc />
-		public string GetFindOneCacheKey<TAggregateRoot, TKey>(RepositoryName repositoryName, in long generation,
-			Expression<Func<TAggregateRoot, bool>> predicate,
-			IQueryOptions<TAggregateRoot> queryOptions)
-			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+		public string GetFindOneCacheKey<TEntity, TKey>(RepositoryName repositoryName, in long generation,
+			Expression<Func<TEntity, bool>> predicate,
+			IQueryOptions<TEntity> queryOptions)
+			where TEntity : Entity<TEntity, TKey>
 			where TKey : IComparable<TKey>, IEquatable<TKey>
 		{
 			// Repositories/Books/Acme.Books.Domain.Model.Book/{Generation}/FindOne/{Predicate}
-			string cacheKey = $"{this.GetCachePrefix(repositoryName, typeof(TAggregateRoot))}/{generation}/FindOne";
+			string cacheKey = $"{this.GetCachePrefix(repositoryName, typeof(TEntity))}/{generation}/FindOne";
 			cacheKey = $"{cacheKey}/{predicate.ToExpressionString()}";
 
 			// Repositories/Books/Acme.Books.Domain.Model.Book/{Generation}/FindOne/{Predicate}/{QueryOptions}
@@ -168,15 +168,15 @@
 		}
 
 		/// <inheritdoc />
-		public string GetFindOneCacheKey<TAggregateRoot, TKey, TResult>(RepositoryName repositoryName, in long generation,
-			Expression<Func<TAggregateRoot, bool>> predicate,
-			Expression<Func<TAggregateRoot, TResult>> selector,
-			IQueryOptions<TAggregateRoot> queryOptions)
-			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+		public string GetFindOneCacheKey<TEntity, TKey, TResult>(RepositoryName repositoryName, in long generation,
+			Expression<Func<TEntity, bool>> predicate,
+			Expression<Func<TEntity, TResult>> selector,
+			IQueryOptions<TEntity> queryOptions)
+			where TEntity : Entity<TEntity, TKey>
 			where TKey : IComparable<TKey>, IEquatable<TKey>
 		{
 			// Repositories/Books/Acme.Books.Domain.Model.Book/{Generation}/FindOne/{Predicate}/{Selector}
-			string cacheKey = $"{this.GetCachePrefix(repositoryName, typeof(TAggregateRoot))}/{generation}/FindOne";
+			string cacheKey = $"{this.GetCachePrefix(repositoryName, typeof(TEntity))}/{generation}/FindOne";
 			cacheKey = $"{cacheKey}/{predicate.ToExpressionString()}/{selector.ToExpressionString()}";
 
 			// Repositories/Books/Acme.Books.Domain.Model.Book/{Generation}/FindOne/{Predicate}/{Selector}/{QueryOptions}
@@ -189,13 +189,13 @@
 		}
 
 		/// <inheritdoc />
-		public string GetFindManyCacheKey<TAggregateRoot, TKey>(RepositoryName repositoryName, in long generation,
-			Expression<Func<TAggregateRoot, bool>> predicate, IQueryOptions<TAggregateRoot> queryOptions)
-			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+		public string GetFindManyCacheKey<TEntity, TKey>(RepositoryName repositoryName, in long generation,
+			Expression<Func<TEntity, bool>> predicate, IQueryOptions<TEntity> queryOptions)
+			where TEntity : Entity<TEntity, TKey>
 			where TKey : IComparable<TKey>, IEquatable<TKey>
 		{
 			// Repositories/Books/Acme.Books.Domain.Model.Book/{Generation}/FindMany/{Predicate}
-			string cacheKey = $"{this.GetCachePrefix(repositoryName, typeof(TAggregateRoot))}/{generation}/FindMany";
+			string cacheKey = $"{this.GetCachePrefix(repositoryName, typeof(TEntity))}/{generation}/FindMany";
 			cacheKey = $"{cacheKey}/{predicate.ToExpressionString()}";
 
 			// Repositories/Books/Acme.Books.Domain.Model.Book/{Generation}/FindMany/{Predicate}/{QueryOptions}
@@ -208,14 +208,14 @@
 		}
 
 		/// <inheritdoc />
-		public string GetFindManyCacheKey<TAggregateRoot, TKey, TResult>(RepositoryName repositoryName, in long generation,
-			Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, TResult>> selector,
-			IQueryOptions<TAggregateRoot> queryOptions)
-			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+		public string GetFindManyCacheKey<TEntity, TKey, TResult>(RepositoryName repositoryName, in long generation,
+			Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TResult>> selector,
+			IQueryOptions<TEntity> queryOptions)
+			where TEntity : Entity<TEntity, TKey>
 			where TKey : IComparable<TKey>, IEquatable<TKey>
 		{
 			// Repositories/Books/Acme.Books.Domain.Model.Book/{Generation}/FindMany/{Predicate}/{Selector}
-			string cacheKey = $"{this.GetCachePrefix(repositoryName, typeof(TAggregateRoot))}/{generation}/FindMany";
+			string cacheKey = $"{this.GetCachePrefix(repositoryName, typeof(TEntity))}/{generation}/FindMany";
 			cacheKey = $"{cacheKey}/{predicate.ToExpressionString()}/{selector.ToExpressionString()}";
 
 			// Repositories/Books/Acme.Books.Domain.Model.Book/{Generation}/FindMany/{Predicate}/{Selector}/{QueryOptions}
@@ -228,25 +228,25 @@
 		}
 
 		/// <inheritdoc />
-		public string GetExistsCacheKey<TAggregateRoot, TKey>(RepositoryName repositoryName, in long generation,
-			Expression<Func<TAggregateRoot, bool>> predicate)
-			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+		public string GetExistsCacheKey<TEntity, TKey>(RepositoryName repositoryName, in long generation,
+			Expression<Func<TEntity, bool>> predicate)
+			where TEntity : Entity<TEntity, TKey>
 			where TKey : IComparable<TKey>, IEquatable<TKey>
 		{
 			// Repositories/Books/Acme.Books.Domain.Model.Book/{Generation}/Count/{Predicate}
-			string cacheKey = $"{this.GetCachePrefix(repositoryName, typeof(TAggregateRoot))}/{generation}/Exists";
+			string cacheKey = $"{this.GetCachePrefix(repositoryName, typeof(TEntity))}/{generation}/Exists";
 			cacheKey = $"{cacheKey}/{predicate.ToExpressionString()}";
 
 			return cacheKey;
 		}
 
 		/// <inheritdoc />
-		public string GetExistsCacheKey<TAggregateRoot, TKey>(RepositoryName repositoryName, in long generation, TKey id)
-			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+		public string GetExistsCacheKey<TEntity, TKey>(RepositoryName repositoryName, in long generation, TKey id)
+			where TEntity : Entity<TEntity, TKey>
 			where TKey : IComparable<TKey>, IEquatable<TKey>
 		{
 			// Repositories/Books/Acme.Books.Domain.Model.Book/{Generation}/Exists/{ID}
-			string cacheKey = $"{this.GetCachePrefix(repositoryName, typeof(TAggregateRoot))}/{generation}/Exists/{id}";
+			string cacheKey = $"{this.GetCachePrefix(repositoryName, typeof(TEntity))}/{generation}/Exists/{id}";
 
 			return cacheKey;
 		}
@@ -265,12 +265,12 @@
 			return $"Repositories/{globalCounter}/{repositoryName}/{type.FullName ?? type.Name}";
 		}
 
-		private string GetWriteThroughCacheKey<TAggregateRoot, TKey>(RepositoryName repositoryName, TKey id)
-			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+		private string GetWriteThroughCacheKey<TEntity, TKey>(RepositoryName repositoryName, TKey id)
+			where TEntity : Entity<TEntity, TKey>
 			where TKey : IComparable<TKey>, IEquatable<TKey>
 		{
 			// Repositories/Books/Acme.Books.Domain.Model.Book/{ID}
-			string cacheKey = $"{this.GetCachePrefix(repositoryName, typeof(TAggregateRoot))}/{id}";
+			string cacheKey = $"{this.GetCachePrefix(repositoryName, typeof(TEntity))}/{id}";
 			return cacheKey;
 		}
 	}

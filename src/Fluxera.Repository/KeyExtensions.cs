@@ -19,14 +19,14 @@ namespace Fluxera.Repository
 		/// </summary>
 		/// <param name="id"></param>
 		/// <returns></returns>
-		public static Expression<Func<TAggregateRoot, bool>> CreatePrimaryKeyPredicate<TAggregateRoot, TKey>(this TKey id)
-			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+		public static Expression<Func<TEntity, bool>> CreatePrimaryKeyPredicate<TEntity, TKey>(this TKey id)
+			where TEntity : Entity<TEntity, TKey>
 			where TKey : IComparable<TKey>, IEquatable<TKey>
 		{
-			PropertyInfo primaryKeyProperty = GetPrimaryKeyProperty<TAggregateRoot, TKey>();
+			PropertyInfo primaryKeyProperty = GetPrimaryKeyProperty<TEntity, TKey>();
 
-			ParameterExpression parameter = Expression.Parameter(typeof(TAggregateRoot), "x");
-			Expression<Func<TAggregateRoot, bool>> predicate = Expression.Lambda<Func<TAggregateRoot, bool>>(
+			ParameterExpression parameter = Expression.Parameter(typeof(TEntity), "x");
+			Expression<Func<TEntity, bool>> predicate = Expression.Lambda<Func<TEntity, bool>>(
 				Expression.Equal(
 					Expression.PropertyOrField(parameter, primaryKeyProperty.Name),
 					Expression.Constant(id)
@@ -58,11 +58,11 @@ namespace Fluxera.Repository
 			return predicate;
 		}
 
-		private static PropertyInfo GetPrimaryKeyProperty<TAggregateRoot, TKey>()
-			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+		private static PropertyInfo GetPrimaryKeyProperty<TEntity, TKey>()
+			where TEntity : Entity<TEntity, TKey>
 			where TKey : IComparable<TKey>, IEquatable<TKey>
 		{
-			Type aggregateRootType = typeof(TAggregateRoot);
+			Type aggregateRootType = typeof(TEntity);
 			Type keyType = typeof(TKey);
 
 			return GetPrimaryKeyProperty(aggregateRootType, keyType);

@@ -6,7 +6,7 @@ namespace Fluxera.Repository.EntityFrameworkCore.IntegrationTests.InvoiceAggrega
 	using Fluxera.ComponentModel.Annotations;
 	using Fluxera.Entity;
 
-	public class Invoice : AggregateRoot<Invoice, string>
+	public class Invoice : Entity<Invoice, string>
 	{
 		public string CustomerName { get; set; }
 

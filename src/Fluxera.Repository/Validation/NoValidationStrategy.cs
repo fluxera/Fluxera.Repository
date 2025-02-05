@@ -6,18 +6,18 @@
 	using System.Threading.Tasks;
 	using Fluxera.Entity;
 
-	internal sealed class NoValidationStrategy<TAggregateRoot, TKey> : IValidationStrategy<TAggregateRoot, TKey>
-		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+	internal sealed class NoValidationStrategy<TEntity, TKey> : IValidationStrategy<TEntity, TKey>
+		where TEntity : Entity<TEntity, TKey>
 		where TKey : IComparable<TKey>, IEquatable<TKey>
 	{
 		/// <inheritdoc />
-		public Task ValidateAsync(TAggregateRoot item, CancellationToken cancellationToken = default)
+		public Task ValidateAsync(TEntity item, CancellationToken cancellationToken = default)
 		{
 			return Task.CompletedTask;
 		}
 
 		/// <inheritdoc />
-		public Task ValidateAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken = default)
+		public Task ValidateAsync(IEnumerable<TEntity> items, CancellationToken cancellationToken = default)
 		{
 			return Task.CompletedTask;
 		}

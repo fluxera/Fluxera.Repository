@@ -5,21 +5,21 @@
 	using Fluxera.Repository.Traits;
 	using JetBrains.Annotations;
 
-	/// <inheritdoc cref="ICanGet{TAggregateRoot,TKey}" />
-	/// <inheritdoc cref="ICanFind{TAggregateRoot,TKey}" />
-	/// <inheritdoc cref="ICanAggregate{TAggregateRoot,TKey}" />
+	/// <inheritdoc cref="ICanGet{TEntity,TKey}" />
+	/// <inheritdoc cref="ICanFind{TEntity,TKey}" />
+	/// <inheritdoc cref="ICanAggregate{TEntity,TKey}" />
 	/// <summary>
-	///     Contract for a repository that reads <typeparamref name="TAggregateRoot" /> entities.
+	///     Contract for a repository that reads <typeparamref name="TEntity" /> entities.
 	/// </summary>
-	/// <typeparam name="TAggregateRoot">The entity type.</typeparam>
+	/// <typeparam name="TEntity">The entity type.</typeparam>
 	/// <typeparam name="TKey">The type of the ID.</typeparam>
 	[PublicAPI]
-	public interface IReadOnlyRepository<TAggregateRoot, in TKey> : IDisposableRepository,
-		ICanGet<TAggregateRoot, TKey>,
-		ICanFind<TAggregateRoot, TKey>,
-		ICanAggregate<TAggregateRoot, TKey>,
-		IProvideRepositoryName<TAggregateRoot, TKey>
-		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+	public interface IReadOnlyRepository<TEntity, in TKey> : IDisposableRepository,
+		ICanGet<TEntity, TKey>,
+		ICanFind<TEntity, TKey>,
+		ICanAggregate<TEntity, TKey>,
+		IProvideRepositoryName<TEntity, TKey>
+		where TEntity : Entity<TEntity, TKey>
 		where TKey : notnull, IComparable<TKey>, IEquatable<TKey>
 	{
 	}

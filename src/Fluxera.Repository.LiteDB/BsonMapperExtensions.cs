@@ -55,7 +55,7 @@ namespace Fluxera.Repository.LiteDB
 			IList<Type> aggregateRootTypes = AppDomain.CurrentDomain
 				.GetAssemblies()
 				.SelectMany(x => x.GetTypes())
-				.Where(x => x.IsAggregateRoot())
+				.Where(x => x.IsEntity())
 				.ToList();
 
 			MethodInfo entityMethod = bsonMapper.GetType().GetMethod("Entity", BindingFlags.Public | BindingFlags.Instance);
@@ -79,8 +79,8 @@ namespace Fluxera.Repository.LiteDB
 
 					Type propertyType = referenceProperty.PropertyType;
 
-					// Configure aggregate root properties.
-					if(propertyType.IsAggregateRoot())
+					// Configure entity properties.
+					if(propertyType.IsEntity())
 					{
 						string collectionName = propertyType.Name.Pluralize();
 						entityBuilder = ConfigureReferenceProperty(entityBuilder, aggregateRootType, referenceProperty, collectionName);
@@ -89,8 +89,8 @@ namespace Fluxera.Repository.LiteDB
 					{
 						Type elementType = propertyType.GenericTypeArguments[0];
 
-						// Configure aggregate root properties.
-						if(elementType.IsAggregateRoot())
+						// Configure entity properties.
+						if(elementType.IsEntity())
 						{
 							string collectionName = elementType.Name.Pluralize();
 							entityBuilder = ConfigureReferenceProperty(entityBuilder, aggregateRootType, referenceProperty, collectionName);

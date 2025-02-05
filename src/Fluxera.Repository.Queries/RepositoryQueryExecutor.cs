@@ -15,13 +15,13 @@
 
 	/// <inheritdoc />
 	[UsedImplicitly]
-	internal sealed class RepositoryQueryExecutor<T, TKey> : QueryExecutorBase<T, TKey>
-		where T : AggregateRoot<T, TKey>
+	internal sealed class RepositoryQueryExecutor<TEntity, TKey> : QueryExecutorBase<TEntity, TKey>
+		where TEntity : Entity<TEntity, TKey>
 		where TKey : IComparable<TKey>, IEquatable<TKey>
 	{
-		private readonly IReadOnlyRepository<T, TKey> repository;
+		private readonly IReadOnlyRepository<TEntity, TKey> repository;
 
-		public RepositoryQueryExecutor(IReadOnlyRepository<T, TKey> repository)
+		public RepositoryQueryExecutor(IReadOnlyRepository<TEntity, TKey> repository)
 		{
 			this.repository = repository;
 		}
@@ -32,13 +32,13 @@
 			Guard.Against.Null(queryOptions);
 
 			// 1. Build the query options: sorting and paging.
-			IQueryOptions<T> options = queryOptions.ToQueryOptions<T>();
+			IQueryOptions<TEntity> options = queryOptions.ToQueryOptions<TEntity>();
 
 			// 2. Build the query predicate.
-			Expression<Func<T, bool>> predicate = queryOptions.ToPredicate<T>();
+			Expression<Func<TEntity, bool>> predicate = queryOptions.ToPredicate<TEntity>();
 
 			// 3. Build the selector expression (optional).
-			Expression<Func<T, T>> selector = queryOptions.ToSelector<T>();
+			Expression<Func<TEntity, TEntity>> selector = queryOptions.ToSelector<TEntity>();
 
 			// 4. Get the total count of the query (optional).
 			long? totalCount = null;
@@ -51,7 +51,7 @@
 			}
 
 			// 5. Execute the find many query.
-			IReadOnlyCollection<T> items = selector is null
+			IReadOnlyCollection<TEntity> items = selector is null
 				? await this.repository.FindManyAsync(predicate, options, cancellationToken)
 				: await this.repository.FindManyAsync(predicate, selector, options, cancellationToken);
 
@@ -65,10 +65,10 @@
 			Guard.Against.Null(queryOptions);
 
 			// 1. Build the selector expression (optional).
-			Expression<Func<T, T>> selector = queryOptions.ToSelector<T>();
+			Expression<Func<TEntity, TEntity>> selector = queryOptions.ToSelector<TEntity>();
 
 			// 2. Execute the get query.
-			T item = selector is null
+			TEntity item = selector is null
 				? await this.repository.GetAsync(id, cancellationToken)
 				: await this.repository.GetAsync(id, selector, cancellationToken);
 
@@ -81,7 +81,7 @@
 			Guard.Against.Null(queryOptions);
 
 			// 1. Build the query predicate.
-			Expression<Func<T, bool>> predicate = queryOptions.ToPredicate<T>();
+			Expression<Func<TEntity, bool>> predicate = queryOptions.ToPredicate<TEntity>();
 
 			// 2. Execute the count query.
 			long count = await this.repository.CountAsync(predicate, cancellationToken);

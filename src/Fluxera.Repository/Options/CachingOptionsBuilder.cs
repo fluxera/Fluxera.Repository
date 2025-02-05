@@ -13,25 +13,25 @@ namespace Fluxera.Repository.Options
 		}
 
 		/// <inheritdoc />
-		public IAggregateCachingOptionsBuilder UseNoCaching()
+		public IEntityCachingOptionsBuilder UseNoCaching()
 		{
 			this.cachingOptions.DefaultStrategy = CachingStrategyNames.NoCaching;
-			return new AggregateCachingOptionsBuilder(this.cachingOptions);
+			return new EntityCachingOptionsBuilder(this.cachingOptions);
 		}
 
 		/// <inheritdoc />
-		public IAggregateCachingOptionsBuilder UseStandard()
+		public IEntityCachingOptionsBuilder UseStandard()
 		{
 			this.cachingOptions.DefaultStrategy = CachingStrategyNames.Standard;
-			return new AggregateCachingOptionsBuilder(this.cachingOptions);
+			return new EntityCachingOptionsBuilder(this.cachingOptions);
 		}
 
 		/// <inheritdoc />
-		public IAggregateCachingOptionsBuilder UseTimeout(TimeSpan expiration)
+		public IEntityCachingOptionsBuilder UseTimeout(TimeSpan expiration)
 		{
 			this.cachingOptions.DefaultStrategy = CachingStrategyNames.Timeout;
 			this.cachingOptions.DefaultExpiration = expiration;
-			return new AggregateCachingOptionsBuilder(this.cachingOptions);
+			return new EntityCachingOptionsBuilder(this.cachingOptions);
 		}
 	}
 }

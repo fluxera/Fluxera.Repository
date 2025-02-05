@@ -10,8 +10,8 @@
 	using Microsoft.Extensions.Logging;
 
 	[UsedImplicitly]
-	internal sealed class TimeoutCachingStrategy<TAggregateRoot, TKey> : ICachingStrategy<TAggregateRoot, TKey>
-		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+	internal sealed class TimeoutCachingStrategy<TEntity, TKey> : ICachingStrategy<TEntity, TKey>
+		where TEntity : Entity<TEntity, TKey>
 		where TKey : IComparable<TKey>, IEquatable<TKey>
 	{
 		private readonly TimeSpan expiration;
@@ -40,32 +40,32 @@
 		private RepositoryName RepositoryName { get; }
 
 		/// <inheritdoc />
-		public async Task AddAsync(TAggregateRoot item)
+		public async Task AddAsync(TEntity item)
 		{
-			string cacheKey = this.CacheKeyProvider.GetAddCacheKey<TAggregateRoot, TKey>(this.RepositoryName, item.ID);
+			string cacheKey = this.CacheKeyProvider.GetAddCacheKey<TEntity, TKey>(this.RepositoryName, item.ID);
 			await this.SetSafeAsync(cacheKey, item).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
-		public async Task AddAsync(IEnumerable<TAggregateRoot> items)
+		public async Task AddAsync(IEnumerable<TEntity> items)
 		{
-			foreach(TAggregateRoot item in items)
+			foreach(TEntity item in items)
 			{
 				await this.AddAsync(item).ConfigureAwait(false);
 			}
 		}
 
 		/// <inheritdoc />
-		public async Task UpdateAsync(TAggregateRoot item)
+		public async Task UpdateAsync(TEntity item)
 		{
-			string cacheKey = this.CacheKeyProvider.GetUpdateCacheKey<TAggregateRoot, TKey>(this.RepositoryName, item.ID);
+			string cacheKey = this.CacheKeyProvider.GetUpdateCacheKey<TEntity, TKey>(this.RepositoryName, item.ID);
 			await this.SetSafeAsync(cacheKey, item).ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
-		public async Task UpdateAsync(IEnumerable<TAggregateRoot> items)
+		public async Task UpdateAsync(IEnumerable<TEntity> items)
 		{
-			foreach(TAggregateRoot item in items)
+			foreach(TEntity item in items)
 			{
 				await this.UpdateAsync(item).ConfigureAwait(false);
 			}
@@ -74,7 +74,7 @@
 		/// <inheritdoc />
 		public async Task RemoveAsync(TKey id)
 		{
-			string cacheKey = this.CacheKeyProvider.GetDeleteCacheKey<TAggregateRoot, TKey>(this.RepositoryName, id);
+			string cacheKey = this.CacheKeyProvider.GetDeleteCacheKey<TEntity, TKey>(this.RepositoryName, id);
 			await this.RemoveSafeAsync(cacheKey).ConfigureAwait(false);
 		}
 
@@ -88,17 +88,17 @@
 		}
 
 		/// <inheritdoc />
-		public async Task<TAggregateRoot> GetAsync(TKey id, Func<Task<TAggregateRoot>> setter)
+		public async Task<TEntity> GetAsync(TKey id, Func<Task<TEntity>> setter)
 		{
 			try
 			{
-				string cacheKey = this.CacheKeyProvider.GetGetCacheKey<TAggregateRoot, TKey>(this.RepositoryName, id);
+				string cacheKey = this.CacheKeyProvider.GetGetCacheKey<TEntity, TKey>(this.RepositoryName, id);
 				bool exists = await this.ExistsSafeAsync(cacheKey).ConfigureAwait(false);
 
-				TAggregateRoot item;
+				TEntity item;
 				if(exists)
 				{
-					item = await this.GetSafeAsync<TAggregateRoot>(cacheKey).ConfigureAwait(true);
+					item = await this.GetSafeAsync<TEntity>(cacheKey).ConfigureAwait(true);
 				}
 				else
 				{
@@ -116,7 +116,7 @@
 		}
 
 		/// <inheritdoc />
-		public async Task<TResult> GetAsync<TResult>(TKey id, Expression<Func<TAggregateRoot, TResult>> selector, Func<Task<TResult>> setter)
+		public async Task<TResult> GetAsync<TResult>(TKey id, Expression<Func<TEntity, TResult>> selector, Func<Task<TResult>> setter)
 		{
 			try
 			{
@@ -149,7 +149,7 @@
 			try
 			{
 				long generation = GetGenerationAsync();
-				string cacheKey = this.CacheKeyProvider.GetCountCacheKey<TAggregateRoot, TKey>(this.RepositoryName, generation);
+				string cacheKey = this.CacheKeyProvider.GetCountCacheKey<TEntity, TKey>(this.RepositoryName, generation);
 				bool exists = await this.ExistsSafeAsync(cacheKey).ConfigureAwait(false);
 
 				long count;
@@ -173,12 +173,12 @@
 		}
 
 		/// <inheritdoc />
-		public async Task<long> CountAsync(Expression<Func<TAggregateRoot, bool>> predicate, Func<Task<long>> setter)
+		public async Task<long> CountAsync(Expression<Func<TEntity, bool>> predicate, Func<Task<long>> setter)
 		{
 			try
 			{
 				long generation = GetGenerationAsync();
-				string cacheKey = this.CacheKeyProvider.GetCountCacheKey<TAggregateRoot, TKey>(this.RepositoryName, generation, predicate);
+				string cacheKey = this.CacheKeyProvider.GetCountCacheKey<TEntity, TKey>(this.RepositoryName, generation, predicate);
 				bool exists = await this.ExistsSafeAsync(cacheKey).ConfigureAwait(false);
 
 				long count;
@@ -207,7 +207,7 @@
 			try
 			{
 				long generation = GetGenerationAsync();
-				string cacheKey = this.CacheKeyProvider.GetSumCacheKey<TAggregateRoot, TKey>(this.RepositoryName, generation);
+				string cacheKey = this.CacheKeyProvider.GetSumCacheKey<TEntity, TKey>(this.RepositoryName, generation);
 				bool exists = await this.ExistsSafeAsync(cacheKey).ConfigureAwait(false);
 
 				TResult sum;
@@ -231,12 +231,12 @@
 		}
 
 		/// <inheritdoc />
-		public async Task<TResult> SumAsync<TResult>(Expression<Func<TAggregateRoot, bool>> predicate, Func<Task<TResult>> setter) where TResult : IComparable, IConvertible, IFormattable, IComparable<TResult>, IEquatable<TResult>
+		public async Task<TResult> SumAsync<TResult>(Expression<Func<TEntity, bool>> predicate, Func<Task<TResult>> setter) where TResult : IComparable, IConvertible, IFormattable, IComparable<TResult>, IEquatable<TResult>
 		{
 			try
 			{
 				long generation = GetGenerationAsync();
-				string cacheKey = this.CacheKeyProvider.GetSumCacheKey<TAggregateRoot, TKey>(this.RepositoryName, generation, predicate);
+				string cacheKey = this.CacheKeyProvider.GetSumCacheKey<TEntity, TKey>(this.RepositoryName, generation, predicate);
 				bool exists = await this.ExistsSafeAsync(cacheKey).ConfigureAwait(false);
 
 				TResult sum;
@@ -265,7 +265,7 @@
 			try
 			{
 				long generation = GetGenerationAsync();
-				string cacheKey = this.CacheKeyProvider.GetAverageCacheKey<TAggregateRoot, TKey>(this.RepositoryName, generation);
+				string cacheKey = this.CacheKeyProvider.GetAverageCacheKey<TEntity, TKey>(this.RepositoryName, generation);
 				bool exists = await this.ExistsSafeAsync(cacheKey).ConfigureAwait(false);
 
 				TResult average;
@@ -289,12 +289,12 @@
 		}
 
 		/// <inheritdoc />
-		public async Task<TResult> AverageAsync<TResult>(Expression<Func<TAggregateRoot, bool>> predicate, Func<Task<TResult>> setter) where TResult : IComparable, IConvertible, IFormattable, IComparable<TResult>, IEquatable<TResult>
+		public async Task<TResult> AverageAsync<TResult>(Expression<Func<TEntity, bool>> predicate, Func<Task<TResult>> setter) where TResult : IComparable, IConvertible, IFormattable, IComparable<TResult>, IEquatable<TResult>
 		{
 			try
 			{
 				long generation = GetGenerationAsync();
-				string cacheKey = this.CacheKeyProvider.GetAverageCacheKey<TAggregateRoot, TKey>(this.RepositoryName, generation, predicate);
+				string cacheKey = this.CacheKeyProvider.GetAverageCacheKey<TEntity, TKey>(this.RepositoryName, generation, predicate);
 				bool exists = await this.ExistsSafeAsync(cacheKey).ConfigureAwait(false);
 
 				TResult average;
@@ -318,18 +318,18 @@
 		}
 
 		/// <inheritdoc />
-		public async Task<TAggregateRoot> FindOneAsync(Expression<Func<TAggregateRoot, bool>> predicate, IQueryOptions<TAggregateRoot> queryOptions, Func<Task<TAggregateRoot>> setter)
+		public async Task<TEntity> FindOneAsync(Expression<Func<TEntity, bool>> predicate, IQueryOptions<TEntity> queryOptions, Func<Task<TEntity>> setter)
 		{
 			try
 			{
 				long generation = GetGenerationAsync();
-				string cacheKey = this.CacheKeyProvider.GetFindOneCacheKey<TAggregateRoot, TKey>(this.RepositoryName, generation, predicate, queryOptions);
+				string cacheKey = this.CacheKeyProvider.GetFindOneCacheKey<TEntity, TKey>(this.RepositoryName, generation, predicate, queryOptions);
 				bool exists = await this.ExistsSafeAsync(cacheKey).ConfigureAwait(false);
 
-				TAggregateRoot item;
+				TEntity item;
 				if(exists)
 				{
-					item = await this.GetSafeAsync<TAggregateRoot>(cacheKey).ConfigureAwait(true);
+					item = await this.GetSafeAsync<TEntity>(cacheKey).ConfigureAwait(true);
 				}
 				else
 				{
@@ -347,12 +347,12 @@
 		}
 
 		/// <inheritdoc />
-		public async Task<TResult> FindOneAsync<TResult>(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot> queryOptions, Func<Task<TResult>> setter)
+		public async Task<TResult> FindOneAsync<TResult>(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TResult>> selector, IQueryOptions<TEntity> queryOptions, Func<Task<TResult>> setter)
 		{
 			try
 			{
 				long generation = GetGenerationAsync();
-				string cacheKey = this.CacheKeyProvider.GetFindOneCacheKey<TAggregateRoot, TKey, TResult>(this.RepositoryName, generation, predicate, selector, queryOptions);
+				string cacheKey = this.CacheKeyProvider.GetFindOneCacheKey<TEntity, TKey, TResult>(this.RepositoryName, generation, predicate, selector, queryOptions);
 				bool exists = await this.ExistsSafeAsync(cacheKey).ConfigureAwait(false);
 
 				TResult item;
@@ -376,18 +376,18 @@
 		}
 
 		/// <inheritdoc />
-		public async Task<IReadOnlyCollection<TAggregateRoot>> FindManyAsync(Expression<Func<TAggregateRoot, bool>> predicate, IQueryOptions<TAggregateRoot> queryOptions, Func<Task<IReadOnlyCollection<TAggregateRoot>>> setter)
+		public async Task<IReadOnlyCollection<TEntity>> FindManyAsync(Expression<Func<TEntity, bool>> predicate, IQueryOptions<TEntity> queryOptions, Func<Task<IReadOnlyCollection<TEntity>>> setter)
 		{
 			try
 			{
 				long generation = GetGenerationAsync();
-				string cacheKey = this.CacheKeyProvider.GetFindManyCacheKey<TAggregateRoot, TKey>(this.RepositoryName, generation, predicate, queryOptions);
+				string cacheKey = this.CacheKeyProvider.GetFindManyCacheKey<TEntity, TKey>(this.RepositoryName, generation, predicate, queryOptions);
 				bool exists = await this.ExistsSafeAsync(cacheKey).ConfigureAwait(false);
 
-				IReadOnlyCollection<TAggregateRoot> items;
+				IReadOnlyCollection<TEntity> items;
 				if(exists)
 				{
-					items = await this.GetSafeAsync<IReadOnlyList<TAggregateRoot>>(cacheKey).ConfigureAwait(true);
+					items = await this.GetSafeAsync<IReadOnlyList<TEntity>>(cacheKey).ConfigureAwait(true);
 				}
 				else
 				{
@@ -405,12 +405,12 @@
 		}
 
 		/// <inheritdoc />
-		public async Task<IReadOnlyCollection<TResult>> FindManyAsync<TResult>(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot> queryOptions, Func<Task<IReadOnlyCollection<TResult>>> setter)
+		public async Task<IReadOnlyCollection<TResult>> FindManyAsync<TResult>(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TResult>> selector, IQueryOptions<TEntity> queryOptions, Func<Task<IReadOnlyCollection<TResult>>> setter)
 		{
 			try
 			{
 				long generation = GetGenerationAsync();
-				string cacheKey = this.CacheKeyProvider.GetFindManyCacheKey<TAggregateRoot, TKey, TResult>(this.RepositoryName, generation, predicate, selector, queryOptions);
+				string cacheKey = this.CacheKeyProvider.GetFindManyCacheKey<TEntity, TKey, TResult>(this.RepositoryName, generation, predicate, selector, queryOptions);
 				bool exists = await this.ExistsSafeAsync(cacheKey).ConfigureAwait(false);
 
 				IReadOnlyCollection<TResult> items;
@@ -439,7 +439,7 @@
 			try
 			{
 				long generation = GetGenerationAsync();
-				string cacheKey = this.CacheKeyProvider.GetExistsCacheKey<TAggregateRoot, TKey>(this.RepositoryName, generation, id);
+				string cacheKey = this.CacheKeyProvider.GetExistsCacheKey<TEntity, TKey>(this.RepositoryName, generation, id);
 				bool exists = await this.ExistsSafeAsync(cacheKey).ConfigureAwait(false);
 
 				bool result;
@@ -463,12 +463,12 @@
 		}
 
 		/// <inheritdoc />
-		public async Task<bool> ExistsAsync(Expression<Func<TAggregateRoot, bool>> predicate, Func<Task<bool>> setter)
+		public async Task<bool> ExistsAsync(Expression<Func<TEntity, bool>> predicate, Func<Task<bool>> setter)
 		{
 			try
 			{
 				long generation = GetGenerationAsync();
-				string cacheKey = this.CacheKeyProvider.GetExistsCacheKey<TAggregateRoot, TKey>(this.RepositoryName, generation, predicate);
+				string cacheKey = this.CacheKeyProvider.GetExistsCacheKey<TEntity, TKey>(this.RepositoryName, generation, predicate);
 				bool exists = await this.ExistsSafeAsync(cacheKey).ConfigureAwait(false);
 
 				bool result;

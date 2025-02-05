@@ -9,19 +9,19 @@
 		private object strategy;
 
 		/// <inheritdoc />
-		public ICachingStrategy<TAggregateRoot, TKey> CreateStrategy<TAggregateRoot, TKey>()
-			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+		public ICachingStrategy<TEntity, TKey> CreateStrategy<TEntity, TKey>()
+			where TEntity : Entity<TEntity, TKey>
 			where TKey : IComparable<TKey>, IEquatable<TKey>
 		{
-			this.strategy = new TestCachingStrategy<TAggregateRoot, TKey>();
-			return (ICachingStrategy<TAggregateRoot, TKey>)this.strategy;
+			this.strategy = new TestCachingStrategy<TEntity, TKey>();
+			return (ICachingStrategy<TEntity, TKey>)this.strategy;
 		}
 
-		public TestCachingStrategy<TAggregateRoot, TKey> GetStrategy<TAggregateRoot, TKey>()
-			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+		public TestCachingStrategy<TEntity, TKey> GetStrategy<TEntity, TKey>()
+			where TEntity : Entity<TEntity, TKey>
 			where TKey : IComparable<TKey>, IEquatable<TKey>
 		{
-			return (TestCachingStrategy<TAggregateRoot, TKey>)this.strategy;
+			return (TestCachingStrategy<TEntity, TKey>)this.strategy;
 		}
 	}
 }

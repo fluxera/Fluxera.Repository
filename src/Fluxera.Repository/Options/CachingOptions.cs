@@ -44,6 +44,6 @@ namespace Fluxera.Repository.Options
 		/// <summary>
 		///     Gets the mapping from an aggregate to a caching strategy name.
 		/// </summary>
-		internal IDictionary<Type, AggregateCachingOverrideOptions> AggregateStrategies { get; } = new Dictionary<Type, AggregateCachingOverrideOptions>();
+		internal IDictionary<Type, EntityCachingOverrideOptions> AggregateStrategies { get; } = new Dictionary<Type, EntityCachingOverrideOptions>();
 	}
 }

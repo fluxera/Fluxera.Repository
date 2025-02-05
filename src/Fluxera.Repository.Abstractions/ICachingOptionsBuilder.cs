@@ -12,17 +12,17 @@
 		/// <summary>
 		///     Use no caching strategy as default for all aggregates.
 		/// </summary>
-		IAggregateCachingOptionsBuilder UseNoCaching();
+		IEntityCachingOptionsBuilder UseNoCaching();
 
 		/// <summary>
 		///     Use the standard caching strategy as default for all aggregates.
 		/// </summary>
-		IAggregateCachingOptionsBuilder UseStandard();
+		IEntityCachingOptionsBuilder UseStandard();
 
 		/// <summary>
 		///     Use timeout caching strategy as default for all aggregates.
 		/// </summary>
 		/// <param name="expiration">The expiration time for the cache.</param>
-		IAggregateCachingOptionsBuilder UseTimeout(TimeSpan expiration);
+		IEntityCachingOptionsBuilder UseTimeout(TimeSpan expiration);
 	}
 }

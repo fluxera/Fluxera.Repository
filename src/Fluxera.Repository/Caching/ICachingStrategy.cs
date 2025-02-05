@@ -11,11 +11,11 @@
 	/// <summary>
 	///     A contract for caching strategies.
 	/// </summary>
-	/// <typeparam name="TAggregateRoot"></typeparam>
+	/// <typeparam name="TEntity"></typeparam>
 	/// <typeparam name="TKey"></typeparam>
 	[PublicAPI]
-	public interface ICachingStrategy<TAggregateRoot, in TKey>
-		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+	public interface ICachingStrategy<TEntity, in TKey>
+		where TEntity : Entity<TEntity, TKey>
 		where TKey : IComparable<TKey>, IEquatable<TKey>
 	{
 		/// <summary>
@@ -23,28 +23,28 @@
 		/// </summary>
 		/// <param name="item"></param>
 		/// <returns></returns>
-		Task AddAsync(TAggregateRoot item);
+		Task AddAsync(TEntity item);
 
 		/// <summary>
 		///     The strategy method is called when new items are added.
 		/// </summary>
 		/// <param name="items"></param>
 		/// <returns></returns>
-		Task AddAsync(IEnumerable<TAggregateRoot> items);
+		Task AddAsync(IEnumerable<TEntity> items);
 
 		/// <summary>
 		///     The strategy method is called when a item is updated.
 		/// </summary>
 		/// <param name="item"></param>
 		/// <returns></returns>
-		Task UpdateAsync(TAggregateRoot item);
+		Task UpdateAsync(TEntity item);
 
 		/// <summary>
 		///     The strategy method is called when items are updated.
 		/// </summary>
 		/// <param name="items"></param>
 		/// <returns></returns>
-		Task UpdateAsync(IEnumerable<TAggregateRoot> items);
+		Task UpdateAsync(IEnumerable<TEntity> items);
 
 		/// <summary>
 		///     The strategy method is called when an item is removed by ID.
@@ -66,7 +66,7 @@
 		/// <param name="id"></param>
 		/// <param name="setter">A setter function that gets called when no item was found in the cache.</param>
 		/// <returns></returns>
-		Task<TAggregateRoot> GetAsync(TKey id, Func<Task<TAggregateRoot>> setter);
+		Task<TEntity> GetAsync(TKey id, Func<Task<TEntity>> setter);
 
 		/// <summary>
 		///     The strategy method is called when an item is retrieved by ID with a selector expression.
@@ -77,7 +77,7 @@
 		/// <param name="setter">A setter function that gets called when no item was found in the cache.</param>
 		/// <returns></returns>
 		Task<TResult> GetAsync<TResult>(TKey id,
-			Expression<Func<TAggregateRoot, TResult>> selector,
+			Expression<Func<TEntity, TResult>> selector,
 			Func<Task<TResult>> setter);
 
 		/// <summary>
@@ -94,7 +94,7 @@
 		/// <param name="setter">A setter function that gets called when no item was found in the cache.</param>
 		/// <returns></returns>
 		Task<long> CountAsync(
-			Expression<Func<TAggregateRoot, bool>> predicate,
+			Expression<Func<TEntity, bool>> predicate,
 			Func<Task<long>> setter);
 
 		/// <summary>
@@ -112,7 +112,7 @@
 		/// <param name="setter">A setter function that gets called when no item was found in the cache.</param>
 		/// <returns></returns>
 		Task<TResult> SumAsync<TResult>(
-			Expression<Func<TAggregateRoot, bool>> predicate,
+			Expression<Func<TEntity, bool>> predicate,
 			Func<Task<TResult>> setter)
 			where TResult : IComparable, IConvertible, IFormattable, IComparable<TResult>, IEquatable<TResult>;
 
@@ -131,7 +131,7 @@
 		/// <param name="setter">A setter function that gets called when no item was found in the cache.</param>
 		/// <returns></returns>
 		Task<TResult> AverageAsync<TResult>(
-			Expression<Func<TAggregateRoot, bool>> predicate,
+			Expression<Func<TEntity, bool>> predicate,
 			Func<Task<TResult>> setter)
 			where TResult : IComparable, IConvertible, IFormattable, IComparable<TResult>, IEquatable<TResult>;
 
@@ -142,10 +142,10 @@
 		/// <param name="queryOptions"></param>
 		/// <param name="setter">A setter function that gets called when no item was found in the cache.</param>
 		/// <returns></returns>
-		Task<TAggregateRoot> FindOneAsync(
-			Expression<Func<TAggregateRoot, bool>> predicate,
-			IQueryOptions<TAggregateRoot> queryOptions,
-			Func<Task<TAggregateRoot>> setter);
+		Task<TEntity> FindOneAsync(
+			Expression<Func<TEntity, bool>> predicate,
+			IQueryOptions<TEntity> queryOptions,
+			Func<Task<TEntity>> setter);
 
 		/// <summary>
 		///     The strategy method is called when a find-one with a predicate and selector expression is executed.
@@ -157,9 +157,9 @@
 		/// <param name="setter">A setter function that gets called when no item was found in the cache.</param>
 		/// <returns></returns>
 		Task<TResult> FindOneAsync<TResult>(
-			Expression<Func<TAggregateRoot, bool>> predicate,
-			Expression<Func<TAggregateRoot, TResult>> selector,
-			IQueryOptions<TAggregateRoot> queryOptions,
+			Expression<Func<TEntity, bool>> predicate,
+			Expression<Func<TEntity, TResult>> selector,
+			IQueryOptions<TEntity> queryOptions,
 			Func<Task<TResult>> setter);
 
 		/// <summary>
@@ -169,10 +169,10 @@
 		/// <param name="queryOptions"></param>
 		/// <param name="setter">A setter function that gets called when no item was found in the cache.</param>
 		/// <returns></returns>
-		Task<IReadOnlyCollection<TAggregateRoot>> FindManyAsync(
-			Expression<Func<TAggregateRoot, bool>> predicate,
-			IQueryOptions<TAggregateRoot> queryOptions,
-			Func<Task<IReadOnlyCollection<TAggregateRoot>>> setter);
+		Task<IReadOnlyCollection<TEntity>> FindManyAsync(
+			Expression<Func<TEntity, bool>> predicate,
+			IQueryOptions<TEntity> queryOptions,
+			Func<Task<IReadOnlyCollection<TEntity>>> setter);
 
 		/// <summary>
 		///     The strategy method is called when a find-many with a predicate and selector is executed.
@@ -184,9 +184,9 @@
 		/// <param name="setter">A setter function that gets called when no item was found in the cache.</param>
 		/// <returns></returns>
 		Task<IReadOnlyCollection<TResult>> FindManyAsync<TResult>(
-			Expression<Func<TAggregateRoot, bool>> predicate,
-			Expression<Func<TAggregateRoot, TResult>> selector,
-			IQueryOptions<TAggregateRoot> queryOptions,
+			Expression<Func<TEntity, bool>> predicate,
+			Expression<Func<TEntity, TResult>> selector,
+			IQueryOptions<TEntity> queryOptions,
 			Func<Task<IReadOnlyCollection<TResult>>> setter);
 
 		/// <summary>
@@ -204,7 +204,7 @@
 		/// <param name="setter">A setter function that gets called when no item was found in the cache.</param>
 		/// <returns></returns>
 		Task<bool> ExistsAsync(
-			Expression<Func<TAggregateRoot, bool>> predicate,
+			Expression<Func<TEntity, bool>> predicate,
 			Func<Task<bool>> setter);
 	}
 }

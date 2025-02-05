@@ -16,11 +16,11 @@
 	///     A base class for helping in implementing storage specific repositories for storage that
 	///     support <see cref="IQueryable{T}" /> and async extension methods for it.
 	/// </summary>
-	/// <typeparam name="TAggregateRoot"></typeparam>
+	/// <typeparam name="TEntity"></typeparam>
 	/// <typeparam name="TKey"></typeparam>
 	[PublicAPI]
-	public abstract class LinqRepositoryBase<TAggregateRoot, TKey> : RepositoryBase<TAggregateRoot, TKey>
-		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+	public abstract class LinqRepositoryBase<TEntity, TKey> : RepositoryBase<TEntity, TKey>
+		where TEntity : Entity<TEntity, TKey>
 		where TKey : IComparable<TKey>, IEquatable<TKey>
 	{
 		/// <inheritdoc />
@@ -32,13 +32,13 @@
 		/// <summary>
 		///     Gets the underlying <see cref="IQueryable{T}" />
 		/// </summary>
-		protected abstract IQueryable<TAggregateRoot> Queryable { get; }
+		protected abstract IQueryable<TEntity> Queryable { get; }
 
 		/// <inheritdoc />
-		protected sealed override async Task<TAggregateRoot> FindOneAsync(ISpecification<TAggregateRoot> specification,
-			IQueryOptions<TAggregateRoot> queryOptions, CancellationToken cancellationToken)
+		protected sealed override async Task<TEntity> FindOneAsync(ISpecification<TEntity> specification,
+			IQueryOptions<TEntity> queryOptions, CancellationToken cancellationToken)
 		{
-			IQueryable<TAggregateRoot> queryable = this.Queryable
+			IQueryable<TEntity> queryable = this.Queryable
 				.Apply(specification)
 				.Apply(queryOptions);
 
@@ -46,8 +46,8 @@
 		}
 
 		/// <inheritdoc />
-		protected sealed override async Task<TResult> FindOneAsync<TResult>(ISpecification<TAggregateRoot> specification,
-			Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot> queryOptions, CancellationToken cancellationToken)
+		protected sealed override async Task<TResult> FindOneAsync<TResult>(ISpecification<TEntity> specification,
+			Expression<Func<TEntity, TResult>> selector, IQueryOptions<TEntity> queryOptions, CancellationToken cancellationToken)
 		{
 			IQueryable<TResult> queryable = this.Queryable
 				.Apply(specification)
@@ -58,10 +58,10 @@
 		}
 
 		/// <inheritdoc />
-		protected sealed override async Task<IReadOnlyCollection<TAggregateRoot>> FindManyAsync(ISpecification<TAggregateRoot> specification,
-			IQueryOptions<TAggregateRoot> queryOptions, CancellationToken cancellationToken)
+		protected sealed override async Task<IReadOnlyCollection<TEntity>> FindManyAsync(ISpecification<TEntity> specification,
+			IQueryOptions<TEntity> queryOptions, CancellationToken cancellationToken)
 		{
-			IQueryable<TAggregateRoot> queryable = this.Queryable
+			IQueryable<TEntity> queryable = this.Queryable
 				.Apply(specification)
 				.Apply(queryOptions);
 
@@ -69,8 +69,8 @@
 		}
 
 		/// <inheritdoc />
-		protected sealed override async Task<IReadOnlyCollection<TResult>> FindManyAsync<TResult>(ISpecification<TAggregateRoot> specification,
-			Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot> queryOptions, CancellationToken cancellationToken)
+		protected sealed override async Task<IReadOnlyCollection<TResult>> FindManyAsync<TResult>(ISpecification<TEntity> specification,
+			Expression<Func<TEntity, TResult>> selector, IQueryOptions<TEntity> queryOptions, CancellationToken cancellationToken)
 		{
 			IQueryable<TResult> queryable = this.Queryable
 				.Apply(specification)
@@ -81,16 +81,16 @@
 		}
 
 		/// <inheritdoc />
-		protected sealed override async Task<long> LongCountAsync(ISpecification<TAggregateRoot> specification, CancellationToken cancellationToken)
+		protected sealed override async Task<long> LongCountAsync(ISpecification<TEntity> specification, CancellationToken cancellationToken)
 		{
-			IQueryable<TAggregateRoot> queryable = this.Queryable
+			IQueryable<TEntity> queryable = this.Queryable
 				.Apply(specification);
 
 			return await this.LongCountAsync(queryable, cancellationToken);
 		}
 
 		/// <inheritdoc />
-		protected sealed override async Task<int> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, int>> selector,
+		protected sealed override async Task<int> SumAsync(ISpecification<TEntity> specification, Expression<Func<TEntity, int>> selector,
 			CancellationToken cancellationToken)
 		{
 			IQueryable<int> queryable = this.Queryable
@@ -101,7 +101,7 @@
 		}
 
 		/// <inheritdoc />
-		protected sealed override async Task<int> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, int?>> selector,
+		protected sealed override async Task<int> SumAsync(ISpecification<TEntity> specification, Expression<Func<TEntity, int?>> selector,
 			CancellationToken cancellationToken)
 		{
 			IQueryable<int?> queryable = this.Queryable
@@ -112,7 +112,7 @@
 		}
 
 		/// <inheritdoc />
-		protected sealed override async Task<long> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, long>> selector,
+		protected sealed override async Task<long> SumAsync(ISpecification<TEntity> specification, Expression<Func<TEntity, long>> selector,
 			CancellationToken cancellationToken)
 		{
 			IQueryable<long> queryable = this.Queryable
@@ -123,7 +123,7 @@
 		}
 
 		/// <inheritdoc />
-		protected sealed override async Task<long> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, long?>> selector,
+		protected sealed override async Task<long> SumAsync(ISpecification<TEntity> specification, Expression<Func<TEntity, long?>> selector,
 			CancellationToken cancellationToken)
 		{
 			IQueryable<long?> queryable = this.Queryable
@@ -134,7 +134,7 @@
 		}
 
 		/// <inheritdoc />
-		protected sealed override async Task<decimal> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, decimal>> selector,
+		protected sealed override async Task<decimal> SumAsync(ISpecification<TEntity> specification, Expression<Func<TEntity, decimal>> selector,
 			CancellationToken cancellationToken)
 		{
 			IQueryable<decimal> queryable = this.Queryable
@@ -145,8 +145,8 @@
 		}
 
 		/// <inheritdoc />
-		protected sealed override async Task<decimal> SumAsync(ISpecification<TAggregateRoot> specification,
-			Expression<Func<TAggregateRoot, decimal?>> selector, CancellationToken cancellationToken)
+		protected sealed override async Task<decimal> SumAsync(ISpecification<TEntity> specification,
+			Expression<Func<TEntity, decimal?>> selector, CancellationToken cancellationToken)
 		{
 			IQueryable<decimal?> queryable = this.Queryable
 				.Apply(specification)
@@ -156,7 +156,7 @@
 		}
 
 		/// <inheritdoc />
-		protected sealed override async Task<float> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, float>> selector,
+		protected sealed override async Task<float> SumAsync(ISpecification<TEntity> specification, Expression<Func<TEntity, float>> selector,
 			CancellationToken cancellationToken)
 		{
 			IQueryable<float> queryable = this.Queryable
@@ -167,7 +167,7 @@
 		}
 
 		/// <inheritdoc />
-		protected sealed override async Task<float> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, float?>> selector,
+		protected sealed override async Task<float> SumAsync(ISpecification<TEntity> specification, Expression<Func<TEntity, float?>> selector,
 			CancellationToken cancellationToken)
 		{
 			IQueryable<float?> queryable = this.Queryable
@@ -178,7 +178,7 @@
 		}
 
 		/// <inheritdoc />
-		protected sealed override async Task<double> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, double>> selector,
+		protected sealed override async Task<double> SumAsync(ISpecification<TEntity> specification, Expression<Func<TEntity, double>> selector,
 			CancellationToken cancellationToken)
 		{
 			IQueryable<double> queryable = this.Queryable
@@ -189,7 +189,7 @@
 		}
 
 		/// <inheritdoc />
-		protected sealed override async Task<double> SumAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, double?>> selector,
+		protected sealed override async Task<double> SumAsync(ISpecification<TEntity> specification, Expression<Func<TEntity, double?>> selector,
 			CancellationToken cancellationToken)
 		{
 			IQueryable<double?> queryable = this.Queryable
@@ -200,7 +200,7 @@
 		}
 
 		/// <inheritdoc />
-		protected sealed override async Task<double> AverageAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, int>> selector,
+		protected sealed override async Task<double> AverageAsync(ISpecification<TEntity> specification, Expression<Func<TEntity, int>> selector,
 			CancellationToken cancellationToken)
 		{
 			IQueryable<int> queryable = this.Queryable
@@ -211,7 +211,7 @@
 		}
 
 		/// <inheritdoc />
-		protected sealed override async Task<double> AverageAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, int?>> selector,
+		protected sealed override async Task<double> AverageAsync(ISpecification<TEntity> specification, Expression<Func<TEntity, int?>> selector,
 			CancellationToken cancellationToken)
 		{
 			IQueryable<int?> queryable = this.Queryable
@@ -222,7 +222,7 @@
 		}
 
 		/// <inheritdoc />
-		protected sealed override async Task<double> AverageAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, long>> selector,
+		protected sealed override async Task<double> AverageAsync(ISpecification<TEntity> specification, Expression<Func<TEntity, long>> selector,
 			CancellationToken cancellationToken)
 		{
 			IQueryable<long> queryable = this.Queryable
@@ -233,8 +233,8 @@
 		}
 
 		/// <inheritdoc />
-		protected sealed override async Task<double> AverageAsync(ISpecification<TAggregateRoot> specification,
-			Expression<Func<TAggregateRoot, long?>> selector, CancellationToken cancellationToken)
+		protected sealed override async Task<double> AverageAsync(ISpecification<TEntity> specification,
+			Expression<Func<TEntity, long?>> selector, CancellationToken cancellationToken)
 		{
 			IQueryable<long?> queryable = this.Queryable
 				.Apply(specification)
@@ -244,8 +244,8 @@
 		}
 
 		/// <inheritdoc />
-		protected sealed override async Task<decimal> AverageAsync(ISpecification<TAggregateRoot> specification,
-			Expression<Func<TAggregateRoot, decimal>> selector, CancellationToken cancellationToken)
+		protected sealed override async Task<decimal> AverageAsync(ISpecification<TEntity> specification,
+			Expression<Func<TEntity, decimal>> selector, CancellationToken cancellationToken)
 		{
 			IQueryable<decimal> queryable = this.Queryable
 				.Apply(specification)
@@ -255,8 +255,8 @@
 		}
 
 		/// <inheritdoc />
-		protected sealed override async Task<decimal> AverageAsync(ISpecification<TAggregateRoot> specification,
-			Expression<Func<TAggregateRoot, decimal?>> selector, CancellationToken cancellationToken)
+		protected sealed override async Task<decimal> AverageAsync(ISpecification<TEntity> specification,
+			Expression<Func<TEntity, decimal?>> selector, CancellationToken cancellationToken)
 		{
 			IQueryable<decimal?> queryable = this.Queryable
 				.Apply(specification)
@@ -266,7 +266,7 @@
 		}
 
 		/// <inheritdoc />
-		protected sealed override async Task<float> AverageAsync(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, float>> selector,
+		protected sealed override async Task<float> AverageAsync(ISpecification<TEntity> specification, Expression<Func<TEntity, float>> selector,
 			CancellationToken cancellationToken)
 		{
 			IQueryable<float> queryable = this.Queryable
@@ -277,8 +277,8 @@
 		}
 
 		/// <inheritdoc />
-		protected sealed override async Task<float> AverageAsync(ISpecification<TAggregateRoot> specification,
-			Expression<Func<TAggregateRoot, float?>> selector, CancellationToken cancellationToken)
+		protected sealed override async Task<float> AverageAsync(ISpecification<TEntity> specification,
+			Expression<Func<TEntity, float?>> selector, CancellationToken cancellationToken)
 		{
 			IQueryable<float?> queryable = this.Queryable
 				.Apply(specification)
@@ -288,8 +288,8 @@
 		}
 
 		/// <inheritdoc />
-		protected sealed override async Task<double> AverageAsync(ISpecification<TAggregateRoot> specification,
-			Expression<Func<TAggregateRoot, double>> selector, CancellationToken cancellationToken)
+		protected sealed override async Task<double> AverageAsync(ISpecification<TEntity> specification,
+			Expression<Func<TEntity, double>> selector, CancellationToken cancellationToken)
 		{
 			IQueryable<double> queryable = this.Queryable
 				.Apply(specification)
@@ -299,8 +299,8 @@
 		}
 
 		/// <inheritdoc />
-		protected sealed override async Task<double> AverageAsync(ISpecification<TAggregateRoot> specification,
-			Expression<Func<TAggregateRoot, double?>> selector, CancellationToken cancellationToken)
+		protected sealed override async Task<double> AverageAsync(ISpecification<TEntity> specification,
+			Expression<Func<TEntity, double?>> selector, CancellationToken cancellationToken)
 		{
 			IQueryable<double?> queryable = this.Queryable
 				.Apply(specification)
@@ -315,7 +315,7 @@
 		/// <param name="queryable"></param>
 		/// <param name="cancellationToken"></param>
 		/// <returns></returns>
-		protected abstract Task<TAggregateRoot> FirstOrDefaultAsync(IQueryable<TAggregateRoot> queryable, CancellationToken cancellationToken);
+		protected abstract Task<TEntity> FirstOrDefaultAsync(IQueryable<TEntity> queryable, CancellationToken cancellationToken);
 
 		/// <summary>
 		///     Executes the <see cref="IQueryable{T}" /> using a FirstOrDefaultAsync type of extension method.
@@ -332,7 +332,7 @@
 		/// <param name="queryable"></param>
 		/// <param name="cancellationToken"></param>
 		/// <returns></returns>
-		protected abstract Task<IReadOnlyCollection<TAggregateRoot>> ToListAsync(IQueryable<TAggregateRoot> queryable, CancellationToken cancellationToken);
+		protected abstract Task<IReadOnlyCollection<TEntity>> ToListAsync(IQueryable<TEntity> queryable, CancellationToken cancellationToken);
 
 		/// <summary>
 		///     Executes the <see cref="IQueryable{T}" /> using a ToListAsync type of extension method.
@@ -349,7 +349,7 @@
 		/// <param name="queryable"></param>
 		/// <param name="cancellationToken"></param>
 		/// <returns></returns>
-		protected abstract Task<long> LongCountAsync(IQueryable<TAggregateRoot> queryable, CancellationToken cancellationToken);
+		protected abstract Task<long> LongCountAsync(IQueryable<TEntity> queryable, CancellationToken cancellationToken);
 
 		/// <summary>
 		///     Executes the <see cref="IQueryable{T}" /> using a SumAsync type of extension method.

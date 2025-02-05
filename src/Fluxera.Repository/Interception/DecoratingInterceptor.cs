@@ -10,62 +10,62 @@
 	using Fluxera.Repository.Specifications;
 	using Microsoft.Extensions.Logging;
 
-	internal sealed class DecoratingInterceptor<TAggregateRoot, TKey> : IInterceptor<TAggregateRoot, TKey>, IDecoratingInterceptor
-		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+	internal sealed class DecoratingInterceptor<TEntity, TKey> : IInterceptor<TEntity, TKey>, IDecoratingInterceptor
+		where TEntity : Entity<TEntity, TKey>
 		where TKey : notnull, IComparable<TKey>, IEquatable<TKey>
 	{
-		private readonly IEnumerable<IInterceptor<TAggregateRoot, TKey>> innerInterceptors;
+		private readonly IEnumerable<IInterceptor<TEntity, TKey>> innerInterceptors;
 		private readonly ILogger logger;
 
 		public DecoratingInterceptor(
 			ILoggerFactory loggerFactory,
-			IEnumerable<IInterceptor<TAggregateRoot, TKey>> interceptors)
+			IEnumerable<IInterceptor<TEntity, TKey>> interceptors)
 		{
 			this.innerInterceptors = interceptors;
 			this.logger = loggerFactory.CreateLogger(LoggerNames.Interception);
 		}
 
 		/// <inheritdoc />
-		public async Task BeforeAddAsync(TAggregateRoot item, InterceptionEvent e)
+		public async Task BeforeAddAsync(TEntity item, InterceptionEvent e)
 		{
-			this.logger.LogInterceptingBeforeOperation("add", typeof(TAggregateRoot).Name);
+			this.logger.LogInterceptingBeforeOperation("add", typeof(TEntity).Name);
 
-			foreach(IInterceptor<TAggregateRoot, TKey> interceptor in this.innerInterceptors)
+			foreach(IInterceptor<TEntity, TKey> interceptor in this.innerInterceptors)
 			{
 				await interceptor.BeforeAddAsync(item, e);
 			}
 		}
 
 		/// <inheritdoc />
-		public async Task BeforeUpdateAsync(TAggregateRoot item, InterceptionEvent e)
+		public async Task BeforeUpdateAsync(TEntity item, InterceptionEvent e)
 		{
-			this.logger.LogInterceptingBeforeOperation("update", typeof(TAggregateRoot).Name);
+			this.logger.LogInterceptingBeforeOperation("update", typeof(TEntity).Name);
 
-			foreach(IInterceptor<TAggregateRoot, TKey> interceptor in this.innerInterceptors)
+			foreach(IInterceptor<TEntity, TKey> interceptor in this.innerInterceptors)
 			{
 				await interceptor.BeforeUpdateAsync(item, e);
 			}
 		}
 
 		/// <inheritdoc />
-		public async Task BeforeRemoveAsync(TAggregateRoot item, InterceptionEvent e)
+		public async Task BeforeRemoveAsync(TEntity item, InterceptionEvent e)
 		{
-			this.logger.LogInterceptingBeforeOperation("remove", typeof(TAggregateRoot).Name);
+			this.logger.LogInterceptingBeforeOperation("remove", typeof(TEntity).Name);
 
-			foreach(IInterceptor<TAggregateRoot, TKey> interceptor in this.innerInterceptors)
+			foreach(IInterceptor<TEntity, TKey> interceptor in this.innerInterceptors)
 			{
 				await interceptor.BeforeRemoveAsync(item, e);
 			}
 		}
 
 		/// <inheritdoc />
-		public async Task<Expression<Func<TAggregateRoot, bool>>> BeforeRemoveRangeAsync(Expression<Func<TAggregateRoot, bool>> predicate, InterceptionEvent e)
+		public async Task<Expression<Func<TEntity, bool>>> BeforeRemoveRangeAsync(Expression<Func<TEntity, bool>> predicate, InterceptionEvent e)
 		{
-			this.logger.LogInterceptingBeforeOperation("remove", typeof(TAggregateRoot).Name);
+			this.logger.LogInterceptingBeforeOperation("remove", typeof(TEntity).Name);
 
-			Expression<Func<TAggregateRoot, bool>> interceptorPredicate = predicate;
+			Expression<Func<TEntity, bool>> interceptorPredicate = predicate;
 
-			foreach(IInterceptor<TAggregateRoot, TKey> interceptor in this.innerInterceptors)
+			foreach(IInterceptor<TEntity, TKey> interceptor in this.innerInterceptors)
 			{
 				interceptorPredicate = await interceptor.BeforeRemoveRangeAsync(interceptorPredicate, e);
 			}
@@ -74,13 +74,13 @@
 		}
 
 		/// <inheritdoc />
-		public async Task<ISpecification<TAggregateRoot>> BeforeRemoveRangeAsync(ISpecification<TAggregateRoot> specification, InterceptionEvent e)
+		public async Task<ISpecification<TEntity>> BeforeRemoveRangeAsync(ISpecification<TEntity> specification, InterceptionEvent e)
 		{
-			this.logger.LogInterceptingBeforeOperation("remove", typeof(TAggregateRoot).Name);
+			this.logger.LogInterceptingBeforeOperation("remove", typeof(TEntity).Name);
 
-			ISpecification<TAggregateRoot> interceptorSpecification = specification;
+			ISpecification<TEntity> interceptorSpecification = specification;
 
-			foreach(IInterceptor<TAggregateRoot, TKey> interceptor in this.innerInterceptors)
+			foreach(IInterceptor<TEntity, TKey> interceptor in this.innerInterceptors)
 			{
 				interceptorSpecification = await interceptor.BeforeRemoveRangeAsync(interceptorSpecification, e);
 			}
@@ -89,13 +89,13 @@
 		}
 
 		/// <inheritdoc />
-		public async Task<Expression<Func<TAggregateRoot, bool>>> BeforeFindAsync(Expression<Func<TAggregateRoot, bool>> predicate, IQueryOptions<TAggregateRoot> queryOptions)
+		public async Task<Expression<Func<TEntity, bool>>> BeforeFindAsync(Expression<Func<TEntity, bool>> predicate, IQueryOptions<TEntity> queryOptions)
 		{
-			this.logger.LogInterceptingBeforeOperation("find", typeof(TAggregateRoot).Name);
+			this.logger.LogInterceptingBeforeOperation("find", typeof(TEntity).Name);
 
-			Expression<Func<TAggregateRoot, bool>> interceptorPredicate = predicate;
+			Expression<Func<TEntity, bool>> interceptorPredicate = predicate;
 
-			foreach(IInterceptor<TAggregateRoot, TKey> interceptor in this.innerInterceptors)
+			foreach(IInterceptor<TEntity, TKey> interceptor in this.innerInterceptors)
 			{
 				interceptorPredicate = await interceptor.BeforeFindAsync(interceptorPredicate, queryOptions);
 			}
@@ -104,13 +104,13 @@
 		}
 
 		/// <inheritdoc />
-		public async Task<ISpecification<TAggregateRoot>> BeforeFindAsync(ISpecification<TAggregateRoot> specification, IQueryOptions<TAggregateRoot> queryOptions)
+		public async Task<ISpecification<TEntity>> BeforeFindAsync(ISpecification<TEntity> specification, IQueryOptions<TEntity> queryOptions)
 		{
-			this.logger.LogInterceptingBeforeOperation("find", typeof(TAggregateRoot).Name);
+			this.logger.LogInterceptingBeforeOperation("find", typeof(TEntity).Name);
 
-			ISpecification<TAggregateRoot> interceptorSpecification = specification;
+			ISpecification<TEntity> interceptorSpecification = specification;
 
-			foreach(IInterceptor<TAggregateRoot, TKey> interceptor in this.innerInterceptors)
+			foreach(IInterceptor<TEntity, TKey> interceptor in this.innerInterceptors)
 			{
 				interceptorSpecification = await interceptor.BeforeFindAsync(interceptorSpecification, queryOptions);
 			}

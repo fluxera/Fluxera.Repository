@@ -4,7 +4,7 @@
 	using System.ComponentModel.DataAnnotations;
 	using Fluxera.Entity;
 
-	public class Company : AggregateRoot<Company, string>
+	public class Company : Entity<Company, string>
 	{
 		[Required]
 		public string Name { get; set; }
