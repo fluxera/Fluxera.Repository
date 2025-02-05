@@ -2,7 +2,7 @@
 {
 	using Fluxera.Entity;
 
-	public class Employee : AggregateRoot<Employee, EmployeeId>
+	public class Employee : Entity<Employee, EmployeeId>
 	{
 		public string Name { get; set; }
 

@@ -10,11 +10,11 @@
 	/// <summary>
 	///     A contract for a validation strategy.
 	/// </summary>
-	/// <typeparam name="TAggregateRoot"></typeparam>
+	/// <typeparam name="TEntity"></typeparam>
 	/// <typeparam name="TKey"></typeparam>
 	[PublicAPI]
-	public interface IValidationStrategy<in TAggregateRoot, TKey>
-		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+	public interface IValidationStrategy<in TEntity, TKey>
+		where TEntity : Entity<TEntity, TKey>
 		where TKey : IComparable<TKey>, IEquatable<TKey>
 	{
 		/// <summary>
@@ -23,7 +23,7 @@
 		/// <param name="item"></param>
 		/// <param name="cancellationToken"></param>
 		/// <returns></returns>
-		Task ValidateAsync(TAggregateRoot item, CancellationToken cancellationToken = default);
+		Task ValidateAsync(TEntity item, CancellationToken cancellationToken = default);
 
 		/// <summary>
 		///     Validates multiple items.
@@ -31,6 +31,6 @@
 		/// <param name="items"></param>
 		/// <param name="cancellationToken"></param>
 		/// <returns></returns>
-		Task ValidateAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken = default);
+		Task ValidateAsync(IEnumerable<TEntity> items, CancellationToken cancellationToken = default);
 	}
 }

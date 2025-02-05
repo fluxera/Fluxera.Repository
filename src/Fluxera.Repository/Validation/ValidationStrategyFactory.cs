@@ -22,19 +22,19 @@
 		}
 
 		/// <inheritdoc />
-		public IValidationStrategy<TAggregateRoot, TKey> CreateStrategy<TAggregateRoot, TKey>()
-			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+		public IValidationStrategy<TEntity, TKey> CreateStrategy<TEntity, TKey>()
+			where TEntity : Entity<TEntity, TKey>
 			where TKey : IComparable<TKey>, IEquatable<TKey>
 		{
-			RepositoryName repositoryName = this.repositoryRegistry.GetRepositoryNameFor<TAggregateRoot>();
+			RepositoryName repositoryName = this.repositoryRegistry.GetRepositoryNameFor<TEntity>();
 			RepositoryOptions repositoryOptions = this.repositoryRegistry.GetRepositoryOptionsFor(repositoryName);
 
 			if(repositoryOptions.ValidationOptions.IsEnabled)
 			{
-				return new StandardValidationStrategy<TAggregateRoot, TKey>(this.validationService);
+				return new StandardValidationStrategy<TEntity, TKey>(this.validationService);
 			}
 
-			return new NoValidationStrategy<TAggregateRoot, TKey>();
+			return new NoValidationStrategy<TEntity, TKey>();
 		}
 	}
 }

@@ -14,8 +14,8 @@ namespace Fluxera.Repository.Extensions
 	[PublicAPI]
 	internal static class GuardExtensions
 	{
-		public static void NotTransient<TAggregateRoot, TKey>(this IGuard guard, TAggregateRoot input, [InvokerParameterName][CallerArgumentExpression(nameof(input))] string parameterName = null, string message = null)
-			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+		public static void NotTransient<TEntity, TKey>(this IGuard guard, TEntity input, [InvokerParameterName][CallerArgumentExpression(nameof(input))] string parameterName = null, string message = null)
+			where TEntity : Entity<TEntity, TKey>
 			where TKey : IComparable<TKey>, IEquatable<TKey>
 		{
 			Guard.Against.Null(input);
@@ -26,20 +26,20 @@ namespace Fluxera.Repository.Extensions
 			}
 		}
 
-		public static void NotTransient<TAggregateRoot, TKey>(this IGuard guard, IEnumerable<TAggregateRoot> input, [InvokerParameterName][CallerArgumentExpression(nameof(input))] string parameterName = null, string message = null)
-			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+		public static void NotTransient<TEntity, TKey>(this IGuard guard, IEnumerable<TEntity> input, [InvokerParameterName][CallerArgumentExpression(nameof(input))] string parameterName = null, string message = null)
+			where TEntity : Entity<TEntity, TKey>
 			where TKey : IComparable<TKey>, IEquatable<TKey>
 		{
 			Guard.Against.Null(input);
 
-			foreach(TAggregateRoot item in input)
+			foreach(TEntity item in input)
 			{
-				Guard.Against.NotTransient<TAggregateRoot, TKey>(item, parameterName, message);
+				Guard.Against.NotTransient<TEntity, TKey>(item, parameterName, message);
 			}
 		}
 
-		public static void Transient<TAggregateRoot, TKey>(this IGuard guard, TAggregateRoot input, [InvokerParameterName][CallerArgumentExpression(nameof(input))] string parameterName = null, string message = null)
-			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+		public static void Transient<TEntity, TKey>(this IGuard guard, TEntity input, [InvokerParameterName][CallerArgumentExpression(nameof(input))] string parameterName = null, string message = null)
+			where TEntity : Entity<TEntity, TKey>
 			where TKey : IComparable<TKey>, IEquatable<TKey>
 		{
 			Guard.Against.Null(input);
@@ -50,20 +50,20 @@ namespace Fluxera.Repository.Extensions
 			}
 		}
 
-		public static void Transient<TAggregateRoot, TKey>(this IGuard guard, IEnumerable<TAggregateRoot> input, [InvokerParameterName][CallerArgumentExpression(nameof(input))] string parameterName = null, string message = null)
-			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+		public static void Transient<TEntity, TKey>(this IGuard guard, IEnumerable<TEntity> input, [InvokerParameterName][CallerArgumentExpression(nameof(input))] string parameterName = null, string message = null)
+			where TEntity : Entity<TEntity, TKey>
 			where TKey : IComparable<TKey>, IEquatable<TKey>
 		{
 			Guard.Against.Null(input);
 
-			foreach(TAggregateRoot item in input)
+			foreach(TEntity item in input)
 			{
-				Guard.Against.Transient<TAggregateRoot, TKey>(item, parameterName, message);
+				Guard.Against.Transient<TEntity, TKey>(item, parameterName, message);
 			}
 		}
 
-		public static void Disposed<TAggregateRoot, TKey>(this IGuard guard, IRepository<TAggregateRoot, TKey> input)
-			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+		public static void Disposed<TEntity, TKey>(this IGuard guard, IRepository<TEntity, TKey> input)
+			where TEntity : Entity<TEntity, TKey>
 			where TKey : IComparable<TKey>, IEquatable<TKey>
 		{
 			Guard.Against.Null(input);

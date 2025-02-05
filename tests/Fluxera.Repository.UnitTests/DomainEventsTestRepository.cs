@@ -13,12 +13,12 @@ namespace Fluxera.Repository.UnitTests
 	using Fluxera.Repository.UnitTests.Core.PersonAggregate;
 	using Fluxera.Utilities.Extensions;
 
-	public class DomainEventsTestRepository<TAggregateRoot, TKey> : NoopTestRepository<TAggregateRoot, TKey>
-		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+	public class DomainEventsTestRepository<TEntity, TKey> : NoopTestRepository<TEntity, TKey>
+		where TEntity : Entity<TEntity, TKey>
 		where TKey : IComparable<TKey>, IEquatable<TKey>
 	{
 		/// <inheritdoc />
-		public override Task<IReadOnlyCollection<TAggregateRoot>> FindManyAsync(ISpecification<TAggregateRoot> specification, IQueryOptions<TAggregateRoot> queryOptions = null, CancellationToken cancellationToken = default)
+		public override Task<IReadOnlyCollection<TEntity>> FindManyAsync(ISpecification<TEntity> specification, IQueryOptions<TEntity> queryOptions = null, CancellationToken cancellationToken = default)
 		{
 			Person[] persons =
 			[
@@ -38,12 +38,12 @@ namespace Fluxera.Repository.UnitTests
 					Name = "Tester"
 				}
 			];
-			IReadOnlyCollection<TAggregateRoot> items = persons.Cast<TAggregateRoot>().AsReadOnly();
+			IReadOnlyCollection<TEntity> items = persons.Cast<TEntity>().AsReadOnly();
 			return Task.FromResult(items);
 		}
 
 		/// <inheritdoc />
-		public override Task<IReadOnlyCollection<TAggregateRoot>> FindManyAsync(Expression<Func<TAggregateRoot, bool>> predicate, IQueryOptions<TAggregateRoot> queryOptions, CancellationToken cancellationToken)
+		public override Task<IReadOnlyCollection<TEntity>> FindManyAsync(Expression<Func<TEntity, bool>> predicate, IQueryOptions<TEntity> queryOptions, CancellationToken cancellationToken)
 		{
 			Person[] persons =
 			[
@@ -63,19 +63,19 @@ namespace Fluxera.Repository.UnitTests
 					Name = "Tester"
 				}
 			];
-			IReadOnlyCollection<TAggregateRoot> items = persons.Cast<TAggregateRoot>().AsReadOnly();
+			IReadOnlyCollection<TEntity> items = persons.Cast<TEntity>().AsReadOnly();
 			return Task.FromResult(items);
 		}
 
 		/// <inheritdoc />
-		public override Task<TAggregateRoot> GetAsync(TKey id, CancellationToken cancellationToken)
+		public override Task<TEntity> GetAsync(TKey id, CancellationToken cancellationToken)
 		{
 			Person item = new Person
 			{
 				ID = Guid.Parse("d37eaa47-7cb0-4368-af1a-8f1c94be9782"),
 				Name = "Tester"
 			};
-			return Task.FromResult(item as TAggregateRoot);
+			return Task.FromResult(item as TEntity);
 		}
 	}
 }

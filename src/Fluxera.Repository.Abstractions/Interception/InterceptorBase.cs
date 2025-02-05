@@ -9,57 +9,57 @@
 	using JetBrains.Annotations;
 
 	/// <summary>
-	///     A base class for a service that is used to intercept calls tot he repository
+	///     A base class for a service that is used to intercept calls to the repository
 	///     before they hit the underlying storage.
 	/// </summary>
-	/// <typeparam name="TAggregateRoot">The type of the aggregate root.</typeparam>
+	/// <typeparam name="TEntity">The type of the aggregate root.</typeparam>
 	/// <typeparam name="TKey">The type of the ID.</typeparam>
 	[PublicAPI]
-	public abstract class InterceptorBase<TAggregateRoot, TKey> : IInterceptor<TAggregateRoot, TKey>
-		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+	public abstract class InterceptorBase<TEntity, TKey> : IInterceptor<TEntity, TKey>
+		where TEntity : Entity<TEntity, TKey>
 		where TKey : IComparable<TKey>, IEquatable<TKey>
 	{
 		/// <inheritdoc />
 		public virtual int Order => 0;
 
 		/// <inheritdoc />
-		public virtual Task BeforeAddAsync(TAggregateRoot item, InterceptionEvent e)
+		public virtual Task BeforeAddAsync(TEntity item, InterceptionEvent e)
 		{
 			return Task.CompletedTask;
 		}
 
 		/// <inheritdoc />
-		public virtual Task BeforeUpdateAsync(TAggregateRoot item, InterceptionEvent e)
+		public virtual Task BeforeUpdateAsync(TEntity item, InterceptionEvent e)
 		{
 			return Task.CompletedTask;
 		}
 
 		/// <inheritdoc />
-		public virtual Task BeforeRemoveAsync(TAggregateRoot item, InterceptionEvent e)
+		public virtual Task BeforeRemoveAsync(TEntity item, InterceptionEvent e)
 		{
 			return Task.CompletedTask;
 		}
 
 		/// <inheritdoc />
-		public virtual Task<Expression<Func<TAggregateRoot, bool>>> BeforeRemoveRangeAsync(Expression<Func<TAggregateRoot, bool>> predicate, InterceptionEvent e)
+		public virtual Task<Expression<Func<TEntity, bool>>> BeforeRemoveRangeAsync(Expression<Func<TEntity, bool>> predicate, InterceptionEvent e)
 		{
 			return Task.FromResult(predicate);
 		}
 
 		/// <inheritdoc />
-		public virtual Task<ISpecification<TAggregateRoot>> BeforeRemoveRangeAsync(ISpecification<TAggregateRoot> specification, InterceptionEvent e)
+		public virtual Task<ISpecification<TEntity>> BeforeRemoveRangeAsync(ISpecification<TEntity> specification, InterceptionEvent e)
 		{
 			return Task.FromResult(specification);
 		}
 
 		/// <inheritdoc />
-		public virtual Task<Expression<Func<TAggregateRoot, bool>>> BeforeFindAsync(Expression<Func<TAggregateRoot, bool>> predicate, IQueryOptions<TAggregateRoot> queryOptions)
+		public virtual Task<Expression<Func<TEntity, bool>>> BeforeFindAsync(Expression<Func<TEntity, bool>> predicate, IQueryOptions<TEntity> queryOptions)
 		{
 			return Task.FromResult(predicate);
 		}
 
 		/// <inheritdoc />
-		public virtual Task<ISpecification<TAggregateRoot>> BeforeFindAsync(ISpecification<TAggregateRoot> specification, IQueryOptions<TAggregateRoot> queryOptions)
+		public virtual Task<ISpecification<TEntity>> BeforeFindAsync(ISpecification<TEntity> specification, IQueryOptions<TEntity> queryOptions)
 		{
 			return Task.FromResult(specification);
 		}

@@ -13,11 +13,11 @@
 		/// <summary>
 		///     Creates the cache strategy to use for the repository and aggregate root.
 		/// </summary>
-		/// <typeparam name="TAggregateRoot"></typeparam>
+		/// <typeparam name="TEntity"></typeparam>
 		/// <typeparam name="TKey">The type if the keys.</typeparam>
 		/// <returns></returns>
-		ICachingStrategy<TAggregateRoot, TKey> CreateStrategy<TAggregateRoot, TKey>()
-			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+		ICachingStrategy<TEntity, TKey> CreateStrategy<TEntity, TKey>()
+			where TEntity : Entity<TEntity, TKey>
 			where TKey : IComparable<TKey>, IEquatable<TKey>;
 	}
 }

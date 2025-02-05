@@ -9,8 +9,8 @@ namespace Fluxera.Repository.UnitTests
 	using Fluxera.Repository.Caching;
 	using Fluxera.Repository.Query;
 
-	public class TestCachingStrategy<TAggregateRoot, TKey> : ICachingStrategy<TAggregateRoot, TKey>
-		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+	public class TestCachingStrategy<TEntity, TKey> : ICachingStrategy<TEntity, TKey>
+		where TEntity : Entity<TEntity, TKey>
 		where TKey : IComparable<TKey>, IEquatable<TKey>
 	{
 		public bool AddMultipleWasCalled;
@@ -35,43 +35,43 @@ namespace Fluxera.Repository.UnitTests
 		public bool UpdateSingleWasCalled;
 
 		/// <inheritdoc />
-		async Task ICachingStrategy<TAggregateRoot, TKey>.AddAsync(TAggregateRoot item)
+		async Task ICachingStrategy<TEntity, TKey>.AddAsync(TEntity item)
 		{
 			this.AddSingleWasCalled = true;
 		}
 
 		/// <inheritdoc />
-		async Task ICachingStrategy<TAggregateRoot, TKey>.AddAsync(IEnumerable<TAggregateRoot> items)
+		async Task ICachingStrategy<TEntity, TKey>.AddAsync(IEnumerable<TEntity> items)
 		{
 			this.AddMultipleWasCalled = true;
 		}
 
 		/// <inheritdoc />
-		async Task ICachingStrategy<TAggregateRoot, TKey>.UpdateAsync(TAggregateRoot item)
+		async Task ICachingStrategy<TEntity, TKey>.UpdateAsync(TEntity item)
 		{
 			this.UpdateSingleWasCalled = true;
 		}
 
 		/// <inheritdoc />
-		async Task ICachingStrategy<TAggregateRoot, TKey>.UpdateAsync(IEnumerable<TAggregateRoot> items)
+		async Task ICachingStrategy<TEntity, TKey>.UpdateAsync(IEnumerable<TEntity> items)
 		{
 			this.UpdateMultipleWasCalled = true;
 		}
 
 		/// <inheritdoc />
-		async Task ICachingStrategy<TAggregateRoot, TKey>.RemoveAsync(TKey id)
+		async Task ICachingStrategy<TEntity, TKey>.RemoveAsync(TKey id)
 		{
 			this.RemoveSingleWasCalled = true;
 		}
 
 		/// <inheritdoc />
-		async Task ICachingStrategy<TAggregateRoot, TKey>.RemoveAsync(IEnumerable<TKey> ids)
+		async Task ICachingStrategy<TEntity, TKey>.RemoveAsync(IEnumerable<TKey> ids)
 		{
 			this.RemoveMultipleWasCalled = true;
 		}
 
 		/// <inheritdoc />
-		async Task<TAggregateRoot> ICachingStrategy<TAggregateRoot, TKey>.GetAsync(TKey id, Func<Task<TAggregateRoot>> setter)
+		async Task<TEntity> ICachingStrategy<TEntity, TKey>.GetAsync(TKey id, Func<Task<TEntity>> setter)
 		{
 			this.GetWasCalled = true;
 
@@ -79,7 +79,7 @@ namespace Fluxera.Repository.UnitTests
 		}
 
 		/// <inheritdoc />
-		async Task<TResult> ICachingStrategy<TAggregateRoot, TKey>.GetAsync<TResult>(TKey id, Expression<Func<TAggregateRoot, TResult>> selector, Func<Task<TResult>> setter)
+		async Task<TResult> ICachingStrategy<TEntity, TKey>.GetAsync<TResult>(TKey id, Expression<Func<TEntity, TResult>> selector, Func<Task<TResult>> setter)
 		{
 			this.GetWithSelectorWasCalled = true;
 
@@ -87,7 +87,7 @@ namespace Fluxera.Repository.UnitTests
 		}
 
 		/// <inheritdoc />
-		async Task<long> ICachingStrategy<TAggregateRoot, TKey>.CountAsync(Func<Task<long>> setter)
+		async Task<long> ICachingStrategy<TEntity, TKey>.CountAsync(Func<Task<long>> setter)
 		{
 			this.CountWasCalled = true;
 
@@ -95,7 +95,7 @@ namespace Fluxera.Repository.UnitTests
 		}
 
 		/// <inheritdoc />
-		async Task<long> ICachingStrategy<TAggregateRoot, TKey>.CountAsync(Expression<Func<TAggregateRoot, bool>> predicate, Func<Task<long>> setter)
+		async Task<long> ICachingStrategy<TEntity, TKey>.CountAsync(Expression<Func<TEntity, bool>> predicate, Func<Task<long>> setter)
 		{
 			this.CountWithPredicateWasCalled = true;
 
@@ -103,7 +103,7 @@ namespace Fluxera.Repository.UnitTests
 		}
 
 		/// <inheritdoc />
-		async Task<TResult> ICachingStrategy<TAggregateRoot, TKey>.SumAsync<TResult>(Func<Task<TResult>> setter)
+		async Task<TResult> ICachingStrategy<TEntity, TKey>.SumAsync<TResult>(Func<Task<TResult>> setter)
 		{
 			this.SumWasCalled = true;
 
@@ -111,7 +111,7 @@ namespace Fluxera.Repository.UnitTests
 		}
 
 		/// <inheritdoc />
-		async Task<TResult> ICachingStrategy<TAggregateRoot, TKey>.SumAsync<TResult>(Expression<Func<TAggregateRoot, bool>> predicate, Func<Task<TResult>> setter)
+		async Task<TResult> ICachingStrategy<TEntity, TKey>.SumAsync<TResult>(Expression<Func<TEntity, bool>> predicate, Func<Task<TResult>> setter)
 		{
 			this.SumWithPredicateWasCalled = true;
 
@@ -119,7 +119,7 @@ namespace Fluxera.Repository.UnitTests
 		}
 
 		/// <inheritdoc />
-		async Task<TResult> ICachingStrategy<TAggregateRoot, TKey>.AverageAsync<TResult>(Func<Task<TResult>> setter)
+		async Task<TResult> ICachingStrategy<TEntity, TKey>.AverageAsync<TResult>(Func<Task<TResult>> setter)
 		{
 			this.AverageWasCalled = true;
 
@@ -127,7 +127,7 @@ namespace Fluxera.Repository.UnitTests
 		}
 
 		/// <inheritdoc />
-		async Task<TResult> ICachingStrategy<TAggregateRoot, TKey>.AverageAsync<TResult>(Expression<Func<TAggregateRoot, bool>> predicate, Func<Task<TResult>> setter)
+		async Task<TResult> ICachingStrategy<TEntity, TKey>.AverageAsync<TResult>(Expression<Func<TEntity, bool>> predicate, Func<Task<TResult>> setter)
 		{
 			this.AverageWithPredicateWasCalled = true;
 
@@ -135,7 +135,7 @@ namespace Fluxera.Repository.UnitTests
 		}
 
 		/// <inheritdoc />
-		async Task<TAggregateRoot> ICachingStrategy<TAggregateRoot, TKey>.FindOneAsync(Expression<Func<TAggregateRoot, bool>> predicate, IQueryOptions<TAggregateRoot> queryOptions, Func<Task<TAggregateRoot>> setter)
+		async Task<TEntity> ICachingStrategy<TEntity, TKey>.FindOneAsync(Expression<Func<TEntity, bool>> predicate, IQueryOptions<TEntity> queryOptions, Func<Task<TEntity>> setter)
 		{
 			this.FindOneWithPredicateWasCalled = true;
 
@@ -143,7 +143,7 @@ namespace Fluxera.Repository.UnitTests
 		}
 
 		/// <inheritdoc />
-		async Task<TResult> ICachingStrategy<TAggregateRoot, TKey>.FindOneAsync<TResult>(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot> queryOptions, Func<Task<TResult>> setter)
+		async Task<TResult> ICachingStrategy<TEntity, TKey>.FindOneAsync<TResult>(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TResult>> selector, IQueryOptions<TEntity> queryOptions, Func<Task<TResult>> setter)
 		{
 			this.FindOneWithPredicateAndSelectorWasCalled = true;
 
@@ -151,7 +151,7 @@ namespace Fluxera.Repository.UnitTests
 		}
 
 		/// <inheritdoc />
-		async Task<IReadOnlyCollection<TAggregateRoot>> ICachingStrategy<TAggregateRoot, TKey>.FindManyAsync(Expression<Func<TAggregateRoot, bool>> predicate, IQueryOptions<TAggregateRoot> queryOptions, Func<Task<IReadOnlyCollection<TAggregateRoot>>> setter)
+		async Task<IReadOnlyCollection<TEntity>> ICachingStrategy<TEntity, TKey>.FindManyAsync(Expression<Func<TEntity, bool>> predicate, IQueryOptions<TEntity> queryOptions, Func<Task<IReadOnlyCollection<TEntity>>> setter)
 		{
 			this.FindManyWithPredicateWasCalled = true;
 
@@ -159,7 +159,7 @@ namespace Fluxera.Repository.UnitTests
 		}
 
 		/// <inheritdoc />
-		async Task<IReadOnlyCollection<TResult>> ICachingStrategy<TAggregateRoot, TKey>.FindManyAsync<TResult>(Expression<Func<TAggregateRoot, bool>> predicate, Expression<Func<TAggregateRoot, TResult>> selector, IQueryOptions<TAggregateRoot> queryOptions, Func<Task<IReadOnlyCollection<TResult>>> setter)
+		async Task<IReadOnlyCollection<TResult>> ICachingStrategy<TEntity, TKey>.FindManyAsync<TResult>(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TResult>> selector, IQueryOptions<TEntity> queryOptions, Func<Task<IReadOnlyCollection<TResult>>> setter)
 		{
 			this.FindManyWithPredicateAndSelectorWasCalled = true;
 
@@ -167,7 +167,7 @@ namespace Fluxera.Repository.UnitTests
 		}
 
 		/// <inheritdoc />
-		async Task<bool> ICachingStrategy<TAggregateRoot, TKey>.ExistsAsync(TKey id, Func<Task<bool>> setter)
+		async Task<bool> ICachingStrategy<TEntity, TKey>.ExistsAsync(TKey id, Func<Task<bool>> setter)
 		{
 			this.ExistsWasCalled = true;
 
@@ -175,7 +175,7 @@ namespace Fluxera.Repository.UnitTests
 		}
 
 		/// <inheritdoc />
-		async Task<bool> ICachingStrategy<TAggregateRoot, TKey>.ExistsAsync(Expression<Func<TAggregateRoot, bool>> predicate, Func<Task<bool>> setter)
+		async Task<bool> ICachingStrategy<TEntity, TKey>.ExistsAsync(Expression<Func<TEntity, bool>> predicate, Func<Task<bool>> setter)
 		{
 			this.ExistsWithPredicateWasCalled = true;
 

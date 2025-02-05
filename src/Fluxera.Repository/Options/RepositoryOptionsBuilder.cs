@@ -42,7 +42,7 @@
 
 			foreach(Type type in assembly.GetTypes())
 			{
-				if(type.IsAggregateRoot())
+				if(type.IsEntity())
 				{
 					this.UseFor(type);
 				}
@@ -57,7 +57,7 @@
 
 			foreach(Type type in types)
 			{
-				if(type.IsAggregateRoot())
+				if(type.IsEntity())
 				{
 					this.UseFor(type);
 				}
@@ -69,7 +69,7 @@
 		public IRepositoryOptionsBuilder UseFor(Type type)
 		{
 			Guard.Against.Null(type);
-			Guard.Against.False(type.IsAggregateRoot(), nameof(type), $"The repository can only use aggregate root types: '{type.Name}'");
+			Guard.Against.False(type.IsEntity(), message: $"The repository can only use entity types: '{type.Name}'");
 
 			if(!this.repositoryOptions.AggregateRootTypes.Contains(type))
 			{
@@ -78,7 +78,7 @@
 			else
 			{
 				throw new InvalidOperationException(
-					$"The aggregate root type '{type.FullName}' was already added for the repository '{this.repositoryOptions.RepositoryName}'.");
+					$"The entity type '{type.FullName}' was already added for the repository '{this.repositoryOptions.RepositoryName}'.");
 			}
 
 			return this;

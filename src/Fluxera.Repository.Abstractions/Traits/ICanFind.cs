@@ -11,17 +11,17 @@
 	using JetBrains.Annotations;
 
 	/// <summary>
-	///     Based on the Interface Segregation Principle (ISP), the <see cref="ICanFind{TAggregateRoot,TKey}" /> interface
+	///     Based on the Interface Segregation Principle (ISP), the <see cref="ICanFind{TEntity,TKey}" /> interface
 	///     exposes only the "Find" methods of the repository.
 	/// </summary>
 	/// <remarks>
 	///     <see href="http://richarddingwall.name/2009/01/19/irepositoryt-one-size-does-not-fit-all/" />
 	/// </remarks>
-	/// <typeparam name="TAggregateRoot">Generic repository aggregate root type.</typeparam>
+	/// <typeparam name="TEntity">Generic repository aggregate root type.</typeparam>
 	/// <typeparam name="TKey">The type of the ID.</typeparam>
 	[PublicAPI]
-	public interface ICanFind<TAggregateRoot, in TKey> : IProvideRepositoryName<TAggregateRoot, TKey>
-		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+	public interface ICanFind<TEntity, in TKey> : IProvideRepositoryName<TEntity, TKey>
+		where TEntity : Entity<TEntity, TKey>
 		where TKey : notnull, IComparable<TKey>, IEquatable<TKey>
 	{
 		/// <summary>
@@ -31,9 +31,9 @@
 		/// <param name="queryOptions">The options for paging and sorting.</param>
 		/// <param name="cancellationToken">The cancellation token.</param>
 		/// <returns>The result item, or <c>null</c> if no item was found.</returns>
-		Task<TAggregateRoot> FindOneAsync(
-			Expression<Func<TAggregateRoot, bool>> predicate,
-			IQueryOptions<TAggregateRoot> queryOptions = null,
+		Task<TEntity> FindOneAsync(
+			Expression<Func<TEntity, bool>> predicate,
+			IQueryOptions<TEntity> queryOptions = null,
 			CancellationToken cancellationToken = default);
 
 		/// <summary>
@@ -43,9 +43,9 @@
 		/// <param name="queryOptions">The options for paging and sorting.</param>
 		/// <param name="cancellationToken">The cancellation token.</param>
 		/// <returns>The result item, or <c>null</c> if no item was found.</returns>
-		Task<TAggregateRoot> FindOneAsync(
-			ISpecification<TAggregateRoot> specification,
-			IQueryOptions<TAggregateRoot> queryOptions = null,
+		Task<TEntity> FindOneAsync(
+			ISpecification<TEntity> specification,
+			IQueryOptions<TEntity> queryOptions = null,
 			CancellationToken cancellationToken = default);
 
 		/// <summary>
@@ -58,9 +58,9 @@
 		/// <typeparam name="TResult">The type of the result property.</typeparam>
 		/// <returns>The result of the selector.</returns>
 		Task<TResult> FindOneAsync<TResult>(
-			Expression<Func<TAggregateRoot, bool>> predicate,
-			Expression<Func<TAggregateRoot, TResult>> selector,
-			IQueryOptions<TAggregateRoot> queryOptions = null,
+			Expression<Func<TEntity, bool>> predicate,
+			Expression<Func<TEntity, TResult>> selector,
+			IQueryOptions<TEntity> queryOptions = null,
 			CancellationToken cancellationToken = default);
 
 		/// <summary>
@@ -73,9 +73,9 @@
 		/// <typeparam name="TResult">The type of the result property.</typeparam>
 		/// <returns>The result of the selector.</returns>
 		Task<TResult> FindOneAsync<TResult>(
-			ISpecification<TAggregateRoot> specification,
-			Expression<Func<TAggregateRoot, TResult>> selector,
-			IQueryOptions<TAggregateRoot> queryOptions = null,
+			ISpecification<TEntity> specification,
+			Expression<Func<TEntity, TResult>> selector,
+			IQueryOptions<TEntity> queryOptions = null,
 			CancellationToken cancellationToken = default);
 
 		/// <summary>
@@ -85,7 +85,7 @@
 		/// <param name="cancellationToken">The cancellation token.</param>
 		/// <returns><code>true</code> if an item exists; <code>false</code> otherwise.</returns>
 		Task<bool> ExistsAsync(
-			Expression<Func<TAggregateRoot, bool>> predicate,
+			Expression<Func<TEntity, bool>> predicate,
 			CancellationToken cancellationToken = default);
 
 		/// <summary>
@@ -95,7 +95,7 @@
 		/// <param name="cancellationToken">The cancellation token.</param>
 		/// <returns><code>true</code> if an item exists; <code>false</code> otherwise.</returns>
 		Task<bool> ExistsAsync(
-			ISpecification<TAggregateRoot> specification,
+			ISpecification<TEntity> specification,
 			CancellationToken cancellationToken = default);
 
 		/// <summary>
@@ -105,9 +105,9 @@
 		/// <param name="queryOptions">The options for paging and sorting.</param>
 		/// <param name="cancellationToken">The cancellation token.</param>
 		/// <returns>The result items, or an empty enumerable if no item was found.</returns>
-		Task<IReadOnlyCollection<TAggregateRoot>> FindManyAsync(
-			Expression<Func<TAggregateRoot, bool>> predicate,
-			IQueryOptions<TAggregateRoot> queryOptions = null,
+		Task<IReadOnlyCollection<TEntity>> FindManyAsync(
+			Expression<Func<TEntity, bool>> predicate,
+			IQueryOptions<TEntity> queryOptions = null,
 			CancellationToken cancellationToken = default);
 
 		/// <summary>
@@ -117,9 +117,9 @@
 		/// <param name="queryOptions">The options for paging and sorting.</param>
 		/// <param name="cancellationToken">The cancellation token.</param>
 		/// <returns>The result items, or an empty enumerable if no item was found.</returns>
-		Task<IReadOnlyCollection<TAggregateRoot>> FindManyAsync(
-			ISpecification<TAggregateRoot> specification,
-			IQueryOptions<TAggregateRoot> queryOptions = null,
+		Task<IReadOnlyCollection<TEntity>> FindManyAsync(
+			ISpecification<TEntity> specification,
+			IQueryOptions<TEntity> queryOptions = null,
 			CancellationToken cancellationToken = default);
 
 		/// <summary>
@@ -132,9 +132,9 @@
 		/// <typeparam name="TResult">The type of the result property.</typeparam>
 		/// <returns>The results of the selector.</returns>
 		Task<IReadOnlyCollection<TResult>> FindManyAsync<TResult>(
-			Expression<Func<TAggregateRoot, bool>> predicate,
-			Expression<Func<TAggregateRoot, TResult>> selector,
-			IQueryOptions<TAggregateRoot> queryOptions = null,
+			Expression<Func<TEntity, bool>> predicate,
+			Expression<Func<TEntity, TResult>> selector,
+			IQueryOptions<TEntity> queryOptions = null,
 			CancellationToken cancellationToken = default);
 
 		/// <summary>
@@ -147,9 +147,9 @@
 		/// <typeparam name="TResult">The type of the result property.</typeparam>
 		/// <returns>The results of the selector.</returns>
 		Task<IReadOnlyCollection<TResult>> FindManyAsync<TResult>(
-			ISpecification<TAggregateRoot> specification,
-			Expression<Func<TAggregateRoot, TResult>> selector,
-			IQueryOptions<TAggregateRoot> queryOptions = null,
+			ISpecification<TEntity> specification,
+			Expression<Func<TEntity, TResult>> selector,
+			IQueryOptions<TEntity> queryOptions = null,
 			CancellationToken cancellationToken = default);
 	}
 }

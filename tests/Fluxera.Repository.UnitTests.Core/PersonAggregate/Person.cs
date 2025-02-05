@@ -3,7 +3,7 @@
 	using System;
 	using Fluxera.Entity;
 
-	public class Person : AggregateRoot<Person, Guid>
+	public class Person : Entity<Person, Guid>
 	{
 		public Person()
 		{

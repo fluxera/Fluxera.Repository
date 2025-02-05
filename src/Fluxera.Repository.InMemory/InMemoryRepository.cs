@@ -14,11 +14,11 @@
 	using Fluxera.Repository.Specifications;
 	using Fluxera.StronglyTypedId;
 
-	internal sealed class InMemoryRepository<TAggregateRoot, TKey> : LinqRepositoryBase<TAggregateRoot, TKey>
-		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+	internal sealed class InMemoryRepository<TEntity, TKey> : LinqRepositoryBase<TEntity, TKey>
+		where TEntity : Entity<TEntity, TKey>
 		where TKey : IComparable<TKey>, IEquatable<TKey>
 	{
-		private static readonly InMemoryStorage<TKey, TAggregateRoot> storage = new InMemoryStorage<TKey, TAggregateRoot>();
+		private static readonly InMemoryStorage<TKey, TEntity> storage = new InMemoryStorage<TKey, TEntity>();
 
 		private readonly InMemoryContext context;
 		private readonly RepositoryOptions options;
@@ -35,7 +35,7 @@
 			Guard.Against.Null(repositoryRegistry);
 			this.sequentialGuidGenerator = Guard.Against.Null(sequentialGuidGenerator);
 
-			RepositoryName repositoryName = repositoryRegistry.GetRepositoryNameFor<TAggregateRoot>();
+			RepositoryName repositoryName = repositoryRegistry.GetRepositoryNameFor<TEntity>();
 			this.options = repositoryRegistry.GetRepositoryOptionsFor(repositoryName);
 
 			this.context = contextProvider.GetContextFor(repositoryName);
@@ -44,9 +44,9 @@
 		private static string Name => "Fluxera.Repository.InMemoryRepository";
 
 		/// <inheritdoc />
-		protected override IQueryable<TAggregateRoot> Queryable => this.Store.Values.AsQueryable();
+		protected override IQueryable<TEntity> Queryable => this.Store.Values.AsQueryable();
 
-		private ConcurrentDictionary<TKey, TAggregateRoot> Store => storage.GetStore(this.context.Database);
+		private ConcurrentDictionary<TKey, TEntity> Store => storage.GetStore(this.context.Database);
 
 		/// <inheritdoc />
 		public override string ToString()
@@ -55,7 +55,7 @@
 		}
 
 		/// <inheritdoc />
-		protected override async Task AddAsync(TAggregateRoot item, CancellationToken cancellationToken)
+		protected override async Task AddAsync(TEntity item, CancellationToken cancellationToken)
 		{
 			Task PerformAddAsync()
 			{
@@ -78,13 +78,13 @@
 		}
 
 		/// <inheritdoc />
-		protected override async Task AddRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
+		protected override async Task AddRangeAsync(IEnumerable<TEntity> items, CancellationToken cancellationToken)
 		{
-			IList<TAggregateRoot> itemList = items.ToList();
+			IList<TEntity> itemList = items.ToList();
 
 			Task PerformAddRangeAsync()
 			{
-				foreach(TAggregateRoot item in itemList)
+				foreach(TEntity item in itemList)
 				{
 					item.ID = this.GenerateKey();
 					this.Store.TryAdd(item.ID, item);
@@ -106,12 +106,12 @@
 		}
 
 		/// <inheritdoc />
-		protected override async Task RemoveRangeAsync(ISpecification<TAggregateRoot> specification, CancellationToken cancellationToken)
+		protected override async Task RemoveRangeAsync(ISpecification<TEntity> specification, CancellationToken cancellationToken)
 		{
 			Task PerformRemoveRangeAsync()
 			{
-				IQueryable<TAggregateRoot> items = this.Queryable.Where(specification.Predicate);
-				foreach(TAggregateRoot item in items)
+				IQueryable<TEntity> items = this.Queryable.Where(specification.Predicate);
+				foreach(TEntity item in items)
 				{
 					this.Store.TryRemove(item.ID, out _);
 				}
@@ -132,13 +132,13 @@
 		}
 
 		/// <inheritdoc />
-		protected override async Task RemoveRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
+		protected override async Task RemoveRangeAsync(IEnumerable<TEntity> items, CancellationToken cancellationToken)
 		{
-			IList<TAggregateRoot> itemList = items.ToList();
+			IList<TEntity> itemList = items.ToList();
 
 			Task PerformRemoveRangeAsync()
 			{
-				foreach(TAggregateRoot item in itemList)
+				foreach(TEntity item in itemList)
 				{
 					this.Store.TryRemove(item.ID, out _);
 				}
@@ -159,7 +159,7 @@
 		}
 
 		/// <inheritdoc />
-		protected override async Task UpdateAsync(TAggregateRoot item, CancellationToken cancellationToken)
+		protected override async Task UpdateAsync(TEntity item, CancellationToken cancellationToken)
 		{
 			Task PerformUpdateAsync()
 			{
@@ -181,13 +181,13 @@
 		}
 
 		/// <inheritdoc />
-		protected override async Task UpdateRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
+		protected override async Task UpdateRangeAsync(IEnumerable<TEntity> items, CancellationToken cancellationToken)
 		{
-			IList<TAggregateRoot> itemList = items.ToList();
+			IList<TEntity> itemList = items.ToList();
 
 			Task PerformUpdateRangeAsync()
 			{
-				foreach(TAggregateRoot item in itemList)
+				foreach(TEntity item in itemList)
 				{
 					this.Store[item.ID] = item;
 				}
@@ -208,7 +208,7 @@
 		}
 
 		/// <inheritdoc />
-		protected override Task<TAggregateRoot> FirstOrDefaultAsync(IQueryable<TAggregateRoot> queryable, CancellationToken cancellationToken)
+		protected override Task<TEntity> FirstOrDefaultAsync(IQueryable<TEntity> queryable, CancellationToken cancellationToken)
 		{
 			return Task.FromResult(queryable.FirstOrDefault());
 		}
@@ -220,9 +220,9 @@
 		}
 
 		/// <inheritdoc />
-		protected override Task<IReadOnlyCollection<TAggregateRoot>> ToListAsync(IQueryable<TAggregateRoot> queryable, CancellationToken cancellationToken)
+		protected override Task<IReadOnlyCollection<TEntity>> ToListAsync(IQueryable<TEntity> queryable, CancellationToken cancellationToken)
 		{
-			return Task.FromResult<IReadOnlyCollection<TAggregateRoot>>(queryable.ToList());
+			return Task.FromResult<IReadOnlyCollection<TEntity>>(queryable.ToList());
 		}
 
 		/// <inheritdoc />
@@ -232,7 +232,7 @@
 		}
 
 		/// <inheritdoc />
-		protected override Task<long> LongCountAsync(IQueryable<TAggregateRoot> queryable, CancellationToken cancellationToken)
+		protected override Task<long> LongCountAsync(IQueryable<TEntity> queryable, CancellationToken cancellationToken)
 		{
 			return Task.FromResult(queryable.LongCount());
 		}
@@ -362,11 +362,11 @@
 		/// </summary>
 		/// <param name="id"></param>
 		/// <returns></returns>
-		protected override Expression<Func<TAggregateRoot, bool>> CreatePrimaryKeyPredicate(TKey id)
+		protected override Expression<Func<TEntity, bool>> CreatePrimaryKeyPredicate(TKey id)
 		{
 			if(typeof(TKey).IsStronglyTypedId())
 			{
-				Expression<Func<TAggregateRoot, bool>> predicate = x => x.ID.Equals(id);
+				Expression<Func<TEntity, bool>> predicate = x => x.ID.Equals(id);
 				return predicate;
 			}
 

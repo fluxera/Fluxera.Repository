@@ -7,7 +7,7 @@
 	using Fluxera.Repository.UnitTests.Core.EmployeeAggregate;
 	using Fluxera.Repository.UnitTests.Core.PersonAggregate;
 
-	public class Reference : AggregateRoot<Reference, string>
+	public class Reference : Entity<Reference, string>
 	{
 		// References to aggregate roots.
 

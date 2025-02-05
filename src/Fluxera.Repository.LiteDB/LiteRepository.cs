@@ -14,11 +14,11 @@
 	using global::LiteDB.Async;
 	using global::LiteDB.Queryable;
 
-	internal sealed class LiteRepository<TAggregateRoot, TKey> : LinqRepositoryBase<TAggregateRoot, TKey>
-		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+	internal sealed class LiteRepository<TEntity, TKey> : LinqRepositoryBase<TEntity, TKey>
+		where TEntity : Entity<TEntity, TKey>
 		where TKey : IComparable<TKey>, IEquatable<TKey>
 	{
-		private readonly ILiteCollectionAsync<TAggregateRoot> collection;
+		private readonly ILiteCollectionAsync<TEntity> collection;
 		private readonly LiteContext context;
 		private readonly RepositoryOptions options;
 		private readonly SequentialGuidGenerator sequentialGuidGenerator;
@@ -33,17 +33,17 @@
 			Guard.Against.Null(repositoryRegistry);
 			this.sequentialGuidGenerator = Guard.Against.Null(sequentialGuidGenerator);
 
-			RepositoryName repositoryName = repositoryRegistry.GetRepositoryNameFor<TAggregateRoot>();
+			RepositoryName repositoryName = repositoryRegistry.GetRepositoryNameFor<TEntity>();
 			this.options = repositoryRegistry.GetRepositoryOptionsFor(repositoryName);
 
 			this.context = contextProvider.GetContextFor(repositoryName);
-			this.collection = this.context.GetCollection<TAggregateRoot>();
+			this.collection = this.context.GetCollection<TEntity>();
 		}
 
 		private static string Name => "Fluxera.Repository.LiteRepository";
 
 		/// <inheritdoc />
-		protected override IQueryable<TAggregateRoot> Queryable => this.collection.AsQueryable();
+		protected override IQueryable<TEntity> Queryable => this.collection.AsQueryable();
 
 		/// <inheritdoc />
 		public override string ToString()
@@ -52,7 +52,7 @@
 		}
 
 		/// <inheritdoc />
-		protected override async Task AddAsync(TAggregateRoot item, CancellationToken cancellationToken)
+		protected override async Task AddAsync(TEntity item, CancellationToken cancellationToken)
 		{
 			Task PerformAddAsync()
 			{
@@ -75,13 +75,13 @@
 
 		/// <inheritdoc />
 		/// //
-		protected override async Task AddRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
+		protected override async Task AddRangeAsync(IEnumerable<TEntity> items, CancellationToken cancellationToken)
 		{
-			IList<TAggregateRoot> itemList = items.ToList();
+			IList<TEntity> itemList = items.ToList();
 
 			Task PerformAddRangeAsync()
 			{
-				foreach(TAggregateRoot item in itemList)
+				foreach(TEntity item in itemList)
 				{
 					item.ID = this.GenerateKey();
 				}
@@ -102,7 +102,7 @@
 		}
 
 		/// <inheritdoc />
-		protected override async Task RemoveRangeAsync(ISpecification<TAggregateRoot> specification, CancellationToken cancellationToken)
+		protected override async Task RemoveRangeAsync(ISpecification<TEntity> specification, CancellationToken cancellationToken)
 		{
 			Task PerformRemoveRangeAsync()
 			{
@@ -122,20 +122,20 @@
 		}
 
 		/// <inheritdoc />
-		protected override async Task RemoveRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
+		protected override async Task RemoveRangeAsync(IEnumerable<TEntity> items, CancellationToken cancellationToken)
 		{
-			IList<TAggregateRoot> itemsList = items.ToList();
+			IList<TEntity> itemsList = items.ToList();
 
 			Task PerformRemoveRangeAsync()
 			{
-				IList<ISpecification<TAggregateRoot>> specifications = new List<ISpecification<TAggregateRoot>>();
+				IList<ISpecification<TEntity>> specifications = new List<ISpecification<TEntity>>();
 
-				foreach(TAggregateRoot item in itemsList)
+				foreach(TEntity item in itemsList)
 				{
 					specifications.Add(this.CreatePrimaryKeySpecification(item.ID));
 				}
 
-				ManyOrSpecification<TAggregateRoot> specification = new ManyOrSpecification<TAggregateRoot>(specifications);
+				ManyOrSpecification<TEntity> specification = new ManyOrSpecification<TEntity>(specifications);
 				return this.collection.DeleteManyAsync(specification.Predicate).Then(cancellationToken);
 			}
 
@@ -152,7 +152,7 @@
 		}
 
 		/// <inheritdoc />
-		protected override async Task UpdateAsync(TAggregateRoot item, CancellationToken cancellationToken)
+		protected override async Task UpdateAsync(TEntity item, CancellationToken cancellationToken)
 		{
 			Task PerformUpdateAsync()
 			{
@@ -172,9 +172,9 @@
 		}
 
 		/// <inheritdoc />
-		protected override async Task UpdateRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
+		protected override async Task UpdateRangeAsync(IEnumerable<TEntity> items, CancellationToken cancellationToken)
 		{
-			IList<TAggregateRoot> itemsList = items.ToList();
+			IList<TEntity> itemsList = items.ToList();
 
 			Task PerformUpdateRangeAsync()
 			{
@@ -194,7 +194,7 @@
 		}
 
 		/// <inheritdoc />
-		protected override async Task<TAggregateRoot> FirstOrDefaultAsync(IQueryable<TAggregateRoot> queryable, CancellationToken cancellationToken)
+		protected override async Task<TEntity> FirstOrDefaultAsync(IQueryable<TEntity> queryable, CancellationToken cancellationToken)
 		{
 			return await queryable
 				.FirstOrDefaultAsync(cancellationToken)
@@ -210,7 +210,7 @@
 		}
 
 		/// <inheritdoc />
-		protected override async Task<IReadOnlyCollection<TAggregateRoot>> ToListAsync(IQueryable<TAggregateRoot> queryable,
+		protected override async Task<IReadOnlyCollection<TEntity>> ToListAsync(IQueryable<TEntity> queryable,
 			CancellationToken cancellationToken)
 		{
 			return await queryable
@@ -229,7 +229,7 @@
 		}
 
 		/// <inheritdoc />
-		protected override async Task<long> LongCountAsync(IQueryable<TAggregateRoot> queryable, CancellationToken cancellationToken)
+		protected override async Task<long> LongCountAsync(IQueryable<TEntity> queryable, CancellationToken cancellationToken)
 		{
 			return await queryable
 				.LongCountAsync(cancellationToken)

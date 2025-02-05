@@ -20,11 +20,11 @@
 	///     Contract for a service that is used to intercept calls to the repository
 	///     before they hit the underlying storage.
 	/// </summary>
-	/// <typeparam name="TAggregateRoot">The type of the aggregate root.</typeparam>
+	/// <typeparam name="TEntity">The type of the aggregate root.</typeparam>
 	/// <typeparam name="TKey">The type of the ID.</typeparam>
 	[PublicAPI]
-	public interface IInterceptor<TAggregateRoot, TKey> : IInterceptor
-		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+	public interface IInterceptor<TEntity, TKey> : IInterceptor
+		where TEntity : Entity<TEntity, TKey>
 		where TKey : notnull, IComparable<TKey>, IEquatable<TKey>
 	{
 		/// <summary>
@@ -39,14 +39,14 @@
 		/// <param name="item">The item that will be added.</param>
 		/// <param name="e">The event data.</param>
 		/// <returns></returns>
-		Task BeforeAddAsync(TAggregateRoot item, InterceptionEvent e);
+		Task BeforeAddAsync(TEntity item, InterceptionEvent e);
 
 		///// <summary>
 		/////     This method is called after the execution of the repository add operation.
 		///// </summary>
 		///// <param name="item">The item that was added.</param>
 		///// <returns></returns>
-		//Task AfterAddAsync(TAggregateRoot item);
+		//Task AfterAddAsync(TEntity item);
 
 		/// <summary>
 		///     This method is called before the execution of the repository update operation.
@@ -54,14 +54,14 @@
 		/// <param name="item">The item that will be updated.</param>
 		/// <param name="e">The event data.</param>
 		/// <returns></returns>
-		Task BeforeUpdateAsync(TAggregateRoot item, InterceptionEvent e);
+		Task BeforeUpdateAsync(TEntity item, InterceptionEvent e);
 
 		///// <summary>
 		/////     This method is called after the execution of the repository update operation.
 		///// </summary>
 		///// <param name="item">The item that was updated.</param>
 		///// <returns></returns>
-		//Task AfterUpdateAsync(TAggregateRoot item);
+		//Task AfterUpdateAsync(TEntity item);
 
 		/// <summary>
 		///     This method is called before the execution of the repository remove operation.
@@ -69,14 +69,14 @@
 		/// <param name="item">The item that will be deleted.</param>
 		/// <param name="e">The event data.</param>
 		/// <returns></returns>
-		Task BeforeRemoveAsync(TAggregateRoot item, InterceptionEvent e);
+		Task BeforeRemoveAsync(TEntity item, InterceptionEvent e);
 
 		///// <summary>
 		/////     This method is called after the execution of the repository remove operation.
 		///// </summary>
 		///// <param name="item">The item that was deleted.</param>
 		///// <returns></returns>
-		//Task AfterRemoveAsync(TAggregateRoot item);
+		//Task AfterRemoveAsync(TEntity item);
 
 		/// <summary>
 		///     This method is called before the execution of the repository remove operation.
@@ -84,7 +84,7 @@
 		/// <param name="predicate">The predicate.</param>
 		/// <param name="e">The event data.</param>
 		/// <returns></returns>
-		Task<Expression<Func<TAggregateRoot, bool>>> BeforeRemoveRangeAsync(Expression<Func<TAggregateRoot, bool>> predicate, InterceptionEvent e);
+		Task<Expression<Func<TEntity, bool>>> BeforeRemoveRangeAsync(Expression<Func<TEntity, bool>> predicate, InterceptionEvent e);
 
 		/// <summary>
 		///     This method is called before the execution of the repository remove operation.
@@ -92,7 +92,7 @@
 		/// <param name="specification">The specification.</param>
 		/// <param name="e">The event data.</param>
 		/// <returns></returns>
-		Task<ISpecification<TAggregateRoot>> BeforeRemoveRangeAsync(ISpecification<TAggregateRoot> specification, InterceptionEvent e);
+		Task<ISpecification<TEntity>> BeforeRemoveRangeAsync(ISpecification<TEntity> specification, InterceptionEvent e);
 
 		/// <summary>
 		///     This method is called before the execution of the repository find operation.
@@ -100,7 +100,7 @@
 		/// <param name="predicate">The predicate.</param>
 		/// <param name="queryOptions">The query options.</param>
 		/// <returns></returns>
-		Task<Expression<Func<TAggregateRoot, bool>>> BeforeFindAsync(Expression<Func<TAggregateRoot, bool>> predicate, IQueryOptions<TAggregateRoot> queryOptions);
+		Task<Expression<Func<TEntity, bool>>> BeforeFindAsync(Expression<Func<TEntity, bool>> predicate, IQueryOptions<TEntity> queryOptions);
 
 		/// <summary>
 		///     This method is called before the execution of the repository find operation.
@@ -108,21 +108,21 @@
 		/// <param name="specification">The specification.</param>
 		/// <param name="queryOptions">The query options.</param>
 		/// <returns></returns>
-		Task<ISpecification<TAggregateRoot>> BeforeFindAsync(ISpecification<TAggregateRoot> specification, IQueryOptions<TAggregateRoot> queryOptions);
+		Task<ISpecification<TEntity>> BeforeFindAsync(ISpecification<TEntity> specification, IQueryOptions<TEntity> queryOptions);
 
 		///// <summary>
 		/////     This method is called after the execution of the repository find operation.
 		///// </summary>
 		///// <param name="item">The result item.</param>
 		///// <returns></returns>
-		//Task AfterFindAsync(TAggregateRoot item);
+		//Task AfterFindAsync(TEntity item);
 
 		///// <summary>
 		/////     This method is called after the execution of the repository find operation.
 		///// </summary>
 		///// <param name="items">The result items.</param>
 		///// <returns></returns>
-		//Task AfterFindAsync(IReadOnlyCollection<TAggregateRoot> items);
+		//Task AfterFindAsync(IReadOnlyCollection<TEntity> items);
 
 		///// <summary>
 		/////     This method is called after the execution of the repository find operation.

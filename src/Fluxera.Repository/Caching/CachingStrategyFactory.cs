@@ -26,15 +26,15 @@
 			this.loggerFactory = loggerFactory;
 		}
 
-		public ICachingStrategy<TAggregateRoot, TKey> CreateStrategy<TAggregateRoot, TKey>()
-			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+		public ICachingStrategy<TEntity, TKey> CreateStrategy<TEntity, TKey>()
+			where TEntity : Entity<TEntity, TKey>
 			where TKey : IComparable<TKey>, IEquatable<TKey>
 		{
-			RepositoryName repositoryName = this.repositoryRegistry.GetRepositoryNameFor<TAggregateRoot>();
+			RepositoryName repositoryName = this.repositoryRegistry.GetRepositoryNameFor<TEntity>();
 			RepositoryOptions repositoryOptions = this.repositoryRegistry.GetRepositoryOptionsFor(repositoryName);
 			CachingOptions cachingOptions = repositoryOptions.CachingOptions;
 
-			ICachingStrategy<TAggregateRoot, TKey> cachingStrategy;
+			ICachingStrategy<TEntity, TKey> cachingStrategy;
 
 			bool isEnabled = cachingOptions.IsEnabled;
 			if(isEnabled)
@@ -45,24 +45,24 @@
 				TimeSpan? expiration = cachingOptions.DefaultExpiration;
 
 				// Check for an aggregate override.
-				if(cachingOptions.AggregateStrategies.ContainsKey(typeof(TAggregateRoot)))
+				if(cachingOptions.AggregateStrategies.ContainsKey(typeof(TEntity)))
 				{
-					AggregateCachingOverrideOptions cachingOverrideOptions = cachingOptions.AggregateStrategies[typeof(TAggregateRoot)];
+					EntityCachingOverrideOptions cachingOverrideOptions = cachingOptions.AggregateStrategies[typeof(TEntity)];
 					strategyName = cachingOverrideOptions.StrategyName;
 					expiration = cachingOverrideOptions.Expiration;
 				}
 
 				cachingStrategy = strategyName switch
 				{
-					CachingStrategyNames.NoCaching => new NoCachingStrategy<TAggregateRoot, TKey>(),
-					CachingStrategyNames.Standard => new StandardCachingStrategy<TAggregateRoot, TKey>(repositoryName, cachingProvider, this.cacheKeyProvider, this.loggerFactory),
-					CachingStrategyNames.Timeout => new TimeoutCachingStrategy<TAggregateRoot, TKey>(repositoryName, cachingProvider, this.cacheKeyProvider, this.loggerFactory, expiration),
-					_ => new NoCachingStrategy<TAggregateRoot, TKey>()
+					CachingStrategyNames.NoCaching => new NoCachingStrategy<TEntity, TKey>(),
+					CachingStrategyNames.Standard => new StandardCachingStrategy<TEntity, TKey>(repositoryName, cachingProvider, this.cacheKeyProvider, this.loggerFactory),
+					CachingStrategyNames.Timeout => new TimeoutCachingStrategy<TEntity, TKey>(repositoryName, cachingProvider, this.cacheKeyProvider, this.loggerFactory, expiration),
+					_ => new NoCachingStrategy<TEntity, TKey>()
 				};
 			}
 			else
 			{
-				cachingStrategy = new NoCachingStrategy<TAggregateRoot, TKey>();
+				cachingStrategy = new NoCachingStrategy<TEntity, TKey>();
 			}
 
 			return cachingStrategy;

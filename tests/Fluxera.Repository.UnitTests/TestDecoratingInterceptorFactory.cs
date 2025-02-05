@@ -4,16 +4,16 @@
 	using Fluxera.Entity;
 	using Fluxera.Repository.Interception;
 
-	public class TestDecoratingInterceptorFactory<T, TKey> : IDecoratingInterceptorFactory<T, TKey>
-		where T : AggregateRoot<T, TKey>
+	public class TestDecoratingInterceptorFactory<TEntity, TKey> : IDecoratingInterceptorFactory<TEntity, TKey>
+		where TEntity : Entity<TEntity, TKey>
 		where TKey : IComparable<TKey>, IEquatable<TKey>
 	{
-		private IInterceptor<T, TKey> interceptor;
+		private IInterceptor<TEntity, TKey> interceptor;
 
 		/// <inheritdoc />
-		public IInterceptor<T, TKey> CreateDecoratingInterceptor()
+		public IInterceptor<TEntity, TKey> CreateDecoratingInterceptor()
 		{
-			this.interceptor ??= new TestDecoratingInterceptor<T, TKey>();
+			this.interceptor ??= new TestDecoratingInterceptor<TEntity, TKey>();
 			return this.interceptor;
 		}
 	}

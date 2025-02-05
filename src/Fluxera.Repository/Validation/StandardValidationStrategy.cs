@@ -9,8 +9,8 @@
 	using Fluxera.Extensions.Validation;
 	using Fluxera.Guards;
 
-	internal sealed class StandardValidationStrategy<TAggregateRoot, TKey> : IValidationStrategy<TAggregateRoot, TKey>
-		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+	internal sealed class StandardValidationStrategy<TEntity, TKey> : IValidationStrategy<TEntity, TKey>
+		where TEntity : Entity<TEntity, TKey>
 		where TKey : IComparable<TKey>, IEquatable<TKey>
 	{
 		private readonly IValidationService validationService;
@@ -20,7 +20,7 @@
 			this.validationService = Guard.Against.Null(validationService);
 		}
 
-		public async Task ValidateAsync(TAggregateRoot item, CancellationToken cancellationToken = default)
+		public async Task ValidateAsync(TEntity item, CancellationToken cancellationToken = default)
 		{
 			ValidationResult validationResult = await this.validationService.ValidateAsync(item, cancellationToken);
 			if(!validationResult.IsValid)
@@ -29,9 +29,9 @@
 			}
 		}
 
-		public async Task ValidateAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken = default)
+		public async Task ValidateAsync(IEnumerable<TEntity> items, CancellationToken cancellationToken = default)
 		{
-			foreach(TAggregateRoot item in items)
+			foreach(TEntity item in items)
 			{
 				ValidationResult validationResult = await this.validationService.ValidateAsync(item, cancellationToken);
 				if(!validationResult.IsValid)

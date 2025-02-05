@@ -11,8 +11,8 @@
 	///     Serializes repository references as <see cref="MongoDBRef" /> documents.
 	/// </summary>
 	[PublicAPI]
-	public class AggregateRootReferenceSerializer<TAggregateRoot, TValue> : SerializerBase<TAggregateRoot>
-		where TAggregateRoot : AggregateRoot<TAggregateRoot, TValue>
+	public class AggregateRootReferenceSerializer<TEntity, TValue> : SerializerBase<TEntity>
+		where TEntity : Entity<TEntity, TValue>
 		where TValue : IComparable<TValue>, IEquatable<TValue>
 	{
 		private readonly IBsonSerializer innerSerializer;
@@ -27,7 +27,7 @@
 		}
 
 		/// <inheritdoc />
-		public override void Serialize(BsonSerializationContext context, BsonSerializationArgs args, TAggregateRoot value)
+		public override void Serialize(BsonSerializationContext context, BsonSerializationArgs args, TEntity value)
 		{
 			if(value is null || value.ID is null)
 			{
@@ -41,14 +41,14 @@
 		}
 
 		/// <inheritdoc />
-		public override TAggregateRoot Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
+		public override TEntity Deserialize(BsonDeserializationContext context, BsonDeserializationArgs args)
 		{
 			object id = this.innerSerializer.Deserialize(context, args);
-			TAggregateRoot instance = null;
+			TEntity instance = null;
 
 			if(id is not null)
 			{
-				instance = Activator.CreateInstance<TAggregateRoot>();
+				instance = Activator.CreateInstance<TEntity>();
 				instance.ID = (TValue)id;
 			}
 

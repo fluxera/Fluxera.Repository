@@ -175,7 +175,7 @@
 		}
 	}
 
-	public class Person : AggregateRoot<Person, string>
+	public class Person : Entity<Person, string>
 	{
 		public string Firstname { get; set; }
 

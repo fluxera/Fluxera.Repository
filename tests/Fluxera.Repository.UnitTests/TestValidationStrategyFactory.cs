@@ -16,13 +16,13 @@
 		}
 
 		/// <inheritdoc />
-		public IValidationStrategy<TAggregateRoot, TKey> CreateStrategy<TAggregateRoot, TKey>()
-			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+		public IValidationStrategy<TEntity, TKey> CreateStrategy<TEntity, TKey>()
+			where TEntity : Entity<TEntity, TKey>
 			where TKey : IComparable<TKey>, IEquatable<TKey>
 		{
 			IValidationService validationService = this.serviceProvider.GetRequiredService<IValidationService>();
 
-			return new TestValidationStrategy<TAggregateRoot, TKey>(validationService);
+			return new TestValidationStrategy<TEntity, TKey>(validationService);
 		}
 	}
 }

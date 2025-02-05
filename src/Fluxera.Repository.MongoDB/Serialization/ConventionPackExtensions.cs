@@ -27,7 +27,6 @@
 			conventionPack.Add(new CheckIdTypeConvention());
 			conventionPack.Add(new StronglyTypedIdGeneratorConvention());
 			conventionPack.Add(new ReferenceConvention());
-			conventionPack.Add(new EntitiesNotSupportedConvention());
 
 			conventionPack.UseSpatial();
 			conventionPack.UseEnumeration();

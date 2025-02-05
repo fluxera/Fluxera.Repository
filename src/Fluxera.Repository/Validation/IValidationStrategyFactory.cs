@@ -13,11 +13,11 @@
 		/// <summary>
 		///     Creates the validation strategy to use for the repository and aggregate root.
 		/// </summary>
-		/// <typeparam name="TAggregateRoot"></typeparam>
+		/// <typeparam name="TEntity"></typeparam>
 		/// <typeparam name="TKey">The type of the ID.</typeparam>
 		/// <returns></returns>
-		IValidationStrategy<TAggregateRoot, TKey> CreateStrategy<TAggregateRoot, TKey>()
-			where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+		IValidationStrategy<TEntity, TKey> CreateStrategy<TEntity, TKey>()
+			where TEntity : Entity<TEntity, TKey>
 			where TKey : IComparable<TKey>, IEquatable<TKey>;
 	}
 }

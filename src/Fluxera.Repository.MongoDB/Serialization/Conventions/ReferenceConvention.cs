@@ -27,12 +27,12 @@ namespace Fluxera.Repository.MongoDB.Serialization.Conventions
 
 				string databaseName = attribute?.StorageName;
 
-				if(memberType.IsAggregateRoot())
+				if(memberType.IsEntity())
 				{
 					string collectionName = memberType.Name.Pluralize();
 
 					Type idType = memberType.BaseType?.GenericTypeArguments[1];
-					IBsonSerializer referenceSerializer = this.GetReferenceSerializer(idType, databaseName, collectionName);
+					IBsonSerializer referenceSerializer = GetReferenceSerializer(idType, databaseName, collectionName);
 
 					Type serializerTypeTemplate = typeof(AggregateRootReferenceSerializer<,>);
 					Type serializerType = serializerTypeTemplate.MakeGenericType(memberType, idType);
@@ -44,7 +44,7 @@ namespace Fluxera.Repository.MongoDB.Serialization.Conventions
 				if(memberType.IsCollection())
 				{
 					Type elementType = memberType.GenericTypeArguments[0];
-					if(elementType.IsAggregateRoot())
+					if(elementType.IsEntity())
 					{
 						string collectionName = elementType.Name.Pluralize();
 
@@ -52,7 +52,7 @@ namespace Fluxera.Repository.MongoDB.Serialization.Conventions
 						IChildSerializerConfigurable listSerializer = (IChildSerializerConfigurable)serializer;
 
 						Type idType = elementType.BaseType?.GenericTypeArguments[1];
-						IBsonSerializer referenceSerializer = this.GetReferenceSerializer(idType, databaseName, collectionName);
+						IBsonSerializer referenceSerializer = GetReferenceSerializer(idType, databaseName, collectionName);
 
 						Type serializerTypeTemplate = typeof(AggregateRootReferenceSerializer<,>);
 						Type serializerType = serializerTypeTemplate.MakeGenericType(elementType, idType);
@@ -66,7 +66,7 @@ namespace Fluxera.Repository.MongoDB.Serialization.Conventions
 			}
 		}
 
-		private IBsonSerializer GetReferenceSerializer(Type memberType, string databaseName, string collectionName)
+		private static IBsonSerializer GetReferenceSerializer(Type memberType, string databaseName, string collectionName)
 		{
 			IBsonSerializer serializer;
 
