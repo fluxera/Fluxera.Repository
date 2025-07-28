@@ -1,20 +1,20 @@
 ﻿namespace Fluxera.Repository.DomainEvents
 {
+	using Fluxera.DomainEvents;
+	using Fluxera.DomainEvents.Abstractions;
+	using JetBrains.Annotations;
+	using Mediator;
 	using System.Collections.Concurrent;
 	using System.Collections.Generic;
 	using System.Threading;
 	using System.Threading.Tasks;
-	using Fluxera.DomainEvents.Abstractions;
-	using Fluxera.DomainEvents.MediatR;
-	using JetBrains.Annotations;
-	using MediatR;
 
 	/// <summary>
-	///     A specialized <see cref="MediatrDomainEventDispatcher" /> that buffers the events in
+	///     A specialized <see cref="MediatorDomainEventDispatcher" /> that buffers the events in
 	///     a queue on dispatch and flushes them all at one to the domain event handlers.
 	/// </summary>
 	[PublicAPI]
-	internal sealed class OutboxDomainEventDispatcher : MediatrDomainEventDispatcher, IOutboxDomainEventDispatcher
+	internal sealed class OutboxDomainEventDispatcher : MediatorDomainEventDispatcher, IOutboxDomainEventDispatcher
 	{
 		private readonly IEnumerable<IDomainEventsReducer> reducers;
 

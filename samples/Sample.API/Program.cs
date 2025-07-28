@@ -5,7 +5,6 @@ namespace Sample.API
 	using Microsoft.AspNetCore.Http;
 	using Microsoft.Extensions.DependencyInjection;
 	using Sample.Domain.Company;
-	using System.Reflection;
 
 	public static class Program
 	{
@@ -20,10 +19,7 @@ namespace Sample.API
 				options.JsonSerializerOptions.UseStronglyTypedId();
 			});
 
-			builder.Services.AddMediatR(options =>
-			{
-				options.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
-			});
+			builder.Services.AddMediator();
 
 			builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 

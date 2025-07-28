@@ -6,9 +6,13 @@
 		<ImplicitUsings>disable</ImplicitUsings>
 	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Fluxera.StronglyTypedId.SystemTextJson" Version="9.0.2" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Fluxera.StronglyTypedId.SystemTextJson" Version="9.2.0" />
+		<PackageReference Include="Mediator.SourceGenerator" Version="3.0.*-*">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\Sample.EntityFrameworkCore\Sample.EntityFrameworkCore.csproj" />

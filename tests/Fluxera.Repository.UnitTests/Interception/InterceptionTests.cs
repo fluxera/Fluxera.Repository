@@ -36,11 +36,6 @@
 
 					services.AddTransient<IPersonRepository, PersonRepository>();
 					services.AddSingleton(new InterceptorCounter());
-				},
-				configuration =>
-				{
-					configuration.RegisterServicesFromAssembly(RepositoryTestsCore.Assembly);
-					configuration.RegisterServicesFromAssembly(RepositoryTests.Assembly);
 				});
 		}
 

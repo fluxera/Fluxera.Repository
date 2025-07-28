@@ -1,8 +1,8 @@
 ﻿namespace Fluxera.Repository
 {
 	using System;
+	using Fluxera.DomainEvents;
 	using Fluxera.DomainEvents.Abstractions;
-	using Fluxera.DomainEvents.MediatR;
 	using Fluxera.Extensions.Common;
 	using Fluxera.Extensions.DependencyInjection;
 	using Fluxera.Extensions.Validation;
