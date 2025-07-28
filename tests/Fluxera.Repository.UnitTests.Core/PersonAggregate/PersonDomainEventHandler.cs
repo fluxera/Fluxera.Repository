@@ -2,7 +2,7 @@
 {
 	using System.Threading;
 	using System.Threading.Tasks;
-	using Fluxera.DomainEvents.MediatR;
+	using Fluxera.DomainEvents;
 	using JetBrains.Annotations;
 	using Microsoft.Extensions.Logging;
 
@@ -17,10 +17,11 @@
 		}
 
 		/// <inheritdoc />
-		public Task HandleAsync(PersonDomainEvent domainEvent, CancellationToken cancellationToken)
+		public ValueTask HandleAsync(PersonDomainEvent domainEvent, CancellationToken cancellationToken)
 		{
 			this.logger.LogInformation("PersonDomainEventHandler called.");
-			return Task.CompletedTask;
+
+			return ValueTask.CompletedTask;
 		}
 	}
 }

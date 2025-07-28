@@ -3,7 +3,7 @@
 	using System;
 	using System.Threading;
 	using System.Threading.Tasks;
-	using Fluxera.DomainEvents.MediatR;
+	using Fluxera.DomainEvents;
 	using JetBrains.Annotations;
 	using Sample.Domain.Company.DomainEvents;
 
@@ -11,11 +11,11 @@
 	public sealed class CompanyAddedDomainEventHandler : IDomainEventHandler<CompanyAdded>
 	{
 		/// <inheritdoc />
-		public Task HandleAsync(CompanyAdded domainEvent, CancellationToken cancellationToken)
+		public ValueTask HandleAsync(CompanyAdded domainEvent, CancellationToken cancellationToken = new CancellationToken())
 		{
 			Console.WriteLine($"HANDLE COMPANY ADDED: ID = {domainEvent.ID}");
 
-			return Task.CompletedTask;
+			return ValueTask.CompletedTask;
 		}
 	}
 }

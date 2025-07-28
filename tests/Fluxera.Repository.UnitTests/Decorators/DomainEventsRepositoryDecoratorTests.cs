@@ -2,8 +2,8 @@
 {
 	using System;
 	using System.Threading.Tasks;
+	using Fluxera.DomainEvents;
 	using Fluxera.DomainEvents.Abstractions;
-	using Fluxera.DomainEvents.MediatR;
 	using Fluxera.Repository.Decorators;
 	using Fluxera.Repository.DomainEvents;
 	using Fluxera.Repository.UnitTests.Core.PersonAggregate;
@@ -41,11 +41,6 @@
 			{
 				IDomainEventDispatcher domainEventDispatcher = serviceProvider.GetRequiredService<IDomainEventDispatcher>();
 				return (IOutboxDomainEventDispatcher)domainEventDispatcher;
-			});
-
-			services.AddMediatR(cfg =>
-			{
-				cfg.RegisterServicesFromAssembly(typeof(PersonDomainEventHandler).Assembly);
 			});
 
 			services.AddSingleton<IRepositoryRegistry, TestRepositoryRegistry>();

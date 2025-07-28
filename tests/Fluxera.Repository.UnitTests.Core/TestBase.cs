@@ -6,7 +6,7 @@
 
 	public abstract class TestBase
 	{
-		protected static ServiceProvider BuildServiceProvider(Action<IServiceCollection> configure, Action<MediatRServiceConfiguration> configureMediatr = null)
+		protected static ServiceProvider BuildServiceProvider(Action<IServiceCollection> configure)
 		{
 			IServiceCollection services = new ServiceCollection();
 
@@ -16,12 +16,9 @@
 				builder.AddConsole();
 			});
 
+			services.AddMediator();
+
 			configure.Invoke(services);
-
-			MediatRServiceConfiguration configuration = new MediatRServiceConfiguration();
-			configureMediatr?.Invoke(configuration);
-
-			services.AddMediatR(configuration);
 
 			return services.BuildServiceProvider();
 		}

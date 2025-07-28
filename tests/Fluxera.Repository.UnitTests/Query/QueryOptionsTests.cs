@@ -8,6 +8,7 @@
 	using Fluxera.Entity;
 	using Fluxera.Repository.Query;
 	using Fluxera.Repository.Query.Impl;
+	using Microsoft.Extensions.Logging;
 	using NUnit.Framework;
 
 	[TestFixture]
@@ -19,7 +20,7 @@
 		[SetUp]
 		public void Setup()
 		{
-			this.config = new MapperConfiguration(cfg => cfg.AddProfile<PersonProfile>());
+			this.config = new MapperConfiguration(cfg => cfg.AddProfile<PersonProfile>(), new LoggerFactory());
 			this.mapper = this.config.CreateMapper();
 		}
 

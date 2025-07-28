@@ -4,14 +4,14 @@
 	using System.Linq;
 	using FluentAssertions;
 	using FluentValidation;
-	using Fluxera.DomainEvents.MediatR;
+	using Fluxera.DomainEvents;
 	using Fluxera.Repository.Caching;
 	using Fluxera.Repository.InMemory;
 	using Fluxera.Repository.Interception;
 	using Fluxera.Repository.Options;
 	using Fluxera.Repository.UnitTests.Core;
 	using Fluxera.Repository.UnitTests.Core.PersonAggregate;
-	using MediatR;
+	using Mediator;
 	using Microsoft.Extensions.DependencyInjection;
 	using NUnit.Framework;
 
@@ -36,11 +36,6 @@
 							});
 						});
 					});
-				},
-				configuration =>
-				{
-					configuration.RegisterServicesFromAssembly(RepositoryTestsCore.Assembly);
-					configuration.RegisterServicesFromAssembly(RepositoryTests.Assembly);
 				});
 
 			IRepositoryRegistry repositoryRegistry = serviceProvider.GetRequiredService<IRepositoryRegistry>();
@@ -71,11 +66,6 @@
 							});
 						});
 					});
-				},
-				configuration =>
-				{
-					configuration.RegisterServicesFromAssembly(RepositoryTestsCore.Assembly);
-					configuration.RegisterServicesFromAssembly(RepositoryTests.Assembly);
 				});
 
 			IRepositoryRegistry repositoryRegistry = serviceProvider.GetRequiredService<IRepositoryRegistry>();
@@ -104,11 +94,6 @@
 							});
 						});
 					});
-				},
-				configuration =>
-				{
-					configuration.RegisterServicesFromAssembly(RepositoryTestsCore.Assembly);
-					configuration.RegisterServicesFromAssembly(RepositoryTests.Assembly);
 				});
 
 			IRepositoryRegistry repositoryRegistry = serviceProvider.GetRequiredService<IRepositoryRegistry>();
@@ -138,11 +123,6 @@
 							});
 						});
 					});
-				},
-				configuration =>
-				{
-					configuration.RegisterServicesFromAssembly(RepositoryTestsCore.Assembly);
-					configuration.RegisterServicesFromAssembly(RepositoryTests.Assembly);
 				});
 
 			IRepositoryRegistry repositoryRegistry = serviceProvider.GetRequiredService<IRepositoryRegistry>();
@@ -168,11 +148,6 @@
 							builder.EnableDomainEventHandling();
 						});
 					});
-				},
-				configuration =>
-				{
-					configuration.RegisterServicesFromAssembly(RepositoryTestsCore.Assembly);
-					configuration.RegisterServicesFromAssembly(RepositoryTests.Assembly);
 				});
 
 			IRepositoryRegistry repositoryRegistry = serviceProvider.GetRequiredService<IRepositoryRegistry>();
@@ -199,13 +174,6 @@
 							builder.EnableDomainEventHandling();
 						});
 					});
-				},
-				configuration =>
-				{
-					configuration.RegisterServicesFromAssembly(RepositoryTestsCore.Assembly);
-					configuration.RegisterServicesFromAssembly(RepositoryTests.Assembly);
-					configuration.RegisterServicesFromAssembly(RepositoryTestsCore.Assembly);
-					configuration.RegisterServicesFromAssembly(RepositoryTests.Assembly);
 				});
 
 			IRepositoryRegistry repositoryRegistry = serviceProvider.GetRequiredService<IRepositoryRegistry>();
@@ -249,11 +217,6 @@
 							});
 						});
 					});
-				},
-				configuration =>
-				{
-					configuration.RegisterServicesFromAssembly(RepositoryTestsCore.Assembly);
-					configuration.RegisterServicesFromAssembly(RepositoryTests.Assembly);
 				});
 
 			IRepositoryRegistry repositoryRegistry = serviceProvider.GetRequiredService<IRepositoryRegistry>();
@@ -299,11 +262,6 @@
 							}
 						});
 					});
-				},
-				configuration =>
-				{
-					configuration.RegisterServicesFromAssembly(RepositoryTestsCore.Assembly);
-					configuration.RegisterServicesFromAssembly(RepositoryTests.Assembly);
 				});
 
 			IRepositoryRegistry repositoryRegistry = serviceProvider.GetRequiredService<IRepositoryRegistry>();

@@ -68,10 +68,6 @@
 					services.AddTransient<ICompanyRepository, CompanyRepository>();
 					services.AddTransient<IEmployeeRepository, EmployeeRepository>();
 					services.AddTransient<IReferenceRepository, ReferenceRepository>();
-				},
-				configuration =>
-				{
-					configuration.RegisterServicesFromAssembly(RepositoryTestsCore.Assembly);
 				});
 
 			this.PersonRepository = this.serviceProvider.GetRequiredService<IPersonRepository>();

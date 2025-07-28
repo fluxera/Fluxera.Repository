@@ -5,6 +5,7 @@
 	using FluentAssertions;
 	using Fluxera.Repository.UnitTests.Core.PersonAggregate;
 	using JetBrains.Annotations;
+	using Mediator;
 	using Microsoft.Extensions.DependencyInjection;
 	using NUnit.Framework;
 
@@ -30,10 +31,6 @@
 								rob.UseFor<Person>();
 							});
 						});
-					},
-					configuration =>
-					{
-						configuration.RegisterServicesFromAssembly(RepositoryTestsCore.Assembly);
 					});
 			};
 
@@ -60,10 +57,6 @@
 
 					services.AddTransient<IPersonRepository, PersonRepository>();
 					services.AddScoped<TenantNameProvider>();
-				},
-				configuration =>
-				{
-					configuration.RegisterServicesFromAssembly(RepositoryTestsCore.Assembly);
 				});
 
 			await this.OnSetUpAsync();

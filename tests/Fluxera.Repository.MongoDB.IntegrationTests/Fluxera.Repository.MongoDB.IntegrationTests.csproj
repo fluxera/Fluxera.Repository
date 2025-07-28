@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFrameworks>net8.0;net9.0</TargetFrameworks>
@@ -7,16 +7,16 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="JetBrains.Annotations" Version="2024.3.0" />
-		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
+		<PackageReference Include="JetBrains.Annotations" Version="2025.2.0" PrivateAssets="All" />
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
 		<PackageReference Include="NUnit" Version="4.3.2" />
-		<PackageReference Include="NUnit3TestAdapter" Version="4.6.0" />
+		<PackageReference Include="NUnit3TestAdapter" Version="5.0.0" />
 		<PackageReference Include="coverlet.collector" Version="6.0.4">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Testcontainers" Version="4.1.0" />
-		<PackageReference Include="Testcontainers.MongoDb" Version="4.1.0" />
+		<PackageReference Include="Testcontainers" Version="4.6.0" />
+		<PackageReference Include="Testcontainers.MongoDb" Version="4.6.0" />
 	</ItemGroup>
 
 	<ItemGroup>

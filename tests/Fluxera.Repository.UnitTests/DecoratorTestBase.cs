@@ -29,11 +29,6 @@
 						.With(this.DecoratorType);
 
 					this.ConfigureServices(services);
-				},
-				configuration =>
-				{
-					configuration.RegisterServicesFromAssembly(RepositoryTestsCore.Assembly);
-					configuration.RegisterServicesFromAssembly(RepositoryTests.Assembly);
 				});
 
 			this.Repository = this.ServiceProvider.GetRequiredService<IRepository<Person, Guid>>();
